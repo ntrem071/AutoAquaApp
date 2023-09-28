@@ -1,6 +1,6 @@
 # AutoAquaApp
 
-Group 6
+<i>Group 6</i>
 
 <b>Manager</b>: Natasha Tremblay Daszkiewicz – 300168364
 
@@ -10,7 +10,7 @@ Ines Mansouri – 300191449
 
 Dragi Plakalovic – 300109973
 
-
+-------------------------
 <i>Description</i>
 
 Aquaponics simulates a miniature self-sustaining ecosystem. Fish break down the proteins from their feed into ammonium. 
