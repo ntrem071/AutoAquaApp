@@ -1,13 +1,18 @@
 # AutoAquaApp
 
 Group 6
+
 <b>Manager</b>: Natasha Tremblay Daszkiewicz – 300168364
+
 Genevieve Dizon – 300007150
+
 Ines Mansouri – 300191449
+
 Dragi Plakalovic – 300109973
 
 
 <i>Description</i>
+
 Aquaponics simulates a miniature self-sustaining ecosystem. Fish break down the proteins from their feed into ammonium. 
 In turn it is then oxidized by the system's bacteria residing in the biofilter to create nitrite and nitrate. The nitrate-rich 
 water is pumped into a grow bed, vertical tower, or some form of plant holding pipes. This natural fertilizer is absorbed by the 
