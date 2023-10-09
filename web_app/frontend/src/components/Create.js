@@ -27,7 +27,8 @@ function Create() {
                 console.error('Creation request failed', error)
             })
 
-    })
+    });
+
     return(
         <body>
             <h1>Create your account!</h1>
