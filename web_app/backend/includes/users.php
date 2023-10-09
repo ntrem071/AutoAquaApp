@@ -21,17 +21,15 @@
         }
 
         //User created on login -> no two emails can be the same
-        public function createNewUser($email, $password){
+        public function createNewUser($name, $email, $password){
             
             if(is_null($this->tbl->findOne(['email'=>$email]))){
                 
-                $this->tbl->insertOne(['email'=> $email, 'password'=> $password, 'ledTimer'=> [], 'feedTimer'=> [], 
+                $this->tbl->insertOne(['name'=> $name,'email'=> $email, 'password'=> $password, 'ledTimer'=> [], 'feedTimer'=> [], 
                     'phRange'=> DEFAULT_PH, 'ecRange'=> DEFAULT_EC,'tempRange'=> DEFAULT_TEMP, 
                         'phEnable'=> false,  'ecEnable'=> false,  'tempEnable'=> false, 'feedEnable'=>false, 'ledEnable'=>false,
                             'phGraph'=> [], 'ecGraph'=> [],'tempGraph'=> [], 'waterGraph'=> [], 'timezone'=>'UTC']);
 
-            }else{
-                echo "Account already exists under this email\n";
             }
             
         }
@@ -134,7 +132,9 @@
             $this->getAccount($this->currDoc->email, $this->currDoc->password);
         }
 
-        //GET() mongodb current document values    
+        //GET() mongodb current document values 
+        public function getName(){return $this->currDoc->name;} 
+
         public function getPHRange(){return $this->currDoc->phRange;}
         public function getECRange(){return $this->currDoc->ecRange;}
         public function getTEMPRange(){return $this->currDoc->tempRange;}
@@ -177,8 +177,8 @@
     //NO GET PASSWORD for account safety (set only if verification link validated)
     //NOTE: some changes best observed through MongoDB Compass
     /*!!!IMPELMENT EXTERNAL NO ACCOUNT LOADED ERR (using doc null)!!!!*/  
-        $U1 = new Userhandler();
-        $U1->createNewUser('C','Z');
+   /*     $U1 = new Userhandler();
+        $U1->createNewUser('A','C','Z');
         
         //load account by unique email address
         $U1->getAccount('C','B');
@@ -213,7 +213,7 @@
                 print_r($U1->getWATERGraph()); 
             */
 
-            //update timers 
+         /*   //update timers 
             $U1->setLEDTimer([[12,30],[8,0]]);
             print_r($U1->getLEDTimer());
             echo "\n";
@@ -229,6 +229,6 @@
             echo "User timezone after switch: ", $U1->getTimezone(),"\n";
             print_r(getdate());
         }      
-
+    */
 ?>
 
