@@ -47,7 +47,7 @@ function Create() {
                 if (password !== e.target.value){
                     setError('Passwords do not match')
                 } else if (e.target.value === ''){
-                    setError('Confirming your password has been left blank')
+                    setError('Password has been left blank')
                 }
                 break;
                 default:
@@ -56,9 +56,9 @@ function Create() {
 
 // connects frontend to backend
     function loginSubmit(){
-        console.log('it reaches here');
-        if((name !== '') && (email !== '') && (password !== '') && (password.value === cpassword.value)){
-            var url = 'http://localhost/users.php';
+        console.log('reaches loginSubmit');
+        if((name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
+            var url = 'http://localhost/8000/users.php';
             var headers = {
                 'Accept': 'application/json',
                 'Content-type': 'application/json'
@@ -69,21 +69,24 @@ function Create() {
                 password: password
             };
             fetch(url, {
+                mode: 'no-cors',
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(Data)
-            }).then((response) => response.json())
+            })
+            .then((response) => response.json())
             .then((response) => {
                 setMessage(response[0].result);
-            }).catch((err) => {
+                console.log('it is reaching the final then')
+            })
+            .catch((err) => {
                 setError(err);
-                console.log(err);
+                console.log('it is getting caught');
             });
         } else {
             setError('All fields must be filled')
         }
     }
-    console.log(error);
     return(
         <div className='CreateForm'>
             <p>
