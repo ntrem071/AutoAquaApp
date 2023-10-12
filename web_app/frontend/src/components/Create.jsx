@@ -55,8 +55,7 @@ function Create() {
     }
 
 // connects frontend to backend
-    function loginSubmit(){
-        console.log('reaches loginSubmit');
+    function createSubmit(){
         if((name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
             var url = 'http://localhost:8000/users';
             var headers = {
@@ -68,7 +67,6 @@ function Create() {
                 email: email,
                 password: password
             };
-            console.log(JSON.stringify(data));
             fetch(url, {
                 mode: 'no-cors',
                 method: 'POST',
@@ -78,7 +76,6 @@ function Create() {
             .then((response) => response.json())
             .then((response) => {
                 setMessage(response[0].result);
-                console.log('it is reaching the final then')
             })
             .catch((err) => {
                 setError(err);
@@ -133,7 +130,7 @@ function Create() {
                 <button
                     type='button'
                     className='button' 
-                    onClick={loginSubmit}>
+                    onClick={createSubmit}>
                         Create Account
                 </button>
             </h3>
