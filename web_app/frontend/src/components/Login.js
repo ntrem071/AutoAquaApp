@@ -28,19 +28,21 @@ function Login() {
     const[error, setError] = useState('');
     const[message, setMessage] = useState('');
 
-    // const handleEmpty = (e, type) => {
-    //     switch(type){
-    //         case 'email':
-    //             if (e.target.value == ''){
-    //                 setError('Email needed');
-    //             }
-    //             break;
-    //         case 'password':
-    //             if (e.target.value == ''){
-    //                 setError('Password needed');
-    //             }
-    //     }
-    // }
+    const valuesIn = (e, type) => {
+        switch(type){
+            case 'email':
+                setEmail(e.target.value);
+                if (e.target.value == ''){
+                    setError('Email needed');
+                }
+                break;
+            case 'password':
+                setPassword(e.target.value);
+                if (e.target.value == ''){
+                    setError('Password needed');
+                }
+        }
+    }
 
     function loginSubmit(){
         if((name !== '') && (email !== '')){
@@ -87,12 +89,14 @@ function Login() {
                             id='email'
                             placeholder='Email'
                             value={email.toString()}
+                            onChange={(e) => valuesIn(e, 'email')}
                         /><br/>
                         <input
                             type='password'
                             id='password'
                             placeholder='Password'
                             value={password.toString()}
+                            onChange={(e) => valuesIn(e, 'password')}
                         /><br/>
                     </form>
                     <button
