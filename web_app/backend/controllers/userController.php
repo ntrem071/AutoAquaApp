@@ -13,11 +13,12 @@ class UserController {
 
     public function __construct($requestMethod, $userId, $search)
     {
+
         $this->users = new UserHandler();
         $this->requestMethod = $requestMethod;
         $this->userId = $userId; 
         $this->search = $search;   
-        $this->data = json_decode(file_get_contents('php://input'), TRUE);    
+        $this->data = json_decode(file_get_contents('php://input')); 
     }
 
     public function processRequest()
@@ -27,6 +28,7 @@ class UserController {
                 if ($this->userId) {
                     $response = $this->getUser($this->userId);
                 } else {
+                    echo "LOL";
                     $response = $this->login();
                 };
                 break;
@@ -78,6 +80,7 @@ class UserController {
     //return id string
     private function login()
     {
+        echo "LOL";
         if(!empty($this->data->password) && !empty($this->data->name)){
             $result = $this->users->Login($this->data->email, $this->data->password);
             if(is_null($result)){
@@ -89,6 +92,11 @@ class UserController {
             $response['body'] = json_encode($result);
             return $response;
         }
+        else{
+            $response['status_code_header'] = 'HTTP/1.1 406 Unable to login';
+            $response['body'] = null;
+            return $response;
+        } 
     }
     //return user doc from id string
     private function getUser($id)
@@ -193,6 +201,11 @@ class UserController {
         $response['body'] = null;
         return $response;
     }
+
 }
+
+
+
+
 
 ?>

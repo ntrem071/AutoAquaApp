@@ -1,6 +1,6 @@
 <?php
     
-    include_once '../backend/includes/users.php';
+    //include_once '../backend/includes/users.php';
     include_once '../backend/controllers/userController.php';
 
     header("Access-Control-Allow-Origin: *");
@@ -9,20 +9,18 @@
     header("Access-Control-Max-Age: 3600");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     
-    echo "test\n";//test
-    $colU=new UserHandler(); //establish connection
+    
+    //echo "test\n", $_SERVER['REQUEST_URI'], $_SERVER["REQUEST_METHOD"];//test
+    //$colU=new UserHandler(); //establish connection
+
 
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $uri = explode( '/', $uri );
+    
 
     // endpoints start with: users, fish, or plants
-    if (($uri[1] !== 'users') || ($uri[1] !== 'fish') ||($uri[1] !== 'plants')){
-        echo "HTTP/1.1 404 Not Found\n";///test
-        header("HTTP/1.1 404 Not Found");
-        exit();
-
-    }else{
-
+    if (($uri[1] == 'users') || ($uri[1] == 'fish') ||($uri[1] == 'plants')){
+        
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $userId = null; 
         if (isset($uri[2])) {
@@ -34,6 +32,7 @@
         }
 
         if($uri[1] == 'users'){
+            echo "->", json_encode(($uri[1] == 'users')) ;
             $controller = new UserController($requestMethod, $userId, $search);
             $controller->processRequest();
         }
@@ -44,7 +43,11 @@
             return 0;
         }
 
-        }
+    }else{
+        header("HTTP/1.1 404 Not Found");
+        exit();
+
+    }
    
 ?>
 

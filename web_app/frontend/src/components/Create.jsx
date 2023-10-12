@@ -58,21 +58,22 @@ function Create() {
     function loginSubmit(){
         console.log('reaches loginSubmit');
         if((name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
-            var url = 'http://localhost/8000/users.php';
+            var url = 'http://localhost:8000/users';
             var headers = {
                 'Accept': 'application/json',
                 'Content-type': 'application/json'
             };
-            var Data = {
+            var data = {
                 name: name,
                 email: email,
                 password: password
             };
+            console.log(JSON.stringify(data));
             fetch(url, {
                 mode: 'no-cors',
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify(Data)
+                body: JSON.stringify(data)
             })
             .then((response) => response.json())
             .then((response) => {
@@ -142,29 +143,3 @@ function Create() {
 
 export default Create;
 
-
-// () => navigate('/')
-
-// const form = document.getElementById('create');
-
-    // if (form) {form.addEventListener('submit', function(event) {
-    //         event.preventDefault();
-
-    //         const formData = new FormData(form);
-
-    //         axios.post('/api/createUser', formData)
-    //             .then(response => {
-    //                 const data = response.data;
-
-    //                 if (data.success) {
-    //                     const success = document.getElementById('success-message');
-    //                     success.textContent = 'User created! Now go log in!';
-    //                 } else {
-    //                     console.error('Failure in creating user', data.error);
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 console.error('Creation request failed', error)
-    //             })
-
-    //     })};
