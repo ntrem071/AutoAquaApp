@@ -45,8 +45,8 @@ function Login() {
     }
 
     function loginSubmit(){
-        if((name !== '') && (email !== '')){
-            var url = 'http://local:8000/users'
+        if((password !== '') && (email !== '') && (password === cpassword)){
+            var url = 'http://localhost:8000/users'
             var header = {
                 'Content-type': 'application/json'
             }
