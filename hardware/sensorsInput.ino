@@ -1,18 +1,16 @@
 #include "ph_grav.h"             
 #include "rtd_grav.h"
-#include <SoftwareSerial.h>  
+#include <SoftwareSerial.h> 
 
-#define rx 2                                         
-#define tx 3 
 #define waterLvlSensorPin A3 
 
-SoftwareSerial myserial(rx, tx);
 Gravity_RTD RTD = Gravity_RTD(A2);
 Gravity_pH pH = Gravity_pH(A1);
 int waterlvl = 0;
 
-int water_lowEdge = 420;
-int water_upperEdge = 520;
+const char endMSG = '|';
+int water_lowEdge = 240;
+int water_upperEdge = 280;
 uint8_t user_bytes_received = 0;                
 const uint8_t bufferlen = 32;                   
 char user_data[bufferlen];  
@@ -65,7 +63,9 @@ void parse_cmd(char* string) {
 
 void setup() {
   Serial.begin(9600); 
-  myserial.begin(9600);                               
+  Serial3.begin(9600);
+  //while(!Serial);
+                              
   inputstring.reserve(10);                       
   sensorstring.reserve(30);                             
   delay(200);
@@ -73,9 +73,9 @@ void setup() {
   Serial.println(F("Use command \"pH-CAL,CLEAR\" to clear the pH calibration"));
   Serial.println(F("Use command \"TMP-CAL,nnn.n\" to calibrate the circuit to a specific temperature\n\"TMP-CAL,CLEAR\" clears the calibration"));
   
-  if (pH.begin() && RTD.begin()) {                                     
-    Serial.println("Loaded EEPROM");
-  }
+  // if (pH.begin() && RTD.begin()) {                                     
+  //   Serial.println("Loaded EEPROM");
+  // }
 }
 
 void serialEvent() {                                  
@@ -83,11 +83,12 @@ void serialEvent() {
   input_string_complete = true;                       
 }
 
-void loop() {
+void serialEvent3() {                                 
+  sensorstring = Serial3.readStringUntil(13);         
+  sensor_string_complete = true;                      
+}
 
-  if (Serial.available() > 0) {                                                      
-    user_bytes_received = Serial.readBytesUntil(13, user_data, sizeof(user_data));   
-  }
+void loop() {
 
   if (user_bytes_received) {                                                      
     parse_cmd(user_data);                                                          
@@ -95,80 +96,50 @@ void loop() {
     memset(user_data, 0, sizeof(user_data));                                         
   }
 
-  if (input_string_complete) {                
-    myserial.print(inputstring);                      
-    myserial.print('\r');                             
-    inputstring = "";                                 
-    input_string_complete = false;                    
+  if (input_string_complete == true) {                
+    Serial3.print(inputstring);                   
+    Serial3.print('\r');                         
+    inputstring = "";                           
+    input_string_complete = false;                  
   }
-
-  if (myserial.available() > 0) {                     
-    char inchar = (char)myserial.read();              
-    sensorstring += inchar;                           
-    if (inchar == '\r') {                             
-      sensor_string_complete = true;                  
-    }
-  }
-
-  if (sensor_string_complete) {               
-    if (isdigit(sensorstring[0]) == false) {          
-      Serial.println(sensorstring);                   
-    }
-    else                                              
-    {
-      print_EC_data();                                 
-    }
-    sensorstring = "";                                
-    sensor_string_complete = false;                   
-  }
+   print_EC_data(); 
   
-  Serial.println(pH.read_ph());
-  Serial.println(RTD.read_RTD_temp_C());  
+  // Serial.print("pH: ");
+  // Serial.println(pH.read_ph());
+  // Serial.print("Temperature: ");
+  // Serial.println(RTD.read_RTD_temp_C());  
 
-  waterlvl = analogRead(waterLvlSensorPin); 
+  // waterlvl = analogRead(waterLvlSensorPin); 
 
-  Serial.print("Current water level: ");
-  Serial.println(waterlvl);
+  // Serial.print("Current water level: ");
+  // Serial.println(waterlvl);
 
-  if(waterlvl == 0){
-    Serial.println("Water level: EMPTY");
-  }
-  else if(waterlvl > 0 && waterlvl <= 420){
-    Serial.println("Water level: LOW");
-  }
-  else if(waterlvl > 420 && waterlvl <= 520){
-    Serial.println("Water level: MEDIUM");
-  }
-  else if(waterlvl > 520){
-    Serial.println("Water level: HIGH");
-  }
+  // if(waterlvl == 0){
+  //   Serial.println("Water level: EMPTY");
+  // }
+  // else if(waterlvl > 0 && waterlvl <= water_lowEdge){
+  //   Serial.println("Water level: LOW");
+  // }
+  // else if(waterlvl > water_lowEdge && waterlvl <= water_upperEdge){
+  //   Serial.println("Water level: MEDIUM");
+  // }
+  // else if(waterlvl > water_upperEdge){
+  //   Serial.println("Water level: HIGH");
+  // }
 
-  delay(1000);
+  delay(5000);
 }
 
 void print_EC_data(void) {                             
 
   char sensorstring_array[30];                        
-  char *EC,*TDS,*SAL,*GRAV;                              
-  //float f_ec;                                         
+  char *EC;                                            
 
   sensorstring.toCharArray(sensorstring_array, 30);    
-  EC = strtok(sensorstring_array, ",");               
-  TDS = strtok(NULL, ",");                            
-  SAL = strtok(NULL, ",");                            
-  GRAV = strtok(NULL, ",");                           
+  EC = strtok(sensorstring_array, ",");                         
 
   Serial.print("EC:");                                
-  Serial.println(EC);                                 
-
-  Serial.print("TDS:");                               
-  Serial.println(TDS);                              
-
-  Serial.print("SAL:");                             
-  Serial.println(SAL);                             
-
-  Serial.print("GRAV:");                              
-  Serial.println(GRAV);                       
+  Serial.println(EC);                    
   Serial.println();                             
   
 }
