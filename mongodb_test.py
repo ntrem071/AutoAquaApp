@@ -1,9 +1,11 @@
 import random
 import time
 import pymongo
+from pymongo.server_api import ServerApi
 
 # Connect to the databse
-testClient = pymongo.MongoClient("mongodb://localhost:27017/")
+uri = "mongodb+srv://plakalovicdragisa:Savka0303Baba.@capstonecluster.pdmemg1.mongodb.net/?retryWrites=true&w=majority"
+testClient = pymongo.MongoClient(uri,server_api=ServerApi('1'))
 testDB = testClient["testDatabase"]
 testColl = testDB["testCollection"]
 
