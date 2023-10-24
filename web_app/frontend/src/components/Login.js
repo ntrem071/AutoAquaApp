@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 // }
 
 function Login() {
+    const navigate = useNavigate();
 
     const[email, setEmail] = useState('');
     const[password, setPassword] = useState('');
@@ -45,7 +46,7 @@ function Login() {
     }
 
     function loginSubmit(){
-        if((password !== '') && (email !== '') && (password === cpassword)){
+        if((password !== '') && (email !== '')){
             var url = 'http://localhost:8000/users'
             var header = {
                 'Content-type': 'application/json'
@@ -73,7 +74,7 @@ function Login() {
         }
     }
     return(
-            <div className='CreateForm'>
+            <div className='LoginForm'>
                 <p>
                     error !== '' ? (
                         <span className='error'>{error.toString()}()</span>
@@ -104,6 +105,12 @@ function Login() {
                         className='button'
                         onClick={loginSubmit}
                     >Login
+                    </button><br/>
+                    <button
+                        type='button'
+                        className='button'
+                        onClick={() => {navigate('CreateAccount')}}
+                    >Don't have an account?
                     </button>
                 </h3>
             </div>
