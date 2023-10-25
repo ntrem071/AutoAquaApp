@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 //import axios from 'axios';
 
 function Create() {
-//    const navigate = useNavigate();  
+    const navigate = useNavigate();  
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -74,12 +74,27 @@ function Create() {
                 body: JSON.stringify(data)
             })
             .then((response) => response.json())
+            // .then((response) => {
+            //     if(!response.ok) {
+            //         console.log('response not ok');
+            //         console.log(response);
+            //         throw new Error('Network response was not ok');
+            //     }
+            //     return response.json();
+            // })
             .then((response) => {
                 setMessage(response[0].result);
             })
+            // .then((response) => {
+            //     if (response[0] && response[0].result) {
+            //         setMessage(response[0].result);
+            //     } else {
+            //         setError('Response does not contain the expected data');
+            //         console.log('Not working');
+            //     }
+            // })
             .catch((err) => {
-                setError(err);
-                console.log('it is getting caught');
+                setError('');
             });
         } else {
             setError('All fields must be filled')
@@ -132,7 +147,13 @@ function Create() {
                     className='button' 
                     onClick={createSubmit}>
                         Create Account
-                </button>
+                </button><br/>
+                <button
+                    type='button'
+                    className='button' 
+                    onClick={()=>navigate('/')}>
+                        Login
+                </button><br/>
             </h3>
         </div>
     );

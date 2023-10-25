@@ -22,7 +22,6 @@
 
         //User created on login -> no two emails can be the same
         public function createNewUser($name, $email, $password){
-            
             if(is_null($this->tbl->findOne(['email'=>$email]))){
                 
                 $this->tbl->insertOne(['id'=>new \MongoDB\BSON\ObjectId(),'name'=> $name,'email'=> $email, 'password'=> $password, 
