@@ -22,6 +22,13 @@
     if (($uri[1] == 'users') || ($uri[1] == 'fish') ||($uri[1] == 'plants')){
         
         $requestMethod = $_SERVER["REQUEST_METHOD"];
+
+        $email=null;$pass=null;
+        if(isset($_SERVER["PHP_AUTH_USER"]) && isset($_SERVER["PHP_AUTH_PW"])){
+            $email = $_SERVER["PHP_AUTH_USER"]; 
+            $pass = $_SERVER["PHP_AUTH_PW"];
+        }
+        
         $userId = null; 
         if (isset($uri[2])) {
             $userId = (int) $uri[2];
@@ -33,7 +40,7 @@
 
         if($uri[1] == 'users'){
             echo "->", json_encode(($uri[1] == 'users')) ;
-            $controller = new UserController($requestMethod, $userId, $search);
+            $controller = new UserController($requestMethod, $userId, $search, $email, $pass);
             $controller->processRequest();
         }
         else if($uri[1] == 'fish'){

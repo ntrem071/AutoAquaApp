@@ -1,25 +1,6 @@
 import React, { useState } from 'react';
-//import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
-// function Login() {
-//     const navigate = useNavigate();
-//     return(
-//         <body>
-//             <h1>Login</h1>
-//             <h3>
-//                 <form>
-//                     <input type="text" id="email" placeholder="email"/><br/>
-//                     <input type="text" id="password" placeholder="password"/><br/>
-//                     <button variant='contained' onClick={() => navigate('home')}>Login</button>
-//                     <br/>
-//                     <button variant='contained' onClick={() => navigate('CreateAccount')}>Don't have an account?</button>
-//                 </form>
-//             </h3>
-
-//         </body>
-//     );
-// }
+import { Buffer } from 'buffer';
 
 function Login() {
     const navigate = useNavigate();
@@ -28,6 +9,7 @@ function Login() {
     const[password, setPassword] = useState('');
     const[error, setError] = useState('');
     const[message, setMessage] = useState('');
+
 
     const valuesIn = (e, type) => {
         switch(type){
@@ -48,18 +30,16 @@ function Login() {
     function loginSubmit(){
         if((password !== '') && (email !== '')){
             var url = 'http://localhost:8000/users'
-            var header = {
-                'Content-type': 'application/json'
-            }
-            var data = {
-                email: email,
-                password: password
+            var buf = Buffer.from(email + ':' + password).toString('base64')
+            console.log('buffer:', buf)
+            var header = {         
+                'Content-type': 'application/json',
+                'Authorization':'Basic' + buf
             }
             fetch(url, {
                 mode: 'no-cors',
                 method: 'GET',
                 headers: header,
-                body: JSON.stringify(data)
             })
             .then((response => response.json()))
             .then((response) => {
@@ -74,7 +54,7 @@ function Login() {
         }
     }
     return(
-            <div className='LoginForm'>
+            <div className='CreateForm'>
                 <p>
                     error !== '' ? (
                         <span className='error'>{error.toString()}()</span>
@@ -105,12 +85,12 @@ function Login() {
                         className='button'
                         onClick={loginSubmit}
                     >Login
-                    </button><br/>
-                    <button
-                        type='button'
-                        className='button'
-                        onClick={() => {navigate('CreateAccount')}}
-                    >Don't have an account?
+                    </button>
+                    <br/>
+                    <button 
+                        variant='contained' 
+                        onClick={() => navigate('CreateAccount')}
+                        >Don't have an account?
                     </button>
                 </h3>
             </div>

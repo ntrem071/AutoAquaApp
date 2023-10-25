@@ -9,15 +9,18 @@ class UserController {
     private $search;
     private $users;
     private $data;
+    private $em;
+    private $pa;
 
-
-    public function __construct($requestMethod, $userId, $search)
+    public function __construct($requestMethod, $userId, $search, $em, $pa)
     {
 
         $this->users = new UserHandler();
         $this->requestMethod = $requestMethod;
         $this->userId = $userId; 
-        $this->search = $search;   
+        $this->search = $search;  
+        $this->em = $em;
+        $this->pa = $pa; 
         $this->data = json_decode(file_get_contents('php://input')); 
     }
 
@@ -80,23 +83,29 @@ class UserController {
     //return id string
     private function login()
     {
-        echo "LOL";
-        if(!empty($this->data->password) && !empty($this->data->name)){
-            $result = $this->users->Login($this->data->email, $this->data->password);
-            if(is_null($result)){
-                $response['status_code_header'] = 'HTTP/1.1 504 Credentials Invalid';
-                $response['body'] = null;
-                return $response;
-            }
-            $response['status_code_header'] = 'HTTP/1.1 200 OK';
-            $response['body'] = json_encode($result);
-            return $response;
-        }
-        else{
-            $response['status_code_header'] = 'HTTP/1.1 406 Unable to login';
+        if (!isset($em) || !isset($pa) ) {
+            $response['status_code_header'] = 'HTTP/1.0 407 Unauthorized';
             $response['body'] = null;
             return $response;
-        } 
+        }else{
+            if(!empty($this->data->password) && !empty($this->data->name)){
+                $result = $this->users->Login($this->data->email, $this->data->password);
+                if(is_null($result)){
+                    $response['status_code_header'] = 'HTTP/1.1 504 Credentials Invalid';
+                    $response['body'] = null;
+                    return $response;
+                }
+                $response['status_code_header'] = 'HTTP/1.1 200 OK';
+                $response['body'] = json_encode($result);
+                return $response;
+            }
+            else{
+                $response['status_code_header'] = 'HTTP/1.1 406 Unable to login';
+                $response['body'] = null;
+                return $response;
+            } 
+        }
+       
     }
     //return user doc from id string
     private function getUser($id)
