@@ -55,13 +55,6 @@ function Login() {
     }
     return(
             <div className='CreateForm'>
-                <p>
-                    error !== '' ? (
-                        <span className='error'>{error.toString()}()</span>
-                    ) : (
-                        <span className='success'>{message.toString()}</span>
-                    )
-                </p>
                 <h1>Login</h1>
                 <h3>
                     <form id='login'>
