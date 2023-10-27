@@ -69,13 +69,10 @@ void setup() {
   inputstring.reserve(10);                       
   sensorstring.reserve(30);                             
   delay(200);
-  Serial.println(F("Use commands \"pH-CAL,7\", \"pH-CAL,4\", and \"pH-CAL,10\" to calibrate the circuit to those respective values"));
-  Serial.println(F("Use command \"pH-CAL,CLEAR\" to clear the pH calibration"));
-  Serial.println(F("Use command \"TMP-CAL,nnn.n\" to calibrate the circuit to a specific temperature\n\"TMP-CAL,CLEAR\" clears the calibration"));
   
-  // if (pH.begin() && RTD.begin()) {                                     
-  //   Serial.println("Loaded EEPROM");
-  // }
+  if (pH.begin() && RTD.begin()) {                                     
+    Serial.println("Loaded EEPROM");
+  }
 }
 
 void serialEvent() {                                  
@@ -97,35 +94,46 @@ void loop() {
   }
 
   if (input_string_complete == true) {                
-    Serial3.print(inputstring);                   
-    Serial3.print('\r');                         
-    inputstring = "";                           
-    input_string_complete = false;                  
+    Serial3.print(inputstring);                       
+    Serial3.print('\r');                              
+    inputstring = "";                                 
+    input_string_complete = false;                    
   }
-   print_EC_data(); 
   
-  // Serial.print("pH: ");
-  // Serial.println(pH.read_ph());
-  // Serial.print("Temperature: ");
-  // Serial.println(RTD.read_RTD_temp_C());  
+  if (sensor_string_complete == true) {               
+    if (isdigit(sensorstring[0]) == false) {          
+      Serial.println(sensorstring);                   
+    }
+    else                                              
+    {
+      print_EC_data();                                
+    }
+    sensorstring = "";                                
+    sensor_string_complete = false;                   
+  }
+  
+  Serial.print("pH: ");
+  Serial.println(pH.read_ph());
+  Serial.print("Temperature: ");
+  Serial.println(RTD.read_RTD_temp_C());  
 
-  // waterlvl = analogRead(waterLvlSensorPin); 
+  waterlvl = analogRead(waterLvlSensorPin); 
 
-  // Serial.print("Current water level: ");
-  // Serial.println(waterlvl);
+  Serial.print("Current water level: ");
+  Serial.println(waterlvl);
 
-  // if(waterlvl == 0){
-  //   Serial.println("Water level: EMPTY");
-  // }
-  // else if(waterlvl > 0 && waterlvl <= water_lowEdge){
-  //   Serial.println("Water level: LOW");
-  // }
-  // else if(waterlvl > water_lowEdge && waterlvl <= water_upperEdge){
-  //   Serial.println("Water level: MEDIUM");
-  // }
-  // else if(waterlvl > water_upperEdge){
-  //   Serial.println("Water level: HIGH");
-  // }
+  if(waterlvl == 0){
+    Serial.println("Water level: EMPTY");
+  }
+  else if(waterlvl > 0 && waterlvl <= water_lowEdge){
+    Serial.println("Water level: LOW");
+  }
+  else if(waterlvl > water_lowEdge && waterlvl <= water_upperEdge){
+    Serial.println("Water level: MEDIUM");
+  }
+  else if(waterlvl > water_upperEdge){
+    Serial.println("Water level: HIGH");
+  }
 
   delay(5000);
 }
