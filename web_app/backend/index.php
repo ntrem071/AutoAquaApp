@@ -9,14 +9,25 @@
     header("Access-Control-Max-Age: 3600");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     
-    
-    //echo "test\n", $_SERVER['REQUEST_URI'], $_SERVER["REQUEST_METHOD"];//test
-    //$colU=new UserHandler(); //establish connection
-
-
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $uri = explode( '/', $uri );
     
+    //no header access ??
+    foreach (getallheaders() as $header) {
+        header("headers: ", $header);
+    }
+    
+    if(isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) || isset($_SERVER['HTTP_AUTHORIZATION'])){
+        list($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']) = explode(':' , base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
+        //header("Username: " . $_SERVER["PHP_AUTH_USER"] . ", Password: " . $_SERVER["PHP_AUTH_PW"]);
+    }elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
+        header("HTTP/1.1 404 nope");
+        exit();
+    }else{
+        header("HTTP/1.1 406 nope");
+        exit();
+    }
+
 
     // endpoints start with: users, fish, or plants
     if (($uri[1] == 'users') || ($uri[1] == 'fish') ||($uri[1] == 'plants')){
