@@ -104,10 +104,10 @@ function Create() {
         <div className='CreateForm'>
             <p>
                 {
-                    error !== '' ? (
-                    <span className='error'>{error.toString()}</span>
-                     ) : (
+                    message !== '' ? (
                     <span className='success'>{message.toString()}</span>
+                     ) : (
+                    <span className='error'>{error.toString()}</span>
                 )}
             </p>
             <h1>Create your account!</h1>
