@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Settingscss.css';
+
+// const styles= {
+//     settingscss: {
+      
+//     },
+//   };
 
 function Settings() {
     const navigate = useNavigate();
@@ -26,20 +33,23 @@ function Settings() {
 
     function ToggleTextAddTime(){
         var feedtime = document.getElementById(time);
-        if(feedtime === 'first'){
+        if(time === 'first'){
             setTime('second');
-            //feedtime.style.display = 'inline';
+            feedtime.style.display = 'inline';
         }else if(time === 'second'){
             setTime('third');
-            //feedtime.style.display = 'inline';
+            feedtime.style.display = 'inline';
+        }else if(time === 'third'){
+            setMessage('Cannot add more feed times')
         }else{
-            setMessage('Cannot add anymore feed times.');
-            return message;
+            time = 'first';
+            feedtime.style.display = 'inline';
         }
     }
 
     return(
-        <div>
+        // this used to be in the div below style={styles.settingscss}
+        <div class='Settings'>
             <h1>WARNING</h1>
             <h3>
                 <button variant='contained' onClick={() => navigate('/Home')}>Home</button>
@@ -48,7 +58,7 @@ function Settings() {
                 <button variant='contained' onClick={() => navigate('/Information')}>Information</button>
                 <button variant='contained' onClick={() => navigate('/Settings')}>Settings</button>
                 <div>
-                    <h2>Ranges:</h2><br></br>
+                    <h2 id='rangeTitle'>Ranges:</h2><br></br>
                     <p id='phTitle'>pH 
                     <input
                         type='text'
