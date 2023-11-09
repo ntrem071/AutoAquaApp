@@ -1,5 +1,5 @@
 <?php
-    include_once '../includes/users.php';
+    include_once '../includes/UserHandler.php';
     
     /**************************** SESSION HANDLER TESTING ****************************/
     class TestUsers{
