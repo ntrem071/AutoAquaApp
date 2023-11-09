@@ -2,12 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Settingscss.css';
 
-// const styles= {
-//     settingscss: {
-      
-//     },
-//   };
-
 function Settings() {
     const navigate = useNavigate();
     
@@ -31,6 +25,82 @@ function Settings() {
     const [LEDonMinute, setLEDonMinute] = useState('');
     const [LEDoffMinute, setLEDoffMinute] = useState('');
 
+    const [error, setError] = useState('');
+
+    const handleInputChange = (e, type) => {
+        switch(type){
+            case 'pHMin':
+                setError('');
+                setpHMin(e.target.value);
+                console.log(e.target.value);
+                break;
+            case 'pHMax':
+                setError('');
+                setpHMax(e.target.value);
+                break;
+            case 'ecMin':
+                setError('');
+                setecMin(e.target.value);
+                break;
+            case 'ecMax':
+                setError('');
+                setecMax(e.target.value);
+                break;
+            case 'tempMin':
+                setError('');
+                settempMin(e.target.value);
+                break;
+            case 'tempMax':
+                setError('');
+                settempMax(e.target.value);
+                break;
+
+            case 'LEDonHour':
+                setError('');
+                setLEDonHour(e.target.value);
+                break;
+            case 'LEDonMinute':
+                setError('');
+                setLEDonMinute(e.target.value);
+                break;
+            case 'LEDoffHour':
+                setError('');
+                setLEDoffHour(e.target.value);
+                break;
+            case 'LEDoffMinute':
+                setError('');
+                setLEDoffMinute(e.target.value);
+                break;
+
+            case 'firstHour':
+                setError('');
+                setfirstHour(e.target.value);
+                break;
+            case 'firstMinute':
+                setError('');
+                setfirstMinute(e.target.value);
+                break;
+            case 'secondHour':
+                setError('');
+                setsecondHour(e.target.value);
+                break;
+            case 'secondMinute':
+                setError('');
+                setsecondMinute(e.target.value);
+                break;
+            case 'thirdHour':
+                setError('');
+                setthirdHour(e.target.value);
+                break;
+            case 'thirdMinute':
+                setError('');
+                setthirdMinute(e.target.value);
+                break;
+                
+            default:
+        }
+    }
+
     function ToggleTextAddTime(){
         var feedtime = document.getElementById(time);
         if(time === 'first'){
@@ -45,6 +115,44 @@ function Settings() {
             time = 'first';
             feedtime.style.display = 'inline';
         }
+    }
+
+    function updateSettings(){
+        var url = 'http://localhost:8000/users';
+        var headers = {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        };
+        var data = {
+            phRange: {pHMin, pHMax},
+            ecRange: {ecMin, ecMax},
+            tempRange: {tempMin, tempMax},
+            phEnable: 1,
+            ecEnable: 1,
+            tempEnable: 1,
+            feedEnable: 1,
+            ledEnable: 1,
+            ledTimer: [[LEDoffHour,LEDoffMinute],[LEDonHour,LEDonMinute]],
+            feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]], 
+            timezone: 'UTC'                     
+        };
+        console.log(JSON.stringify(data));
+        fetch(url, {
+            mode: 'no-cors',
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify(data)
+        })
+        .then((response) => response.json())
+        .then((response) => {
+            setMessage(response[0].result);
+            console.log('it is reaching the final then')
+        })
+        .catch((err) => {
+            setError(err);
+            console.log('it is getting caught');
+        });
+
     }
 
     return(
@@ -197,7 +305,7 @@ function Settings() {
 
                 </div>
             </h3>
-            <button type='button' id='Save'>Save Changes</button>
+            <button type='button' id='Save' onClick={updateSettings}>Save Changes</button>
 
         </div>
     );

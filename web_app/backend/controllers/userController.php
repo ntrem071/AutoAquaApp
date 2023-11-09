@@ -6,21 +6,17 @@ class UserController {
 
     private $requestMethod;
     private $userId;
-    private $search;
     private $users;
     private $data;
-    private $em;
-    private $pa;
+    private $select;
+    
 
-    public function __construct($requestMethod, $userId, $search, $em, $pa)
+    public function __construct($requestMethod, $userId, $select)
     {
-
         $this->users = new UserHandler();
         $this->requestMethod = $requestMethod;
         $this->userId = $userId; 
-        $this->search = $search;  
-        $this->em = $em;
-        $this->pa = $pa; 
+        $this->select = $select;   
         $this->data = json_decode(file_get_contents('php://input')); 
     }
 
@@ -30,16 +26,17 @@ class UserController {
             case 'GET':
                 if ($this->userId) {
                     $response = $this->getUser($this->userId);
-                } else {
-                    echo "LOL";
-                    $response = $this->login();
-                };
+                } 
                 break;
             case 'POST':
-                $response = $this->createUser();
+                if($this->select=='0'){
+                    $response = $this->createUser();
+                }else if ($this->select == '1'){
+                    $response = $this->login();
+                }
                 break;
             case 'PUT':
-                $response = $this->updateUserFromRequest($this->userId);
+                $response = $this->updateUser($this->userId);
                 break;
             case 'DELETE':
                 $response = $this->deleteUser($this->userId);
@@ -55,9 +52,6 @@ class UserController {
     }
 
 
-
-
-
     private function createUser() //NO RETURN
     {
         if(!empty($this->data->email) && !empty($this->data->password) && !empty($this->data->name)){
@@ -68,7 +62,7 @@ class UserController {
                 $response['body'] = null;
                 return $response;
             }else{
-                $response['status_code_header'] = 'HTTP/1.1 201 User Created';
+                $response['status_code_header'] = 'HTTP/1.1 200 User Created';
                 $response['body'] = null;
                 return $response;
             }
@@ -83,29 +77,25 @@ class UserController {
     //return id string
     private function login()
     {
-        if (!isset($em) || !isset($pa) ) {
-            $response['status_code_header'] = 'HTTP/1.0 407 Unauthorized';
+        if (!isset($this->data->email) || !isset($this->data->password) ) {
+            $response['status_code_header'] = 'HTTP/1.0 403 Credentials Null';
             $response['body'] = null;
             return $response;
-        }else{
-            if(!empty($this->data->password) && !empty($this->data->name)){
+        }
+        else{        
                 $result = $this->users->Login($this->data->email, $this->data->password);
+
                 if(is_null($result)){
                     $response['status_code_header'] = 'HTTP/1.1 504 Credentials Invalid';
                     $response['body'] = null;
                     return $response;
                 }
+
                 $response['status_code_header'] = 'HTTP/1.1 200 OK';
                 $response['body'] = json_encode($result);
                 return $response;
-            }
-            else{
-                $response['status_code_header'] = 'HTTP/1.1 406 Unable to login';
-                $response['body'] = null;
-                return $response;
-            } 
-        }
-       
+        } 
+           
     }
     //return user doc from id string
     private function getUser($id)
@@ -123,7 +113,7 @@ class UserController {
 
 
 
-    private function updateUserFromRequest($id)
+    private function updateUser($id)
     {
         $result = $this->users->getAccount($id);
         if(is_null($result)){
@@ -131,56 +121,23 @@ class UserController {
             $response['body'] = null;
             return $response;
 
-        }else if(is_null($this->search)){
-            $response['status_code_header'] = 'HTTP/1.1 505 Update item not specified';
-            $response['body'] = null;
-            return $response;
         }
         else{
+            //send all data values, set to null if unchanged
+            if(isset($this->data->phRange)){$this->users->setPHRange($id, $this->data->phRange);}
+            if(isset($this->data->ecRange)){$this->users->setECRange($id, $this->data->ecRange);}
+            if(isset($this->data->tempRange)){$this->users->setTEMPRange($id, $this->data->tempRange);}
 
-            if($this->search="ranges" && !empty($this->data->phRange) && !empty($this->data->ecRange) && !empty($this->data->tempRange)){
-                $this->users->setRanges($id, $this->data->phRange, $this->data->ecRange, $this->data->tempRange);
-            }
+            if(isset($this->data->phEnable)){$this->users->setPHEnable($id);}
+            if(isset($this->data->ecEnable)){$this->users->setECEnable($id);}
+            if(isset($this->data->tempEnable)){$this->users->setTEMPEnable($id);}
+            if(isset($this->data->feedEnable)){$this->users->setFEEDEnable($id);}
+            if(isset($this->data->ledEnable)){$this->users->setLEDEnable($id);}
 
-            else if($this->search="phGraph" && !empty($this->data->phGraph)){
-                $this->users->setPHGraph($id, $this->data->phGraph);
-            }
-            else if($this->search="ecGraph" && !empty($this->data->ecGraph)){
-                $this->users->setECGraph($id, $this->data->ecGraph);
-            }
-            else if($this->search="tempGraph" && !empty($this->data->tempGraph)){
-                $this->users->setTEMPGraph($id, $this->data->tempGraph);
-            }
-            else if($this->search="waterGraph" && !empty($this->data->waterGraph)){
-                $this->users->setWATERGraph($id, $this->data->waterGraph);
-            }
+            if(isset($this->data->feedTimer)){$this->users->setFEEDTimer($id, $this->data->feedTimer);}
+            if(isset($this->data->ledTimer)){$this->users->setLEDTimer($id, $this->data->ledTimer);}
 
-            else if($this->search="phEnable" && !empty($this->data->phEnable)){
-                $this->users->setPHEnable($id);
-            }
-            else if($this->search="ecEnable" && !empty($this->data->ecEnable)){
-                $this->users->setECEnable($id);
-            }
-            else if($this->search="tempEnable" && !empty($this->data->tempEnable)){
-                $this->users->setTEMPEnable($id);
-            }
-            else if($this->search="feedEnable" && !empty($this->data->feedEnable)){
-                $this->users->setFEEDEnable($id);
-            }
-            else if($this->search="ledEnable" && !empty($this->data->ledEnable)){
-                $this->users->setLEDEnable($id);
-            }
-
-            else if($this->search="feedTimer" && !empty($this->data->feedTimer)){
-                $this->users->setFEEDTimer($id, $this->data->feedTimer);
-            }
-            else if($this->search="ledTimer" && !empty($this->data->ledTimer)){
-                $this->users->setLEDTimer($id, $this->data->ledTimer);
-            }
-
-            else if($this->search="timezone" && !empty($this->data->timezone)){
-                $this->users->setTimezone($id, $this->data->timezone);
-            }
+            if(isset($this->data->timezone)){$this->users->setTimezone($id, $this->data->timezone);}
             
             $response['status_code_header'] = 'HTTP/1.1 200 OK';
             $response['body'] = null;
@@ -212,9 +169,6 @@ class UserController {
     }
 
 }
-
-
-
 
 
 ?>

@@ -29,26 +29,31 @@ function Login() {
 
     function loginSubmit(){
         if((password !== '') && (email !== '')){
-            var url = 'http://localhost:8000/users'
-            var buf = Buffer.from(email + ':' + password).toString('base64')
-            console.log('buffer:', buf)
+            var url = 'http://localhost:8000/users/login'
+            //var buf = Buffer.from(email + ':' + password).toString('base64')
             var header = {         
-                'Content-type': 'application/json',
-                'Authorization':'Basic' + buf
-            }
+                //'Authorization':'Basic' + buf
+                'Accept': 'application/json',
+                'Content-type': 'application/json',    
+            };
+            var data = {
+                email: email,
+                password: password
+            };
             fetch(url, {
                 mode: 'no-cors',
-                method: 'GET',
+                method: 'POST',
                 headers: header,
+                body: JSON.stringify(data)
             })
-            .then((response => response.json()))
+            .then((response) => response.json())
             .then((response) => {
                 setMessage(response[0].result);
             })
-            .catch(err => {
+            .catch((err) => {
                 setError(err);
                 console.log('it is getting caught')
-            })
+            });
         } else {
             setError('All fields must be filled');
         }

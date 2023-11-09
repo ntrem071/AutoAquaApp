@@ -55,11 +55,21 @@
         
 
         //RANGE UPDATE
+        $arr=$test->getSession()->getPHRange($id);
+        echo "Default PH array: [",  strval($arr[0]), "," , strval($arr[1]),"]\n";
+        $arr=$test->getSession()->getECRange($id);
+        echo "Default EC array: [",  strval($arr[0]), "," , strval($arr[1]),"]\n";
         $arr=$test->getSession()->getTEMPRange($id);
-        echo "Default array: [",  strval($arr[0]), "," , strval($arr[1]),"]\n";
-        $test->getSession()->setRanges($id,[6.2,7.6],[1.1,1.9],[22,29.7]); 
+        echo "Default TEMP array: [",  strval($arr[0]), "," , strval($arr[1]),"]\n";
+        $test->getSession()->setPHRange($id,[6.2,7.6]); 
+        $test->getSession()->setECRange($id,[1.1,1.9]); 
+        $test->getSession()->setTEMPRange($id,[22,29.7]); 
+        $arr2=$test->getSession()->getPHRange($id);
+        echo "Modified PH array: [",  strval($arr2[0]), "," , strval($arr2[1]),"]\n";
+        $arr2=$test->getSession()->getECRange($id);
+        echo "Modified EC array: [",  strval($arr2[0]), "," , strval($arr2[1]),"]\n";
         $arr2=$test->getSession()->getTEMPRange($id);
-        echo "Modified array: [",  strval($arr2[0]), "," , strval($arr2[1]),"]\n\n";
+        echo "Modified TEMP array: [",  strval($arr2[0]), "," , strval($arr2[1]),"]\n\n";
 
         //ENABLE SWITCHING
         echo "Pre-enable call value: ", json_encode($test->getSession()->getPHEnable($id)),"\n";

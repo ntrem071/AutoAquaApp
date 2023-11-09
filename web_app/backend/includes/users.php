@@ -9,7 +9,6 @@
 //Add/Modify User obj in User collection
     class UserHandler{
         private $tbl; 
-        //private $currDoc;
 
     //Connect to User collection
         public function __construct(){
@@ -22,6 +21,7 @@
 
         //User created on login -> no two emails can be the same
         public function createNewUser($name, $email, $password){
+            
             if(is_null($this->tbl->findOne(['email'=>$email]))){
                 
                 $this->tbl->insertOne(['id'=>new \MongoDB\BSON\ObjectId(),'name'=> $name,'email'=> $email, 'password'=> $password, 
@@ -65,64 +65,59 @@
                 /*!!!IMPELMENT EXTERNAL EMAIL VERIFICATION PROCESS!!!!*/
         public function setPassword($id, $password){
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['password'=>$password]]);
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password); //remove later if login not automatic post change?
-        }
+          }
 
-        /*Input param for all three arrays: 
+        /*Input param for array: 
                 PH[0] = low value(decimal)
                 PH[1] = high value(decimal)
-          IMPLEMENT: single same page save button to update all three at once*/
-        public function setRanges($id, $PH, $EC, $TE){
-           $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['phRange'=>$PH, 'ecRange'=>$EC, 'tempRange'=>$TE]]);
-           //$this->getAccount($this->currDoc->email, $this->currDoc->password); //currDOC REFRESH to see updated values
+        */
+        public function setPHRange($id, $PH){
+           $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['phRange'=>$PH]]);
+        }
+        public function setECRange($id, $EC){
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ecRange'=>$EC]]);
+        }
+        public function setTEMPRange($id, $TE){
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['tempRange'=>$TE]]);
         }
 
         //Enable setters --> no input param, call to function sets to opposite boolean value
         public function setPHEnable($id){ 
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['phEnable'=>!$this->getPHEnable($id)]]);
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
         }
         public function setECEnable($id){            
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ecEnable'=>!$this->getECEnable($id)]]);
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+       }
         public function setTEMPEnable($id){            
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['tempEnable'=>!$this->getTEMPEnable($id)]]);
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+      }
         public function setFEEDEnable($id){
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['feedEnable'=>!$this->getFEEDEnable($id)]]);
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+       }
         public function setLEDEnable($id){
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ledEnable'=>!$this->getLEDEnable($id)]]);
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        } 
+     } 
 
         /*Input array param:
             point[0]= timestamp of data collected
             point[1]= data value
           Appends (x,y) pairing to graph array
-          Current graph array limit equivalent to 1 year of data if collected hourly (8766 points) -> FIFO
+          Current graph array limit equivalent to 1 year of data if collected hourly (8760 points) -> FIFO
 
           !!!IMPLEMENT: graph timespan selection for UI (data over 1 week/ 1 month/ 3 months/ etc)!!!
         */     
         public function setPHGraph($id, $point){  //set to lower slice val for function testing  
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['phGraph'=>['$each'=>[$point], '$slice'=>-8766]]]);    
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['phGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+      }
         public function setECGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['ecGraph'=>['$each'=>[$point], '$slice'=>-8766]]]);    
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['ecGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+      }
         public function setTEMPGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['tempGraph'=>['$each'=>[$point], '$slice'=>-8766]]]);    
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['tempGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+     }
         public function setWATERGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['waterGraph'=>['$each'=>[$point], '$slice'=>-8766]]]);    
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['waterGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+     }
 
         /*Input param for array of time pairs (hour, minute):
             arr[0] = LED ON 
@@ -130,20 +125,17 @@
         */
         public function setLEDTimer($id, $arr){
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['ledTimer'=>['$each'=>[$arr[0],$arr[1]], '$slice'=>-2]]]);    
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+      }
         //Input param for array of three optional time pairs (hour, minute)
         public function setFEEDTimer($id, $arr){
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['feedTimer'=>['$each'=>[$arr[0],$arr[1],$arr[2]], '$slice'=>-3]]]);    
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+     }
 
         //Update timezone using string (ie. 'UTC')
             /*IMPLEMENT: USER SELECT FROM DROPDOWN MENU*/
         public function setTimezone($id, $str){
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['timezone'=>$str]]);
-            //$this->getAccount($this->currDoc->email, $this->currDoc->password);
-        }
+       }
 
         //GET() mongodb current document values 
         public function getName($id){return $this->getAccount($id)->name;} 
@@ -168,8 +160,6 @@
 
         public function getTimezone($id){return $this->getAccount($id)->timezone;}
 
-        //public function docNull($id){return is_null($this->getAccount($id));}
-        
         
         //idea not final - requires testing
          public function checkFEEDTimer($id, $arr){
