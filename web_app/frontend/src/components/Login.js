@@ -29,12 +29,12 @@ function Login() {
 
     function loginSubmit(){
         if((password !== '') && (email !== '')){
-            var url = 'http://localhost:8000/users/login'
-            //var buf = Buffer.from(email + ':' + password).toString('base64')
+            var url = 'http://localhost:8000/users/login';
+            //var buf = Buffer.from(email + ':' + password).toString('base64');
             var header = {         
-                //'Authorization':'Basic' + buf
+                //'Authorization':'Basic ' + buf,
                 'Accept': 'application/json',
-                'Content-type': 'application/json',    
+                'Content-type': 'application/json'   
             };
             var data = {
                 email: email,
@@ -58,6 +58,7 @@ function Login() {
             setError('All fields must be filled');
         }
     }
+
     return(
             <div className='CreateForm'>
                 <h1>Login</h1>

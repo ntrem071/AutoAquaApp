@@ -7,7 +7,7 @@
         private $id;
 
         public function __construct(){
-            echo "/**************************** SESSION HANDLER TESTING ****************************/\n";
+            echo "/**************************** USER HANDLER TESTING ****************************/\n";
             $this->session = new Userhandler();
 
         }

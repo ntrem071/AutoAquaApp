@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Settingscss.css';
+//import './Settingscss.css';
 
 function Settings() {
     const navigate = useNavigate();
@@ -116,7 +116,7 @@ function Settings() {
             feedtime.style.display = 'inline';
         }
     }
-
+    
     function updateRanges(){
         var url = 'http://localhost:8000/users/ranges';
         var data = {

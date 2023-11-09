@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 //import axios from 'axios';
 
 function Create() {
-    const navigate = useNavigate();  
+//    const navigate = useNavigate();  
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -56,8 +56,9 @@ function Create() {
 
 // connects frontend to backend
     function createSubmit(){
+        console.log('reaches loginSubmit');
         if((name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
-            var url = 'http://localhost:8000/users';
+            var url = 'http://localhost:8000/users/create';
             var headers = {
                 'Accept': 'application/json',
                 'Content-type': 'application/json'
@@ -74,27 +75,13 @@ function Create() {
                 body: JSON.stringify(data)
             })
             .then((response) => response.json())
-            // .then((response) => {
-            //     if(!response.ok) {
-            //         console.log('response not ok');
-            //         console.log(response);
-            //         throw new Error('Network response was not ok');
-            //     }
-            //     return response.json();
-            // })
             .then((response) => {
                 setMessage(response[0].result);
+                console.log('it is reaching the final then')
             })
-            // .then((response) => {
-            //     if (response[0] && response[0].result) {
-            //         setMessage(response[0].result);
-            //     } else {
-            //         setError('Response does not contain the expected data');
-            //         console.log('Not working');
-            //     }
-            // })
             .catch((err) => {
-                setError('');
+                setError(err);
+                console.log('it is getting caught');
             });
         } else {
             setError('All fields must be filled')
@@ -102,14 +89,6 @@ function Create() {
     }
     return(
         <div className='CreateForm'>
-            <p>
-                {
-                    message !== '' ? (
-                    <span className='success'>{message.toString()}</span>
-                     ) : (
-                    <span className='error'>{error.toString()}</span>
-                )}
-            </p>
             <h1>Create your account!</h1>
             <h3>
                 <form id='create'>
@@ -147,13 +126,7 @@ function Create() {
                     className='button' 
                     onClick={createSubmit}>
                         Create Account
-                </button><br/>
-                <button
-                    type='button'
-                    className='button' 
-                    onClick={()=>navigate('/')}>
-                        Login
-                </button><br/>
+                </button>
             </h3>
         </div>
     );

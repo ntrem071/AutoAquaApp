@@ -1,4 +1,5 @@
 <?php
+
 include_once '../backend/includes/UserHandler.php';
 
 class UserController {
@@ -54,7 +55,6 @@ class UserController {
         //return JSON header and body
             header($this->response['status_code_header']);
             if(isset($this->response['body'])){
-                echo "Returned Value: ";
                 echo $this->response['body'];    
             }
     }
