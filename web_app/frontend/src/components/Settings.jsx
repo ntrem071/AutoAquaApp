@@ -117,24 +117,46 @@ function Settings() {
         }
     }
 
-    function updateSettings(){
-        var url = 'http://localhost:8000/users';
-        var headers = {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        };
+    function updateRanges(){
+        var url = 'http://localhost:8000/users/ranges';
         var data = {
             phRange: {pHMin, pHMax},
             ecRange: {ecMin, ecMax},
             tempRange: {tempMin, tempMax},
             phEnable: 1,
             ecEnable: 1,
-            tempEnable: 1,
-            feedEnable: 1,
+            tempEnable: 1                    
+        };
+        sendRequest(url, data);    
+    }
+    function updateFeed(){
+        var url = 'http://localhost:8000/users/feed';
+        var data = {
             ledEnable: 1,
-            ledTimer: [[LEDoffHour,LEDoffMinute],[LEDonHour,LEDonMinute]],
-            feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]], 
-            timezone: 'UTC'                     
+            ledTimer: [[LEDoffHour,LEDoffMinute],[LEDonHour,LEDonMinute]]                    
+        };
+        sendRequest(url, data);
+    }
+    function updateLED(){
+        var url = 'http://localhost:8000/users/led';
+        var data = {
+            feedEnable: 1,
+            feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]]                      
+        };
+        sendRequest(url, data);
+    }
+    function updateTimezone(){
+        var url = 'http://localhost:8000/users/timezone';
+        var data = {
+            timezone: 'UTC'           
+        };
+        sendRequest(url, data);
+    }
+
+    function sendRequest(url, data){
+        var headers = {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
         };
         console.log(JSON.stringify(data));
         fetch(url, {
@@ -152,7 +174,6 @@ function Settings() {
             setError(err);
             console.log('it is getting caught');
         });
-
     }
 
     return(
@@ -173,30 +194,34 @@ function Settings() {
                         id='pHMin'
                         placeholder='min'
                         value={pHMin.toString()}
+                        onChange={(e) => handleInputChange(e, 'pHMin')}
                     ></input> : 
                     <input
                         type='text'
                         id='pHMax'
                         placeholder='max'
                         value={pHMax.toString()}
+                        onChange={(e) => handleInputChange(e, 'pHMax')}
                     ></input>
                     <label class='switch' id='pHswitch'>
                         <input type='checkbox'></input>
                         <span class='slider'></span>
                     </label>
                     </p><br></br>
-                    <p id='ECTitle'>Electrical Conductivity 
+                    <p id='ECTitle'>Conductivity 
                     <input
                         type='text'
                         id='ecMin'
                         placeholder='min'
                         value={ecMin.toString()}
+                        onChange={(e) => handleInputChange(e, 'ecMin')}
                     ></input> : 
                     <input
                         type='text'
                         id='ecMax'
                         placeholder='max'
                         value={ecMax.toString()}
+                        onChange={(e) => handleInputChange(e, 'ecMax')}
                     ></input>
                     <label class='switch'>
                         <input type='checkbox' id='ecswitch'></input>
@@ -209,18 +234,21 @@ function Settings() {
                         id='tempMin'
                         placeholder='min'
                         value={tempMin.toString()}
+                        onChange={(e) => handleInputChange(e, 'tempMin')}
                     ></input> : 
                     <input
                         type='text'
                         id='tempMax'
                         placeholder='max'
                         value={tempMax.toString()}
+                        onChange={(e) => handleInputChange(e, 'tempMax')}
                     ></input>
                     <label class='switch' id='tempswitch'>
                         <input type='checkbox'></input>
                         <span class='slider'></span>
                     </label>
                     </p><br></br>
+                    <button type='button' id='Save' onClick={updateRanges}>Save Changes</button>
 
                     <h2>Feed:</h2><br></br>
                     <p id='first'>#1 
@@ -229,12 +257,14 @@ function Settings() {
                             id='firsthour'
                             placeholder='hour'
                             value={firsthour.toString()}
+                            onChange={(e) => handleInputChange(e, 'firsthour')}
                         ></input> : 
                         <input
                             type='text'
                             id='firstminute'
                             placeholder='minute'
                             value={firstminute.toString()}
+                            onChange={(e) => handleInputChange(e, 'firstminute')}
                         ></input>
                     </p><br></br>
                     <p id='second'>#2 
@@ -243,12 +273,14 @@ function Settings() {
                             id='secondhour'
                             placeholder='hour'
                             value={secondhour.toString()}
+                            onChange={(e) => handleInputChange(e, 'secondhour')}
                         ></input> : 
                         <input
                             type='text'
                             id='secondminute'
                             placeholder='minute'
                             value={secondminute.toString()}
+                            onChange={(e) => handleInputChange(e, 'secondminute')}
                         ></input>
                     </p><br></br>
                     <p id='third'>#3  
@@ -257,18 +289,21 @@ function Settings() {
                             id='thirdhour'
                             placeholder='hour'
                             value={thirdhour.toString()}
+                            onChange={(e) => handleInputChange(e, 'thirdhour')}
                         ></input> : 
                         <input
                             type='text'
                             id='thirdminute'
                             placeholder='minute'
                             value={thirdminute.toString()}
+                            onChange={(e) => handleInputChange(e, 'thirdminute')}
                         ></input>
                     </p><br></br>
                     <button
                     type='button'
                     id='addtime' onClick={ToggleTextAddTime}>Add Time
                     </button><br></br>
+                    <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                     <h2>LED:</h2>
                     <label class='switch' id='LEDswitch'>
                         <input type='checkbox'></input>
@@ -280,12 +315,14 @@ function Settings() {
                             id='LEDonHour'
                             placeholder='hour'
                             value={LEDonHour.toString()}
+                            onChange={(e) => handleInputChange(e, 'LEDonHour')}
                         ></input> : 
                         <input
                             type='text'
                             id='LEDonMinute'
                             placeholder='minute'
                             value={LEDonMinute.toString()}
+                            onChange={(e) => handleInputChange(e, 'LEDonMinute')}
                         ></input>
                     </p><br></br>
                     <p id='LEDOff'>OFF 
@@ -294,18 +331,20 @@ function Settings() {
                             id='LEDoffHour'
                             placeholder='hour'
                             value={LEDoffHour.toString()}
+                            onChange={(e) => handleInputChange(e, 'LEDoffHour')}
                         ></input> : 
                         <input
                             type='text'
                             id='LEDoffMinute'
                             placeholder='minute'
                             value={LEDoffMinute.toString()}
+                            onChange={(e) => handleInputChange(e, 'LEDoffMinute')}
                         ></input>
                     </p>
 
                 </div>
             </h3>
-            <button type='button' id='Save' onClick={updateSettings}>Save Changes</button>
+            <button type='button' id='Save' onClick={updateLED}>Save Changes</button>
 
         </div>
     );
