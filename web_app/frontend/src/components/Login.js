@@ -41,18 +41,21 @@ function Login() {
                 password: password
             };
             fetch(url, {
-                mode: 'no-cors',
+                mode: 'cors',
                 method: 'POST',
                 headers: header,
                 body: JSON.stringify(data)
             })
-            .then((response) => response.json())
+            .then((response) => {
+                console.log(response)
+                return response.json()
+            })
             .then((response) => {
                 setMessage(response[0].result);
             })
             .catch((err) => {
                 setError(err);
-                console.log('it is getting caught')
+                console.log(err);
             });
         } else {
             setError('All fields must be filled');

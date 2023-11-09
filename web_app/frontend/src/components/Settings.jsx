@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-//import './Settingscss.css';
+import './Settingscss.css';
+import TryImage from './TryImage';
 
 function Settings() {
     const navigate = useNavigate();
@@ -176,16 +177,20 @@ function Settings() {
         });
     }
 
+    
+
     return(
         // this used to be in the div below style={styles.settingscss}
         <div class='Settings'>
-            <h1>WARNING</h1>
+            <h1 id='warning'>WARNING</h1>
             <h3>
-                <button variant='contained' onClick={() => navigate('/Home')}>Home</button>
-                <button variant='contained' onClick={() => navigate('/User-Info')}>User Info</button>
-                <button variant='contained' onClick={() => navigate('/Fish')}>Fish</button>
-                <button variant='contained' onClick={() => navigate('/Information')}>Information</button>
-                <button variant='contained' onClick={() => navigate('/Settings')}>Settings</button>
+                <div class='nav'>
+                    <button id='navhome' variant='contained' onClick={() => navigate('/Home')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='https://icons8.com/icon/2797/home'/></button><br></br>
+                    <button id='navuser' variant='contained' onClick={() => navigate('/User-Info')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='C:\xampp\htdocs\webapp\AutoAquaApp\web_app\frontend\src\pictures\user.png'/></button><br></br>
+                    <button id='navfish' variant='contained' onClick={() => navigate('/Fish')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='C:\xampp\htdocs\webapp\AutoAquaApp\web_app\frontend\src\pictures\fish.png'/></button><br></br>
+                    <button id='navinfo' variant='contained' onClick={() => navigate('/Information')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='C:\xampp\htdocs\webapp\AutoAquaApp\web_app\frontend\src\pictures\info.png'/></button><br></br>
+                    <button id='navsettings' variant='contained' onClick={() => navigate('/Settings')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='C:\xampp\htdocs\webapp\AutoAquaApp\web_app\frontend\src\pictures\gear.png'/></button>
+                    </div>
                 <div>
                     <h2 id='rangeTitle'>Ranges:</h2><br></br>
                     <p id='phTitle'>pH 
