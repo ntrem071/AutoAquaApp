@@ -15,7 +15,7 @@ while True:
     try:
 	
         data = arduinoMega.readline().rstrip().split(",")
-
+	#[pH,temperature,water level,EC]
         if data:
 	    print(datetime.datetime.now())
             print(data)
