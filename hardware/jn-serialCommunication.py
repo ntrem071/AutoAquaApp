@@ -1,28 +1,29 @@
+#to have port access sudo chmod 666 /dev/ttyHS1
+
 import serial #import PySerial
+import datetime
 import time
 
-arduinoUno=serial.Serial(
-    port = '/dev/ttyACM0', #subject to change
-    baudrate = 9600,
-    bytesize=serial.EIGHTBITS,
-    parity=serial.PARITY_NONE,
-    stopbits=serial.STOPBITS_ONE,
-    timeout=5,
-    xonxoff=False,
-    rtscts=False,
-    dsrdtr=False,
-    write_timeout=2
+arduinoMega=serial.Serial(
+    port = '/dev/ttyTHS1', #UART ports 8(Rx) & 10(Tx)
+    baudrate = 9600
 
 )
 
+
 while True:
     try:
-        arduinoUno.write("test from Jetson".encode())
-        data = arduinoUno.readLine()
+	
+        data = arduinoMega.readline().rstrip().split(",")
 
         if data:
+	    print(datetime.datetime.now())
             print(data)
-        time.sleep(1)
+	    print("\n")
+	else:
+	    print("No data found") 
+	
+	time.sleep(1)
+
     except Exception as e:
         print(e)
-        arduinoUno.close()
