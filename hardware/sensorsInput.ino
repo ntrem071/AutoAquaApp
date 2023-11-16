@@ -4,6 +4,11 @@
 
 #define waterLvlSensorPin A3 
 
+int EC_int;   
+
+float pH_data;
+float temp_data;
+
 Gravity_RTD RTD = Gravity_RTD(A2);
 Gravity_pH pH = Gravity_pH(A1);
 int waterlvl = 0;
@@ -62,13 +67,17 @@ void parse_cmd(char* string) {
 }
 
 void setup() {
-  Serial.begin(9600); 
-  Serial3.begin(9600);
+  Serial.begin(9600); //Serial Monitor
+  Serial1.begin(9600); //Jetson Nano  
+  Serial3.begin(9600); //EC sensor
   //while(!Serial);
                               
   inputstring.reserve(10);                       
   sensorstring.reserve(30);                             
   delay(200);
+  Serial.println(F("Use commands \"pH-CAL,7\", \"pH-CAL,4\", and \"pH-CAL,10\" to calibrate the circuit to those respective values"));
+  Serial.println(F("Use command \"pH-CAL,CLEAR\" to clear the pH calibration"));
+  Serial.println(F("Use command \"TMP-CAL,nnn.n\" to calibrate the circuit to a specific temperature\n\"TMP-CAL,CLEAR\" clears the calibration"));
   
   if (pH.begin() && RTD.begin()) {                                     
     Serial.println("Loaded EEPROM");
@@ -112,10 +121,13 @@ void loop() {
     sensor_string_complete = false;                   
   }
   
+  float pH_data = pH.read_ph();
+  float temp_data = RTD.read_RTD_temp_C();
+  
   Serial.print("pH: ");
-  Serial.println(pH.read_ph());
+  Serial.println(pH_data);
   Serial.print("Temperature: ");
-  Serial.println(RTD.read_RTD_temp_C());  
+  Serial.println(temp_data);  
 
   waterlvl = analogRead(waterLvlSensorPin); 
 
@@ -135,7 +147,17 @@ void loop() {
     Serial.println("Water level: HIGH");
   }
 
-  delay(5000);
+  //print_EC_data()
+
+  Serial1.print(pH_data);
+  Serial1.print(",");
+  Serial1.print(temp_data);
+  Serial1.print(",");
+  Serial1.print(waterlvl);
+  Serial1.print(",");
+  Serial1.println(EC_int);
+
+  delay(10000);
 }
 
 void print_EC_data(void) {                             
@@ -144,10 +166,12 @@ void print_EC_data(void) {
   char *EC;                                            
 
   sensorstring.toCharArray(sensorstring_array, 30);    
-  EC = strtok(sensorstring_array, ",");                         
+  EC = strtok(sensorstring_array, ",");
+
+  EC_int = int(EC);
 
   Serial.print("EC:");                                
   Serial.println(EC);                    
-  Serial.println();                             
+  Serial.println("\n");                             
   
 }
