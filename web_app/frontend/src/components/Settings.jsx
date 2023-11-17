@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Settingscss.css';
-import TryImage from './TryImage';
 
 function Settings() {
     const navigate = useNavigate();
@@ -38,6 +37,7 @@ function Settings() {
             case 'pHMax':
                 setError('');
                 setpHMax(e.target.value);
+                console.log(e.target.value);
                 break;
             case 'ecMin':
                 setError('');
@@ -102,21 +102,21 @@ function Settings() {
         }
     }
 
-    function ToggleTextAddTime(){
-        var feedtime = document.getElementById(time);
-        if(time === 'first'){
-            setTime('second');
-            feedtime.style.display = 'inline';
-        }else if(time === 'second'){
-            setTime('third');
-            feedtime.style.display = 'inline';
-        }else if(time === 'third'){
-            setMessage('Cannot add more feed times')
-        }else{
-            time = 'first';
-            feedtime.style.display = 'inline';
-        }
-    }
+    // function ToggleTextAddTime(){
+    //     var feedtime = document.getElementById(time);
+    //     if(time === 'first'){
+    //         setTime('second');
+    //         feedtime.style.display = 'inline';
+    //     }else if(time === 'second'){
+    //         setTime('third');
+    //         feedtime.style.display = 'inline';
+    //     }else if(time === 'third'){
+    //         setMessage('Cannot add more feed times')
+    //     }else{
+    //         time = 'first';
+    //         feedtime.style.display = 'inline';
+    //     }
+    // }
     
     function updateRanges(){
         var url = 'http://localhost:8000/users/ranges';
@@ -177,19 +177,91 @@ function Settings() {
         });
     }
 
+    function togglepH() {
+        var min = document.getElementById('pHMin');
+        var max = document.getElementById('pHMax');
+        var toggle = document.getElementById('pHswitch');
+
+        if (min && max && toggle) {
+            min.disabled = !toggle.querySelector('input[type=checkbox]:checked');
+            max.disabled = !toggle.querySelector('input[type=checkbox]:checked');
+        }
+    }
+
+    function toggleEc() {
+        var min = document.getElementById('ecMin');
+        var max = document.getElementById('ecMax');
+        var toggle = document.getElementById('ecswitch');
+
+        if (min && max && toggle) {
+            var isCheckedToggle = toggle.querySelector('input[type=checkbox]');
+
+            console.log(isCheckedToggle);
+            console.log(toggle);
+
+            min.disabled = !toggle.querySelector('input[type=checkbox]:checked');
+            max.disabled = !toggle.querySelector('input[type=checkbox]:checked');
+        }
+    }
+
+    function toggleTemp() {
+        var min = document.getElementById('tempMin');
+        var max = document.getElementById('tempMax');
+        var toggle = document.getElementById('tempswitch');
+
+        if (min && max && toggle) {
+            min.disabled = !toggle.querySelector('input[type=checkbox]:checked');
+            max.disabled = !toggle.querySelector('input[type=checkbox]:checked');
+        }
+    }
+
+    function toggleTime(){
+        var btn = document.getElementById('addtime');
+        var toggle = document.getElementById('Feedswitch');
+
+        if (btn && toggle) {
+            btn.disabled = toggle.querySelector('input[type=checkbox]:checked')
+        }
+    }
+
+    function toggleLED(){
+        var onh = document.getElementById('LEDonHour');
+        var onm = document.getElementById('LEDonMinute');
+        var offh = document.getElementById('LEDoffHour');
+        var offm = document.getElementById('LEDoffMinute');
+        var toggle = document.getElementById('LEDswitch');
+
+        if (onh && onm && offh && offm && toggle) {
+            onh.disabled = toggle.querySelector('input[type=checkbox]:checked');
+            onm.disabled = toggle.querySelector('input[type=checkbox]:checked');
+            offh.disabled = toggle.querySelector('input[type=checkbox]:checked');
+            offm.disabled = toggle.querySelector('input[type=checkbox]:checked');
+        }
+    }
+
+    // function getValue() {
+    //     if (document.getElementById('pHswitch').checked) {
+    //       console.log("Checked");
+    //       document.getElementById('togBtn').setAttribute("value", "0");
+    //     } else if {
+    //       console.log("Not Checked");
+    //       document.getElementById('togBtn').setAttribute("value", "1");
+    //     }
+    //     console.log(document.getElementById('togBtn').getAttribute("value"));
+    // }
+
     
 
     return(
-        // this used to be in the div below style={styles.settingscss}
         <div class='Settings'>
             <h1 id='warning'>WARNING</h1>
-            <h3>
+            <div class='outerbox'>
                 <div class='nav'>
-                    <button id='navhome' variant='contained' onClick={() => navigate('/Home')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='https://icons8.com/icon/2797/home'/></button><br></br>
-                    <button id='navuser' variant='contained' onClick={() => navigate('/User-Info')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='C:\xampp\htdocs\webapp\AutoAquaApp\web_app\frontend\src\pictures\user.png'/></button><br></br>
-                    <button id='navfish' variant='contained' onClick={() => navigate('/Fish')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='C:\xampp\htdocs\webapp\AutoAquaApp\web_app\frontend\src\pictures\fish.png'/></button><br></br>
-                    <button id='navinfo' variant='contained' onClick={() => navigate('/Information')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='C:\xampp\htdocs\webapp\AutoAquaApp\web_app\frontend\src\pictures\info.png'/></button><br></br>
-                    <button id='navsettings' variant='contained' onClick={() => navigate('/Settings')}><img style={{ width: 100, height: 100 }} referrerPolicy="no-referrer" src='C:\xampp\htdocs\webapp\AutoAquaApp\web_app\frontend\src\pictures\gear.png'/></button>
+                    <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>&nbsp;</button>
+                    <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>&nbsp;</button>
+                    <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>&nbsp;</button>
+                    <button id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>&nbsp;</button>
+                    <button id='navsettings' variant='contained' title='Settings' onClick={() => navigate('/Settings')}>&nbsp;</button>
                     </div>
                 <div>
                     <h2 id='rangeTitle'>Ranges:</h2><br></br>
@@ -200,6 +272,7 @@ function Settings() {
                         placeholder='min'
                         value={pHMin.toString()}
                         onChange={(e) => handleInputChange(e, 'pHMin')}
+                        disabled
                     ></input> : 
                     <input
                         type='text'
@@ -207,30 +280,33 @@ function Settings() {
                         placeholder='max'
                         value={pHMax.toString()}
                         onChange={(e) => handleInputChange(e, 'pHMax')}
+                        disabled
                     ></input>
                     <label class='switch' id='pHswitch'>
-                        <input type='checkbox'></input>
-                        <span class='slider'></span>
+                        <input type='checkbox' onClick={togglepH}></input>
+                        <span class='slider round'></span>
                     </label>
                     </p><br></br>
-                    <p id='ECTitle'>Conductivity 
+                    <p id='ECTitle'>Electrical Conductivity 
                     <input
                         type='text'
                         id='ecMin'
                         placeholder='min'
                         value={ecMin.toString()}
                         onChange={(e) => handleInputChange(e, 'ecMin')}
-                    ></input> : 
+                        disabled
+                    ></input> :  
                     <input
                         type='text'
                         id='ecMax'
                         placeholder='max'
                         value={ecMax.toString()}
                         onChange={(e) => handleInputChange(e, 'ecMax')}
+                        disabled
                     ></input>
-                    <label class='switch'>
-                        <input type='checkbox' id='ecswitch'></input>
-                        <span class='slider'></span>
+                    <label class='switch' id='ecswitch'>
+                        <input type='checkbox' onClick={toggleEc}></input>
+                        <span class='slider round'></span>
                     </label>
                     </p><br></br>
                     <p id='tempTitle'>Temperature 
@@ -240,6 +316,7 @@ function Settings() {
                         placeholder='min'
                         value={tempMin.toString()}
                         onChange={(e) => handleInputChange(e, 'tempMin')}
+                        disabled
                     ></input> : 
                     <input
                         type='text'
@@ -247,15 +324,20 @@ function Settings() {
                         placeholder='max'
                         value={tempMax.toString()}
                         onChange={(e) => handleInputChange(e, 'tempMax')}
+                        disabled
                     ></input>
                     <label class='switch' id='tempswitch'>
-                        <input type='checkbox'></input>
-                        <span class='slider'></span>
+                        <input type='checkbox' onClick={toggleTemp}></input>
+                        <span class='slider round'></span>
                     </label>
                     </p><br></br>
                     <button type='button' id='Save' onClick={updateRanges}>Save Changes</button>
 
-                    <h2>Feed:</h2><br></br>
+                    <h2>Feed:</h2>
+                    <label class='switch' id='Feedswitch'>
+                        <input type='checkbox'></input>
+                        <span class='slider round' onClick={toggleTime}></span>
+                    </label><br></br>
                     <p id='first'>#1 
                         <input
                             type='text'
@@ -306,13 +388,15 @@ function Settings() {
                     </p><br></br>
                     <button
                     type='button'
-                    id='addtime' onClick={ToggleTextAddTime}>Add Time
+                    id='addtime' 
+                    // onClick="toggleTime()"
+                    disabled>Add Time
                     </button><br></br>
                     <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                     <h2>LED:</h2>
                     <label class='switch' id='LEDswitch'>
                         <input type='checkbox'></input>
-                        <span class='slider'></span>
+                        <span class='slider round' onClick={toggleLED}></span>
                     </label><br></br>
                     <p id='LEDOn'>ON 
                         <input
@@ -321,6 +405,7 @@ function Settings() {
                             placeholder='hour'
                             value={LEDonHour.toString()}
                             onChange={(e) => handleInputChange(e, 'LEDonHour')}
+                            disabled
                         ></input> : 
                         <input
                             type='text'
@@ -328,6 +413,7 @@ function Settings() {
                             placeholder='minute'
                             value={LEDonMinute.toString()}
                             onChange={(e) => handleInputChange(e, 'LEDonMinute')}
+                            disabled
                         ></input>
                     </p><br></br>
                     <p id='LEDOff'>OFF 
@@ -337,6 +423,7 @@ function Settings() {
                             placeholder='hour'
                             value={LEDoffHour.toString()}
                             onChange={(e) => handleInputChange(e, 'LEDoffHour')}
+                            disabled
                         ></input> : 
                         <input
                             type='text'
@@ -344,13 +431,12 @@ function Settings() {
                             placeholder='minute'
                             value={LEDoffMinute.toString()}
                             onChange={(e) => handleInputChange(e, 'LEDoffMinute')}
+                            disabled
                         ></input>
                     </p>
-
+                    <button type='button' id='Save' onClick={updateLED}>Save Changes</button>
                 </div>
-            </h3>
-            <button type='button' id='Save' onClick={updateLED}>Save Changes</button>
-
+            </div>
         </div>
     );
 }

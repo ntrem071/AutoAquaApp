@@ -11,6 +11,7 @@ import UserInfo from './components/UserInfo';
 import Fish from './components/Fish';
 import Information from './components/Information';
 import Settings from './components/Settings';
+import './components/Settingscss.css';
 
 function App() {
   // const navigate = useNavigate();
