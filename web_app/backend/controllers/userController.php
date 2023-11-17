@@ -5,19 +5,19 @@ include_once '../backend/includes/UserHandler.php';
 class UserController {
 
     private $requestMethod;
-    private $userId;
     private $users;
+    private $sel1;
+    private $sel2;
     private $data;
-    private $select;
     private $response;
     
 
-    public function __construct($requestMethod, $userId, $select)
+    public function __construct($requestMethod, $sel1, $sel2)
     {
         $this->users = new UserHandler();
         $this->requestMethod = $requestMethod;
-        $this->userId = $userId; 
-        $this->select = $select;   
+        $this->sel1 = $sel1; 
+        $this->sel2 = $sel2;   
         $this->data = json_decode(file_get_contents('php://input')); 
 
         $this->response['status_code_header'] = null;
@@ -30,22 +30,22 @@ class UserController {
     {
         switch ($this->requestMethod) {
             case 'GET':
-                if ($this->userId) {
-                    $this->response = $this->getUser($this->userId);
+                if ($this->sel1) {
+                    $this->response = $this->getUser();
                 } 
                 break;
             case 'POST':
-                if($this->select== 0){
+                if($this->sel1== 'create'){
                     $this->response = $this->createUser();
-                }else if ($this->select == 1){
+                }else if ($this->sel1 == 'login'){
                     $this->response = $this->login();
                 }
                 break;
             case 'PUT':
-                $this->response = $this->updateUser($this->userId);
+                $this->response = $this->updateUser();
                 break;
             case 'DELETE':
-                $this->response = $this->deleteUser($this->userId);
+                $this->response = $this->deleteUser();
                 break;
             default:
                 $this->response = $this->notFoundResponse();
@@ -89,7 +89,7 @@ class UserController {
                 if(is_null($result)){
                     $this->response['status_code_header'] = 'HTTP/1.1 504 Credentials Invalid';
                 }else{
-                    $this->response['status_code_header'] = 'HTTP/1.1 200 Login Successful';
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
                     $this->response['body'] = json_encode($result);
                 }
         } 
@@ -97,9 +97,9 @@ class UserController {
            
     }
     //return user doc from id string
-    private function getUser($id)
+    private function getUser()
     {
-        $result = $this->users->getAccount($id);
+        $result = $this->users->getAccount($this->sel1);
         if(is_null($result)){
             $this->response['status_code_header'] = 'HTTP/1.1 504 User information not found';
         }else{
@@ -111,48 +111,54 @@ class UserController {
 
 
 
-    private function updateUser($id)
+    private function updateUser()
     {
+        $id=$this->sel1;
         $result = $this->users->getAccount($id);
         if(is_null($result)){
             $this->response['status_code_header'] = 'HTTP/1.1 504 User information not found';   
                 
         }else{
-            if(isset($this->select)){
-                if($this->select==2){
+                if($this->sel2=="ranges"){
                     if(isset($this->data->phRange)){$this->users->setPHRange($id, $this->data->phRange);}
                     if(isset($this->data->ecRange)){$this->users->setECRange($id, $this->data->ecRange);}
                     if(isset($this->data->tempRange)){$this->users->setTEMPRange($id, $this->data->tempRange);}
-                    if(isset($this->data->phEnable)){$this->users->setPHEnable($id);}
-                    if(isset($this->data->ecEnable)){$this->users->setECEnable($id);}
-                    if(isset($this->data->tempEnable)){$this->users->setTEMPEnable($id);}
+                    if(isset($this->data->phEnable)){$this->users->setPHEnable($id,$this->data->phEnable);}
+                    if(isset($this->data->ecEnable)){$this->users->setECEnable($id,$this->data->ecEnable);}
+                    if(isset($this->data->tempEnable)){$this->users->setTEMPEnable($id,$this->data->tempEnable);}
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
                 }                
-                if($this->select==3){
+                elseif($this->sel2=="timezone"){
                     if(isset($this->data->timezone)){$this->users->setTimezone($id, $this->data->timezone);}
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
                 }
-                if($this->select==4){
-                    if(isset($this->data->feedEnable)){$this->users->setFEEDEnable($id);}
-                    if(isset($this->data->feedTimer)){$this->users->setFEEDTimer($id, $this->data->feedTimer);}        
+                elseif($this->sel2=="feed"){
+                    if(isset($this->data->feedEnable)){$this->users->setFEEDEnable($id,$this->data->feedEnable);}
+                    if(isset($this->data->feedTimer)){$this->users->setFEEDTimer($id, $this->data->feedTimer);} 
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';       
                 }
-                if($this->select==5){
-                    if(isset($this->data->ledEnable)){$this->users->setLEDEnable($id);}
+                elseif($this->sel2=="enable"){
+                    if(isset($this->data->ledEnable)){$this->users->setLEDEnable($id,$this->data->ledEnable);}
                     if(isset($this->data->ledTimer)){$this->users->setLEDTimer($id, $this->data->ledTimer);}
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
                 }
-                $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
-
-            }else{
-                $this->response['status_code_header'] = 'HTTP/1.1 502 Select Valid Setting Change Option';
-            }
+                elseif($this->sel2=="species"){
+                    if(isset($this->data->plants)){$this->users->setPlants($id, $this->data->plants);}
+                    if(isset($this->data->fish)){$this->users->setFish($id, $this->data->fish);}
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
+                }
+                else{
+                    $this->response['status_code_header'] = 'HTTP/1.1 502 Select Valid Setting Change Option';
+                }
         }
         return $this->response;
     }
 
 
-    private function deleteUser($id)
-    {
-        $this->users->deleteAccount($id);
-        
-        if(is_null($this->users->getAccount($id))){
+    private function deleteUser()
+    {   
+        if(!is_null($this->users->getAccount($this->sel1))){
+            $this->users->deleteAccount($this->sel1);
             $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
         }else{
             $this->response['status_code_header'] = 'HTTP/1.1 405 Invalid ID';

@@ -1,18 +1,26 @@
 <?php
     include_once '../includes/UserHandler.php';
+    include_once '../includes/FishHandler.php';
+    include_once '../includes/PlantHandler.php';
     
     /**************************** SESSION HANDLER TESTING ****************************/
     class TestUsers{
         private $session;
+        private $session2;
+        private $session3;
         private $id;
 
         public function __construct(){
             echo "/**************************** USER HANDLER TESTING ****************************/\n";
             $this->session = new Userhandler();
+            $this->session2 = new FishHandler();
+            $this->session3 = new PlantHandler();
 
         }
         public function savedID(){return $this->id;}
         public function getSession(){return $this->session;}
+        public function getFish(){return $this->session2;}
+        public function getPlant(){return $this->session3;}
 
         public function newuser($n,$e,$p){
             if (!($this->session->createNewUser($n,$e,$p))){
@@ -35,6 +43,24 @@
                 echo "ERROR: id null\n";
             }else{
                 echo "User Profile Data: ", json_encode($this->session->getAccount($id)),"\n\n";
+            }
+        }
+        public function printUserPlants($id){
+            if (is_null($this->id)){
+                echo "ERROR: id null\n";
+            }else{
+                echo "Current User Saved Plants: \n";
+                foreach($this->session->getPlants($id) as $plant){
+                    echo "      ", json_encode($plant),"\n";
+                }
+                echo "\n";
+            }
+        }
+        public function printUserFish($id){
+            if (is_null($this->id)){
+                echo "ERROR: id null\n";
+            }else{
+                echo "Current User Saved Fish:",json_encode($this->session->getFish($id))," \n\n";
             }
         }
 
@@ -73,7 +99,7 @@
 
         //ENABLE SWITCHING
         echo "Pre-enable call value: ", json_encode($test->getSession()->getPHEnable($id)),"\n";
-        $test->getSession()->setPHEnable($id);
+        $test->getSession()->setPHEnable($id, true);
         echo "Post-enable call value: ", json_encode($test->getSession()->getPHEnable($id)),"\n\n";
 
         //GRAPH APPEND POINT (when splice=-3, pushing item 4 to array removes item 1 to maintain array limit)
@@ -99,6 +125,31 @@
         $test->getSession()->setTimezone($id,"America/Toronto");
         echo "User timezone after switch: ", $test->getSession()->getTimezone($id),"\n";
         echo "GetDate function: ", json_encode(getdate()), "\n\n";
+
+
+
+        //TEST PLANT / FISH FUNCTIONS
+
+            //intitialize plant
+        $test->getPlant()->initialize();
+        $test->getPlant()->createPlant('Fennel',null,null,null,null);
+        $test->getPlant()->createPlant('Mint',null,null,null,null);
+        $test->getPlant()->updatePlant('Fennel',[5,8],[6.5,6.8],[1.2,1.8],'NA'); //hours, ph, ec
+        $test->getPlant()->updatePlant('Mint',[6,12],[6.2,6.7],[1.1,1.8],'NA');
+
+            //intialize fish 
+        $test->getFish()->initialize();
+
+            // print user saved plant/fish
+        $test->getSession()->setPlants($test->savedID(), ["Fennel", "Mint"]);
+        $test->getSession()->setFish($test->savedID(), "Goldfish");
+        $test->printUserPlants($test->savedID()); 
+        $test->printUserFish($test->savedID()); 
+
+            //get ideal ranges from user saved collection (Mutual exclusion error if no overlap)
+        echo "Ideal EC: ", json_encode($test->getSession()->calculateIdealEC($test->savedID())), "\n";
+        echo "Ideal PH: ", json_encode($test->getSession()->calculateIdealPH($test->savedID())), "\n";
+        echo "Ideal Hours: ", json_encode($test->getSession()->calculateHours($test->savedID())), "\n\n";
 
         //GET FINAL USER DOC
         $test->printUserDoc($id);

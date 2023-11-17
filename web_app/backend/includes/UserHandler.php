@@ -27,13 +27,13 @@
                 $this->tbl->insertOne(['id'=>new \MongoDB\BSON\ObjectId(),'name'=> $name,'email'=> $email, 'password'=> $password, 
                     'ledTimer'=> [], 'feedTimer'=> [], 'phRange'=> DEFAULT_PH, 'ecRange'=> DEFAULT_EC,'tempRange'=> DEFAULT_TEMP, 
                         'phEnable'=> false,  'ecEnable'=> false,  'tempEnable'=> false, 'feedEnable'=>false, 'ledEnable'=>false,
-                            'phGraph'=> [], 'ecGraph'=> [],'tempGraph'=> [], 'waterGraph'=> [], 'timezone'=>'UTC']);
+                            'phGraph'=> [], 'ecGraph'=> [],'tempGraph'=> [], 'waterGraph'=> [], 'timezone'=>'UTC', 'plants'=>null, 'fish'=> null]);
                 return true;
 
             }else{return false;}
         
         }
-
+    
         //Login with email and password ---- return user id
         public function Login($email, $password){
             $doc= $this->tbl->findOne(['email'=>$email]);
@@ -51,13 +51,22 @@
 
         //return account doc using id (use json_encode to display)
         public function getAccount($id){
-            $obj= new MongoDB\BSON\ObjectId($id);
-            return $this->tbl->findOne(['id'=>$obj]);
+            try{
+                $obj= new MongoDB\BSON\ObjectId($id);
+                return $this->tbl->findOne(['id'=>$obj],['projection'=>['_id'=>false,'password'=>false]]);
+            }catch(Exception $e){
+                return null;
+            }
+
         }
         //delete user
         public function deleteAccount($id){
-            $obj= new MongoDB\BSON\ObjectId($id);
-            $this->tbl->deleteOne(['id' => $obj]);
+            try{
+                $obj= new MongoDB\BSON\ObjectId($id);
+                $this->tbl->deleteOne(['id' => $obj]);
+            }catch(Exception $e){
+                return null;
+            }
         }
 
 
@@ -81,21 +90,21 @@
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['tempRange'=>$TE]]);
         }
 
-        //Enable setters --> no input param, call to function sets to opposite boolean value
-        public function setPHEnable($id){ 
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['phEnable'=>!$this->getPHEnable($id)]]);
+        //Enable setters --> turn on/off subsystems
+        public function setPHEnable($id, $tf){ 
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['phEnable'=>$tf]]);
         }
-        public function setECEnable($id){            
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ecEnable'=>!$this->getECEnable($id)]]);
+        public function setECEnable($id, $tf){            
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ecEnable'=>$tf]]);
        }
-        public function setTEMPEnable($id){            
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['tempEnable'=>!$this->getTEMPEnable($id)]]);
+        public function setTEMPEnable($id, $tf){            
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['tempEnable'=>$tf]]);
       }
-        public function setFEEDEnable($id){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['feedEnable'=>!$this->getFEEDEnable($id)]]);
+        public function setFEEDEnable($id, $tf){
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['feedEnable'=>$tf]]);
        }
-        public function setLEDEnable($id){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ledEnable'=>!$this->getLEDEnable($id)]]);
+        public function setLEDEnable($id, $tf){
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ledEnable'=>$tf]]);
      } 
 
         /*Input array param:
@@ -137,6 +146,29 @@
             $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['timezone'=>$str]]);
        }
 
+       //Update users saved plant docs using array of names as input
+       public function setPlants($id, $arr){
+            $plants = new PlantHandler();
+            $final=[];
+            foreach($arr as $name){
+                $item = $plants->getPlantInfo($name);
+                if($item->plant == $name){
+                    array_push($final,$item);
+                }
+            }
+            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['plants'=>$final]]);
+        }
+        //Update users saved fish doc using name as input
+        public function setFish($id, $name){
+            $fish = new FishHandler();
+            $item = $fish->getFishInfo($name);
+
+            if($item->fish == $name){
+                $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['fish'=>$item]]);
+            }
+                     
+        }
+
         //GET() mongodb current document values 
         public function getName($id){return $this->getAccount($id)->name;} 
 
@@ -160,7 +192,83 @@
 
         public function getTimezone($id){return $this->getAccount($id)->timezone;}
 
+        public function getPlants($id){return $this->getAccount($id)->plants;}
+        public function getFish($id){return $this->getAccount($id)->fish;}
+
         
+        //Calculate compatibility ranges and hours from user saved plant/ fish species
+        public function calculateIdealPH($id){
+            $u1 = $this->getAccount($id);
+            $ideal= null;
+
+            if(isset($u1->fish)){
+                $ideal =$u1->fish->ph_range;
+            }
+            if(isset($u1->plants)){
+                foreach($u1->plants as $item){
+                    if(isset($ideal)){
+                        if (($ideal[1] <= $item->ph_range[0]) || ($ideal[0] >= $item->ph_range[1])){
+                            echo "Mutual Exclusion Compatibility Error: ";
+                            return;
+                        }else{
+                            if(($ideal[0] < $item->ph_range[0])){
+                                $ideal[0] = $item->ph_range[0];
+                            }
+                            if(($ideal[1] > $item->ph_range[1])){
+                                $ideal[1] = $item->ph_range[1];
+                            }
+                        }
+                    }else{
+                        $ideal= $item->ph_range;
+                    }
+                }
+            }
+            return $ideal;
+        }
+        public function calculateIdealEC($id){
+            $u1 = $this->getAccount($id);
+            $ideal= null;
+            if(isset($u1->plants)){
+                foreach($u1->plants as $item){
+                    if(isset($ideal)){
+                        if (($ideal[1] <= $item->ec_range[0]) || ($ideal[0] >= $item->ec_range[1])){
+                            echo "Mutual Exclusion Compatibility Error: ";
+                            return;
+                        }else{
+                            if(($ideal[0] < $item->ec_range[0])){
+                                $ideal[0] = $item->ec_range[0];
+                            }
+                            if(($ideal[1] > $item->ec_range[1])){
+                                $ideal[1] = $item->ec_range[1];
+                            }    
+                        }
+
+                    }else{
+                        $ideal= $item->ec_range;
+                    }
+                }
+            }
+            return $ideal;
+        }
+        //chooses greater value
+        public function calculateHours($id){
+            $u1 = $this->getAccount($id);
+            $ideal= null;
+
+            if(isset($u1->plants)){
+                foreach($u1->plants as $item){
+                    if(isset($ideal)){
+                        if(($ideal[1] < $item->daily_light_requirement[1])){
+                            $ideal = $item->daily_light_requirement;
+                        }
+                    }else{
+                        $ideal= $item->daily_light_requirement;
+                    }
+                }
+            }
+            return $ideal;
+        }
+
         //idea not final - requires testing
          public function checkFEEDTimer($id, $arr){
             $time= getdate();
