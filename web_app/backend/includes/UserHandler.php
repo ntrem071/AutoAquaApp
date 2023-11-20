@@ -45,7 +45,8 @@
                 //$this->currDoc = $doc;
                 $id =$this->tbl->findOne(['email'=>$email])->id;
                 date_default_timezone_set($this->getTimezone($id));
-                return $id->__toString();
+                // return $id->__toString();
+                return ['id' => $id->__toString()];
             }
         }
 

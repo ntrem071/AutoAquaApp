@@ -11,7 +11,7 @@ import UserInfo from './components/UserInfo';
 import Fish from './components/Fish';
 import Information from './components/Information';
 import Settings from './components/Settings';
-import './components/Settingscss.css';
+//import './components/Settings.css';
 
 function App() {
   // const navigate = useNavigate();
@@ -25,7 +25,6 @@ function App() {
   // }
   return (
     <div className='App'>
-      <h1>Automated Aquaponics</h1>
       <div id='login'>
         <Routes>
           <Route path='/' element={ <Login/> }/>

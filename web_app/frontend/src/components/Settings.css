@@ -1,17 +1,37 @@
 /* #phTitle {
     font-size: 200px;
 } */
-#first {
+.firsthide {
     display: none;
 }
 
-#second {
+.firstshow {
+    display: block;
+}
+
+.secondhide {
+    display: none;
+}
+
+.secondshow {
+    display: block;
+}
+
+.thirdhide {
+    display: none;
+}
+
+.thirdshow {
+    display: block;
+}
+
+/* #second {
     display: none;
 }
 
 #third {
     display: none;
-}
+} */
 
 #warning {
     display:none;
@@ -188,10 +208,18 @@ label {
     margin: auto;
 }
 
-p {
+#rangeTitle {
     color: #545454;
 }
 
-h2 {
+#pHTitle {
+    color: #545454;
+}
+
+#ECTitle {
+    color: #545454;
+}
+
+#tempTitle {
     color: #545454;
 }

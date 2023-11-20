@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 //import axios from 'axios';
 
 function Create() {
-//    const navigate = useNavigate();  
+   const navigate = useNavigate();  
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -56,12 +56,11 @@ function Create() {
 
 // connects frontend to backend
     function createSubmit(){
-        console.log('reaches loginSubmit');
         if((name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
             var url = 'http://localhost:8000/users/create';
             var headers = {
                 'Accept': 'application/json',
-                'Content-type': 'application/json'
+                'Content-Type': 'application/json'
             };
             var data = {
                 name: name,
@@ -69,19 +68,17 @@ function Create() {
                 password: password
             };
             fetch(url, {
-                mode: 'no-cors',
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(data)
             })
-            .then((response) => response.json())
             .then((response) => {
-                setMessage(response[0].result);
-                console.log('it is reaching the final then')
+                console.log('Response: ', response);
+                return response.json();
             })
             .catch((err) => {
                 setError(err);
-                console.log('it is getting caught');
+                console.log("Error: ", err);
             });
         } else {
             setError('All fields must be filled')

@@ -90,7 +90,9 @@ class UserController {
                     $this->response['status_code_header'] = 'HTTP/1.1 504 Credentials Invalid';
                 }else{
                     $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
-                    $this->response['body'] = json_encode($result);
+                    // $this->response['body'] = json_encode($result);
+                    //$this->response['body'] = json_encode(array('userId') -> $result['id']);
+                    $this->response['body'] = json_encode(array('userId' => $result['id']));
                 }
         } 
         return $this->response;
