@@ -57,7 +57,7 @@ function Create() {
 // connects frontend to backend
     function createSubmit(){
         if((name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
-            var url = 'http://localhost:8000/users/create';
+            var url = 'http://localhost:8000/users/na/create';
             var headers = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

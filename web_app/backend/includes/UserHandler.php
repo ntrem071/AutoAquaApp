@@ -1,5 +1,6 @@
 <?php
-
+ require __DIR__ . '/vendor/autoload.php';
+ include_once '../backend/includes/MySessionHandler.php';
 //Intial create user default constants
     define('DEFAULT_PH', [6.0, 7.0]);
     define('DEFAULT_EC', [1.5, 2.5]);
@@ -8,15 +9,16 @@
 
 //Add/Modify User obj in User collection
     class UserHandler{
-        private $tbl; 
+        private $tbl;
+        private $session; 
 
     //Connect to User collection
-        public function __construct(){
-            require __DIR__ . '/vendor/autoload.php';
-            $m= new \MongoDB\Client("mongodb://localhost:27017"); //!!!CONNECT TO WEBSITE!!!
- 
-            $db = $m->AutoAquaDB;
-            $this->tbl = $db->Users;
+        public function __construct(){       
+            $m= new \MongoDB\Client("mongodb://localhost:27017"); 
+            $this->tbl = $m->AutoAquaDB->Users;
+
+            $this->session = new MySessionHandler(20*60); //set to 20 min expiry
+            $this->session->gc();
         }
 
         //User created on login -> no two emails can be the same
@@ -24,7 +26,7 @@
             
             if(is_null($this->tbl->findOne(['email'=>$email]))){
                 
-                $this->tbl->insertOne(['id'=>new \MongoDB\BSON\ObjectId(),'name'=> $name,'email'=> $email, 'password'=> $password, 
+                $this->tbl->insertOne(['name'=> $name,'email'=> $email, 'password'=> $password, 
                     'ledTimer'=> [], 'feedTimer'=> [], 'phRange'=> DEFAULT_PH, 'ecRange'=> DEFAULT_EC,'tempRange'=> DEFAULT_TEMP, 
                         'phEnable'=> false,  'ecEnable'=> false,  'tempEnable'=> false, 'feedEnable'=>false, 'ledEnable'=>false,
                             'phGraph'=> [], 'ecGraph'=> [],'tempGraph'=> [], 'waterGraph'=> [], 'timezone'=>'UTC', 'plants'=>null, 'fish'=> null]);
@@ -34,47 +36,47 @@
         
         }
     
-        //Login with email and password ---- return user id
+        //Login with email and password ---- return session id
         public function Login($email, $password){
             $doc= $this->tbl->findOne(['email'=>$email]);
-
 
             if(is_null($doc) || (!is_null($doc) && !($doc->password==$password))){
                  return null;
             }else{
-                //$this->currDoc = $doc;
-                $id =$this->tbl->findOne(['email'=>$email])->id;
-                date_default_timezone_set($this->getTimezone($id));
-                // return $id->__toString();
-                return ['id' => $id->__toString()];
+                $id= $this->session->newSession($email);
+                if(!is_null($id)){
+                    date_default_timezone_set($this->getTimezone($id));
+                    return $id;
+                }else{
+                    return "Already Logged In";
+                }   
             }
+        }
+
+        //End session
+        public function Logout($id){
+            $this->session->destroy($id);
         }
 
         //return account doc using id (use json_encode to display)
         public function getAccount($id){
-            try{
-                $obj= new MongoDB\BSON\ObjectId($id);
-                return $this->tbl->findOne(['id'=>$obj],['projection'=>['_id'=>false,'password'=>false]]);
-            }catch(Exception $e){
+            if(!is_null($this->session->read($id))){
+                return $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'password'=>false]]);
+            }else{
                 return null;
             }
 
         }
         //delete user
         public function deleteAccount($id){
-            try{
-                $obj= new MongoDB\BSON\ObjectId($id);
-                $this->tbl->deleteOne(['id' => $obj]);
-            }catch(Exception $e){
-                return null;
-            }
+                $this->tbl->deleteOne(['email' => $this->session->read($id)->data]);
+                $this->session->destroy($id);
         }
-
 
         //FORGOT PASSWORD ONLY
                 /*!!!IMPELMENT EXTERNAL EMAIL VERIFICATION PROCESS!!!!*/
         public function setPassword($id, $password){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['password'=>$password]]);
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['password'=>$password]]);
           }
 
         /*Input param for array: 
@@ -82,30 +84,30 @@
                 PH[1] = high value(decimal)
         */
         public function setPHRange($id, $PH){
-           $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['phRange'=>$PH]]);
+           $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['phRange'=>$PH]]);
         }
         public function setECRange($id, $EC){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ecRange'=>$EC]]);
+           $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['ecRange'=>$EC]]);
         }
         public function setTEMPRange($id, $TE){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['tempRange'=>$TE]]);
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['tempRange'=>$TE]]);
         }
 
         //Enable setters --> turn on/off subsystems
         public function setPHEnable($id, $tf){ 
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['phEnable'=>$tf]]);
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['phEnable'=>$tf]]);
         }
         public function setECEnable($id, $tf){            
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ecEnable'=>$tf]]);
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['ecEnable'=>$tf]]);
        }
         public function setTEMPEnable($id, $tf){            
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['tempEnable'=>$tf]]);
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['tempEnable'=>$tf]]);
       }
         public function setFEEDEnable($id, $tf){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['feedEnable'=>$tf]]);
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['feedEnable'=>$tf]]);
        }
         public function setLEDEnable($id, $tf){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['ledEnable'=>$tf]]);
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['ledEnable'=>$tf]]);
      } 
 
         /*Input array param:
@@ -117,16 +119,16 @@
           !!!IMPLEMENT: graph timespan selection for UI (data over 1 week/ 1 month/ 3 months/ etc)!!!
         */     
         public function setPHGraph($id, $point){  //set to lower slice val for function testing  
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['phGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['phGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
       }
         public function setECGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['ecGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['ecGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
       }
         public function setTEMPGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['tempGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['tempGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
      }
         public function setWATERGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['waterGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['waterGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
      }
 
         /*Input param for array of time pairs (hour, minute):
@@ -134,17 +136,17 @@
             arr[1] = LED OFF 
         */
         public function setLEDTimer($id, $arr){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['ledTimer'=>['$each'=>[$arr[0],$arr[1]], '$slice'=>-2]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['ledTimer'=>['$each'=>[$arr[0],$arr[1]], '$slice'=>-2]]]);    
       }
         //Input param for array of three optional time pairs (hour, minute)
         public function setFEEDTimer($id, $arr){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$push'=>['feedTimer'=>['$each'=>[$arr[0],$arr[1],$arr[2]], '$slice'=>-3]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['feedTimer'=>['$each'=>[$arr[0],$arr[1],$arr[2]], '$slice'=>-3]]]);    
      }
 
         //Update timezone using string (ie. 'UTC')
             /*IMPLEMENT: USER SELECT FROM DROPDOWN MENU*/
         public function setTimezone($id, $str){
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['timezone'=>$str]]);
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['timezone'=>$str]]);
        }
 
        //Update users saved plant docs using array of names as input
@@ -157,7 +159,7 @@
                     array_push($final,$item);
                 }
             }
-            $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['plants'=>$final]]);
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['plants'=>$final]]);
         }
         //Update users saved fish doc using name as input
         public function setFish($id, $name){
@@ -165,7 +167,7 @@
             $item = $fish->getFishInfo($name);
 
             if($item->fish == $name){
-                $this->tbl->updateOne(['email'=>$this->getAccount($id)->email],['$set'=>['fish'=>$item]]);
+                $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['fish'=>$item]]);
             }
                      
         }
