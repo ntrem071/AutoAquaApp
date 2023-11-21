@@ -8,13 +8,10 @@ function Settings() {
 
     const [pHMin, setpHMin] = useState('');
     const [pHMax, setpHMax] = useState('');
-    const [pH, setPH] = useState(false);
     const [ecMin, setecMin] = useState('');
     const [ecMax, setecMax] = useState('');
-    const [ec, setEc] = useState(false);
     const [tempMin, settempMin] = useState('');
     const [tempMax, settempMax] = useState('');
-    const [temp, setTemp] = useState(false);
     const [firsthour, setfirstHour] = useState('');
     const [secondhour, setsecondHour] = useState('');
     const [thirdhour, setthirdHour] = useState('');
@@ -31,166 +28,177 @@ function Settings() {
     const [secondVisible, setSecondVisible] = useState(false);
     const [thirdVisible, setthirdVisible] = useState(false);
     const [current, setCurrent] = useState(1);
-    const [rangepH, setRangespH] = useState(true);
-    const [rangeec, setRangesEc] = useState(true);
-    const [rangetemp, setRangesTemp] = useState(true);
-    const [feed, setFeed] = useState(false);
-    const [LED, setLED] = useState(false);
+    const [phEn, setPHEnable] = useState(false);
+    const [ecEn, setECEnable] = useState(false);
+    const [tempEn, setTempEnable] = useState(false);
+    const [feedEn, setFeedEnable] = useState(false);
+    const [ledEn, setLEDEnable] = useState(false);
 
     const [error, setError] = useState('');
 
     const handleInputChange = (e, type) => {
+        setError('');
+
         switch(type){
             case 'pHMin':
-                setError('');
                 setpHMin(e.target.value);
                 if(e.target.value === '') {
                     setError('Minimum pH is missing');
-                } else {
-                    setError('');
-                    const min = e.target.value !== '';
-                    const max = pHMax !== '';
-                    if(min && max) {
-                        setPH(true);
-                    }
-                }
+                } 
                 break;
             case 'pHMax':
-                setError('');
                 setpHMax(e.target.value);
                 if(e.target.value === '') {
                     setError('Maximum pH is missing');
-                } else {
-                    setError('');
-                    const min = pHMin !== '';
-                    const max = e.target.value !== '';
-                    if(min && max) {
-                        setPH(true);
-                    }
-                }
+                } 
                 break;
             case 'ecMin':
-                setError('');
                 setecMin(e.target.value);
                 if(e.target.value === '') {
                     setError('Minimum electrical conductivity is missing');
-                } else {
-                    setError('');
-                    const min = e.target.value !== '';
-                    const max = ecMax !== '';
-                    if(min && max) {
-                        setEc(true);
-                    }
-                }
+                } 
                 break;
             case 'ecMax':
-                setError('');
                 setecMax(e.target.value);
                 if(e.target.value === '') {
                     setError('Maximum electrical conductivity is missing');
-                } else {
-                    setError('');
-                    const min = ecMin !== '';
-                    const max = e.target.value !== '';
-                    if(min && max) {
-                        setEc(true);
-                    }
-                }
+                } 
                 break;
             case 'tempMin':
-                setError('');
                 settempMin(e.target.value);
                 if(e.target.value === '') {
                     setError('Minimum temperature is missing');
-                } else {
-                    setError('');
-                    const min = e.target.value !== '';
-                    const max = tempMax !== '';
-                    if(min && max) {
-                        setTemp(true);
-                    }
-                }
+                } 
                 break;
             case 'tempMax':
-                setError('');
                 settempMax(e.target.value);
                 if(e.target.value === '') {
                     setError('Maximum temperature is missing');
-                } else {
-                    setError('');
-                    const min = tempMin !== '';
-                    const max = e.target.value !== '';
-                    if(min && max) {
-                        setTemp(true);
-                    }
                 }
                 break;
 
             case 'LEDonHour':
-                setError('');
                 setLEDonHour(e.target.value);
                 break;
             case 'LEDonMinute':
-                setError('');
                 setLEDonMinute(e.target.value);
                 break;
             case 'LEDoffHour':
-                setError('');
                 setLEDoffHour(e.target.value);
                 break;
             case 'LEDoffMinute':
-                setError('');
                 setLEDoffMinute(e.target.value);
                 break;
 
             case 'firstHour':
-                setError('');
                 setfirstHour(e.target.value);
                 break;
             case 'firstMinute':
-                setError('');
                 setfirstMinute(e.target.value);
                 break;
             case 'secondHour':
-                setError('');
                 setsecondHour(e.target.value);
                 break;
             case 'secondMinute':
-                setError('');
                 setsecondMinute(e.target.value);
                 break;
             case 'thirdHour':
-                setError('');
                 setthirdHour(e.target.value);
                 break;
             case 'thirdMinute':
-                setError('');
                 setthirdMinute(e.target.value);
                 break;
                 
+
+            case 'phEn':
+                setPHEnable(!phEn); //console.log("ph: ",phEn);
+                toggleRangeDisable(phEn, 'pHMin', 'pHMax')
+                break;
+            case 'ecEn':
+                setECEnable(!ecEn); //console.log("ec: ",ecEn); 
+                toggleRangeDisable(ecEn, 'ecMin', 'ecMax')
+                break;
+            case 'tempEn':
+                setTempEnable(!tempEn);//console.log("temp: ",tempEn);
+                toggleRangeDisable(tempEn, 'tempMin', 'tempMax')
+                break;
+            case 'feedEn':
+                setFeedEnable(!feedEn); //console.log("feed: ",feedEn);
+                break;
+            case 'ledEn':
+                setLEDEnable(!ledEn); //console.log("led: ",ledEn); 
+                toggleLEDDisable();
+                break;
+
             default:
         }
     }
-    
-    function updateRanges(){
-        if (!pH) {
-            setError('No pH');
-            return;
-        } else if (!ec) {
-            setError('No electrical conductivity');
-            return;
-        } else if (!temp) {
-            setError('No temperature');
-            return;
+    function toggleRangeDisable(va, str1, str2){
+        if(va){
+            document.getElementById(str1).disabled= true;
+            document.getElementById(str2).disabled= true;
+        }else{
+            document.getElementById(str1).disabled= false;
+            document.getElementById(str2).disabled= false;
         }
+    }
+    function toggleLEDDisable(){
+        if(ledEn){
+            document.getElementById('LEDonHour').disabled=true;
+            document.getElementById('LEDonMinute').disabled=true;
+            document.getElementById('LEDoffHour').disabled=true;
+            document.getElementById('LEDoffMinute').disabled=true;
+            document.getElementById('LEDswitch').disabled=true;
+        }else{
+            document.getElementById('LEDonHour').disabled=false;
+            document.getElementById('LEDonMinute').disabled=false;
+            document.getElementById('LEDoffHour').disabled=false;
+            document.getElementById('LEDoffMinute').disabled=false;
+            document.getElementById('LEDswitch').disabled=false;
+        }
+    }
+    function toggleTime(){
+        var btn = document.getElementById('addtime');
+        var toggle = document.getElementById('Feedswitch');
+
+        if (btn && toggle) {
+            btn.disabled = toggle.querySelector('input[type=checkbox]:checked')
+        }
+    }
+
+    function ToggleTextAddTime(){
+        var first = document.getElementById('first');
+        var second = document.getElementById('second');
+        var third = document.getElementById('third');
+
+        console.log('First: ', first);
+        console.log('Second: ', second);
+        console.log('Third: ', third);
+
+        first.classList.add('firsthide');
+        second.classList.add('secondhide');
+        third.classList.add('thirdhide');
+
+        if (current === 1) {
+            first.classList.remove('firsthide');
+        } else if (current === 2) {
+            second.classList.remove('secondhide');
+        } else if (current === 3) {
+            third.classList.remove('thirdhide');
+        }
+
+        current = (current % 3) + 1
+    }
+
+    function updateRanges(){
         var url = 'http://localhost:8000/users/6539eb93a1864e481b0d7f10/ranges';
         var data = {
             phRange: [pHMin, pHMax],
             ecRange: [ecMin, ecMax],
             tempRange: [tempMin, tempMax],
-            phEnable: pH,
-            ecEnable: ec,
-            tempEnable: temp                    
+            phEnable: phEn,
+            ecEnable: ecEn,
+            tempEnable: tempEn                    
         };
         sendRequest(url, data);    
     }
@@ -198,16 +206,16 @@ function Settings() {
     function updateFeed(){
         var url = 'http://localhost:8000/users/feed';
         var data = {
-            ledEnable: 1,
-            ledTimer: [[LEDoffHour,LEDoffMinute],[LEDonHour,LEDonMinute]]                    
+            feedEnable: feedEn,
+            feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]]                      
         };
         sendRequest(url, data);
     }
     function updateLED(){
         var url = 'http://localhost:8000/users/led';
         var data = {
-            feedEnable: 1,
-            feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]]                      
+            ledEnable: ledEn,
+            ledTimer: [[LEDoffHour,LEDoffMinute],[LEDonHour,LEDonMinute]]                    
         };
         sendRequest(url, data);
     }
@@ -243,128 +251,6 @@ function Settings() {
         });
     }
 
-    function ToggleTextAddTime(){
-        var first = document.getElementById('first');
-        var second = document.getElementById('second');
-        var third = document.getElementById('third');
-
-        console.log('First: ', first);
-        console.log('Second: ', second);
-        console.log('Third: ', third);
-
-        first.classList.add('firsthide');
-        second.classList.add('secondhide');
-        third.classList.add('thirdhide');
-
-        if (current === 1) {
-            first.classList.remove('firsthide');
-        } else if (current === 2) {
-            second.classList.remove('secondhide');
-        } else if (current === 3) {
-            third.classList.remove('thirdhide');
-        }
-
-        current = (current % 3) + 1
-
-        
-
-        // if (first.className === 'firsthide') {
-        //     first.classList.toggle('firstshow');
-        // }
-    }
-
-    // const ToggleTextAddTime = () => {
-    //     console.log('it reaches here');
-
-    //     setFirstVisible(false);
-    //     setSecondVisible(false);
-    //     setthirdVisible(false);
-
-    //     if(current === 1) {
-    //         setFirstVisible(true);
-    //     } else if (current === 2) {
-    //         setSecondVisible(true);
-    //     } else if (current === 3) {
-    //         setthirdVisible(true);
-    //     }
-
-    //     setCurrent((current % 3) + 1);
-    // }
-
-    function togglepH() {
-        var min = document.getElementById('pHMin');
-        var max = document.getElementById('pHMax');
-        var toggle = document.getElementById('pHswitch');
-
-        if (min && max && toggle) {
-            min.disabled = !toggle.querySelector('input[type=checkbox]:checked');
-            max.disabled = !toggle.querySelector('input[type=checkbox]:checked');
-        }
-        
-        setRangespH((prev) => !prev);
-    }
-
-    function toggleEc() {
-        var min = document.getElementById('ecMin');
-        var max = document.getElementById('ecMax');
-        var toggle = document.getElementById('ecswitch');
-
-        if (min && max && toggle) {
-            min.disabled = !toggle.querySelector('input[type=checkbox]:checked');
-            max.disabled = !toggle.querySelector('input[type=checkbox]:checked');
-        }
-
-        setRangesEc((prev) => !prev);
-    }
-
-    function toggleTemp() {
-        var min = document.getElementById('tempMin');
-        var max = document.getElementById('tempMax');
-        var toggle = document.getElementById('tempswitch');
-
-        if (min && max && toggle) {
-            min.disabled = !toggle.querySelector('input[type=checkbox]:checked');
-            max.disabled = !toggle.querySelector('input[type=checkbox]:checked');
-        }
-
-        setRangesTemp((prev) => !prev);
-    }
-
-    function toggleTime(){
-        var btn = document.getElementById('addtime');
-        var toggle = document.getElementById('Feedswitch');
-
-        if (btn && toggle) {
-            btn.disabled = toggle.querySelector('input[type=checkbox]:checked')
-        }
-    }
-
-    function toggleLED(){
-        var onh = document.getElementById('LEDonHour');
-        var onm = document.getElementById('LEDonMinute');
-        var offh = document.getElementById('LEDoffHour');
-        var offm = document.getElementById('LEDoffMinute');
-        var toggle = document.getElementById('LEDswitch');
-
-        if (onh && onm && offh && offm && toggle) {
-            onh.disabled = toggle.querySelector('input[type=checkbox]:checked');
-            onm.disabled = toggle.querySelector('input[type=checkbox]:checked');
-            offh.disabled = toggle.querySelector('input[type=checkbox]:checked');
-            offm.disabled = toggle.querySelector('input[type=checkbox]:checked');
-        }
-    }
-
-    // function getValue() {
-    //     if (document.getElementById('pHswitch').checked) {
-    //       console.log("Checked");
-    //       document.getElementById('togBtn').setAttribute("value", "0");
-    //     } else if {
-    //       console.log("Not Checked");
-    //       document.getElementById('togBtn').setAttribute("value", "1");
-    //     }
-    //     console.log(document.getElementById('togBtn').getAttribute("value"));
-    // }
-
     
 
     return(
@@ -377,7 +263,7 @@ function Settings() {
                     <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>&nbsp;</button>
                     <button id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>&nbsp;</button>
                     <button id='navsettings' variant='contained' title='Settings' onClick={() => navigate('/Settings')}>&nbsp;</button>
-                </div>
+                    </div>
                 <div>
                     <h2 id='rangeTitle'>Ranges:</h2><br></br>
                     <p id='phTitle'>pH 
@@ -398,7 +284,7 @@ function Settings() {
                         disabled
                     ></input>
                     <label class='switch' id='pHswitch'>
-                        <input type='checkbox' onClick={togglepH}></input>
+                        <input type='checkbox' value={phEn} onChange={(e)=>handleInputChange(e,"phEn")}></input>
                         <span class='slider round'></span>
                     </label>
                     </p><br></br>
@@ -420,7 +306,7 @@ function Settings() {
                         disabled
                     ></input>
                     <label class='switch' id='ecswitch'>
-                        <input type='checkbox' onClick={toggleEc}></input>
+                        <input type='checkbox' value={ecEn} onChange={(e)=>handleInputChange(e,"ecEn")}></input>
                         <span class='slider round'></span>
                     </label>
                     </p><br></br>
@@ -442,7 +328,7 @@ function Settings() {
                         disabled
                     ></input>
                     <label class='switch' id='tempswitch'>
-                        <input type='checkbox' onClick={toggleTemp}></input>
+                        <input type='checkbox' value={tempEn} onChange={(e)=>handleInputChange(e,"tempEn")}></input>
                         <span class='slider round'></span>
                     </label>
                     </p><br></br>
@@ -450,8 +336,8 @@ function Settings() {
 
                     <h2>Feed:</h2>
                     <label class='switch' id='Feedswitch'>
-                        <input type='checkbox'></input>
-                        <span class='slider round' onClick={toggleTime}></span>
+                        <input type='checkbox' value={feedEn} onChange={(e)=>handleInputChange(e,"feedEn")}></input>
+                        <span class='slider round'></span>
                     </label><br></br>
                     <p id='first' class={firstVisible ? 'firstshow' : 'firsthide'}>#1 
                         <input
@@ -510,8 +396,8 @@ function Settings() {
                     <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                     <h2>LED:</h2>
                     <label class='switch' id='LEDswitch'>
-                        <input type='checkbox'></input>
-                        <span class='slider round' onClick={toggleLED}></span>
+                        <input type='checkbox' value={ledEn} onChange={(e)=>handleInputChange(e,"ledEn")}></input>
+                        <span class='slider round'></span>
                     </label><br></br>
                     <p id='LEDOn'>ON 
                         <input
