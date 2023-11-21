@@ -35,10 +35,12 @@ class UserController {
                 } 
                 break;
             case 'POST':
-                if($this->sel1== 'create'){
+                if($this->sel2== 'create'){
                     $this->response = $this->createUser();
-                }else if ($this->sel1 == 'login'){
+                }else if ($this->sel2 == 'login'){
                     $this->response = $this->login();
+                }else if ($this->sel2 == 'logout'){
+                    $this->response = $this->logout();
                 }
                 break;
             case 'PUT':
@@ -88,19 +90,29 @@ class UserController {
 
                 if(is_null($result)){
                     $this->response['status_code_header'] = 'HTTP/1.1 504 Credentials Invalid';
+                }elseif($result=="Already Logged In"){
+                    $this->response['status_code_header'] = 'HTTP/1.1 504 User Already Logged In';
                 }else{
                     $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
-                    // $this->response['body'] = json_encode($result);
-                    //$this->response['body'] = json_encode(array('userId') -> $result['id']);
-                    $this->response['body'] = json_encode(array('userId' => $result['id']));
+                    $this->response['body'] = json_encode(array('sessionId' => $result->__toString()));
                 }
         } 
         return $this->response;
            
     }
+    //end session
+    private function logout(){
+        $result = $this->users->getAccount($this->sel1);
+        if(is_null($result)){
+            $this->response['status_code_header'] = 'HTTP/1.1 504 User information not found';
+        }else{
+            $result = $this->users->Logout($this->sel1);
+            $this->response['status_code_header'] = 'HTTP/1.1 200 OK';      
+        }
+        return $this->response;
+    }
     //return user doc from id string
-    private function getUser()
-    {
+    private function getUser(){
         $result = $this->users->getAccount($this->sel1);
         if(is_null($result)){
             $this->response['status_code_header'] = 'HTTP/1.1 504 User information not found';

@@ -31,7 +31,7 @@ function Login() {
 
     function loginSubmit(){
         if((password !== '') && (email !== '')){
-            var url = 'http://localhost:8000/users/login';
+            var url = 'http://localhost:8000/users/na/login';
             //var buf = Buffer.from(email + ':' + password).toString('base64');
             var header = {         
                 //'Authorization':'Basic ' + buf,
@@ -57,8 +57,8 @@ function Login() {
                 }
             })
             .then(data => {
-                const userId = data.userId
-                console.log(userId)
+                const sessionID = data.sessionID
+                console.log(sessionID)
             })
             .catch((err) => {
                 setError(err);
