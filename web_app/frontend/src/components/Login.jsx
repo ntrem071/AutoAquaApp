@@ -106,7 +106,7 @@ function Login() {
                         onClick={() => navigate('CreateAccount')}
                         >Don't have an account?
                     </button> */}
-                    <p>
+                    <p id='create'>
                         Don't have an account?&nbsp;&nbsp;
                         <a href='/CreateAccount'>Create</a>
                     </p>
