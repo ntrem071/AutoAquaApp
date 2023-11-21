@@ -1,0 +1,91 @@
+.nav{
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #0844ac;
+    overflow-x: hidden;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+}
+
+.nav button{
+    border: none;
+    float: inline-end;
+    padding: 0;
+    cursor: pointer;
+}
+
+.nav button:hover{
+    background-color: #3e5f97;
+}
+
+.nav button:not(:last-child){
+    border-bottom: none;
+}
+
+#navhome {
+    background-image: url(../pictures/home.png);
+    background-color: transparent;
+    width: 150%;
+    height: 150px;
+    padding: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#navhometext {
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+#navuser {
+    background-image: url(../pictures/user.png);
+    background-color: transparent;
+    width: 150%;
+    height: 150px;
+    padding: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#navfish {
+    background-image: url(../pictures/fish.png);
+    background-color: transparent;
+    width: 150%;
+    height: 150px;
+    padding: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#navinfo {
+    background-image: url(../pictures/info.png);
+    background-color: transparent;
+    width: 150%;
+    height: 150px;
+    padding: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#navsettings {
+    background-image: url(../pictures/gear.png);
+    background-color: transparent;
+    width: 150%;
+    height: 150px;
+    padding: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+}

@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import './Homepage.css';
 
 function Homepage() {
     const navigate = useNavigate();
@@ -19,11 +20,13 @@ function Homepage() {
         <body>
             <h1>WARNING</h1>
             <h3>
-                <button variant='contained' onClick={() => navigate('/Home')}>Home</button>
-                <button variant='contained' onClick={() => navigate('/User-Info')}>User Info</button>
-                <button variant='contained' onClick={() => navigate('/Fish')}>Fish</button>
-                <button variant='contained' onClick={() => navigate('/Information')}>Information</button>
-                <button variant='contained' onClick={() => navigate('/Settings')}>Settings</button>
+                <div className='nav'>
+                    <button id='navhome' variant='contained' onClick={() => navigate('/Home')}>&nbsp;</button>
+                    <button id='navuser' variant='contained' onClick={() => navigate('/User-Info')}>&nbsp;</button>
+                    <button id='navfish' variant='contained' onClick={() => navigate('/Fish')}>&nbsp;</button>
+                    <button id='navinfo' variant='contained' onClick={() => navigate('/Information')}>&nbsp;</button>
+                    <button id='navsettings' variant='contained' onClick={() => navigate('/Settings')}>&nbsp;</button>
+                </div>
                 <div>
                     <p id='wltitle'>Water Level</p><p id='water_level'>25</p>
                     <br></br>
