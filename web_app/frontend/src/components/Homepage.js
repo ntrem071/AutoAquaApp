@@ -1,8 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 function Homepage() {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const sessionId = Cookies.get('sessionId');
+
+        if(!sessionId) {
+            navigate('/');
+        }
+
+        console.log('SessionId: ', sessionId);
+    }, [navigate]);
+
     return(
         <body>
             <h1>WARNING</h1>

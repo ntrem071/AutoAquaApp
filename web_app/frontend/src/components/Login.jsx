@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Buffer } from 'buffer';
+import Cookies from 'js-cookie';
 import './Login.css'
 import backgroundimg from '../pictures/fishlogin.jpg'
 
@@ -57,8 +58,12 @@ function Login() {
                 }
             })
             .then(data => {
-                const sessionID = data.sessionID
-                console.log(sessionID)
+                const sessionID = data.sessionId;
+                if(sessionID) {
+                    document.cookie = `sessionId=${sessionID}`
+                    navigate('/Home');
+                }
+                
             })
             .catch((err) => {
                 setError(err);
