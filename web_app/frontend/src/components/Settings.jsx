@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Settings.css';
 
 function Settings() {
     const navigate = useNavigate();
-    
+    const sessionId= Cookies.get('sessionId');
 
     const [pHMin, setpHMin] = useState('');
     const [pHMax, setpHMax] = useState('');
@@ -36,9 +37,16 @@ function Settings() {
 
     const [error, setError] = useState('');
 
+
+    useEffect(() => {
+        console.log("Component has mounted");
+        setValues();
+    }, []);
+
     const handleInputChange = (e, type) => {
         setError('');
 
+        console.log(e);
         switch(type){
             case 'pHMin':
                 setpHMin(e.target.value);
@@ -191,7 +199,7 @@ function Settings() {
     }
 
     function updateRanges(){
-        var url = 'http://localhost:8000/users/6539eb93a1864e481b0d7f10/ranges';
+        var url = 'http://localhost:8000/users/'+sessionId+'/ranges';
         var data = {
             phRange: [pHMin, pHMax],
             ecRange: [ecMin, ecMax],
@@ -204,7 +212,7 @@ function Settings() {
     }
 
     function updateFeed(){
-        var url = 'http://localhost:8000/users/feed';
+        var url = 'http://localhost:8000/users/'+sessionId+'/feed';
         var data = {
             feedEnable: feedEn,
             feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]]                      
@@ -212,7 +220,7 @@ function Settings() {
         sendRequest(url, data);
     }
     function updateLED(){
-        var url = 'http://localhost:8000/users/led';
+        var url = 'http://localhost:8000/users/'+sessionId+'/led';
         var data = {
             ledEnable: ledEn,
             ledTimer: [[LEDoffHour,LEDoffMinute],[LEDonHour,LEDonMinute]]                    
@@ -220,7 +228,7 @@ function Settings() {
         sendRequest(url, data);
     }
     function updateTimezone(){
-        var url = 'http://localhost:8000/users/timezone';
+        var url = 'http://localhost:8000/users/'+sessionId+'/timezone';
         var data = {
             timezone: 'UTC'           
         };
@@ -235,25 +243,78 @@ function Settings() {
         };
         console.log(JSON.stringify(data));
         fetch(url, {
-            //mode: 'no-cors',
             method: 'PUT',
             headers: headers,
             body: JSON.stringify(data)
         })
-        .then((response) => response.json())
-        .then((response) => {
-            setMessage(response[0].result);
-            console.log('it is reaching the final then')
+        .then((response) => { //null data response (set to T/F later)
+            if(response.error) {
+                setError(response.error);
+                console.log('Error: ', response.error)
+            }
         })
         .catch((err) => {
             setError(err);
-            console.log('it is getting caught');
+            console.log(err);
         });
     }
 
-    
+    function setValues(){
+            var url = 'http://localhost:8000/users/'+sessionId;
+            var header = {         
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'   
+            };
 
-    return(
+            const id = fetch(url, {
+                method: 'GET',
+                headers: header
+            })
+            .then((response) => {
+                if(response.error) {
+                    setError(response.error);
+                    console.log('Error: ', response.error)
+                } else {
+                    return response.json()
+                }
+            })
+            .then(data => {
+                if((!(data.phRange[0]==null))){setpHMin(data.phRange[0]);}
+                if((!(data.phRange[1]==null))){setpHMax(data.phRange[1]);}
+                if((!(data.ecRange[0]==null))){setecMin(data.ecRange[0]);}
+                if((!(data.ecRange[1]==null))){setecMax(data.ecRange[1]);}
+                if((!(data.tempRange[0]==null))){settempMin(data.tempRange[0])}
+                if((!(data.tempRange[1]==null))){settempMax(data.tempRange[1]);}
+
+                if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][0]==null))){setLEDoffHour(data.ledTimer[0][0]);}
+                if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][1]==null))){setLEDoffMinute(data.ledTimer[0][1]);}
+                if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][0]==null))){setLEDoffHour(data.ledTimer[1][0]);}
+                if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][1]==null))){setLEDoffMinute(data.ledTimer[1][1]);}
+  
+                if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][0]==null))){setfirstHour(data.feedTimer[0][0]);}
+                if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][1]==null))){setfirstMinute(data.feedTimer[0][1]);}
+                if((!(data.feedTimer[1]==null) && !(data.feedTimer[1][0]==null))){setsecondHour(data.feedTimer[1][0]);}
+                if((!(data.feedTimer[1]==null) && !(data.feedTimer[1][1]==null))){setsecondMinute(data.feedTimer[1][1]);}
+                if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][0]==null))){setthirdHour(data.feedTimer[2][0]);}
+                if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][1]==null))){setthirdMinute(data.feedTimer[2][1]);}
+
+                //toggle booleans --> issues getting toggle to reflect user boolean values
+                /*
+                if(data.phEnable==true){document.getElementById('cs1').dispatchEvent(new Event('onChange'));console.log(phEn);}
+                if(data.ecEnable==true){}
+                if(data.tempEnable==true){}
+                if(data.feedEnable==true){}
+                if(data.ledEnable==true){}
+                */
+            })
+            .catch((err) => {
+                setError(err);
+                console.log(err);
+            });
+    }
+      
+
+    return(     
         <div class='Settings'>
             <h1 id='warning'>WARNING</h1>
             <div class='outerbox'>
@@ -284,7 +345,7 @@ function Settings() {
                         disabled
                     ></input>
                     <label class='switch' id='pHswitch'>
-                        <input type='checkbox' value={phEn} onChange={(e)=>handleInputChange(e,"phEn")}></input>
+                        <input type='checkbox' id='cs1' value={phEn} onChange={(e)=>handleInputChange(e,"phEn")}></input>
                         <span class='slider round'></span>
                     </label>
                     </p><br></br>
@@ -306,7 +367,7 @@ function Settings() {
                         disabled
                     ></input>
                     <label class='switch' id='ecswitch'>
-                        <input type='checkbox' value={ecEn} onChange={(e)=>handleInputChange(e,"ecEn")}></input>
+                        <input type='checkbox' id='cs2' value={ecEn} onChange={(e)=>handleInputChange(e,"ecEn")}></input>
                         <span class='slider round'></span>
                     </label>
                     </p><br></br>
@@ -328,7 +389,7 @@ function Settings() {
                         disabled
                     ></input>
                     <label class='switch' id='tempswitch'>
-                        <input type='checkbox' value={tempEn} onChange={(e)=>handleInputChange(e,"tempEn")}></input>
+                        <input type='checkbox' id='cs3' value={tempEn} onChange={(e)=>handleInputChange(e,"tempEn")}></input>
                         <span class='slider round'></span>
                     </label>
                     </p><br></br>
@@ -336,7 +397,7 @@ function Settings() {
 
                     <h2>Feed:</h2>
                     <label class='switch' id='Feedswitch'>
-                        <input type='checkbox' value={feedEn} onChange={(e)=>handleInputChange(e,"feedEn")}></input>
+                        <input type='checkbox' id='cs4' value={feedEn} onChange={(e)=>handleInputChange(e,"feedEn")}></input>
                         <span class='slider round'></span>
                     </label><br></br>
                     <p id='first' class={firstVisible ? 'firstshow' : 'firsthide'}>#1 
@@ -396,7 +457,7 @@ function Settings() {
                     <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                     <h2>LED:</h2>
                     <label class='switch' id='LEDswitch'>
-                        <input type='checkbox' value={ledEn} onChange={(e)=>handleInputChange(e,"ledEn")}></input>
+                        <input type='checkbox' id='cs5' value={ledEn} onChange={(e)=>handleInputChange(e,"ledEn")}></input>
                         <span class='slider round'></span>
                     </label><br></br>
                     <p id='LEDOn'>ON 
