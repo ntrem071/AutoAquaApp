@@ -57,8 +57,10 @@ function Login() {
                 }
             })
             .then(data => {
-                const sessionID = data.sessionID
-                console.log(sessionID)
+                const sessionId = data.sessionId
+                if(sessionId) {
+                    navigate('/Home');
+                }
             })
             .catch((err) => {
                 setError(err);
@@ -72,22 +74,22 @@ function Login() {
     return(
             <div className='row'>
                 <div className='column'>
-                    <h1>Automated Aquaponics</h1>
-                    <h2>Login</h2>
+                    <h1 id='lh1'>Automated Aquaponics</h1>
+                    <h2 id='lh2'>Login</h2>
                     <div className='Login'>
                         <form id='login'>
-                            <label for='inputBox'>Email: </label><br></br>
+                            <label id='ll1' for='inputBox'>Email: </label><br></br>
                             <input
                                 type='text'
-                                id='email'
+                                id='lt1'
                                 placeholder='Email'
                                 value={email.toString()}
                                 onChange={(e) => valuesIn(e, 'email')}
                             /><br/>
-                            <label for='inputBox'>Password: </label><br></br>
+                            <label id='ll1' for='inputBox'>Password: </label><br></br>
                             <input
                                 type='text'
-                                id='password'
+                                id='lt1'
                                 placeholder='Password'
                                 value={password.toString()}
                                 onChange={(e) => valuesIn(e, 'password')}
@@ -96,6 +98,7 @@ function Login() {
                     </div>
                     <button
                         type='button'
+                        id = 'lb1'
                         className='button'
                         onClick={loginSubmit}
                     >Login
@@ -106,9 +109,9 @@ function Login() {
                         onClick={() => navigate('CreateAccount')}
                         >Don't have an account?
                     </button> */}
-                    <p>
+                    <p id ='lp1'>
                         Don't have an account?&nbsp;&nbsp;
-                        <a href='/CreateAccount'>Create</a>
+                        <a id = 'la1' href='/CreateAccount'>Create</a>
                     </p>
                 </div>
                 <div className='column' id='image'>

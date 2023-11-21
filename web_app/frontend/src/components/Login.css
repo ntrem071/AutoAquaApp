@@ -2,14 +2,14 @@
     font-family: 'Armata';
     src: url('../fonts/ArmataHL.otf')
 }
-
-h1 {
+#lh1 {
     font-family: 'Armata', serif;
+    color: #ffffff;
     font-size: 90px;
     font-weight: lighter;
 }
 
-h2 {
+#lh2{
     font-family: 'Armata', serif;
     font-size: 70px;
     color: #ffffff;
@@ -19,7 +19,21 @@ h2 {
     margin-bottom: 20px;
 }
 
-label {
+html, body {
+    margin: 0;
+    overflow: hidden;
+}
+
+#lt1{
+    background-color: #908c8c;
+    padding: 10px;
+    width: 500px;
+    height: 25px;
+    align-self: flex-start;
+    border: none; 
+}
+
+#ll1{
     font-family: 'Armata', serif;
     font-size: 40px;
     color: #ffffff;
@@ -27,20 +41,6 @@ label {
     text-align: left;
     display: block;
     margin-bottom: 5px;
-}
-
-html, body {
-    margin: 0;
-    overflow: hidden;
-}
-
-input[type=text] {
-    background-color: #908c8c;
-    padding: 10px;
-    width: 500px;
-    height: 25px;
-    align-self: flex-start;
-    border: none;
 }
 
 .column {
@@ -62,7 +62,7 @@ input[type=text] {
     overflow: hidden;
 }
 
-button {
+#lb1 {
     font-family: 'Armata', sans-serif;
     font-size: 25px;
     background-color: #5094cc;
@@ -74,13 +74,13 @@ button {
     margin-top: 10px;
 }
 
-p {
+#lp1 {
     font-family: 'Armata', sans-serif;
     font-size: 25px;
     color: #ffffff;
 }
 
-a {
+#la1 {
     color: #ffffff;
     font-weight: 600;
 }
