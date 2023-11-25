@@ -29,24 +29,22 @@ function Settings() {
     const [secondVisible, setSecondVisible] = useState(false);
     const [thirdVisible, setthirdVisible] = useState(false);
     const [current, setCurrent] = useState(1);
-    const [phEn, setPHEnable] = useState(false);
-    const [ecEn, setECEnable] = useState(false);
-    const [tempEn, setTempEnable] = useState(false);
-    const [feedEn, setFeedEnable] = useState(false);
-    const [ledEn, setLEDEnable] = useState(false);
+    const [phEn, setPHEnable] = useState(true);
+    const [ecEn, setECEnable] = useState(true);
+    const [tempEn, setTempEnable] = useState(true);
+    const [feedEn, setFeedEnable] = useState(true);
+    const [ledEn, setLEDEnable] = useState(true);
 
     const [error, setError] = useState('');
 
 
     useEffect(() => {
-        console.log("Component has mounted");
-        setValues();
+        setValues(); //initialize values from user doc on page load
     }, []);
 
     const handleInputChange = (e, type) => {
         setError('');
-
-        console.log(e);
+        //console.log(e);
         switch(type){
             case 'pHMin':
                 setpHMin(e.target.value);
@@ -116,8 +114,12 @@ function Settings() {
             case 'thirdMinute':
                 setthirdMinute(e.target.value);
                 break;
-                
-
+            default:
+        }
+    }
+    const handleCheckChange = (type) => {
+        setError('');
+        switch(type){
             case 'phEn':
                 setPHEnable(!phEn); //console.log("ph: ",phEn);
                 toggleRangeDisable(phEn, 'pHMin', 'pHMax')
@@ -142,7 +144,7 @@ function Settings() {
         }
     }
     function toggleRangeDisable(va, str1, str2){
-        if(va){
+        if(!va){
             document.getElementById(str1).disabled= true;
             document.getElementById(str2).disabled= true;
         }else{
@@ -151,7 +153,7 @@ function Settings() {
         }
     }
     function toggleLEDDisable(){
-        if(ledEn){
+        if(!ledEn){
             document.getElementById('LEDonHour').disabled=true;
             document.getElementById('LEDonMinute').disabled=true;
             document.getElementById('LEDoffHour').disabled=true;
@@ -204,9 +206,9 @@ function Settings() {
             phRange: [pHMin, pHMax],
             ecRange: [ecMin, ecMax],
             tempRange: [tempMin, tempMax],
-            phEnable: phEn,
-            ecEnable: ecEn,
-            tempEnable: tempEn                    
+            phEnable: !phEn,
+            ecEnable: !ecEn,
+            tempEnable: !tempEn                    
         };
         sendRequest(url, data);    
     }
@@ -214,7 +216,7 @@ function Settings() {
     function updateFeed(){
         var url = 'http://localhost:8000/users/'+sessionId+'/feed';
         var data = {
-            feedEnable: feedEn,
+            feedEnable: !feedEn,
             feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]]                      
         };
         sendRequest(url, data);
@@ -222,7 +224,7 @@ function Settings() {
     function updateLED(){
         var url = 'http://localhost:8000/users/'+sessionId+'/led';
         var data = {
-            ledEnable: ledEn,
+            ledEnable: !ledEn,
             ledTimer: [[LEDoffHour,LEDoffMinute],[LEDonHour,LEDonMinute]]                    
         };
         sendRequest(url, data);
@@ -236,7 +238,6 @@ function Settings() {
     }
 
     function sendRequest(url, data){
-        console.log('it reaches here');
         var headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -288,8 +289,8 @@ function Settings() {
 
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][0]==null))){setLEDoffHour(data.ledTimer[0][0]);}
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][1]==null))){setLEDoffMinute(data.ledTimer[0][1]);}
-                if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][0]==null))){setLEDoffHour(data.ledTimer[1][0]);}
-                if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][1]==null))){setLEDoffMinute(data.ledTimer[1][1]);}
+                if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][0]==null))){setLEDonHour(data.ledTimer[1][0]);}
+                if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][1]==null))){setLEDonMinute(data.ledTimer[1][1]);}
   
                 if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][0]==null))){setfirstHour(data.feedTimer[0][0]);}
                 if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][1]==null))){setfirstMinute(data.feedTimer[0][1]);}
@@ -299,13 +300,13 @@ function Settings() {
                 if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][1]==null))){setthirdMinute(data.feedTimer[2][1]);}
 
                 //toggle booleans --> issues getting toggle to reflect user boolean values
-                /*
-                if(data.phEnable==true){document.getElementById('cs1').dispatchEvent(new Event('onChange'));console.log(phEn);}
-                if(data.ecEnable==true){}
-                if(data.tempEnable==true){}
-                if(data.feedEnable==true){}
-                if(data.ledEnable==true){}
-                */
+                
+                if(data.phEnable===true){document.getElementById('cs1').click();}
+                if(data.ecEnable===true){document.getElementById('cs2').click();}
+                if(data.tempEnable===true){document.getElementById('cs3').click();}
+                if(data.feedEnable===true){document.getElementById('cs4').click();}
+                if(data.ledEnable===true){document.getElementById('cs5').click();}
+                
             })
             .catch((err) => {
                 setError(err);
@@ -345,11 +346,11 @@ function Settings() {
                         disabled
                     ></input>
                     <label class='switch' id='pHswitch'>
-                        <input type='checkbox' id='cs1' value={phEn} onChange={(e)=>handleInputChange(e,"phEn")}></input>
+                        <input type='checkbox' id='cs1' value={phEn} onChange={()=>handleCheckChange("phEn")}></input>
                         <span class='slider round'></span>
                     </label>
                     </p><br></br>
-                    <p id='ECTitle'>Electrical Conductivity 
+                    <p id='ECTitle'>Conductivity 
                     <input
                         type='text'
                         id='ecMin'
@@ -367,7 +368,7 @@ function Settings() {
                         disabled
                     ></input>
                     <label class='switch' id='ecswitch'>
-                        <input type='checkbox' id='cs2' value={ecEn} onChange={(e)=>handleInputChange(e,"ecEn")}></input>
+                        <input type='checkbox' id='cs2' value={ecEn} onChange={()=>handleCheckChange("ecEn")}></input>
                         <span class='slider round'></span>
                     </label>
                     </p><br></br>
@@ -389,7 +390,7 @@ function Settings() {
                         disabled
                     ></input>
                     <label class='switch' id='tempswitch'>
-                        <input type='checkbox' id='cs3' value={tempEn} onChange={(e)=>handleInputChange(e,"tempEn")}></input>
+                        <input type='checkbox' id='cs3' value={tempEn} onChange={()=>handleCheckChange("tempEn")}></input>
                         <span class='slider round'></span>
                     </label>
                     </p><br></br>
@@ -397,7 +398,7 @@ function Settings() {
 
                     <h2>Feed:</h2>
                     <label class='switch' id='Feedswitch'>
-                        <input type='checkbox' id='cs4' value={feedEn} onChange={(e)=>handleInputChange(e,"feedEn")}></input>
+                        <input type='checkbox' id='cs4' value={feedEn} onChange={()=>handleCheckChange("feedEn")}></input>
                         <span class='slider round'></span>
                     </label><br></br>
                     <p id='first' class={firstVisible ? 'firstshow' : 'firsthide'}>#1 
@@ -457,7 +458,7 @@ function Settings() {
                     <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                     <h2>LED:</h2>
                     <label class='switch' id='LEDswitch'>
-                        <input type='checkbox' id='cs5' value={ledEn} onChange={(e)=>handleInputChange(e,"ledEn")}></input>
+                        <input type='checkbox' id='cs5' value={ledEn} onChange={()=>handleCheckChange("ledEn")}></input>
                         <span class='slider round'></span>
                     </label><br></br>
                     <p id='LEDOn'>ON 
