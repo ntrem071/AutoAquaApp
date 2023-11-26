@@ -28,7 +28,8 @@
 }
 
 .nav button:hover{
-    background-color: #3e5f97;
+    background-color: #355285;
+    color: black
 }
 
 .nav button:not(:last-child){
@@ -88,4 +89,21 @@
     padding: 0;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.outerbox {
+    background-color: #d9d9d9;
+    padding: 30px;
+    width: 50%;
+    margin: auto;
+}
+
+#wrapper {
+    margin-left:auto;
+    margin-right:auto;
+    width:960px;
+}
+
+.Homepage {
+    background-color: #403c3c;
 }

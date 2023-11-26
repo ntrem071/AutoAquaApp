@@ -1,21 +1,56 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { Line } from "react-chartjs-2";
+import { DatapH } from "../utils/DatapH";
+import { CategoryScale } from "chart.js";
+import Chart from "chart.js/auto";
 import './Homepage.css';
 
 function Homepage() {
     const navigate = useNavigate();
     const sessionId= Cookies.get('sessionId');
+    
+    const options = {
+        plugins: {
+            legend: {
+                display: false
+            },
+        },
+        scales: {
+          y:
+            {
+              afterDataLimits: (scale) => {
+                    scale.max = 8;
+                    scale.min = 6;},
+              stepSize: 1,
+            }
+        },
+    };
+
+    const [pHData, setChartData] = useState({
+        labels: DatapH.map((data) => data.time),
+        datasets: [
+          {
+            label: "pH",
+            data: DatapH.map((data) => data.values),
+            backgroundColor: "rgba(0,0,255,1.0)",
+            borderColor: "rgba(0,0,255,0.1)",
+          }
+        ]
+    });
 
     function nav(str){
         document.cookie = `sessionId=${sessionId}`
         navigate(str)
     }
+    //6 to 8
+
     
     return(
-        <body>
-            <h1>WARNING</h1>
-            <h3>
+
+        <div className='Homepage'>
+            <body>
                 <div className='nav'>
                     <button id='navhome' variant='contained' onClick={() => nav('/Home')}>&nbsp;</button>
                     <button id='navuser' variant='contained' onClick={() => nav('/User-Info')}>&nbsp;</button>
@@ -23,19 +58,26 @@ function Homepage() {
                     <button id='navinfo' variant='contained' onClick={() => nav('/Information')}>&nbsp;</button>
                     <button id='navsettings' variant='contained' onClick={() => nav('/Settings')}>&nbsp;</button>
                 </div>
-                <div>
-                    <p id='wltitle'>Water Level</p><p id='water_level'>25</p>
-                    <br></br>
-                    <p id='phtitle'>pH Level</p><p id='pH_level'>7</p>
-                    <br></br>
-                    <p id='ectitle'>Electrical Condutivity</p><p id='electric_conduct'>100</p>
-                    <br></br>
-                    <p id='ttitle'>Temperature</p><p id='temperature'>20</p>
+                <div className='outerbox'>
+                    <h1>WARNING</h1>
+                    <div>
+                        <h3 id='wltitle'>Water Level</h3>
+                        <br></br>
+                        <div>
+                            <h3 id='phtitle'>pH Level</h3>
+                            <div>
+                                <Line data={pHData} options={options}/>
+                            </div>
+                        </div>
+                        <br></br>
+                        <h3 id='ectitle'>Electrical Condutivity</h3>
+                        <br></br>
+                        <h3 id='ttitle'>Temperature</h3>
+                    </div>
                 </div>
-            </h3>
-            
+            </body>            
+        </div>
 
-        </body>
     );
 }
 
