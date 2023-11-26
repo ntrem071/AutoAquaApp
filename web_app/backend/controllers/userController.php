@@ -151,7 +151,7 @@ class UserController {
                     if(isset($this->data->feedTimer)){$this->users->setFEEDTimer($id, $this->data->feedTimer);} 
                     $this->response['status_code_header'] = 'HTTP/1.1 200 OK';       
                 }
-                elseif($this->sel2=="enable"){
+                elseif($this->sel2=="led"){
                     if(isset($this->data->ledEnable)){$this->users->setLEDEnable($id,$this->data->ledEnable);}
                     if(isset($this->data->ledTimer)){$this->users->setLEDTimer($id, $this->data->ledTimer);}
                     $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
