@@ -18,7 +18,7 @@ function Fish() {
                     <button id='navhome' variant='contained' title='Home' onClick={() => nav('/Home')}>&nbsp;</button>
                     <button id='navuser' variant='contained' title='User Info' onClick={() => nav('/User-Info')}>&nbsp;</button>
                     <button id='navfish' variant='contained' title='Fish Health' onClick={() => nav('/Fish')}>&nbsp;</button>
-                    <button id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => nav('/Information')}>&nbsp;</button>
+                    <button id='navinfo' style={{backgroundColor: "#08398d"}} variant='contained' title='Fish and Plant Search' onClick={() => nav('/Information')}>&nbsp;</button>
                     <button id='navsettings' variant='contained' title='Settings' onClick={() => nav('/Settings')}>&nbsp;</button>
                 </div>
                 <div>

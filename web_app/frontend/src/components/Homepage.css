@@ -1,23 +1,12 @@
 .nav{
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-    height: 100%;
-    width: 200px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
+    overflow: hidden;
     background-color: #0844ac;
-    overflow-x: hidden;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-content: center; */
+    padding: 90px 10px;
+    transition: 0.4s;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 99;
 }
 
 .nav button{
@@ -25,11 +14,6 @@
     float: inline-end;
     padding: 0;
     cursor: pointer;
-}
-
-.nav button:hover{
-    background-color: #355285;
-    color: black
 }
 
 .nav button:not(:last-child){
@@ -46,19 +30,37 @@
     background-repeat: no-repeat;
 }
 
+#navhome:hover{
+    background-color: #08398d;
+    transition: 0.4s;
+}
+#navhome:focus{
+    background-color: #08398d;
+    transition: 0.4s;
+}
+#navhome:active{
+    background-color: #08398d;
+    transition: 0.4s;
+}
+
 #navhometext {
     opacity: 0;
-    transition: all 0.5s;
+    transition: 0.4s;
 }
 
 #navuser {
+    background-color: #073e9e;
     background-image: url(../pictures/user.png);
-    background-color: transparent;
     width: 150%;
     height: 150px;
     padding: 0;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+#navuser:hover{
+    background-color: #08398d;
+    transition: 0.4s;
 }
 
 #navfish {
@@ -71,6 +73,11 @@
     background-repeat: no-repeat;
 }
 
+#navfish:hover{
+    background-color: #08398d;
+    transition: 0.4s;
+}
+
 #navinfo {
     background-image: url(../pictures/info.png);
     background-color: transparent;
@@ -79,6 +86,11 @@
     padding: 0;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+#navinfo:hover{
+    background-color: #08398d;
+    transition: 0.4s;
 }
 
 #navsettings {
@@ -91,11 +103,24 @@
     background-repeat: no-repeat;
 }
 
+#navsettings:hover{
+    background-color: #08398d;
+    transition: 0.4s;
+}
+
+#nav-button{
+    display: none;
+}
+
 .outerbox {
-    background-color: #d9d9d9;
+    background-color: #d9d9d900;
     padding: 30px;
     width: 50%;
     margin: auto;
+}
+
+.graph{
+    overflow: hidden;
 }
 
 #wrapper {
@@ -106,4 +131,40 @@
 
 .Homepage {
     background-color: #403c3c;
+}
+
+#nav-small-bar{
+    display:none
+}
+
+@media screen and (max-width: 920px) {
+    .nav {
+        flex-direction: column;
+        display: none;
+    }
+
+    #nav-small-bar{
+        display: flex;
+        width: 150%;
+        height: 100px;
+        overflow: hidden;
+        background-color: #0844ac;
+        margin-bottom: 30px;
+    }
+
+    #nav-button{
+        display:flex;
+        overflow: hidden;
+        background-image: url(../pictures/nav-button-icon.png);
+        background-color: transparent;
+        width: 200%;
+        height: 150px;
+        padding: 0;
+        background-position: left;
+        background-repeat: no-repeat;
+    }
+
+    #nav-button:focus{
+        display:flex
+    }
 }

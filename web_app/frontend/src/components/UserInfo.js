@@ -17,7 +17,7 @@ function UserInfo() {
             <h3>
                 <div className='nav'>
                     <button id='navhome' variant='contained' onClick={() => nav('/Home')}>&nbsp;</button>
-                    <button id='navuser' variant='contained' onClick={() => nav('/User-Info')}>&nbsp;</button>
+                    <button id='navuser' style={{backgroundColor: "#08398d"}} variant='contained' onClick={() => nav('/User-Info')}>&nbsp;</button>
                     <button id='navfish' variant='contained' onClick={() => nav('/Fish')}>&nbsp;</button>
                     <button id='navinfo' variant='contained' onClick={() => nav('/Information')}>&nbsp;</button>
                     <button id='navsettings' variant='contained' onClick={() => nav('/Settings')}>&nbsp;</button>
