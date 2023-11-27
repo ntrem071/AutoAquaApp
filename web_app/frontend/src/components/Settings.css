@@ -138,9 +138,9 @@
     top: -38px;
     left: 60px;
  }
- #tempswitch{
-    left: 110px;
- }
+ #tempswitch{left: 110px;}
+ #feedswitch{left: 90px; top:-41px;}
+ #ledSwitch{left: 90px; top:-41px;}
 
  .switch input {
     opacity: 0;
@@ -217,6 +217,8 @@ label {
     padding-bottom: 15px;
     padding-top: 1px;
     position:relative;   
+    border-style: inset;
+    border-width: 2px;
 }
 .wrap-ec{padding-top:25px;}
 .wrap-temp{padding-top:25px;}
@@ -224,12 +226,30 @@ label {
 
 .wrap-timers{
     background: #babfc4;
-    top: 5px;
+    top: 10px;
     padding-left: 80px;
     padding-right: 80px; 
     padding-bottom: 15px;
     padding-top: 1px;
     position:relative;   
+    border-style: inset;
+    border-width: 2px;
+}
+.wrap-timezone{
+    padding-bottom: 30px;
+}
+.wrap-feed{
+    padding-bottom: 30px;
+    border-style: inset;
+    background: #b6bcc0;
+    border-width: 0.25px;
+}
+.wrap-led{
+    padding-bottom: 30px;
+    padding-top: 1px;
+    border-style: inset;
+    background: #b6bcc0;
+    border-width: 0.25px;
 }
 
 /*tick markings PH*/

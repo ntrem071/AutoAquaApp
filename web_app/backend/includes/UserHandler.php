@@ -5,6 +5,8 @@
     define('DEFAULT_PH', [6.0, 7.0]);
     define('DEFAULT_EC', [1.5, 2.5]);
     define('DEFAULT_TEMP', [22.0, 25.0]);
+    define('DEFAULT_LED', [['00', '00'],['00','00']]);
+    define('DEFAULT_FEED', [['00', '00'],['00','00'],['00','00']]);
 
 
 //Add/Modify User obj in User collection
@@ -27,7 +29,7 @@
             if(is_null($this->tbl->findOne(['email'=>$email]))){
                 
                 $this->tbl->insertOne(['name'=> $name,'email'=> $email, 'password'=> $password, 
-                    'ledTimer'=> [], 'feedTimer'=> [], 'phRange'=> DEFAULT_PH, 'ecRange'=> DEFAULT_EC,'tempRange'=> DEFAULT_TEMP, 
+                    'ledTimer'=> DEFAULT_LED, 'feedTimer'=> DEFAULT_FEED, 'phRange'=> DEFAULT_PH, 'ecRange'=> DEFAULT_EC,'tempRange'=> DEFAULT_TEMP, 
                         'phEnable'=> false,  'ecEnable'=> false,  'tempEnable'=> false, 'feedEnable'=>false, 'ledEnable'=>false,
                             'phGraph'=> [], 'ecGraph'=> [],'tempGraph'=> [], 'waterGraph'=> [], 'timezone'=>'UTC', 'plants'=>null, 'fish'=> null]);
                 return true;
@@ -148,6 +150,9 @@
         public function setTimezone($id, $str){
             $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['timezone'=>$str]]);
        }
+    public function  getTimezoneList(){
+        return DateTimeZone::listIdentifiers();
+    }
 
        //Update users saved plant docs using array of names as input
        public function setPlants($id, $arr){

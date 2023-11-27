@@ -162,6 +162,10 @@
             $test->getSession()->deleteAccount($id);
             $test->printUserDoc($id);
 
+            $list= $test->getSession()->getTimezoneList();
+            echo "Timezone List: ", json_encode($list),"\n\n";
+            echo "Timezone List: ", $list[0],"\n\n";
+
         }else{
             echo "Valid Session ID Required For Error Testing\n\n";
         }
