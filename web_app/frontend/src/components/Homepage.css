@@ -112,15 +112,12 @@
     display: none;
 }
 
-.outerbox {
-    background-color: #d9d9d900;
+.outerbox-hp {
+    background-color: #d9d9d9;
     padding: 30px;
     width: 50%;
     margin: auto;
-}
-
-.graph{
-    overflow: hidden;
+    display: absolute;
 }
 
 #wrapper {
@@ -131,6 +128,31 @@
 
 .Homepage {
     background-color: #403c3c;
+}
+
+.page{
+    overflow-y: scroll;
+    height: 920px;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #a5a5a5;
+    border-radius: 30px; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #8d8d8d; 
 }
 
 #nav-small-bar{

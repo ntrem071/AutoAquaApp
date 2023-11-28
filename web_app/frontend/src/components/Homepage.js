@@ -21,7 +21,7 @@ function Homepage() {
             },
             responsive: false
         },
-        responsive: false,
+        // responsive: false,
         scales: {
           y:
             {
@@ -152,35 +152,21 @@ function Homepage() {
                     <button id='navinfo' variant='contained' onClick={() => nav('/Information')}>&nbsp;</button>
                     <button id='navsettings' variant='contained' onClick={() => nav('/Settings')}>&nbsp;</button>
                 </div>
-                <div className='outerbox'>
-                    <h1>WARNING</h1>
-                    <div>
+                <div className='page'>
+                    <div className='outerbox-hp'>
+                        <h1>WARNING</h1>
                         <h3 id='wltitle'>Water Level</h3>
-                        <div className='graph'>
-                            <Line data={waterLevlData} options={optionsWaterLevel}/>
-                        </div>
-                        <br></br>
-                        <div>
-                            <h3 id='phtitle'>pH Level</h3>
-                            <div>
-                                <Line data={pHData} options={optionspH}/>
-                            </div>
-                        </div>
-                        <br></br>
+                        <Line data={waterLevlData} options={optionsWaterLevel}/>
+                        <h3 id='phtitle'>pH Level</h3>
+                        <Line data={pHData} options={optionspH}/>
                         <h3 id='ectitle'>Electrical Condutivity</h3>
-                        <div>
-                            <Line data={ecData} options={optionsEC}/>
-                        </div>
-                        <br></br>
+                        <Line data={ecData} options={optionsEC}/>
                         <h3 id='ttitle'>Temperature</h3>
-                        <div>
-                            <Line data={tempData} options={optionsTemp}/>
-                        </div>
-                    </div>
+                        <Line data={tempData} options={optionsTemp}/>
+                    </div>    
                 </div>
             </body>            
         </div>
-
     );
 }
 

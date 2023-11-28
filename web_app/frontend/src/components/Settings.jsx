@@ -422,10 +422,6 @@ function Settings() {
 
                 if((!(data.timezone==null))){setTimezone(data.timezone);}
 
-                if(data.phEnable==true){
-                    document.getElementById('cs1').click();
-                    console.log(phEn);
-                }
                 //toggle booleans --> issues getting toggle to reflect user boolean values
                 
                 if(data.phEnable===true){document.getElementById('cs1').click();}
