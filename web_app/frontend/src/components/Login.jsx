@@ -75,52 +75,111 @@ function Login() {
     }
 
     return(
-            <div className='row'>
-                <div className='column'>
-                    <h1 id='lh1'>Automated Aquaponics</h1>
-                    <h2 id='lh2'>Login</h2>
-                    <div className='Login'>
-                        <form id='login'>
-                            <label id='ll1' for='inputBox'>Email: </label><br></br>
-                            <input
-                                type='text'
-                                id='lt1'
-                                placeholder='Email'
-                                value={email.toString()}
-                                onChange={(e) => valuesIn(e, 'email')}
-                            /><br/>
-                            <label id='ll1' for='inputBox'>Password: </label><br></br>
-                            <input
-                                type='text'
-                                id='lt1'
-                                placeholder='Password'
-                                value={password.toString()}
-                                onChange={(e) => valuesIn(e, 'password')}
-                            /><br/>
-                        </form>
+            // <div className='row'>
+            //     <div className='column' id='column'>
+            //         <h1 id='lh1'>Automated Aquaponics</h1>
+            //         <h2 id='lh2'>Login</h2>
+            //         <div className='Login'>
+            //             <form id='login'>
+            //                 <label id='ll1' for='inputBox'>Email: </label><br></br>
+            //                 <input
+            //                     type='text'
+            //                     id='lt1'
+            //                     placeholder='Email'
+            //                     value={email.toString()}
+            //                     onChange={(e) => valuesIn(e, 'email')}
+            //                 /><br/>
+            //                 <label id='ll1' for='inputBox'>Password: </label><br></br>
+            //                 <input
+            //                     type='text'
+            //                     id='lt1'
+            //                     placeholder='Password'
+            //                     value={password.toString()}
+            //                     onChange={(e) => valuesIn(e, 'password')}
+            //                 /><br/>
+            //             </form>
+            //         </div>
+            //         <button
+            //             type='button'
+            //             id = 'lb1'
+            //             className='button'
+            //             onClick={loginSubmit}
+            //         >Login
+            //         </button>
+            //         <br/>
+            //         <p id ='lp1'>
+            //             Don't have an account?&nbsp;&nbsp;
+            //             <a id = 'la1' href='/CreateAccount'>Create</a>
+            //         </p>
+            //     </div>
+            //     <div className='column' id='image'>
+            //         <img src={backgroundimg} className='login-img'></img>
+            //     </div>
+            // </div>
+
+        <div id='container'>
+            <div id='login-column'>
+                <h1 id='lh1'>Automated Aquaponics</h1>
+                <h2 id='lh2'>Login</h2>
+                <div id='Login'>
+                <form id='login'>
+                    <div id='em'>
+                        <label id='ll1' htmlFor='inputBox'>
+                            Email:{' '}
+                        </label>
+                        <br />
+                        <input
+                            type='text'
+                            id='lt1'
+                            placeholder='Email'
+                            value={email.toString()}
+                            onChange={(e) => valuesIn(e, 'email')}
+                        />
                     </div>
-                    <button
-                        type='button'
-                        id = 'lb1'
-                        className='button'
-                        onClick={loginSubmit}
-                    >Login
-                    </button>
-                    <br/>
-                    {/* <button 
-                        variant='contained' 
-                        onClick={() => navigate('CreateAccount')}
-                        >Don't have an account?
-                    </button> */}
-                    <p id ='lp1'>
-                        Don't have an account?&nbsp;&nbsp;
-                        <a id = 'la1' href='/CreateAccount'>Create</a>
-                    </p>
+                    <br />
+                    <div id='pw'>
+                        <label id='ll1' htmlFor='inputBox'>
+                            Password:{' '}
+                        </label>
+                        <br />
+                        <input
+                            type='text'
+                            id='lt1'
+                            placeholder='Password'
+                            value={password.toString()}
+                            onChange={(e) => valuesIn(e, 'password')}
+                        />
+                        <br />
+                    </div>
+                </form>
                 </div>
-                <div className='column' id='image'>
-                    <img src={backgroundimg} className='login-img'></img>
-                </div>
+                <button
+                    type='button'
+                    id='lb1'
+                    className='button'
+                    onClick={loginSubmit}
+                >
+                Login
+                </button>
+                <br />
+                <p id='lp1'>
+                    Don't have an account?&nbsp;&nbsp;
+                <a 
+                    id='la1' 
+                    href='/CreateAccount'
+                >
+                    Create
+                </a>
+                </p>
             </div>
+            <div id='image-column'>
+                <img 
+                    src={backgroundimg} 
+                    id='login-img' 
+                    alt='Background' 
+                />
+            </div>
+        </div>
         )
 }
 
