@@ -1,6 +1,4 @@
-/* #phTitle {
-    font-size: 200px;
-} */
+
 .firsthide {
     display: none;
 }
@@ -25,16 +23,9 @@
     display: block;
 }
 
-/* #second {
-    display: none;
-}
-
-#third {
-    display: none;
-} */
-
 #warning {
     display:none;
+    background-color: #2196F3;
 }
 
 .nav{
@@ -142,10 +133,14 @@
 
  .switch {
     position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 30px;
+    height: 15px;
+    top: -38px;
+    left: 60px;
  }
+ #tempswitch{left: 110px;}
+ #feedswitch{left: 90px; top:-41px;}
+ #ledSwitch{left: 90px; top:-41px;}
 
  .switch input {
     opacity: 0;
@@ -166,19 +161,19 @@
   }
 
 .slider.round {
-    border-radius: 34px;
+    border-radius: 15px;
 }
 
 .slider.round::before {
     content: '';
     position: absolute;
-    width: 26px;
-    height: 26px;
-    left: 4px;
-    bottom: 4px;
+    width: 15px;
+    height: 15px;
+    left: 0px;
+    bottom: 0px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: 0.4s;
+    -webkit-transition: .2s;
+    transition: 0.2s;
     border-radius: 50%;
 }
 
@@ -191,9 +186,9 @@ input:focus + .slider {
 }
   
 input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(15px);
+    -ms-transform: translateX(15px);
+    transform: translateX(15px);
 }
 
 label {
@@ -203,26 +198,161 @@ label {
 
 .outerbox {
     background-color: #d9d9d9;
-    padding: 30px;
-    width: 50%;
+    width: 700px;
+    padding: 20px 20px;
     margin: auto;
 }
 
-#rangeTitle {
-    color: #545454;
+#st1 {color: #545454;}
+#pHTitle {color: #3b3838;}
+#ECTitle {color: #3b3838;}
+#tempTitle {color: #3b3838;}
+
+
+/*wrappers*/
+.wrap-range{
+    background: #babfc4;
+    padding-left: 80px;
+    padding-right: 80px; 
+    padding-bottom: 15px;
+    padding-top: 1px;
+    position:relative;   
+    border-style: inset;
+    border-width: 2px;
+}
+.wrap-ec{padding-top:25px;}
+.wrap-temp{padding-top:25px;}
+.save-range{padding-top:50px;}
+
+.wrap-timers{
+    background: #babfc4;
+    top: 10px;
+    padding-left: 80px;
+    padding-right: 80px; 
+    padding-bottom: 15px;
+    padding-top: 1px;
+    position:relative;   
+    border-style: inset;
+    border-width: 2px;
+}
+.wrap-timezone{
+    padding-bottom: 30px;
+}
+.wrap-feed{
+    padding-bottom: 30px;
+    border-style: inset;
+    background: #b6bcc0;
+    border-width: 0.25px;
+}
+.wrap-led{
+    padding-bottom: 30px;
+    padding-top: 1px;
+    border-style: inset;
+    background: #b6bcc0;
+    border-width: 0.25px;
 }
 
-#pHTitle {
-    color: #545454;
+/*tick markings PH*/
+#tick-marks-ph {display:flex; justify-content:space-between; width:100%; border-radius:5px;}
+#tick-marks-ph p {position:relative; display:flex; justify-content:center; text-align:center; width:1px; top:6px; 
+    background:#5f5f5f; height:10px; line-height:40px; margin:0 7.5px 0 7.5px;}
+
+#tick-interval1-ph {display:flex; justify-content:space-evenly; width:48.5%; margin-left:8px;}
+#tick-interval1-ph p {position:relative; display:flex; width:1px; top:-20px; background:#5f5f5f; height:5px; line-height:10px;}
+
+#tick-interval2-ph {display:flex; justify-content:space-evenly; width:48.5%; margin-left:270px; margin-top:-37px;}
+#tick-interval2-ph p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
+
+/*tick markings EC*/
+#tick-marks-ec {display:flex; justify-content:space-between; width:100%; border-radius:5px;}
+#tick-marks-ec p {position:relative; display:flex; justify-content:center; text-align:center; width:1px; top:6px; 
+    background:#5f5f5f; height:10px; line-height:40px; margin:0 7.5px 0 7.5px;}
+
+#tick-interval1-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:8px;}
+#tick-interval1-ec p {position:relative; display:flex; width:1px; top:-20px; background:#5f5f5f; height:5px; line-height:10px;}
+
+#tick-interval2-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:113px; margin-top:-37px;}
+#tick-interval2-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
+
+#tick-interval3-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:217.5px; margin-top:-37px;}
+#tick-interval3-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
+
+#tick-interval4-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:322px; margin-top:-37px;}
+#tick-interval4-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
+
+#tick-interval5-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:427px; margin-top:-37px;}
+#tick-interval5-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
+
+/*tick markings EC*/
+#tick-marks-temp {display:flex; justify-content:space-between; width:100%; border-radius:5px;}
+#tick-marks-temp p {position:relative; display:flex; justify-content:center; text-align:center; width:1px; top:6px; 
+    background:#5f5f5f; height:10px; line-height:40px; margin:0 7.5px 0 7.5px;}
+
+/*Range Slider*/
+.range-slider{
+    height: 5px;
+    border-radius: 5px;
+    position: relative;
+    background: #ccc;
+}
+.range-slider .progress-ph{
+    height: 5px;
+    border-radius: 5px;
+    left: 25%;
+    right: 25%;
+    position: absolute;
+    background: #2196F3;
 }
 
-#ECTitle {
-    color: #545454;
+.range-slider .progress-ec{
+    height: 5px;
+    border-radius: 5px;
+    left: 40%;
+    right: 40%;
+    position: absolute;
+    background: #2196F3;
+}
+.range-slider .progress-temp{
+    height: 5px;
+    border-radius: 5px;
+    left: 20%;
+    right: 20%;
+    position: absolute;
+    background: #2196F3;
 }
 
-#tempTitle {
-    color: #545454;
+.range-input{
+    position: relative;
 }
+.range-input input{
+    position: absolute;
+    top: -4px;
+    left: -1.8px;
+    height: 10px;
+    width: 100%;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb{
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    background-color: #2196F3;
+}
+input[type="range"]::-moz-range-thumb{
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    pointer-events: auto;
+    -moz-appearance: none;
+    background-color: #2196F3;
+}
+
+
+
 
 @media screen and (max-width: 920px) {
     .nav {

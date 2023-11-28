@@ -16,12 +16,12 @@ function Settings() {
         tempRangeMax : 20.0
     }
 
-    const [pHMin, setpHMin] = useState('');
-    const [pHMax, setpHMax] = useState('');
-    const [ecMin, setecMin] = useState('');
-    const [ecMax, setecMax] = useState('');
-    const [tempMin, settempMin] = useState('');
-    const [tempMax, settempMax] = useState('');
+    const [pHMin, setpHMin] = useState('6.5');
+    const [pHMax, setpHMax] = useState('7.5');
+    const [ecMin, setecMin] = useState('2.0');
+    const [ecMax, setecMax] = useState('3.0');
+    const [tempMin, settempMin] = useState('22');
+    const [tempMax, settempMax] = useState('28');
     const [firsthour, setfirstHour] = useState('');
     const [secondhour, setsecondHour] = useState('');
     const [thirdhour, setthirdHour] = useState('');
@@ -30,74 +30,106 @@ function Settings() {
     const [thirdminute, setthirdMinute] = useState('');
     const [message, setMessage] = useState('');
     const [time, setTime] = useState('');
-    const [LEDonHour, setLEDonHour] = useState('');
-    const [LEDoffHour, setLEDoffHour] = useState('');
-    const [LEDonMinute, setLEDonMinute] = useState('');
-    const [LEDoffMinute, setLEDoffMinute] = useState('');
+    const [LEDonHour, setLEDonHour] = useState('00');
+    const [LEDoffHour, setLEDoffHour] = useState('00');
+    const [LEDonMinute, setLEDonMinute] = useState('00');
+    const [LEDoffMinute, setLEDoffMinute] = useState('00');
     const [firstVisible, setFirstVisible] = useState(false);
     const [secondVisible, setSecondVisible] = useState(false);
     const [thirdVisible, setthirdVisible] = useState(false);
     const [current, setCurrent] = useState(1);
-    const [phEn, setPHEnable] = useState(false);
-    const [ecEn, setECEnable] = useState(false);
-    const [tempEn, setTempEnable] = useState(false);
-    const [feedEn, setFeedEnable] = useState(false);
-    const [ledEn, setLEDEnable] = useState(false);
+    const [phEn, setPHEnable] = useState(true);
+    const [ecEn, setECEnable] = useState(true);
+    const [tempEn, setTempEnable] = useState(true);
+    const [feedEn, setFeedEnable] = useState(true);
+    const [ledEn, setLEDEnable] = useState(true);
+    const [timezone, setTimezone] = useState('UTC');
 
     const [error, setError] = useState('');
 
 
+    const progress1 = document.querySelector(".range-slider .progress-ph"), 
+            progress2 = document.querySelector(".range-slider .progress-ec"),
+                progress3 = document.querySelector(".range-slider .progress-temp");
+    let phGap= 0.4, ecGap=0.4, tempGap=3;
+
     useEffect(() => {
-        console.log("Component has mounted");
-        setValues();
-        
+        getTimezoneList();
+        setValues(); //initialize values from user doc on page load
     }, []);
 
     const handleInputChange = (e, type) => {
         setError('');
-
-        console.log(e);
+        console.log(e.target.className,e.target.value);
         switch(type){
-            case 'pHMin':
-                setpHMin(e.target.value);
-                if(e.target.value === '')
-                    setError('Minimum pH is missing');
-                if(!document.getElementById('pHErrorValue').hidden)
-                    document.getElementById('pHErrorValue').hidden = true;
-                break;
-            case 'pHMax':
-                setpHMax(e.target.value);
-                if(e.target.value === '') {
-                    setError('Maximum pH is missing');
-                } 
-                break;
-            case 'ecMin':
-                setecMin(e.target.value);
-                if(e.target.value === '') {
-                    setError('Minimum electrical conductivity is missing');
-                } 
+            case 'phRange':
+                //setpHMin(e.target.value);
+                if(e.target.className==="range-min" && !phEn){
+                    if((parseFloat(pHMax)-e.target.value)<phGap){
+                        setpHMin((parseFloat(pHMax)-phGap).toFixed(1)+"");
+                        progress1.style.left = (((parseFloat(pHMax)-phGap)-6)/2)*100 + '%';
+                    }else{
+                        setpHMin(e.target.value);
+                        progress1.style.left = ((e.target.value-6)/2)*100 + '%';
+                    }
+                }else if(e.target.className==="range-max"  && !phEn){
+                    if((e.target.value-pHMin)<phGap){
+                        setpHMax((parseFloat(pHMin)+phGap).toFixed(1)+"");
+                        progress1.style.right = (100-((((parseFloat(pHMin)+phGap)-6)/2)*100) )+ '%';
+                    }else{
+                        setpHMax(e.target.value);
+                        progress1.style.right = 100-((e.target.value-6)/2)*100 + '%';
+                    }
+                }else if(phEn){
+                   //console.log('PH Dosing System Disabled!');
+                    setError('PH Dosing System Disabled!');
+                }   
                 break;
                 
-            case 'ecMax':
-                setecMax(e.target.value);
-                if(e.target.value === '') {
-                    setError('Maximum electrical conductivity is missing');
-                } 
-                break; 
-            case 'tempMin':
-                settempMin(e.target.value,true);
-                if(e.target.value === '') {
-                    setError('Minimum temperature is missing');
+            case 'ecRange':
+                if(e.target.className==="range-min" && !ecEn){
+                    if((parseFloat(ecMax)-e.target.value)<ecGap){
+                        setecMin((parseFloat(ecMax)-ecGap).toFixed(1)+"");
+                        progress2.style.left = (((parseFloat(ecMax)-ecGap))/5)*100 + '%';
+                    }else{
+                        setecMin(e.target.value);
+                        progress2.style.left = ((e.target.value)/5)*100 + '%';
+                    }
+                }else if(e.target.className==="range-max"  && !ecEn){
+                    if((e.target.value-ecMin)<ecGap){
+                        setecMax((parseFloat(ecMin)+ecGap).toFixed(1)+"");
+                        progress2.style.right = (100-((((parseFloat(ecMin)+ecGap))/5)*100) )+ '%';
+                    }else{
+                        setecMax(e.target.value);
+                        progress2.style.right = 100-((e.target.value)/5)*100 + '%';
+                    }
+                }else if(ecEn){
+                    setError('EC Dosing System Disabled!');
                 }
                 break;
 
-            case 'tempMax':
-                settempMax(e.target.value);
-                if(e.target.value === '') {
-                    setError('Maximum temperature is missing');
-                }
-                break; 
-
+            case 'tempRange':
+                if(e.target.className==="range-min" && !tempEn){
+                    if((parseFloat(tempMax)-e.target.value)<tempGap){
+                        settempMin((parseFloat(tempMax)-tempGap).toFixed(1)+"");
+                        progress3.style.left = (((parseFloat(tempMax)-tempGap)-20)/10)*100 + '%';
+                    }else{
+                        settempMin(e.target.value);
+                        progress3.style.left = ((e.target.value-20)/10)*100 + '%';
+                    }
+                }else if(e.target.className==="range-max"  && !tempEn){
+                    if((e.target.value-tempMin)<tempGap){
+                        settempMax((parseFloat(tempMin)+tempGap).toFixed(1)+"");
+                        progress3.style.right = (100-((((parseFloat(tempMin)+tempGap)-20)/10)*100) )+ '%';
+                    }else{
+                        settempMax(e.target.value);
+                        progress3.style.right = 100-((e.target.value-20)/10)*100 + '%';
+                    }
+                }else if(tempEn){
+                    setError('Temperature Regulation System Disabled!');
+                }  
+                break;
+           
             case 'LEDonHour':
                 setLEDonHour(e.target.value);
                 break;
@@ -129,75 +161,87 @@ function Settings() {
             case 'thirdMinute':
                 setthirdMinute(e.target.value);
                 break;
-                
 
+            case 'timezone':
+                setTimezone(e.target.value);
+                break;
+
+            default:
+        }
+        if(error!=''){
+            console.log(error);
+            //document.querySelector("#warning").style.display;
+        }
+        
+
+    }
+    const handleCheckChange = (type) => {
+        setError('');
+        switch(type){
             case 'phEn':
-                setPHEnable(!phEn); //console.log("ph: ",phEn);
-                toggleRangeDisable(phEn, 'pHMin', 'pHMax')
+                setPHEnable(!phEn); 
+                //toggleRangeDisable(phEn, 'ph')
                 break;
             case 'ecEn':
-                setECEnable(!ecEn); //console.log("ec: ",ecEn); 
-                toggleRangeDisable(ecEn, 'ecMin', 'ecMax')
+                setECEnable(!ecEn);  
+                //toggleRangeDisable(ecEn, 'ecMin', 'ecMax')
                 break;
             case 'tempEn':
-                setTempEnable(!tempEn);//console.log("temp: ",tempEn);
-                toggleRangeDisable(tempEn, 'tempMin', 'tempMax')
+                setTempEnable(!tempEn);
+                //toggleRangeDisable(tempEn, 'tempMin', 'tempMax')
                 break;
             case 'feedEn':
-                setFeedEnable(!feedEn); //console.log("feed: ",feedEn);
+                setFeedEnable(!feedEn); 
+                toggleFEEDDisable()
                 break;
             case 'ledEn':
-                setLEDEnable(!ledEn); //console.log("led: ",ledEn); 
+                setLEDEnable(!ledEn); 
                 toggleLEDDisable();
                 break;
 
             default:
         }
     }
-    function toggleRangeDisable(va, str1, str2){
-        if(va){
-            document.getElementById(str1).disabled= true;
-            document.getElementById(str2).disabled= true;
+    function toggleRangeDisable(va, str1){
+        if(!va){
+            document.querySelector(".range-slider .progress-"+str1).style.background = '#5f5f5f'; 
+            //document.querySelector('.range-slider').style.setProperty(--SlideColor, '#5f5f5f'); //MAKE CIRCLES GREY?  
         }else{
-            document.getElementById(str1).disabled= false;
-            document.getElementById(str2).disabled= false;
+            document.querySelector(".range-slider .progress-"+str1).style.background = '#2196F3';
+           // document.querySelector('input[type="range"]::-webkit-slider-thumb').style.background = '#2196F3';  
         }
     }
     function toggleLEDDisable(){
-        if(ledEn){
+        if(!ledEn){
             document.getElementById('LEDonHour').disabled=true;
             document.getElementById('LEDonMinute').disabled=true;
             document.getElementById('LEDoffHour').disabled=true;
             document.getElementById('LEDoffMinute').disabled=true;
-            document.getElementById('LEDswitch').disabled=true;
-
-            document.getElementById('ledHoursON').disabled=true;
-            document.getElementById('ledMinutesON').disabled=true;
-            document.getElementById('ledHoursOFF').disabled=true;
-            document.getElementById('ledMinutesOFF').disabled=true;
-
         }else{
             document.getElementById('LEDonHour').disabled=false;
             document.getElementById('LEDonMinute').disabled=false;
             document.getElementById('LEDoffHour').disabled=false;
             document.getElementById('LEDoffMinute').disabled=false;
-            document.getElementById('LEDswitch').disabled=false;
-
-            document.getElementById('ledHoursON').disabled=false;
-            document.getElementById('ledMinutesON').disabled=false;
-            document.getElementById('ledHoursOFF').disabled=false;
-            document.getElementById('ledMinutesOFF').disabled=false;
         }
     }
-    function toggleTime(){
-        var btn = document.getElementById('addtime');
-        var toggle = document.getElementById('Feedswitch');
-
-        if (btn && toggle) {
-            btn.disabled = toggle.querySelector('input[type=checkbox]:checked')
+    function toggleFEEDDisable(){
+        if(!feedEn){
+            document.getElementById('firsthour').disabled=true;
+            document.getElementById('firstminute').disabled=true;
+            document.getElementById('secondhour').disabled=true;
+            document.getElementById('secondminute').disabled=true;
+            document.getElementById('thirdhour').disabled=true;
+            document.getElementById('thirdminute').disabled=true;
+        }else{
+            document.getElementById('firsthour').disabled=false;
+            document.getElementById('firstminute').disabled=false;
+            document.getElementById('secondhour').disabled=false;
+            document.getElementById('secondminute').disabled=false;
+            document.getElementById('thirdhour').disabled=false;
+            document.getElementById('thirdminute').disabled=false;
         }
     }
-
+    
     function ToggleTextAddTime(){
         var first = document.getElementById('first');
         var second = document.getElementById('second');
@@ -222,126 +266,58 @@ function Settings() {
         current = (current % 3) + 1
     }
 
-    function rangeValueError(m = " "){
-        this.message = m;
+    function getTimezoneList(){
+        var url = 'http://localhost:8000/users/'+sessionId+'/timezone-list';
+        var headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        };
+        fetch(url, {
+            method: 'GET',
+            headers: headers,
+        })
+        .then((response) => {
+            if(response.error) {
+                setError(response.error);
+                console.log('Error: ', response.error)
+            } else {
+                return response.json()
 
-    }
+            }
+        }).then(data => {
+            var select = document.getElementById("timezone-list");
 
-    rangeValueError.prototype = new Error();
+            for(var i = 0; i < data.length-1; i++) {
+                var opt = data[i];
+                var el = document.createElement("option");
+                el.textContent = opt;
+                el.value = opt;
+                select.appendChild(el);
+            }
 
-    function pHVerification(v, minT){ //minT = true if it's the minimum range value
-        
-        var pH = parseFloat(v);
-        if(ranges.pHRangeMin > pH || pH > ranges.pHRangeMax){
-            var e = new rangeValueError("invalid pH value");
-            e.pHErr = true;
-            throw e; 
-        }
-        if(minT){
-            if(pH > pHMax){
-                var e = new rangeValueError("invalid minimun pH range value");
-                e.pHErr = true;
-                throw e; 
-            }
-        }else{
-            if(pH < pHMin){
-                var e = new rangeValueError("invalid maximum pH range value");
-                e.pHErr = true;
-                throw e; 
-            }
-        }
-    }
-    function ecVerification(v,minT){
-        
-        var ec = parseFloat(v);
-        if(ranges.ecRangeMin > ec || ec > ranges.ecRangeMax){
-            var e = new rangeValueError("invalid electrical conductivity value");
-            e.ecErr = true;
-            throw e; 
-        }
-        if(minT){
-            if(ec > ecMax){
-                var e = new rangeValueError("invalid minimun electrical conductivity range value");
-                e.ecErr = true;
-                throw e; 
-            }
-        }else{
-            if(ec < ecMin){
-                var e = new rangeValueError("invalid maximum electrical conductivity range value");
-                e.ecErr = true;
-                throw e; 
-            }
-        }
-    }
-
-    function tempVerification(v,minT){
-        
-        var temp = parseFloat(v);
-        if(ranges.tempRangeMin > temp || temp > ranges.tempRangeMax){
-            var e = new rangeValueError("invalid temperature value");
-            e.tempErr = true;
-            throw e; 
-        }
-        if(minT){
-            if(temp > tempMax){
-                var e = new rangeValueError("invalid minimun temperature range value");
-                e.tempErr = true;
-                throw e; 
-            }
-        }else{
-            if(temp < tempMin){
-                var e = new rangeValueError("invalid maximum temperature range value");
-                e.tempErr = true;
-                throw e; 
-            }
-        }
-
+        }).catch((err) => {
+            setError(err);
+            console.log(err);
+        });
     }
 
     function updateRanges(){
-
-        try{
-            pHVerification(pHMin,true);
-            pHVerification(pHMax,false);
-            if(!document.getElementById('pHErrorValue').hidden)
-                document.getElementById('pHErrorValue').hidden = true;
-            ecVerification(ecMin,true);
-            ecVerification(ecMax,false);
-            if(!document.getElementById('ecErrorValue').hidden)
-                document.getElementById('ecErrorValue').hidden = true;
-            tempVerification(tempMin,true);
-            tempVerification(tempMax,false);
-            if(!document.getElementById('tempErrorValue').hidden)
-                document.getElementById('tempErrorValue').hidden = true;
-
-            var url = 'http://localhost:8000/users/'+sessionId+'/ranges';
-            var data = {
-            phRange: [pHMin, pHMax],
-            ecRange: [ecMin, ecMax],
-            tempRange: [tempMin, tempMax],
-            phEnable: phEn,
-            ecEnable: ecEn,
-            tempEnable: tempEn                    
-            };
-            sendRequest(url, data);  
-            return;
-
-        }catch(err){
-            console.log(err);
-            if(err.pHErr)
-                document.getElementById('pHErrorValue').hidden = false;
-            if(err.ecErr)
-                document.getElementById('ecErrorValue').hidden = false;
-            if(err.tempErr)
-                document.getElementById('tempErrorValue').hidden = false;
-            return; 
-        }
+        var url = 'http://localhost:8000/users/'+sessionId+'/ranges';
+        var data = {
+            phRange: [parseFloat(pHMin), parseFloat(pHMax)],
+            ecRange: [parseFloat(ecMin), parseFloat(ecMax)],
+            tempRange: [parseFloat(tempMin), parseFloat(tempMax)],
+            phEnable: !phEn,
+            ecEnable: !ecEn,
+            tempEnable: !tempEn                    
+        };
+        sendRequest(url, data);    
     }
 
     function updateFeed(){
         var url = 'http://localhost:8000/users/'+sessionId+'/feed';
         var data = {
-            feedEnable: feedEn,
+            feedEnable: !feedEn,
             feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]]                      
         };
         sendRequest(url, data);
@@ -349,7 +325,7 @@ function Settings() {
     function updateLED(){
         var url = 'http://localhost:8000/users/'+sessionId+'/led';
         var data = {
-            ledEnable: ledEn,
+            ledEnable: !ledEn,
             ledTimer: [[LEDoffHour,LEDoffMinute],[LEDonHour,LEDonMinute]]                    
         };
         sendRequest(url, data);
@@ -357,13 +333,12 @@ function Settings() {
     function updateTimezone(){
         var url = 'http://localhost:8000/users/'+sessionId+'/timezone';
         var data = {
-            timezone: 'UTC'           
+            timezone: timezone           
         };
         sendRequest(url, data);
     }
 
     function sendRequest(url, data){
-        console.log('it reaches here');
         var headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -406,19 +381,36 @@ function Settings() {
                 }
             })
             .then(data => {
-
-                if((!(data.phRange[0]==null))){setpHMin(data.phRange[0]);}
-                if((!(data.phRange[1]==null))){setpHMax(data.phRange[1]);}
-                if((!(data.ecRange[0]==null))){setecMin(data.ecRange[0]);}
-                if((!(data.ecRange[1]==null))){setecMax(data.ecRange[1]);}
-                if((!(data.tempRange[0]==null))){settempMin(data.tempRange[0])}
-                if((!(data.tempRange[1]==null))){settempMax(data.tempRange[1]);}
+                if((!(data.phRange[0]==null))){
+                    setpHMin(data.phRange[0]);
+                    document.querySelector(".range-slider .progress-ph").style.left = ((data.phRange[0]-6)/2)*100+'%';         
+                }
+                if((!(data.phRange[1]==null))){
+                    setpHMax(data.phRange[1]);
+                    document.querySelector(".range-slider .progress-ph").style.right = 100-((data.phRange[1]-6)/2)*100 + '%';
+                }
+                if((!(data.ecRange[0]==null))){
+                    setecMin(data.ecRange[0]);
+                    document.querySelector(".range-slider .progress-ec").style.left = ((data.ecRange[0])/5)*100+'%';
+                }
+                if((!(data.ecRange[1]==null))){
+                    setecMax(data.ecRange[1]);
+                    document.querySelector(".range-slider .progress-ec").style.right = 100-((data.ecRange[1])/5)*100 + '%';
+                }
+                if((!(data.tempRange[0]==null))){
+                    settempMin(data.tempRange[0]);
+                    document.querySelector(".range-slider .progress-temp").style.left = ((data.tempRange[0]-20)/10)*100+'%';
+                }
+                if((!(data.tempRange[1]==null))){
+                    settempMax(data.tempRange[1]);
+                    document.querySelector(".range-slider .progress-temp").style.right = 100-((data.tempRange[1]-20)/10)*100 + '%';
+                }
 
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][0]==null))){setLEDoffHour(data.ledTimer[0][0]);}
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][1]==null))){setLEDoffMinute(data.ledTimer[0][1]);}
                 if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][0]==null))){setLEDonHour(data.ledTimer[1][0]);}
                 if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][1]==null))){setLEDonMinute(data.ledTimer[1][1]);}
-                
+  
                 if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][0]==null))){setfirstHour(data.feedTimer[0][0]);}
                 if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][1]==null))){setfirstMinute(data.feedTimer[0][1]);}
                 if((!(data.feedTimer[1]==null) && !(data.feedTimer[1][0]==null))){setsecondHour(data.feedTimer[1][0]);}
@@ -426,18 +418,22 @@ function Settings() {
                 if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][0]==null))){setthirdHour(data.feedTimer[2][0]);}
                 if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][1]==null))){setthirdMinute(data.feedTimer[2][1]);}
 
+                if((!(data.timezone==null))){setTimezone(data.timezone);}
+
+                if((!(data.timezone==null))){setTimezone(data.timezone);}
+
                 if(data.phEnable==true){
                     document.getElementById('cs1').click();
                     console.log(phEn);
                 }
                 //toggle booleans --> issues getting toggle to reflect user boolean values
-                /*
                 
-                if(data.ecEnable==true){}
-                if(data.tempEnable==true){}
-                if(data.feedEnable==true){}
-                if(data.ledEnable==true){}
-                */
+                if(data.phEnable===true){document.getElementById('cs1').click();}
+                if(data.ecEnable===true){document.getElementById('cs2').click();}
+                if(data.tempEnable===true){document.getElementById('cs3').click();}
+                if(data.feedEnable===true){document.getElementById('cs4').click();}
+                if(data.ledEnable===true){document.getElementById('cs5').click();}
+                
             })
             .catch((err) => {
                 setError(err);
@@ -447,10 +443,11 @@ function Settings() {
       
 
     return(     
-        <div class='Settings'>
+    
+        <div className='Settings'>
             <h1 id='warning'>WARNING</h1>
-            <div class='outerbox'>
-                <div class='nav'>
+            <div className='outerbox'>
+                <div className='nav'>
                     <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>&nbsp;</button>
                     <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>&nbsp;</button>
                     <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>&nbsp;</button>
@@ -458,271 +455,153 @@ function Settings() {
                     <button id='navsettings' style={{backgroundColor: "#08398d"}} variant='contained' title='Settings' onClick={() => navigate('/Settings')}>&nbsp;</button>
                     </div>
                 <div>
-                    <h2 id='rangeTitle'>Ranges:</h2><br></br>
-                    <div>
-                        pH = {ranges.pHRangeMin} , {ranges.pHRangeMax} 
-                    </div>
-                    <div>
-                    electrical conductivity = {ranges.ecRangeMin} , {ranges.ecRangeMax} 
-                    </div>
-                    <div>
-                    temperature = {ranges.tempRangeMin} , {ranges.tempRangeMax}
-                    </div>
-                    <p id='phTitle'>pH 
-                    <input
-                        type='text'
-                        id='pHMin'
-                        placeholder='min'
-                        value={pHMin.toString()}
-                        onChange={(e) => handleInputChange(e, 'pHMin')}
-                        disabled
-                    ></input> : 
-                    <input
-                        type='text'
-                        id='pHMax'
-                        placeholder='max'
-                        value={pHMax.toString()}
-                        onChange={(e) => handleInputChange(e, 'pHMax')}
-                        disabled
-                    ></input>
-                    <label class='switch' id='pHswitch'>
-                        <input type='checkbox' id='cs1' value={phEn} onChange={(e)=>handleInputChange(e,"phEn")}></input>
-                        <span class='slider round' id='phSlider'></span>
-                    </label>
-                    <p id="pHErrorValue" hidden color='#cc0000'>*Please enter a valid pH value within the appropriate range</p>
-                    </p><br></br>
-                    <p id='ECTitle'>Electrical Conductivity 
-                    <input
-                        type='text'
-                        id='ecMin'
-                        placeholder='min'
-                        value={ecMin.toString()}
-                        onChange={(e) => handleInputChange(e, 'ecMin')}
-                        disabled
-                    ></input> :  
-                    <input
-                        type='text'
-                        id='ecMax'
-                        placeholder='max'
-                        value={ecMax.toString()}
-                        onChange={(e) => handleInputChange(e, 'ecMax')}
-                        disabled
-                    ></input>
-                    <label class='switch' id='ecswitch'>
-                        <input type='checkbox' id='cs2' value={ecEn} onChange={(e)=>handleInputChange(e,"ecEn")}></input>
-                        <span class='slider round'></span>
-                    </label>
-                    <p id="ecErrorValue" hidden color='#cc000'>*Please enter a valid electrical conductivity value within the appropriate range</p>
-                    </p><br></br>
-                    <p id='tempTitle'>Temperature 
-                    <input
-                        type='text'
-                        id='tempMin'
-                        placeholder='min'
-                        value={tempMin.toString()}
-                        onChange={(e) => handleInputChange(e, 'tempMin')}
-                        disabled
-                    ></input> : 
-                    <input
-                        type='text'
-                        id='tempMax'
-                        placeholder='max'
-                        value={tempMax.toString()}
-                        onChange={(e) => handleInputChange(e, 'tempMax')}
-                        disabled
-                    ></input>
-                    <label class='switch' id='tempswitch'>
-                        <input type='checkbox' id='cs3' value={tempEn} onChange={(e)=>handleInputChange(e,"tempEn")}></input>
-                        <span class='slider round'></span>
-                    </label>
-                    </p><br></br>
-                    <p id="tempErrorValue" hidden color='#cc000'>*Please enter a valid temperature value within the appropriate range</p>
-                    <button type='button' id='Save' onClick={updateRanges}>Save Changes</button>
+                <div className='wrap-range'>
+                    <h2 id='st1'>RANGES:</h2>
+                    <div className="wrap-ph">
+                        <p id='pHTitle'>PH Range </p>
+                        <div className="range-slider">
+                            <div className="progress-ph"></div>
+                            <div className="range-input">
+                                <div id="tick-marks-ph"><p>6</p><p>7</p><p>8</p></div>
+                                <div id="tick-interval1-ph"><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p></div>
+                                <div id="tick-interval2-ph"><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p></div>
+                                <input type="range" id="pHMin" className="range-min" min="6.0" max="8.0"  value={pHMin} onChange={(e) => handleInputChange(e, 'phRange')} step="0.1"></input>
+                                <input type="range" id="PHMax" className="range-max" min="6.0" max="8.0"  value={pHMax} onChange={(e) => handleInputChange(e, 'phRange')} step="0.1"></input>
 
-                    <h2>Feed:</h2>
-                    <label class='switch' id='Feedswitch'>
-                        <input type='checkbox' id='cs4' value={feedEn} onChange={(e)=>handleInputChange(e,"feedEn")}></input>
-                        <span class='slider round'></span>
-                    </label><br></br>
-                    <p id='first' class={firstVisible ? 'firstshow' : 'firsthide'}>#1 
-                        <input
-                            type='text'
-                            id='firsthour'
-                            placeholder='hour'
-                            value={firsthour.toString()}
-                            onChange={(e) => handleInputChange(e, 'firsthour')}
-                        ></input> : 
-                        <input
-                            type='text'
-                            id='firstminute'
-                            placeholder='minute'
-                            value={firstminute.toString()}
-                            onChange={(e) => handleInputChange(e, 'firstminute')}
-                        ></input>
-                    </p><br></br>
-                    <p id='second' class={secondVisible ? 'secondshow' : 'secondhide'}>#2 
-                        <input
-                            type='text'
-                            id='secondhour'
-                            placeholder='hour'
-                            value={secondhour.toString()}
-                            onChange={(e) => handleInputChange(e, 'secondhour')}
-                        ></input> : 
-                        <input
-                            type='text'
-                            id='secondminute'
-                            placeholder='minute'
-                            value={secondminute.toString()}
-                            onChange={(e) => handleInputChange(e, 'secondminute')}
-                        ></input>
-                    </p><br></br>
-                    <p id='third' class={thirdVisible ? 'thirdshow' : 'thirdhide'}>#3  
-                        <input
-                            type='text'
-                            id='thirdhour'
-                            placeholder='hour'
-                            value={thirdhour.toString()}
-                            onChange={(e) => handleInputChange(e, 'thirdhour')}
-                        ></input> : 
-                        <input
-                            type='text'
-                            id='thirdminute'
-                            placeholder='minute'
-                            value={thirdminute.toString()}
-                            onChange={(e) => handleInputChange(e, 'thirdminute')}
-                        ></input>
-                    </p><br></br>
-                    <button
-                    type='button'
-                    id='addtime' 
-                    onClick={() => ToggleTextAddTime()}
-                    disabled>Add Time
-                    </button><br></br>
-                    <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
-                    <h2>LED:</h2>
-                    <label class='switch' id='LEDswitch'>
-                        <input type='checkbox' id='cs5' value={ledEn} onChange={(e)=>handleInputChange(e,"ledEn")}></input>
-                        <span class='slider round'></span>
-                    </label><br></br>
-                    <p id='LEDOn'>ON : 
-                        <select id="ledHoursON" disabled>
-                            <option>00</option>
-                            <option>01</option>
-                            <option>02</option>
-                            <option>03</option>
-                            <option>04</option>
-                            <option>05</option>
-                            <option>06</option>
-                            <option>07</option>
-                            <option>08</option>
-                            <option>09</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                            <option>13</option>
-                            <option>14</option>
-                            <option>15</option>
-                            <option>16</option>
-                            <option>17</option>
-                            <option>18</option>
-                            <option>19</option>
-                            <option>20</option>
-                            <option>21</option>
-                            <option>22</option>
-                            <option>23</option>
-                        </select> :
-                        <select id="ledMinutesON" disabled>
-                                <option>00</option>
-                                <option>05</option>
-                                <option>10</option>
-                                <option>15</option>
-                                <option>20</option>
-                                <option>25</option>
-                                <option>30</option>
-                                <option>35</option>
-                                <option>40</option>
-                                <option>45</option>
-                                <option>50</option>
-                                <option>55</option>
-                        </select>
-                        <input
-                            type='text'
-                            id='LEDonHour'
-                            placeholder='hour'
-                            value={LEDonHour.toString()}
-                            onChange={(e) => handleInputChange(e, 'LEDonHour')}
-                            disabled
-                        ></input> : 
-                        <input
-                            type='text'
-                            id='LEDonMinute'
-                            placeholder='minute'
-                            value={LEDonMinute.toString()}
-                            onChange={(e) => handleInputChange(e, 'LEDonMinute')}
-                            disabled
-                        ></input>
-                    </p><br></br>
-                    <p id='LEDOff'>OFF :
-                    <select id="ledHoursOFF" disabled>
-                            <option>00</option>
-                            <option>01</option>
-                            <option>02</option>
-                            <option>03</option>
-                            <option>04</option>
-                            <option>05</option>
-                            <option>06</option>
-                            <option>07</option>
-                            <option>08</option>
-                            <option>09</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                            <option>13</option>
-                            <option>14</option>
-                            <option>15</option>
-                            <option>16</option>
-                            <option>17</option>
-                            <option>18</option>
-                            <option>19</option>
-                            <option>20</option>
-                            <option>21</option>
-                            <option>22</option>
-                            <option>23</option>
-                        </select> :
-                        <select id="ledMinutesOFF" disabled>
-                                <option>00</option>
-                                <option>05</option>
-                                <option>10</option>
-                                <option>15</option>
-                                <option>20</option>
-                                <option>25</option>
-                                <option>30</option>
-                                <option>35</option>
-                                <option>40</option>
-                                <option>45</option>
-                                <option>50</option>
-                                <option>55</option>
-                        </select>
-                        <input
-                            type='text'
-                            id='LEDoffHour'
-                            placeholder='hour'
-                            value={LEDoffHour.toString()}
-                            onChange={(e) => handleInputChange(e, 'LEDoffHour')}
-                            disabled
-                        ></input> : 
-                        <input
-                            type='text'
-                            id='LEDoffMinute'
-                            placeholder='minute'
-                            value={LEDoffMinute.toString()}
-                            onChange={(e) => handleInputChange(e, 'LEDoffMinute')}
-                            disabled
-                        ></input>
-                    </p>
-                    <button type='button' id='Save' onClick={updateLED}>Save Changes</button>
+                            </div>   
+                        </div>
+                            <label className='switch' id='pHswitch'>
+                                <input type='checkbox' id='cs1' defaultValue={phEn} onChange={()=>handleCheckChange("phEn")}></input>
+                                <span className='slider round'></span>
+                            </label>
+                        <br></br>
+                    </div>
+                    <div className="wrap-ec">
+                        <p id='ECTitle'>EC Range </p>
+                        <div className="range-slider">
+                            <div className="progress-ec"></div>
+                            <div className="range-input">
+                                <div id="tick-marks-ec"><p>0</p><p>1</p><p>2</p><p>3</p><p>4</p><p>5</p></div>
+                                <div id="tick-interval1-ec"><p></p><p></p><p></p><p></p></div>
+                                <div id="tick-interval2-ec"><p></p><p></p><p></p><p></p></div>
+                                <div id="tick-interval3-ec"><p></p><p></p><p></p><p></p></div>
+                                <div id="tick-interval4-ec"><p></p><p></p><p></p><p></p></div>
+                                <div id="tick-interval5-ec"><p></p><p></p><p></p><p></p></div>
+                                <input type="range" id="ecMin" className="range-min" min="0" max="5"  value={ecMin} onChange={(e) => handleInputChange(e, 'ecRange')} step="0.2"></input>
+                                <input type="range" id="ecMax" className="range-max" min="0" max="5"  value={ecMax} onChange={(e) => handleInputChange(e, 'ecRange')} step="0.2"></input>
+
+                            </div>   
+                        </div>
+                        <label className='switch' id='ecswitch'>
+                            <input type='checkbox' id='cs2' value={ecEn} onChange={()=>handleCheckChange("ecEn")}></input>
+                            <span className='slider round'></span>
+                        </label>
+                        <br></br>
+                    </div>
+                    <div className="wrap-temp">
+                    <p id='tempTitle'>Temperature Range (°C) </p>
+                        <div className="range-slider">
+                                <div className="progress-temp"></div>
+                                <div className="range-input">
+                                    <div id="tick-marks-temp"><p>20</p><p>21</p><p>22</p><p>23</p><p>24</p><p>25</p><p>26</p><p>27</p><p>28</p><p>29</p><p>30</p></div>
+                                    <input type="range" id="tempMin" className="range-min" min="20" max="30"  value={tempMin} onChange={(e) => handleInputChange(e, 'tempRange')} step="1"></input>
+                                    <input type="range" id="tempMax" className="range-max" min="20" max="30"  value={tempMax} onChange={(e) => handleInputChange(e, 'tempRange')} step="1"></input>
+                                </div>   
+                        </div>
+                        <label className='switch' id='tempswitch'>
+                            <input type='checkbox' id='cs3' value={tempEn} onChange={()=>handleCheckChange("tempEn")}></input>
+                            <span className='slider round'></span>
+                        </label>
+                    </div>
+                    <div className="save-range">
+                        <button type='button' id='Save' onClick={updateRanges}>Save Changes</button>
+                    </div>   
                 </div>
-            </div>
+                <div className="wrap-timers">
+                    <div className="wrap-timezone">
+                        <h2 id='st1'>TIMEZONE:</h2>
+                        <select id="timezone-list" value={timezone} onChange={(e) => handleInputChange(e, 'timezone')}>
+                            <option>UTC</option>
+                        </select>
+                        <button type='button' id='Save' onClick={updateTimezone}>Save Changes</button>
+                    </div>
+                    <div className="wrap-timers2">
+                        <div className="wrap-feed">
+                            <h2 id='st1'>FEED TIMES:</h2>
+                            <label className='switch' id='feedswitch'>
+                                <input type='checkbox' id='cs4' value={feedEn} onChange={()=>handleCheckChange("feedEn")}></input>
+                                <span className='slider round'></span>
+                            </label>
+                            <p id='cs4'>1 : 
+                                <select id="firsthour" disabled value={firsthour} onChange={(e) => handleInputChange(e, 'firstHour') }>
+                                    <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                    <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                </select> :
+                                <select id="firstminute" disabled value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
+                                        <option>00</option><option>15</option><option>30</option><option>45</option>
+                                </select>                      
+                                </p>
+                            <p id='cs4'>2 : 
+                                <select id="secondhour" disabled value={secondhour} onChange={(e) => handleInputChange(e, 'secondHour')}>
+                                    <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                    <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                </select> :
+                                <select id="secondminute" disabled value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
+                                        <option>00</option><option>15</option><option>30</option><option>45</option>
+                                </select>
+                            </p>
+                            <p id='cs4'>3 : 
+                                <select id="thirdhour" disabled value={thirdhour} onChange={(e) => handleInputChange(e, 'thirdHour')}>
+                                    <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                    <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                </select> :
+                                <select id="thirdminute" disabled value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
+                                        <option>00</option><option>15</option><option>30</option><option>45</option>
+                                </select>
+                            </p>
+                            <button type='button' id='addtime' onClick={() => ToggleTextAddTime()} disabled>Add Time</button>
+                            <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
+                        </div>
+                        <div className="wrap-led">
+                            <h2 id='st1'>LED TIMES:</h2>
+                            <label className='switch' id='ledSwitch'>
+                                <input type='checkbox' id='cs5' value={ledEn} onChange={()=>handleCheckChange("ledEn")}></input>
+                                <span className='slider round'></span>
+                            </label>
+                            <p id='cs5'>ON : 
+                                <select id="LEDonHour" disabled value={LEDonHour} onChange={(e) => handleInputChange(e, 'LEDonHour') }>
+                                    <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                    <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                </select> :
+                                <select id="LEDonMinute" disabled value={LEDonMinute} onChange={(e) => handleInputChange(e, 'LEDonMinute')}>
+                                        <option>00</option><option>15</option><option>30</option><option>45</option>
+                                </select>                      
+                                </p>
+                            <p id='cs5'>OFF : 
+                                <select id="LEDoffHour" disabled value={LEDoffHour} onChange={(e) => handleInputChange(e, 'LEDoffHour')}>
+                                    <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                    <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                </select> :
+                                <select id="LEDoffMinute" disabled value={LEDoffMinute} onChange={(e) => handleInputChange(e, 'LEDoffMinute')}>
+                                        <option>00</option><option>15</option><option>30</option><option>45</option>
+                                </select>
+                            </p>
+                            <button type='button' id='Save' onClick={updateLED}>Save Changes</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>  
         </div>
     );
 }

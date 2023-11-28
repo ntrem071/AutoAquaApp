@@ -30,9 +30,11 @@ class UserController {
     {
         switch ($this->requestMethod) {
             case 'GET':
-                if ($this->sel1) {
+                if ($this->sel2 == 'timezone-list') {
+                    $this->response = $this->getTimezoneList();
+                } else{
                     $this->response = $this->getUser();
-                } 
+                }
                 break;
             case 'POST':
                 if($this->sel2== 'create'){
@@ -169,8 +171,7 @@ class UserController {
     }
 
 
-    private function deleteUser()
-    {   
+    private function deleteUser(){   
         if(!is_null($this->users->getAccount($this->sel1))){
             $this->users->deleteAccount($this->sel1);
             $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
@@ -181,11 +182,24 @@ class UserController {
         return $this->response;
     }
 
+    private function getTimezoneList()
+    {
+        $result=$this->users->getTimezoneList();
+        if(!is_null($result)){
+            $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
+            $this->response['body'] = json_encode($result); 
+        }else{
+            $this->response['status_code_header'] = 'HTTP/1.1 405 No Result';
+        }
+        return $this->response;
+    }
+
     private function notFoundResponse()
     {
         $this->response['status_code_header'] = 'HTTP/1.1 404 Not Found';
         return $this->response;
     }
+    
 
 }
 
