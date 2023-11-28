@@ -121,6 +121,8 @@
 }
  .Settings {
     background-color: #403c3c;
+    height: 950px;
+    overflow-y: auto;
  }
 
  .App {
@@ -202,6 +204,7 @@ label {
     padding: 20px 20px;
     margin: auto;
 }
+
 
 #st1 {color: #545454;}
 #pHTitle {color: #3b3838;}
