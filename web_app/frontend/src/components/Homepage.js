@@ -23,9 +23,22 @@ function Homepage() {
         },
         // responsive: false,
         scales: {
-          y:
+            x:{
+                ticks: {
+                    color: ['black', 'rgb(105,105,105)']
+                },
+                title: {
+                    display: true,
+                    text: 'Time from last hour in minutes',
+                    color: 'black'
+                }
+            },
+            y:
             {
-              afterDataLimits: (scale) => {
+                ticks: {
+                    color: 'black'
+                },
+                afterDataLimits: (scale) => {
                     scale.max = 8;
                     scale.min = 6;},
             }
@@ -39,9 +52,22 @@ function Homepage() {
             },
         },
         scales: {
-          y:
+            x:{
+                ticks: {
+                    color: ['black', 'rgb(105,105,105)']
+                },
+                title: {
+                    display: true,
+                    text: 'Time from last hour in minutes',
+                    color: 'black'
+                }
+            },
+            y:
             {
-              afterDataLimits: (scale) => {
+                ticks: {
+                    color: 'black'
+                },
+                afterDataLimits: (scale) => {
                     scale.max = 300;
                     scale.min = 150;},
             }
@@ -55,7 +81,20 @@ function Homepage() {
             },
         },
         scales: {
+            x:{
+                ticks: {
+                    color: ['black', 'rgb(105,105,105)']
+                },
+                title: {
+                    display: true,
+                    text: 'Time from last hour in minutes',
+                    color: 'black'
+                }
+            },
             y:{
+                ticks: {
+                    color: 'black'
+                },
                 afterDataLimits: (scale) => {
                     scale.max = 5.0;
                     scale.min = 2.0;},
@@ -70,9 +109,22 @@ function Homepage() {
             },
         },
         scales: {
-          y:
+            x:{
+                ticks: {
+                    color: ['black', 'rgb(105,105,105)']
+                },
+                title: {
+                    display: true,
+                    text: 'Time from last hour in minutes',
+                    color: 'black'
+                }
+            },
+            y:
             {
-              afterDataLimits: (scale) => {
+                ticks: {
+                    color: 'black'
+                },
+                afterDataLimits: (scale) => {
                     scale.max = 35.0;
                     scale.min = 15.0;},
             }
@@ -140,33 +192,38 @@ function Homepage() {
     
     return(
 
-        <div className='Homepage'>
-            <body>
-                <div id="nav-small-bar">
-                    <button id='nav-button' onClick={displayNavSmall}></button>
-                </div>
-                <div className='nav'>
-                    <button id='navhome' style={{backgroundColor: "#08398d"}} variant='contained' onClick={() => nav('/Home')}>&nbsp;</button>
-                    <button id='navuser' variant='contained' onClick={() => nav('/User-Info')}>&nbsp;</button>
-                    <button id='navfish' variant='contained' onClick={() => nav('/Fish')}>&nbsp;</button>
-                    <button id='navinfo' variant='contained' onClick={() => nav('/Information')}>&nbsp;</button>
-                    <button id='navsettings' variant='contained' onClick={() => nav('/Settings')}>&nbsp;</button>
-                </div>
-                <div className='page'>
-                    <div className='outerbox-hp'>
-                        <h1>WARNING</h1>
+        <body>
+            <div id="nav-small-bar">
+                <button id='nav-button' onClick={displayNavSmall}></button>
+            </div>
+            <div className='nav'>
+                <button id='navhome' style={{backgroundColor: "#08398d"}} variant='contained' onClick={() => nav('/Home')}>&nbsp;</button>
+                <button id='navuser' variant='contained' onClick={() => nav('/User-Info')}>&nbsp;</button>
+                <button id='navfish' variant='contained' onClick={() => nav('/Fish')}>&nbsp;</button>
+                <button id='navinfo' variant='contained' onClick={() => nav('/Information')}>&nbsp;</button>
+                <button id='navsettings' variant='contained' onClick={() => nav('/Settings')}>&nbsp;</button>
+            </div>
+            <div className='Homepage'>
+                <div className='outerbox-hp'>
+                    <div className='wrap-graphs'>
                         <h3 id='wltitle'>Water Level</h3>
                         <Line data={waterLevlData} options={optionsWaterLevel}/>
+                    </div>
+                    <div className='wrap-graphs'>
                         <h3 id='phtitle'>pH Level</h3>
-                        <Line data={pHData} options={optionspH}/>
+                        <Line data={pHData} options={optionspH}/>                        
+                    </div>
+                    <div className='wrap-graphs'>
                         <h3 id='ectitle'>Electrical Condutivity</h3>
-                        <Line data={ecData} options={optionsEC}/>
+                        <Line data={ecData} options={optionsEC}/>                        
+                    </div>
+                    <div className='wrap-graphs'>
                         <h3 id='ttitle'>Temperature</h3>
-                        <Line data={tempData} options={optionsTemp}/>
-                    </div>    
-                </div>
-            </body>            
-        </div>
+                        <Line data={tempData} options={optionsTemp}/>                        
+                    </div>
+                </div>    
+            </div>
+        </body> 
     );
 }
 
