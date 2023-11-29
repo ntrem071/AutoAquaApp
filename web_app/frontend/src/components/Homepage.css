@@ -143,11 +143,11 @@
 }
 
 
-#nav-small-bar{
+/* #nav-small-bar{
     display:none
 }
 
-@media screen and (max-width: 920px) {
+@media screen and (max-width: 1160px) {
     .nav {
         flex-direction: column;
         display: none;
@@ -177,4 +177,4 @@
     #nav-button:focus{
         display:flex
     }
-}
+} */
