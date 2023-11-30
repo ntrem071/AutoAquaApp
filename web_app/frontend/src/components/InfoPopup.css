@@ -16,12 +16,19 @@
     width:600px;
     height: 600px;
     background-color: #d9d9d9;
+
+    border-radius: 10px;
+    border: 1.5px solid #3d3d3d;
+    box-shadow: 3px 3px 3px 3px rgb(48, 47, 47);
 }
 
 .popup-topbar{
     width:600px;
     height: 35px;
+    border-top-right-radius:10px;
+    border-top-left-radius: 10px;
     background-color: #bdbdbd;
+    border-bottom: 1px solid #949494;
     position: relative;
 }
 .popup-topbar label{
@@ -33,10 +40,11 @@
     position:absolute;
     right:0;
     border: none;
-    background-color: transparent;
+    border-top-right-radius:10px;
+    background-color: #a9abad;
 }
 .popup-topbar button:hover{
-    background-color: #9c9fa3;
+    background-color: #ff000094;
 }
 
 .popup-info-display{
@@ -45,27 +53,64 @@
 }
 .popup-section1{
     width:50%;
-    height: 300px;
+    height: 230px;
     position: absolute;
-    background-color: #e7b1b1;
 }
 .popup-section1 p{
-    padding-right:20px;
-    padding-left: 20px;
+    padding-right:40px;
+    padding-left: 25px;
     text-align: left;
 }
+.popup-section1 .element-label{
+    font-weight: 600;
+}
+.popup-section1 .info-label{
+    font-weight: normal;
+    display: inline;
+}
+
+
+.popup-section0{
+    width:50%;
+    top: 250px;
+    height: 50px;
+    position: absolute;
+}
+.popup-section0 button{
+    margin-top: 5px;
+    width:80px;
+    height:30px;
+}
+
 .popup-section2{
     position:absolute;
     right:20px;
     top:20px;
     width:280px;
-    height: 300px;
-    background-color: #e78989;
+    height: 280px;
+    background-color: #756e6e;
+    
 }
+.popup-temp{
+    font-weight: 100;
+    margin-top: 125px;
+}
+
 .popup-section3{
     position: absolute;
     bottom: -500px;
-    width: 560px;
+    width: 520px;
     height: 220px;
-    background-color: #ee5656;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: inset;
+    border-width: 1.5px;
+    overflow-y: auto;
+    background-color: #bdbdbd;
 }
+.popup-info{
+    font-weight: 200;
+    text-align: left;
+}
+
+

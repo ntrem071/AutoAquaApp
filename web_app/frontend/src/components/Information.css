@@ -119,6 +119,7 @@
 .wrap-search-pf{
     background: #c7c7c7;
     padding: 20px;
+    height: 70px;
     border: inset;
     border-width: 1px;
 }
