@@ -112,11 +112,16 @@
 }
 
 .navbar{
-    display: none
+    display: none;
 }
 
 .nav-dropdwn{
     display: none;
+}
+
+#user-info{
+    overflow:visible;
+    height:1000px;
 }
 
 

@@ -11,6 +11,7 @@ function Fish() {
     const sessionId= Cookies.get('sessionId');
 
     const [plants, setPlants] = useState('not selected');
+    const [plantsArr, setPlantsArr] = useState([]);
     const [fish, setFish] = useState('not selected');
     const [list, setList]= useState([]);
 
@@ -19,6 +20,7 @@ function Fish() {
     const[hoursCheck, setHoursCheck] = useState(true);
 
     const[btnPopup, setbtnPopup] = useState(false);
+    const[btnMsg, setBtnMsg] = useState('mr.bubbles');
     const[typePF, setTypePF] = useState('');
     const[namePF, setNamePF] = useState('');
 
@@ -58,7 +60,13 @@ function Fish() {
         setNamePF(e.target.id.replace(' ','_'));
         setbtnPopup(true);
     }
-    
+    const handlePopupChange=(e, name)=>{
+        switch(name){
+            case 'add-plant':
+                console.log("success");
+                break;
+        }
+    }
     const search = () =>{
         const searchValue = document.getElementById("search-pf").value.toLowerCase();
         const result = list.filter((item)=> item.toLowerCase().includes(searchValue));
@@ -93,8 +101,15 @@ function Fish() {
         })
         .then(data => {
             if((!(data.plants[0]==null))){
-                var str='';
-                data.plants.forEach(item => setPlants(str+=item.plant+" "));
+                
+                var str=''; var arr=[];
+
+                for(let i =0; i<data.plants.length; i++){
+                    str+=data.plants[i].plant+" ";
+                    arr.push(data.plants[i].plant);
+                }
+                setPlantsArr(data.plants);
+                setPlants(str);
             }
             if((!(data.fish==null))){
                 setFish(data.fish.fish);
@@ -228,9 +243,15 @@ function Fish() {
         navDrop = !navDrop;
     }
 
+    function addPF(elem){
+
+        console.log(elem);
+        //setBtnMsg(elem);
+    }
+
     return(
      
-            <div id='info-fish-plant'>
+            <div className='info-fish-plant'>
             <div className="navbar">
                 <span style={{fontFamily:'Courier', color: 'white'}}>Hello Mr. Bubbles! </span>
                 <img id='userIcon' src={generalUserIconImage}></img>
@@ -263,7 +284,7 @@ function Fish() {
             <h3>
                 <div className='outerbox-p'>
 
-                    <div class='nav'>
+                    <div className='nav'>
                         <button id='navhome' variant='contained' title='Home' onClick={() => nav('/Home')}>&nbsp;</button>
                         <button id='navuser' variant='contained' title='User Info' onClick={() => nav('/User-Info')}>&nbsp;</button>
                         <button id='navfish' variant='contained' title='Fish Health' onClick={() => nav('/Fish')}>&nbsp;</button>
@@ -283,7 +304,7 @@ function Fish() {
                         </div>
                         <div className='wrap-search-pf'>
                             <form>
-                                <i class="fas fa-search"></i>
+                                <i className="fas fa-search"></i>
                                 <input type='text' id='search-pf' placeholder='Search...' onChange={()=>search()}></input>
                             </form>
                             <div className='wrap-list-customize' id='wrap-list-customize'>
@@ -295,7 +316,7 @@ function Fish() {
                         </div>
                         <div className='wrap-display-pf' id='wrap-display-pf'></div>
                     </div>
-                    <InfoPopup trigger={btnPopup} type={typePF} name={namePF} setTrigger={setbtnPopup}></InfoPopup>
+                    <InfoPopup trigger={btnPopup} type={typePF} name={namePF} setTrigger={setbtnPopup} add={addPF}></InfoPopup>
                 </div>
             </h3>
         </div>

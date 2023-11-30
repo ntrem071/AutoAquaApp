@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import userIcon from '../pictures/user.png';
 import generalUserIconImage from '../pictures/userImageFishUwU.png';
+import './Fish.css';
 
 
 function Fish() {
