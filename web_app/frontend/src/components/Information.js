@@ -6,7 +6,6 @@ import InfoPopup from './InfoPopup';
 import userIcon from '../pictures/user.png';
 import generalUserIconImage from '../pictures/userImageFishUwU.png';
 
-
 function Fish() {
     const navigate = useNavigate();
     const sessionId= Cookies.get('sessionId');
@@ -225,12 +224,13 @@ function Fish() {
         }else{
             document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
         }
-        
+
         navDrop = !navDrop;
     }
 
     return(
-        <div id='info-fish-plant'>
+     
+            <div id='info-fish-plant'>
             <div className="navbar">
                 <span style={{fontFamily:'Courier', color: 'white'}}>Hello Mr. Bubbles! </span>
                 <img id='userIcon' src={generalUserIconImage}></img>
