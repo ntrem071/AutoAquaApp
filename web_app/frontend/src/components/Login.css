@@ -31,7 +31,14 @@ html, body {
     width: 500px;
     height: 25px;
     align-self: flex-start;
-    border: none; 
+}
+
+#lt2{
+    background-color: #908c8c;
+    padding: 10px;
+    width: 500px;
+    height: 25px;
+    align-self: flex-start;
 }
 
 #ll1{

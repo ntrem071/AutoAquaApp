@@ -31,6 +31,8 @@ function Login() {
     }
 
     function loginSubmit(){
+        const e = document.getElementById('lt1');
+        const p = document.getElementById('lt2');
         if((password !== '') && (email !== '')){
             var url = 'http://localhost:8000/users/na/login';
             //var buf = Buffer.from(email + ':' + password).toString('base64');
@@ -52,7 +54,12 @@ function Login() {
                 // return response.json()
                 if(response.error) {
                     setError(response.error);
-                    console.log('Error: ', response.error)
+                    console.log('It reaches here')
+                    e.style.borderColor = 'red';
+                    p.style.borderColor = 'red';
+                    setTimeout(() => {
+                        alert('Email or password is incorrect');
+                    }, 500);
                 } else {
                     return response.json()
                 }
@@ -66,11 +73,22 @@ function Login() {
                 
             })
             .catch((err) => {
-                setError(err);
-                console.log(err);
+                setError('Email or password is incorrect');
+                e.style.borderColor = 'red';
+                p.style.borderColor = 'red';
+                // alert('Email or password is incorrect.');
+                setTimeout(() => {
+                    alert('Email or password is incorrect');
+                }, 500);
             });
-        } else {
+        } else if ((email === '') || (password === '')){
             setError('All fields must be filled');
+            e.style.borderColor = 'red';
+            p.style.borderColor = 'red';
+            // alert('All fields must be filled.');
+            setTimeout(() => {
+                alert('Email and/or password must be filled');
+            }, 500);
         }
     }
 
@@ -131,6 +149,7 @@ function Login() {
                         <input
                             type='text'
                             id='lt1'
+                            className='email'
                             placeholder='Email'
                             value={email.toString()}
                             onChange={(e) => valuesIn(e, 'email')}
@@ -144,7 +163,8 @@ function Login() {
                         <br />
                         <input
                             type='text'
-                            id='lt1'
+                            id='lt2'
+                            className='password'
                             placeholder='Password'
                             value={password.toString()}
                             onChange={(e) => valuesIn(e, 'password')}
