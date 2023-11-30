@@ -427,7 +427,6 @@ function Settings() {
     return(     
         
         <div className='settings'>
-            
             <div className="navbar">
                 <span style={{fontFamily:'Courier', color: 'white'}}>Hello Mr. Bubbles! </span>
                 <img id='userIcon' src={generalUserIconImage}></img>
