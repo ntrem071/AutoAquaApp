@@ -90,6 +90,12 @@ html, body {
     height: 50px;
     width: 100px;
     margin-top: 10px;
+    cursor: pointer;
+}
+
+#lb1:hover {
+    background-color: #3176af;
+    transition: 0.4s;
 }
 
 #lp1 {

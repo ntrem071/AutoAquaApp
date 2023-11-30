@@ -73,27 +73,43 @@ function Create() {
         var cp = document.getElementById('cf4');
 
         if(!validateEmail(email)){
-            alert('Please enter valid email.');
             e.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Please enter valid email.');;
+            }, 500);
             return false;
         } else if (password !== cpassword) {
-            alert('Passwords do not match.');
+            
             p.style.borderColor = 'red';
             cp.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Passwords do not match.');
+            }, 500);
             return false;
         } else if (name === '') {
-            alert('Name is needed.');
+            
             n.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Name is needed.');
+            }, 500);
             return false;
         } else if ((password === '') || (cpassword === '')) {
-            alert('Passwords are needed.');
+            
             p.style.borderColor = 'red';
             cp.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Passwords are needed.');
+            }, 500);
             return false;
         } else if (email === '') {
-            alert('Email is needed.');
+            
             e.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Email is needed.');
+            }, 500);
             return false;
+        } else {
+            return true;
         }
     }
 
