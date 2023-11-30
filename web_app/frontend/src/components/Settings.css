@@ -119,9 +119,6 @@
     background-position: center;
     background-repeat: no-repeat;
 }
- .Settings {
-    background-color: #403c3c;
- }
 
  .App {
     background-color: #403c3c;
@@ -196,13 +193,21 @@ label {
     text-align: right;
 }
 
-.outerbox {
-    background-color: #d9d9d9;
+.outerbox-s {
+    background-color: #ebebeb;
     width: 700px;
     padding: 20px 20px;
     margin: auto;
+    border-style: solid solid none solid;
+    border-width: 1.5px;
+    border-color: #a8adb1;
 }
+.settings-title{
 
+    height: 60px;
+    margin-bottom: 20px;
+}
+#settings-title{color: #fffcfc;}
 #st1 {color: #545454;}
 #pHTitle {color: #3b3838;}
 #ECTitle {color: #3b3838;}
@@ -211,7 +216,7 @@ label {
 
 /*wrappers*/
 .wrap-range{
-    background: #babfc4;
+    background: #c7c7c7;
     padding-left: 80px;
     padding-right: 80px; 
     padding-bottom: 15px;
@@ -225,7 +230,7 @@ label {
 .save-range{padding-top:50px;}
 
 .wrap-timers{
-    background: #babfc4;
+    background: #c7c7c7;
     top: 10px;
     padding-left: 80px;
     padding-right: 80px; 
@@ -241,14 +246,14 @@ label {
 .wrap-feed{
     padding-bottom: 30px;
     border-style: inset;
-    background: #b6bcc0;
+    background: #c4c2c2;
     border-width: 0.25px;
 }
 .wrap-led{
     padding-bottom: 30px;
     padding-top: 1px;
     border-style: inset;
-    background: #b6bcc0;
+    background: #c4c2c2;
     border-width: 0.25px;
 }
 
@@ -293,7 +298,7 @@ label {
     height: 5px;
     border-radius: 5px;
     position: relative;
-    background: #ccc;
+    background: #ebebeb;
 }
 .range-slider .progress-ph{
     height: 5px;
@@ -352,3 +357,28 @@ input[type="range"]::-moz-range-thumb{
 }
 
 
+
+
+@media screen and (max-width: 920px) {
+    .nav {
+      flex-direction: column;
+      display: none;
+    }
+
+    #nav-button{
+        overflow: hidden;
+        background-image: url(../pictures/nav-button-icon.png); 
+        background-color: #0844ac;
+        background-position: center;
+        width: 10%;
+        height: 100px;
+        padding: 0;
+        background-repeat: no-repeat;
+        border: none
+    }
+
+    #nav-button:hover{
+        background-color: #08398d;
+        transition: 0.4s;
+    }
+}

@@ -23,7 +23,7 @@ class PlantController {
 
         $this->response['status_code_header'] = null;
         $this->response['body'] = null;
-
+        
         $this->processRequest();    
     }
 
@@ -31,10 +31,11 @@ class PlantController {
     {
         switch ($this->requestMethod) {
             case 'GET':
-                if(isset($this->sel1) && isset($this->sel2)){
+                if(isset($this->sel1) && isset($this->sel2) && $this->sel1!='na'){
                     $this->response = $this->getModifiedList();
 
-                }elseif(isset($this->sel1)){
+                }elseif(isset($this->sel2)){
+                    
                     $this->response = $this->getPlant();
                     
                 }else{
@@ -101,11 +102,13 @@ class PlantController {
     }
 
     private function getPlant(){
-        if (!isset($this->sel1)) {
+        
+        if (!isset($this->sel2)) {
             $this->response['status_code_header'] = 'HTTP/1.0 403 Name Null';
         }
         else{        
-                $result = $this->plants->getPlantInfo($this->sel1);
+                $result = $this->plants->getPlantInfo(str_replace('_',' ', $this->sel2));
+                
 
                 if(is_null($result)){
                     $this->response['status_code_header'] = 'HTTP/1.1 504 Plant Does Not Exist';
@@ -118,10 +121,10 @@ class PlantController {
     }
 
     private function deletePlant(){
-        if(is_null($this->plants->getPlantInfo($this->sel1))){
+        if(is_null($this->plants->getPlantInfo(str_replace('_',' ', $this->sel2)))){
             $this->response['status_code_header'] = 'HTTP/1.1 405 Plant Does Not Exist In Collection';
         }else{
-            $this->plants->deletePlant($this->sel1);
+            $this->plants->deletePlant($this->sel2);
             $this->response['status_code_header'] = 'HTTP/1.1 200 OK';      
         }
         return $this->response;

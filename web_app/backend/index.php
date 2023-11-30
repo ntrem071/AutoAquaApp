@@ -58,17 +58,17 @@
         $sel2=null;
         if(isset($uri[3])){$sel2=$uri[3];}
         
+        if(!is_null($sel1) && $sel1!="na"){                 //set string ID to obj
+            $sel1 = new \MongoDB\BSON\ObjectId($uri[2]);
+        } 
 
         //Select collection and controller
         switch($uri[1]){
             case 'users':
-                if(!is_null($sel1) && $sel1!="na"){                 //set string ID to obj
-                    $sel1 = new \MongoDB\BSON\ObjectId($uri[2]);
-                } 
                 $controllerU = new UserController($requestMethod, $sel1, $sel2);
                 break;
             case 'fish':
-                $controller = new FishController($requestMethod, $sel1);
+                $controller = new FishController($requestMethod, $sel2);
                 break;
             case 'plants':
                 $controllerP = new PlantController($requestMethod, $sel1, $sel2);

@@ -1,4 +1,5 @@
 <?php
+    include_once '../backend/includes/MySessionHandler.php';
 
     class PlantHandler{
         private $tbl; 

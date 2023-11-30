@@ -159,8 +159,8 @@
 
             //GET FINAL USER DOC
             $test->printUserDoc($id);
-            $test->getSession()->deleteAccount($id);
-            $test->printUserDoc($id);
+            //$test->getSession()->deleteAccount($id);
+            //$test->printUserDoc($id);
 
             $list= $test->getSession()->getTimezoneList();
             echo "Timezone List: ", json_encode($list),"\n\n";
