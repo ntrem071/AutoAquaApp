@@ -119,6 +119,11 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+ .settings {
+    background-color: #403c3c;
+    height: 950px;
+    overflow-y: auto;
+ }
 
  .App {
     background-color: #403c3c;
@@ -357,28 +362,3 @@ input[type="range"]::-moz-range-thumb{
 }
 
 
-
-
-@media screen and (max-width: 920px) {
-    .nav {
-      flex-direction: column;
-      display: none;
-    }
-
-    #nav-button{
-        overflow: hidden;
-        background-image: url(../pictures/nav-button-icon.png); 
-        background-color: #0844ac;
-        background-position: center;
-        width: 10%;
-        height: 100px;
-        padding: 0;
-        background-repeat: no-repeat;
-        border: none
-    }
-
-    #nav-button:hover{
-        background-color: #08398d;
-        transition: 0.4s;
-    }
-}

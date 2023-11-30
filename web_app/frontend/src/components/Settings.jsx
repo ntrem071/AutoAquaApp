@@ -395,8 +395,6 @@ function Settings() {
                 if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][1]==null))){setthirdMinute(data.feedTimer[2][1]);}
 
                 if((!(data.timezone==null))){setTimezone(data.timezone);}
-
-                if((!(data.timezone==null))){setTimezone(data.timezone);}
                 
                 if(data.phEnable===true){document.getElementById('cs1').click();}
                 if(data.ecEnable===true){document.getElementById('cs2').click();}

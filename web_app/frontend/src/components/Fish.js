@@ -14,7 +14,7 @@ function Fish() {
         <body>
             <h1>Fish Behavior</h1>
             <h3>
-                <div class='nav'>
+                <div className='nav'>
                     <button id='navhome' variant='contained' title='Home' onClick={() => nav('/Home')}>&nbsp;</button>
                     <button id='navuser' variant='contained' title='User Info' onClick={() => nav('/User-Info')}>&nbsp;</button>
                     <button id='navfish' style={{backgroundColor: "#08398d"}} variant='contained' title='Fish Health' onClick={() => nav('/Fish')}>&nbsp;</button>

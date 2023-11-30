@@ -3,7 +3,7 @@
  include_once '../backend/includes/MySessionHandler.php';
 //Intial create user default constants
     define('DEFAULT_PH', [6.0, 7.0]);
-    define('DEFAULT_EC', [1.5, 2.5]);
+    define('DEFAULT_EC', [1.6, 2.6]);
     define('DEFAULT_TEMP', [22.0, 25.0]);
     define('DEFAULT_LED', [['00', '00'],['00','00']]);
     define('DEFAULT_FEED', [['00', '00'],['00','00'],['00','00']]);
