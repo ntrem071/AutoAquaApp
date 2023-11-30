@@ -3,6 +3,9 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Information.css';
 import InfoPopup from './InfoPopup';
+import userIcon from '../pictures/user.png';
+import generalUserIconImage from '../pictures/userImageFishUwU.png';
+
 
 function Fish() {
     const navigate = useNavigate();
@@ -23,6 +26,8 @@ function Fish() {
     const[togglePF, setTogglePF] = useState('plant');
 
     const [error, setError] = useState('');
+
+    var navDrop = false;
 
     useEffect(() => {
         setValues(); 
@@ -213,8 +218,46 @@ function Fish() {
 
     }
 
+    function displayNavSmall(){
+
+        if(navDrop){
+            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
+        }else{
+            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
+        }
+        
+        navDrop = !navDrop;
+    }
+
     return(
-        <body>
+        <div id='info-fish-plant'>
+            <div className="navbar">
+                <span style={{fontFamily:'Courier', color: 'white'}}>Hello Mr. Bubbles! </span>
+                <img id='userIcon' src={generalUserIconImage}></img>
+                <button id='nav-button' onClick={displayNavSmall}></button>
+                <div className="nav-dropdwn">
+                    <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>
+                        <h1 id='nav-text'>Home</h1>
+                        &nbsp;
+                    </button>  
+                    <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>
+                        <h1 id='nav-text'>Account</h1>
+                        &nbsp;
+                    </button> 
+                    <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>
+                        <h1 id='nav-text'>Fish Analyctics</h1>
+                        &nbsp;
+                    </button>
+                    <button id='navinfo' style={{backgroundColor: "#08398d"}} variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>
+                        <h1 id='nav-text'>Information</h1>
+                        &nbsp;
+                    </button>  
+                    <button id='navsettings' variant='contained' title='Settings' onClick={() => navigate('/Settings')}>
+                        <h1 id='nav-text'>Settings</h1>
+                        &nbsp;
+                    </button>
+                </div> 
+            </div>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
             <h1>Compatibility Search</h1>
             <h3>
@@ -255,7 +298,7 @@ function Fish() {
                     <InfoPopup trigger={btnPopup} type={typePF} name={namePF} setTrigger={setbtnPopup}></InfoPopup>
                 </div>
             </h3>
-        </body>
+        </div>
     );
 }
 

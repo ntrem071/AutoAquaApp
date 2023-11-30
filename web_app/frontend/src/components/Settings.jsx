@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Settings.css';
+import userIcon from '../pictures/user.png';
+import generalUserIconImage from '../pictures/userImageFishUwU.png';
 
 function Settings() {
     const navigate = useNavigate();
@@ -15,6 +17,8 @@ function Settings() {
         tempRangeMin : 16.7,
         tempRangeMax : 20.0
     }
+
+    var navDrop = false;
 
     const [pHMin, setpHMin] = useState('6.5');
     const [pHMax, setpHMax] = useState('7.5');
@@ -407,13 +411,50 @@ function Settings() {
                 console.log(err);
             });
     }
-      
+
+    function displayNavSmall(){
+
+        if(navDrop){
+            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
+        }else{
+            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
+        }
+        
+        navDrop = !navDrop;
+        console.log('loser')
+    }
 
     return(     
         
         <div className='settings'>
+            <div className="navbar">
+                <span style={{fontFamily:'Courier', color: 'white'}}>Hello Mr. Bubbles! </span>
+                <img id='userIcon' src={generalUserIconImage}></img>
+                <button id='nav-button' onClick={displayNavSmall}></button>
+                <div className="nav-dropdwn">
+                    <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>
+                        <h1 id='nav-text'>Home</h1>
+                        &nbsp;
+                    </button>  
+                    <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>
+                        <h1 id='nav-text'>Account</h1>
+                        &nbsp;
+                    </button> 
+                    <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>
+                        <h1 id='nav-text'>Fish Analyctics</h1>
+                        &nbsp;
+                    </button>
+                    <button id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>
+                        <h1 id='nav-text'>Information</h1>
+                        &nbsp;
+                    </button>  
+                    <button id='navsettings' style={{backgroundColor: "#08398d"}} variant='contained' title='Settings' onClick={() => navigate('/Settings')}>
+                        <h1 id='nav-text'>Settings</h1>
+                        &nbsp;
+                    </button>
+                </div> 
+            </div>
             <div className="settings-title"><h1 id='settings-title'>Settings</h1></div>
-            <h1 id='warning'>WARNING</h1>
             <div className='outerbox-s'>
                 <div className='nav'>
                     <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>&nbsp;</button>
@@ -423,6 +464,7 @@ function Settings() {
                     <button id='navsettings' style={{backgroundColor: "#08398d"}} variant='contained' title='Settings' onClick={() => navigate('/Settings')}>&nbsp;</button>
                     </div>
                 <div>
+                
                 <div className='wrap-range'>
                     <h2 id='st1'>RANGES:</h2>
                     <div className="wrap-ph">
