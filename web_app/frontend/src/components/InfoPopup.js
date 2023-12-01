@@ -15,25 +15,8 @@ function InfoPopup(props) {
       }, [props.trigger, props.name, props.type]);
 
     const handleButtonClick=(e)=>{
-        switch(e.target.id){
-            case 'add-plant':
-                console.log("a");
-                props.setTrigger(false)
-                console.log(props.add);
-                break;
-            case 'remove-plant':
-                console.log("b");
-                props.setTrigger(false)
-                break;
-            case 'replace-fish':
-                console.log("c");
-                props.setTrigger(false)
-                break;
-            case 'remove-fish':
-                console.log("d");
-                props.setTrigger(false)
-                break;
-        }
+        props.modifySelect(e.target.id, props.name);
+        props.setTrigger(false)
     }
     
     function displayPlantInfoBox(name){

@@ -20,7 +20,6 @@ function Fish() {
     const[hoursCheck, setHoursCheck] = useState(true);
 
     const[btnPopup, setbtnPopup] = useState(false);
-    const[btnMsg, setBtnMsg] = useState('mr.bubbles');
     const[typePF, setTypePF] = useState('');
     const[namePF, setNamePF] = useState('');
 
@@ -60,13 +59,7 @@ function Fish() {
         setNamePF(e.target.id.replace(' ','_'));
         setbtnPopup(true);
     }
-    const handlePopupChange=(e, name)=>{
-        switch(name){
-            case 'add-plant':
-                console.log("success");
-                break;
-        }
-    }
+
     const search = () =>{
         const searchValue = document.getElementById("search-pf").value.toLowerCase();
         const result = list.filter((item)=> item.toLowerCase().includes(searchValue));
@@ -108,8 +101,9 @@ function Fish() {
                     str+=data.plants[i].plant+" ";
                     arr.push(data.plants[i].plant);
                 }
-                setPlantsArr(data.plants);
-                setPlants(str);
+                arr= arr.sort();
+                setPlantsArr(arr);
+                setPlants(arr.join(', '));
             }
             if((!(data.fish==null))){
                 setFish(data.fish.fish);
@@ -203,7 +197,6 @@ function Fish() {
         if(ec==true){str+='_ec'}
         if(hours==true){str+='_hour'}
 
-        //plant handler conflict with session in user
        var url = 'http://localhost:8000/plants/'+sessionId+'/'+str;
         var header = {         
             'Accept': 'application/json',
@@ -231,6 +224,33 @@ function Fish() {
         });
 
     }
+    function updateUserSelect(arr, str){
+       var url = 'http://localhost:8000/users/'+sessionId+'/species';
+        var header = {         
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'   
+        };
+        var data = {
+            plants: arr,
+            fish: str                   
+        };
+        const id = fetch(url, {
+            method: 'PUT',
+            headers: header,
+            body: JSON.stringify(data)
+        })
+        .then((response) => {
+            if(response.error) {
+                setError(response.error);
+                console.log('Error: ', response.error)
+            } 
+        })
+        .catch((err) => {
+            setError(err);
+            console.log(err);
+        });
+
+    }
 
     function displayNavSmall(){
 
@@ -243,10 +263,48 @@ function Fish() {
         navDrop = !navDrop;
     }
 
-    function addPF(elem){
+    const modifySelectPF=(type, elem)=>{
 
         console.log(elem);
-        //setBtnMsg(elem);
+        console.log(type);
+
+        switch(type){
+            case 'add-plant':
+                if(plantsArr.includes(elem)){
+                    setError("Plant already included in user selection")
+                }else{
+                    var arr = plantsArr.concat([elem]).sort();
+                    setPlantsArr(arr);
+                    setPlants(arr.join(', '));
+                    updateUserSelect(arr, fish);
+                }
+                break;
+            case 'remove-plant':
+                if(plantsArr.includes(elem)){
+                    var arr = plantsArr.filter(item => item !== elem);
+                    setPlantsArr(arr);
+                    if(arr[0]!=null){setPlants(arr.join(', '));}
+                    else{setPlants('not selected')}
+                    updateUserSelect(arr, fish);
+                }else{
+                    setError("Plant not in current user selection")
+                }
+                break;
+            case 'replace-fish':
+                if(elem!=fish){         
+                    setFish(elem);
+                    updateUserSelect(plantsArr, elem);
+                }else{setError("Fish already added")}
+                break;
+            case 'remove-fish':
+                if(elem==fish){
+                    setFish('not selected');
+                    updateUserSelect(plantsArr, '');
+                }else{setError("Fish not added")}
+                break;
+            default:
+        }
+        
     }
 
     return(
@@ -316,7 +374,7 @@ function Fish() {
                         </div>
                         <div className='wrap-display-pf' id='wrap-display-pf'></div>
                     </div>
-                    <InfoPopup trigger={btnPopup} type={typePF} name={namePF} setTrigger={setbtnPopup} add={addPF}></InfoPopup>
+                    <InfoPopup trigger={btnPopup} type={typePF} name={namePF} setTrigger={setbtnPopup} modifySelect={modifySelectPF}></InfoPopup>
                 </div>
             </h3>
         </div>

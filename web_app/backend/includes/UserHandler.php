@@ -216,7 +216,7 @@
                 foreach($u1->plants as $item){
                     if(isset($ideal)){
                         if (($ideal[1] <= $item->ph_range[0]) || ($ideal[0] >= $item->ph_range[1])){
-                            echo "Mutual Exclusion Compatibility Error: ";
+                            return; //Mutual Exclusion Compatibility Error
                             return;
                         }else{
                             if(($ideal[0] < $item->ph_range[0])){
@@ -240,8 +240,7 @@
                 foreach($u1->plants as $item){
                     if(isset($ideal)){
                         if (($ideal[1] <= $item->ec_range[0]) || ($ideal[0] >= $item->ec_range[1])){
-                            echo "Mutual Exclusion Compatibility Error: ";
-                            return;
+                            return; //Mutual Exclusion Compatibility Error
                         }else{
                             if(($ideal[0] < $item->ec_range[0])){
                                 $ideal[0] = $item->ec_range[0];
