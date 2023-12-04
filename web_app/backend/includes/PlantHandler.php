@@ -28,7 +28,7 @@
 
         //Calculate within range for getListCompatible(...)
         private function withinRange($range1, $range2){
-            if(($range1[1]<=$range2[0])||($range1[0]>=$range2[1])){
+            if(($range2==null)||($range1[1]<=$range2[0])||($range1[0]>=$range2[1])){
                 return false;
             }else{return true;}
         }
@@ -46,35 +46,35 @@
             $idealHours= $users->calculateHours($id, $this);
 
             //echo "Ideal: ph- ",json_encode($idealPH)," ec- ", json_encode($idealEC)," hours- ", json_encode($idealHours), "\n";
-            
-            $flagPH=true;$flagEC=true;$flagHour=true;
+                $flagPH=true;$flagEC=true;$flagHour=true;
 
-            
-            $cursor = $this->tbl->find([],['sort' => ['plant' => 1]]);
+                
+                $cursor = $this->tbl->find([],['sort' => ['plant' => 1]]);
 
-            foreach ($cursor as $item) {
-                if($fph){ // check pH
-                    $flagPH=true;
-                    if(!($this->withinRange($item->ph_range, $idealPH))){
-                        $flagPH=false;
+                foreach ($cursor as $item) {
+                    if($fph){ // check pH
+                        $flagPH=true;
+                        if(!($this->withinRange($item->ph_range, $idealPH))){
+                            $flagPH=false;
+                        }
+                    }
+                    if($fec){ //check ec
+                        $flagEC=true;
+                        if(!($this->withinRange($item->ec_range, $idealEC))){
+                            $flagEC=false;
+                        }
+                    }
+                    if($fhour){ // check hours
+                        $flagHour=true;
+                        if(!($this->withinRange($item->daily_light_requirement, $idealHours))){
+                            $flagHour=false;
+                        }
+                    }
+                    if($flagPH && $flagEC && $flagHour){//push if all conditions met
+                        array_push($arr, $item->plant);                  
                     }
                 }
-                if($fec){ //check ec
-                    $flagEC=true;
-                    if(!($this->withinRange($item->ec_range, $idealEC))){
-                        $flagEC=false;
-                    }
-                }
-                if($fhour){ // check hours
-                    $flagHour=true;
-                    if(!($this->withinRange($item->daily_light_requirement, $idealHours))){
-                        $flagHour=false;
-                    }
-                }
-                if($flagPH && $flagEC && $flagHour){//push if all conditions met
-                    array_push($arr, $item->plant);                  
-                }
-            }
+            
             return $arr; 
         }
 

@@ -1,4 +1,3 @@
-    
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -16,14 +15,8 @@ function InfoPopup(props) {
       }, [props.trigger, props.name, props.type]);
 
     const handleButtonClick=(e)=>{
-        switch(e.target.id){
-            case 'add-plant':
-                console.log("a");
-                break;
-            case 'remove-plant':
-                console.log("b");
-                break;
-        }
+        props.modifySelect(e.target.id, props.name);
+        props.setTrigger(false)
     }
     
     function displayPlantInfoBox(name){
@@ -78,8 +71,8 @@ function InfoPopup(props) {
            p3.appendChild(l5);p3.appendChild(l6);s1.appendChild(p3);
 
            var b1 = document.createElement("button");
-           var d2 = document.createElement("div"); 
            b1.id='add-plant'; b1.addEventListener("click", (e)=>handleButtonClick(e)); b1.innerHTML = "Add";
+           
            var b2 = document.createElement("button");
            b2.id='remove-plant'; b2.addEventListener("click", (e)=>handleButtonClick(e)); b2.innerHTML = "Remove";
            s0.appendChild(b1);
@@ -113,7 +106,6 @@ function InfoPopup(props) {
             }
         })
         .then(data => {
-            console.log(data);
 
             var tb = document.getElementById("popup-topbar");
             var s0 = document.getElementById("popup-section0");
@@ -147,9 +139,9 @@ function InfoPopup(props) {
            p1.appendChild(l1);p1.appendChild(l2);s1.appendChild(p1);
 
            var b1 = document.createElement("button");
-           b1.id='add-plant'; b1.addEventListener("click", (e)=>handleButtonClick(e)); b1.innerHTML = "Add";
+           b1.id='replace-fish'; b1.addEventListener("click", (e)=>handleButtonClick(e)); b1.innerHTML = "Replace";
            var b2 = document.createElement("button");
-           b2.id='remove-plant'; b2.addEventListener("click", (e)=>handleButtonClick(e)); b2.innerHTML = "Remove";
+           b2.id='remove-fish'; b2.addEventListener("click", (e)=>handleButtonClick(e)); b2.innerHTML = "Remove";
            s0.appendChild(b1);
            s0.appendChild(b2);
 

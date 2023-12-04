@@ -119,6 +119,10 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
+#navsettings :hover {
+    background-color: "rgb(8, 57, 141";
+}
  .settings {
     background-color: #403c3c;
     height: 950px;
@@ -393,12 +397,18 @@ input[type="range"]::-moz-range-thumb{
 }
 
 .navbar{
-    display: none
+    display: none;
+    overflow:visible;
 }
 
 .nav-dropdwn{
     display: none;
     transition: height 0.2s ease-in-out;
+}
+
+#navsettings:hover{
+    background-color: #08398d;
+    transition: 0.4s;
 }
 
 
@@ -412,7 +422,7 @@ input[type="range"]::-moz-range-thumb{
         display: block;
         width: 100vw;
         height: 100px;
-        overflow: flex;
+        overflow: visible;
         background-color: #0844ac;
         margin-bottom: 30px;
         text-align: right;
