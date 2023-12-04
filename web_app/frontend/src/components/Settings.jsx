@@ -42,6 +42,9 @@ function Settings() {
     const [feedEn, setFeedEnable] = useState(true);
     const [ledEn, setLEDEnable] = useState(true);
     const [timezone, setTimezone] = useState('UTC');
+    const [visibleWraps, setVisibleWraps] = useState([false, false, false]);
+    const [numFeedTime, setNumFeedTime] = useState(0);
+    const [feedEnabled, setFeedEnabled] = useState(true);
 
     const [error, setError] = useState('');
 
@@ -52,10 +55,31 @@ function Settings() {
                 progress3 = document.querySelector(".range-slider .progress-temp");
     let phGap= 0.4, ecGap=0.4, tempGap=3;
 
+    const w1 = document.getElementById('wrap1');
+    const w2 = document.getElementById('wrap2');
+    const w3 = document.getElementById('wrap3');
+
+    const b1 = document.getElementById('delete-t1');
+    const b2 = document.getElementById('delete-t2');
+
+    const at = document.getElementById('addtime');
+
+    
+
     useEffect(() => {
         getTimezoneList();
         setValues(); //initialize values from user doc on page load
     }, []);
+
+    useEffect(() => {
+        const newWrapId = `wrap${numFeedTime}`;
+        const element = document.getElementById(newWrapId);
+    
+        if (element) {
+            element.style.display = 'flex';
+            enableFormElements(newWrapId);
+        }
+    }, [numFeedTime]);
 
     const handleInputChange = (e, type) => {
         setError('');
@@ -222,30 +246,145 @@ function Settings() {
             document.getElementById('LEDoffMinute').disabled=false;
         }
     }
+
+    let secondButtonEnabled = true;
+
     function toggleFEEDDisable(){
+        const btns = [btn1, btn2, btn3];
+        const btnsStayDisabled = [btn1, btn2];
+
         if(!feedEn){
-            document.getElementById('firsthour').disabled=true;
-            document.getElementById('firstminute').disabled=true;
-            document.getElementById('secondhour').disabled=true;
-            document.getElementById('secondminute').disabled=true;
-            document.getElementById('thirdhour').disabled=true;
-            document.getElementById('thirdminute').disabled=true;
-        }else{
-            document.getElementById('firsthour').disabled=false;
-            document.getElementById('firstminute').disabled=false;
-            document.getElementById('secondhour').disabled=false;
-            document.getElementById('secondminute').disabled=false;
-            document.getElementById('thirdhour').disabled=false;
-            document.getElementById('thirdminute').disabled=false;
+            btns.forEach(btn => (btn.disabled = true));
+
+            disableTimeInputs();
+            setFeedEnabled(true);
+        } else {
+            btnsStayDisabled.forEach(btn => (btn.disabled = true));
+            btns[2].disabled = false;
+            if((w3.style.display !== 'flex') && (w2.style.display !== 'flex')) {
+                btns[0].disabled = false;
+            } else if (w3.style.display !== 'flex') {
+                btns[1].disabled = false;
+            }
+            
+            enableTimeInputs();
+            setFeedEnabled(false);
         }
+    }
+
+    function disableTimeInputs(){
+        document.getElementById('firsthour').disabled=true;
+        document.getElementById('firstminute').disabled=true;
+        document.getElementById('secondhour').disabled=true;
+        document.getElementById('secondminute').disabled=true;
+        document.getElementById('thirdhour').disabled=true;
+        document.getElementById('thirdminute').disabled=true;
+    }
+
+    function enableTimeInputs() {
+        document.getElementById('firsthour').disabled=false;
+        document.getElementById('firstminute').disabled=false;
+        document.getElementById('secondhour').disabled=false;
+        document.getElementById('secondminute').disabled=false;
+        document.getElementById('thirdhour').disabled=false;
+        document.getElementById('thirdminute').disabled=false;
     }
     function hideDiv(id){document.getElementById(id).style.display='none';}
     function showDiv(id){document.getElementById(id).style.display='block';}
 
-    function addTime(){
+function addTime(){
+
+        if (numFeedTime < 3) {
+            const updatedVisibleWraps = visibleWraps.map((value, index) => index === numFeedTime ? true : value);
+            setNumFeedTime(numFeedTime + 1);
+            setVisibleWraps(updatedVisibleWraps);
+            if (numFeedTime === 0){
+                w1.style.display = 'flex';
+            } else if (numFeedTime === 1) {
+                w2.style.display = 'flex';
+                b1.disabled = true;
+
+            } else if (numFeedTime === 2) {
+                w3.style.display = 'flex';
+                b2.disabled = true;
+                at.disabled = true;
+            }
+
+            const newWrapId = `wrap${numFeedTime + 1}`;
+            const element = document.getElementById(newWrapId);
+            if(element){
+                document.getElementById(newWrapId).style.display = 'flex';
+            }
+            enableFormElements(newWrapId);
+
+        } else if (numFeedTime === 2) {
+            document.getElementById('addtime').disabled = true;
+        }
+        // if (numFeedTime < 3) {
+        //     setNumFeedTime((prevNumFeedTime) => prevNumFeedTime + 1);
+        // } else if (numFeedTime === 2) {
+        //     document.getElementById('addtime').disabled = true;
+        // }
     }
-    function deleteTime(id){
+
+    function enableFormElements(wrapId) {
+        // const wrap = document.getElementById(wrapId);
+
+        // if(wrap) {
+        //     const formElements = wrap.querySelectorAll('select, button');
+        //     formElements.forEach((element) => {
+        //         element.disabled = false;
+        //     })
+        // }
+        const wrap = document.getElementById(wrapId);
+
+        if (wrap) {
+            const formElements = wrap.querySelectorAll('select, button');
+            formElements.forEach((element) => {
+            element.disabled = false;
+        });
+        }
     }
+
+    const btn1 = document.getElementById('delete-t1');
+    const btn2 = document.getElementById('delete-t2');
+    const btn3 = document.getElementById('delete-t3');
+
+    if (btn1) {
+        btn1.addEventListener('click', deleteTime);
+    }
+    if (btn2) {
+        btn2.addEventListener('click', deleteTime);
+    }
+    if (btn3) {
+        btn3.addEventListener('click', deleteTime);
+    }
+
+    // btn1.addEventListener('click', deleteTime);
+    // btn2.addEventListener('click', deleteTime);
+    // btn3.addEventListener('click', deleteTime);
+
+    function deleteTime() {
+        const w1 = document.getElementById('wrap1');
+        const w2 = document.getElementById('wrap2');
+        const w3 = document.getElementById('wrap3');
+
+        const at = document.getElementById('addtime');
+
+        if (numFeedTime === 3) {
+            w3.style.display = 'none';
+            btn1.disabled = true;
+            at.disabled = false;
+        } else if (numFeedTime === 2) {
+            w2.style.display = 'none';
+        } else if (numFeedTime === 1) {
+            w1.style.display = 'none';
+        }    
+
+        setNumFeedTime(numFeedTime - 1);
+
+    }
+    
     function getTimezoneList(){
         var url = 'http://localhost:8000/users/'+sessionId+'/timezone-list';
         var headers = {
@@ -421,7 +560,6 @@ function Settings() {
         }
         
         navDrop = !navDrop;
-        console.log('loser')
     }
 
     return(     
@@ -537,12 +675,14 @@ function Settings() {
                     </div>
                     <div className="wrap-timers2">
                         <div className="wrap-feed">
-                            <h2 id='st1'>FEED TIMES:</h2>
-                            <label className='switch' id='feedswitch'>
-                                <input type='checkbox' id='cs4' value={feedEn} onChange={()=>handleCheckChange("feedEn")}></input>
-                                <span className='slider round'></span>
-                            </label>
-                            <div className="wrap-first" id="wrap-first">
+                            <form className='form-horizontal' role='form'>
+                                <h2 id='st1'>FEED TIMES:</h2>
+                                <label className='switch' id='feedswitch'>
+                                    <input type='checkbox' id='cs4' value={feedEn} onChange={()=>handleCheckChange("feedEn")}></input>
+                                    <span className='slider round'></span>
+                                </label>
+                            </form>
+                            <div className="wrap-first" id="wrap1">
                                 <p id='cs4'>1 : 
                                     <select id="firsthour" disabled value={firsthour} onChange={(e) => handleInputChange(e, 'firstHour') }>
                                         <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
@@ -553,10 +693,10 @@ function Settings() {
                                     <select id="firstminute" disabled value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
                                             <option>00</option><option>15</option><option>30</option><option>45</option>
                                     </select>  
-                                    <button disabled type='button' id='delete-t1' onClick={deleteTime('wrap-first')} >x</button>                    
+                                    <button disabled type='button' id='delete-t1'>x</button>                    
                                 </p>
                             </div>
-                            <div className="wrap-second" id="wrap-second">
+                            <div className="wrap-second" id="wrap2">
                                 <p id='cs4'>2 : 
                                     <select id="secondhour" disabled value={secondhour} onChange={(e) => handleInputChange(e, 'secondHour')}>
                                         <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
@@ -567,10 +707,10 @@ function Settings() {
                                     <select id="secondminute" disabled value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
                                             <option>00</option><option>15</option><option>30</option><option>45</option>
                                     </select>
-                                    <button disabled type='button' id='delete-t2' onClick={deleteTime('wrap-second')} >x</button>      
+                                    <button disabled type='button' id='delete-t2'>x</button>      
                                 </p>
                             </div>
-                            <div className="wrap-third" id="wrap-third">
+                            <div className="wrap-third" id="wrap3">
                                 <p id='cs4'>3 : 
                                     <select id="thirdhour" disabled value={thirdhour} onChange={(e) => handleInputChange(e, 'thirdHour')}>
                                         <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
@@ -581,10 +721,10 @@ function Settings() {
                                     <select  id="thirdminute" disabled value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
                                             <option>00</option><option>15</option><option>30</option><option>45</option>
                                     </select>
-                                    <button disabled type='button' id='delete-t3' onClick={deleteTime('wrap-third')} >x</button>      
+                                    <button disabled type='button' id='delete-t3'>x</button>      
                                 </p>
                             </div>
-                            <button disabled type='button' id='addtime' onClick={addTime}>Add Time</button>
+                            <button id='addtime' disabled={feedEnabled} onClick={addTime}>Add Time</button>
                             <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                         </div>
                         <div className="wrap-led">

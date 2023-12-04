@@ -254,12 +254,31 @@ label {
     background: #c4c2c2;
     border-width: 0.25px;
 }
+#wrap1 {
+    display:none;
+    margin-left: 38%;
+    margin-top: -25px;
+}
+
+#wrap2 {
+    display:none;
+    margin-left: 38%;
+}
+
+#wrap3 {
+    display:none;
+    margin-left: 38%;
+}
 .wrap-led{
     padding-bottom: 30px;
     padding-top: 1px;
     border-style: inset;
     background: #c4c2c2;
     border-width: 0.25px;
+}
+
+#addtime {
+    
 }
 
 /*tick markings PH*/
