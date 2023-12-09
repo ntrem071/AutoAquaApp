@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './UserInfo.css';
-import userIcon from '../pictures/user.png';
-import generalUserIconImage from '../pictures/userImageFishUwU.png';
 
-function UserInfo() {
+function UserInfo(props) {
     const navigate = useNavigate();
     const sessionId= Cookies.get('sessionId');
 
@@ -13,8 +11,6 @@ function UserInfo() {
     const [email, setEmail] = useState('');
 
     const [error, setError] = useState('');
-
-    var navDrop = false;
 
     useEffect(() => {
         setValues(); 
@@ -79,64 +75,20 @@ function UserInfo() {
         nav('/');
     }
 
-    function displayNavSmall(){
-
-        if(navDrop){
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
-        }else{
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
-        }
-        
-        navDrop = !navDrop;
-    }
-
-    return(   
-        <div id='user-info'>
-                <div className="navbar">
-                    <span style={{fontFamily:'Courier', color: 'white'}}>Hello Mr. Bubbles! </span>
-                    <img id='userIcon' src={generalUserIconImage}></img>
-                    <button id='nav-button' onClick={displayNavSmall}></button>
-                    <div className="nav-dropdwn">
-                        <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>
-                            <h1 id='nav-text'>Home</h1>
-                            &nbsp;
-                        </button>  
-                        <button id='navuser' style={{backgroundColor: "#08398d"}} variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>
-                            <h1 id='nav-text'>Account</h1>
-                            &nbsp;
-                        </button> 
-                        <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>
-                            <h1 id='nav-text'>Fish Analyctics</h1>
-                            &nbsp;
-                        </button>
-                        <button id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>
-                            <h1 id='nav-text'>Information</h1>
-                            &nbsp;
-                        </button>  
-                        <button id='navsettings' variant='contained' title='Settings' onClick={() => navigate('/Settings')}>
-                            <h1 id='nav-text'>Settings</h1>
-                            &nbsp;
-                        </button>
-                    </div> 
-                </div>
-                <h1>User Info</h1>
-                <h3>
-                    <div className='nav'>
-                        <button id='navhome' variant='contained' onClick={() => nav('/Home')}>&nbsp;</button>
-                        <button id='navuser' style={{backgroundColor: "#08398d"}} variant='contained' onClick={() => nav('/User-Info')}>&nbsp;</button>
-                        <button id='navfish' variant='contained' onClick={() => nav('/Fish')}>&nbsp;</button>
-                        <button id='navinfo' variant='contained' onClick={() => nav('/Information')}>&nbsp;</button>
-                        <button id='navsettings' variant='contained' onClick={() => nav('/Settings')}>&nbsp;</button>
-                    </div>
-                    <div className='user-details'>
-                        <p id='ntitle'>Name: {name}</p>
-                        <p id='etitle'>Email: {email}</p>
-                        <button type='button' id='use-logout' onClick={logout}>Logout</button>
-                    </div>
-                </h3>
-        </div>                       
-
-    );
+    return(props.trigger) ? (
+        <div className='user-details'>
+            <div className='infoUser'>
+                <h3 style={{textAlign:'center'}}>Profile</h3>
+                <span id='ntitle'>Name: </span><span>{name}</span>
+                <br></br>
+                <br></br>
+                <span id='etitle'>Email: </span><span>{email}</span>
+                <br></br>
+                <br></br>
+            </div>
+            <button type='Sbutton' id='use-logout' onClick={logout}>Logout</button>
+        </div>                      
+    ) : "";
 }
 
 export default UserInfo;

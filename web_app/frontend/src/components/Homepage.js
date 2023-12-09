@@ -242,40 +242,6 @@ function Homepage() {
     return(
 
         <div className='Homepage'>
-            <div className="navbar">
-                <span style={{fontFamily:'Courier', color: 'white'}}>Hello Mr. Bubbles! </span>
-                <img id='userIcon' src={generalUserIconImage}></img>
-                <button id='nav-button' onClick={displayNavSmall}></button>
-                <div className="nav-dropdwn">
-                    <button id='navhome' style={{backgroundColor: "#08398d"}} variant='contained' title='Home' onClick={() => navigate('/Home')}>
-                        <h1 id='nav-text'>Home</h1>
-                        &nbsp;
-                    </button>  
-                    <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>
-                        <h1 id='nav-text'>Account</h1>
-                        &nbsp;
-                    </button> 
-                    <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>
-                        <h1 id='nav-text'>Fish Analyctics</h1>
-                        &nbsp;
-                    </button>
-                    <button id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>
-                        <h1 id='nav-text'>Information</h1>
-                        &nbsp;
-                    </button>  
-                    <button id='navsettings' variant='contained' title='Settings' onClick={() => navigate('/Settings')}>
-                        <h1 id='nav-text'>Settings</h1>
-                        &nbsp;
-                    </button>
-                </div> 
-            </div>
-            <div className='nav'>
-                <button id='navhome' style={{backgroundColor: "#08398d"}} variant='contained' onClick={() => nav('/Home')}>&nbsp;</button>
-                <button id='navuser' variant='contained' onClick={() => nav('/User-Info')}>&nbsp;</button>
-                <button id='navfish' variant='contained' onClick={() => nav('/Fish')}>&nbsp;</button>
-                <button id='navinfo' variant='contained' onClick={() => nav('/Information')}>&nbsp;</button>
-                <button id='navsettings' variant='contained' onClick={() => nav('/Settings')}>&nbsp;</button>
-            </div>
             <div className='outerbox-hp'>
                 <div className='wrap-graphs'>
                     <h3 id='wltitle'>Water Level</h3>

@@ -310,47 +310,11 @@ function Fish() {
     return(
      
             <div className='info-fish-plant'>
-            <div className="navbar">
-                <span style={{fontFamily:'Courier', color: 'white'}}>Hello Mr. Bubbles! </span>
-                <img id='userIcon' src={generalUserIconImage}></img>
-                <button id='nav-button' onClick={displayNavSmall}></button>
-                <div className="nav-dropdwn">
-                    <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>
-                        <h1 id='nav-text'>Home</h1>
-                        &nbsp;
-                    </button>  
-                    <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>
-                        <h1 id='nav-text'>Account</h1>
-                        &nbsp;
-                    </button> 
-                    <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>
-                        <h1 id='nav-text'>Fish Analyctics</h1>
-                        &nbsp;
-                    </button>
-                    <button id='navinfo' style={{backgroundColor: "#08398d"}} variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>
-                        <h1 id='nav-text'>Information</h1>
-                        &nbsp;
-                    </button>  
-                    <button id='navsettings' variant='contained' title='Settings' onClick={() => navigate('/Settings')}>
-                        <h1 id='nav-text'>Settings</h1>
-                        &nbsp;
-                    </button>
-                </div> 
-            </div>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
             <h1>Compatibility Search</h1>
             <h3>
                 <div className='outerbox-p'>
-
-                    <div className='nav'>
-                        <button id='navhome' variant='contained' title='Home' onClick={() => nav('/Home')}>&nbsp;</button>
-                        <button id='navuser' variant='contained' title='User Info' onClick={() => nav('/User-Info')}>&nbsp;</button>
-                        <button id='navfish' variant='contained' title='Fish Health' onClick={() => nav('/Fish')}>&nbsp;</button>
-                        <button id='navinfo' style={{backgroundColor: "#08398d"}} variant='contained' title='Fish and Plant Search' onClick={() => nav('/Information')}>&nbsp;</button>
-                        <button id='navsettings' variant='contained' title='Settings' onClick={() => nav('/Settings')}>&nbsp;</button>
-                    </div>
                     <div>
-
                         <div className='wrap-toggle-pf'>
                             <button type='button' id='plant-toggle' onClick={getPlantList}>Plants </button>
                             <button type='button' id='fish-toggle' onClick={getFishList}>Fish</button>
