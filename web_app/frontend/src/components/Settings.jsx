@@ -18,11 +18,11 @@ function Settings() {
     const [tempMin, settempMin] = useState('22');
     const [tempMax, settempMax] = useState('28');
     const [firsthour, setfirstHour] = useState('00');
-    const [secondhour, setsecondHour] = useState('');
-    const [thirdhour, setthirdHour] = useState('');
-    const [firstminute, setfirstMinute] = useState('');
-    const [secondminute, setsecondMinute] = useState('');
-    const [thirdminute, setthirdMinute] = useState('');
+    const [secondhour, setsecondHour] = useState('00');
+    const [thirdhour, setthirdHour] = useState('00');
+    const [firstminute, setfirstMinute] = useState('00');
+    const [secondminute, setsecondMinute] = useState('00');
+    const [thirdminute, setthirdMinute] = useState('00');
     const [LEDonHour, setLEDonHour] = useState('00');
     const [LEDoffHour, setLEDoffHour] = useState('00');
     const [LEDonMinute, setLEDonMinute] = useState('00');
@@ -34,7 +34,6 @@ function Settings() {
     const [ledEn, setLEDEnable] = useState(true);
     const [timezone, setTimezone] = useState('UTC');
     const [visibleWraps, setVisibleWraps] = useState([false, false, false]);
-    const [numFeedTime, setNumFeedTime] = useState(0);
 
     const [error, setError] = useState('');
 
@@ -45,7 +44,9 @@ function Settings() {
 
 
     function toggleFEEDDisable(){
-
+        console.log('-t-',feedEn);
+        console.log('-t-',visibleWraps);
+            document.getElementById('addtime').disabled = !feedEn;
             if(visibleWraps[0]==true){
                 document.getElementById('firsthour').disabled=!feedEn;
                 document.getElementById('firstminute').disabled=!feedEn;
@@ -60,63 +61,53 @@ function Settings() {
                 document.getElementById('thirdhour').disabled=!feedEn;
                 document.getElementById('thirdminute').disabled=!feedEn;
                 document.getElementById('delete-t3').disabled = !feedEn;
+                console.log(document.getElementById('addtime').disabled);
+                document.getElementById('addtime').disabled = true;
             }
-            console.log('-t-',feedEn);
-            console.log('-t-',visibleWraps);
     }
 
 
     function addTime(){     
-        console.log('-a-',feedEn,":",numFeedTime);
+        console.log('-a-',feedEn);
         console.log('-a-',visibleWraps);
-        if (numFeedTime < 3){
             if (visibleWraps[0]==false){
-                console.log('here0');
                 setVisibleWraps([true, false, false]);
                 document.getElementById('wrap1').style.display = 'flex';
-                document.getElementById('delete-t1').addEventListener('click', deleteTime);
+
             } else if (visibleWraps[1]==false) {
-                console.log('here1');
                 setVisibleWraps([true, true, false]);
                 document.getElementById('wrap2').style.display = 'flex';
                 document.getElementById('delete-t1').disabled = true;
                 document.getElementById('delete-t2').disabled = false;
-                document.getElementById('delete-t2').addEventListener('click', deleteTime);
 
             } else if (visibleWraps[2]==false) {
-                console.log('here2');
                 setVisibleWraps([true, true, true]);
                 document.getElementById('wrap3').style.display = 'flex';
                 document.getElementById('delete-t2').disabled = true;
                 document.getElementById('delete-t3').disabled = false;
-                document.getElementById('delete-t3').addEventListener('click', deleteTime);
                 document.getElementById('addtime').disabled = true;
-            }
-        }
+            }    
     }
 
     function deleteTime() {
-            console.log('-d-',feedEn,":",numFeedTime);
+            console.log('-d-',feedEn);
             console.log('-d-',visibleWraps);
 
             if (visibleWraps[2]==true) {
                 console.log('here3');
                 setVisibleWraps([true, true, false]);
-                document.getElementById('delete-t3').removeEventListener('click', deleteTime);
                 document.getElementById('delete-t2').disabled = false;
                 document.getElementById('wrap3').style.display = 'none';
             } 
             else if (visibleWraps[1]==true) {
                 console.log('here2');
                 setVisibleWraps([true, false, false]);
-                document.getElementById('delete-t2').removeEventListener('click', deleteTime);
                 document.getElementById('delete-t1').disabled = false;
                 document.getElementById('wrap2').style.display = 'none';
             } 
             else if (visibleWraps[0]==true) {
                 console.log('here1');
                 setVisibleWraps([false, false, false]);
-                document.getElementById('delete-t1').removeEventListener('click', deleteTime);
                 document.getElementById('wrap1').style.display = 'none';
             }  
 
@@ -241,7 +232,6 @@ function Settings() {
         }
         if(error!=''){
             console.log(error);
-            //document.querySelector("#warning").style.display;
         }
     }
     const handleCheckChange = (type) => {
@@ -253,11 +243,11 @@ function Settings() {
                 break;
             case 'ecEn':
                 setECEnable(!ecEn);  
-                //toggleRangeDisable(ecEn, 'ecMin', 'ecMax')
+                //toggleRangeDisable(ecEn, 'ec')
                 break;
             case 'tempEn':
                 setTempEnable(!tempEn);
-                //toggleRangeDisable(tempEn, 'tempMin', 'tempMax')
+                //toggleRangeDisable(tempEn, 'temp')
                 break;
             case 'feedEn':
                 setFeedEnable(!feedEn); 
@@ -274,6 +264,8 @@ function Settings() {
     function toggleRangeDisable(va, str1){
         if(!va){
             document.querySelector(".range-slider .progress-"+str1).style.background = '#5f5f5f'; 
+            //document.getElementsByClassName(".range-input input").style['-webkit-slider-thumb'].background= '#5f5f5f'; 
+            //document.querySelector("input[type=\"range\"]::-webkit-slider-thumb").style.background = '#5f5f5f'; 
             //document.querySelector('.range-slider').style.setProperty(--SlideColor, '#5f5f5f'); //MAKE CIRCLES GREY?  
         }else{
             document.querySelector(".range-slider .progress-"+str1).style.background = '#2196F3';
@@ -346,10 +338,15 @@ function Settings() {
     }
 
     function updateFeed(){
+        var arr=[];
+        if(visibleWraps[0]){arr.push([firsthour,firstminute])}
+        if(visibleWraps[1]){arr.push([secondhour,secondminute])}
+        if(visibleWraps[2]){arr.push([thirdhour,thirdminute])}
+
         var url = 'http://localhost:8000/users/'+sessionId+'/feed';
         var data = {
             feedEnable: !feedEn,
-            feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]]                      
+            feedTimer: arr                     
         };
         sendRequest(url, data);
     }
@@ -450,10 +447,7 @@ function Settings() {
 
                     document.getElementById('wrap1').style.display = 'flex';
                     if(data.feedTimer[1]==null){
-                        console.log( "here", numFeedTime);
-                        setNumFeedTime(1);
                         setVisibleWraps([true, false, false]);
-                        document.getElementById('delete-t1').addEventListener('click', deleteTime);
                     }
                     console.log(!data.feedEnable)
                     document.getElementById('firsthour').disabled=!data.feedEnable;
@@ -468,9 +462,7 @@ function Settings() {
                     document.getElementById('wrap2').style.display = 'flex';
                     document.getElementById('delete-t1').disabled = true;
                     if(data.feedTimer[2]==null){
-                        setNumFeedTime(2);
                         setVisibleWraps([true, true, false]);
-                        document.getElementById('delete-t2').addEventListener('click', deleteTime);
                     }
                     document.getElementById('secondhour').disabled=!data.feedEnable;
                     document.getElementById('secondminute').disabled=!data.feedEnable;
@@ -483,15 +475,15 @@ function Settings() {
                     document.getElementById('wrap3').style.display = 'flex';
                     document.getElementById('addtime').disabled = true;
                     document.getElementById('delete-t2').disabled = true;
-                    setNumFeedTime(3);
                     setVisibleWraps([true, true, true]);
-                    document.getElementById('delete-t3').addEventListener('click', deleteTime);
                     document.getElementById('thirdhour').disabled=!data.feedEnable;
                     document.getElementById('thirdminute').disabled=!data.feedEnable;
                     document.getElementById('delete-t3').disabled = !data.feedEnable;
                 }
 
-
+                if(!data.feedEnable){
+                    document.getElementById('addtime').disabled = true;
+                }
 
                 if((!(data.timezone==null))){setTimezone(data.timezone);}
                 
@@ -649,7 +641,7 @@ function Settings() {
                                     <select id="firstminute" value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
                                             <option>00</option><option>15</option><option>30</option><option>45</option>
                                     </select>  
-                                    <button type='button' id='delete-t1'>x</button>                    
+                                    <button type='button' id='delete-t1' onClick={deleteTime}>x</button>                    
                                 </p>
                             </div>
                             <div className="wrap-second" id="wrap2">
@@ -663,7 +655,7 @@ function Settings() {
                                     <select id="secondminute"  value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
                                             <option>00</option><option>15</option><option>30</option><option>45</option>
                                     </select>
-                                    <button  type='button' id='delete-t2'>x</button>      
+                                    <button  type='button' id='delete-t2' onClick={deleteTime}>x</button>      
                                 </p>
                             </div>
                             <div className="wrap-third" id="wrap3">
@@ -677,10 +669,10 @@ function Settings() {
                                     <select  id="thirdminute"  value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
                                             <option>00</option><option>15</option><option>30</option><option>45</option>
                                     </select>
-                                    <button  type='button' id='delete-t3'>x</button>      
+                                    <button  type='button' id='delete-t3' onClick={deleteTime}>x</button>      
                                 </p>
                             </div>
-                            <button id='addtime' disabled={feedEn} onClick={addTime}>Add Time</button>
+                            <button id='addtime' onClick={addTime}>Add Time</button>
                             <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                         </div>
                         <div className="wrap-led">
