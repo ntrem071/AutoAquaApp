@@ -2,19 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Settings.css';
+import userIcon from '../pictures/user.png';
+import generalUserIconImage from '../pictures/userImageFishUwU.png';
 
 function Settings() {
     const navigate = useNavigate();
     const sessionId= Cookies.get('sessionId');
 
-    const ranges = {
-        pHRangeMin : 6.7,
-        pHRangeMax : 8.3,
-        ecRangeMin : 2,
-        ecRangeMax : 4,
-        tempRangeMin : 16.7,
-        tempRangeMax : 20.0
-    }
+    var navDrop = false;
 
     const [pHMin, setpHMin] = useState('6.5');
     const [pHMax, setpHMax] = useState('7.5');
@@ -22,41 +17,118 @@ function Settings() {
     const [ecMax, setecMax] = useState('3.0');
     const [tempMin, settempMin] = useState('22');
     const [tempMax, settempMax] = useState('28');
-    const [firsthour, setfirstHour] = useState('');
+    const [firsthour, setfirstHour] = useState('00');
     const [secondhour, setsecondHour] = useState('');
     const [thirdhour, setthirdHour] = useState('');
     const [firstminute, setfirstMinute] = useState('');
     const [secondminute, setsecondMinute] = useState('');
     const [thirdminute, setthirdMinute] = useState('');
-    const [message, setMessage] = useState('');
-    const [time, setTime] = useState('');
     const [LEDonHour, setLEDonHour] = useState('00');
     const [LEDoffHour, setLEDoffHour] = useState('00');
     const [LEDonMinute, setLEDonMinute] = useState('00');
     const [LEDoffMinute, setLEDoffMinute] = useState('00');
-    const [firstVisible, setFirstVisible] = useState(false);
-    const [secondVisible, setSecondVisible] = useState(false);
-    const [thirdVisible, setthirdVisible] = useState(false);
-    const [current, setCurrent] = useState(1);
     const [phEn, setPHEnable] = useState(true);
     const [ecEn, setECEnable] = useState(true);
     const [tempEn, setTempEnable] = useState(true);
     const [feedEn, setFeedEnable] = useState(true);
     const [ledEn, setLEDEnable] = useState(true);
     const [timezone, setTimezone] = useState('UTC');
+    const [visibleWraps, setVisibleWraps] = useState([false, false, false]);
+    const [numFeedTime, setNumFeedTime] = useState(0);
 
     const [error, setError] = useState('');
-
 
     const progress1 = document.querySelector(".range-slider .progress-ph"), 
             progress2 = document.querySelector(".range-slider .progress-ec"),
                 progress3 = document.querySelector(".range-slider .progress-temp");
     let phGap= 0.4, ecGap=0.4, tempGap=3;
 
+
+    function toggleFEEDDisable(){
+
+            if(visibleWraps[0]==true){
+                document.getElementById('firsthour').disabled=!feedEn;
+                document.getElementById('firstminute').disabled=!feedEn;
+                if(visibleWraps[1]==false){document.getElementById('delete-t1').disabled = !feedEn;}
+            }
+            if(visibleWraps[1]==true){
+                document.getElementById('secondhour').disabled=!feedEn;
+                document.getElementById('secondminute').disabled=!feedEn;
+                if(visibleWraps[2]==false){document.getElementById('delete-t2').disabled = !feedEn;}
+            }
+            if(visibleWraps[2]==true){
+                document.getElementById('thirdhour').disabled=!feedEn;
+                document.getElementById('thirdminute').disabled=!feedEn;
+                document.getElementById('delete-t3').disabled = !feedEn;
+            }
+            console.log('-t-',feedEn);
+            console.log('-t-',visibleWraps);
+    }
+
+
+    function addTime(){     
+        console.log('-a-',feedEn,":",numFeedTime);
+        console.log('-a-',visibleWraps);
+        if (numFeedTime < 3){
+            if (visibleWraps[0]==false){
+                console.log('here0');
+                setVisibleWraps([true, false, false]);
+                document.getElementById('wrap1').style.display = 'flex';
+                document.getElementById('delete-t1').addEventListener('click', deleteTime);
+            } else if (visibleWraps[1]==false) {
+                console.log('here1');
+                setVisibleWraps([true, true, false]);
+                document.getElementById('wrap2').style.display = 'flex';
+                document.getElementById('delete-t1').disabled = true;
+                document.getElementById('delete-t2').disabled = false;
+                document.getElementById('delete-t2').addEventListener('click', deleteTime);
+
+            } else if (visibleWraps[2]==false) {
+                console.log('here2');
+                setVisibleWraps([true, true, true]);
+                document.getElementById('wrap3').style.display = 'flex';
+                document.getElementById('delete-t2').disabled = true;
+                document.getElementById('delete-t3').disabled = false;
+                document.getElementById('delete-t3').addEventListener('click', deleteTime);
+                document.getElementById('addtime').disabled = true;
+            }
+        }
+    }
+
+    function deleteTime() {
+            console.log('-d-',feedEn,":",numFeedTime);
+            console.log('-d-',visibleWraps);
+
+            if (visibleWraps[2]==true) {
+                console.log('here3');
+                setVisibleWraps([true, true, false]);
+                document.getElementById('delete-t3').removeEventListener('click', deleteTime);
+                document.getElementById('delete-t2').disabled = false;
+                document.getElementById('wrap3').style.display = 'none';
+            } 
+            else if (visibleWraps[1]==true) {
+                console.log('here2');
+                setVisibleWraps([true, false, false]);
+                document.getElementById('delete-t2').removeEventListener('click', deleteTime);
+                document.getElementById('delete-t1').disabled = false;
+                document.getElementById('wrap2').style.display = 'none';
+            } 
+            else if (visibleWraps[0]==true) {
+                console.log('here1');
+                setVisibleWraps([false, false, false]);
+                document.getElementById('delete-t1').removeEventListener('click', deleteTime);
+                document.getElementById('wrap1').style.display = 'none';
+            }  
+
+            document.getElementById('addtime').disabled = false;
+    }
+    
     useEffect(() => {
         getTimezoneList();
         setValues(); //initialize values from user doc on page load
     }, []);
+
+
 
     const handleInputChange = (e, type) => {
         setError('');
@@ -81,7 +153,6 @@ function Settings() {
                         progress1.style.right = 100-((e.target.value-6)/2)*100 + '%';
                     }
                 }else if(phEn){
-                   //console.log('PH Dosing System Disabled!');
                     setError('PH Dosing System Disabled!');
                 }   
                 break;
@@ -172,8 +243,6 @@ function Settings() {
             console.log(error);
             //document.querySelector("#warning").style.display;
         }
-        
-
     }
     const handleCheckChange = (type) => {
         setError('');
@@ -211,6 +280,7 @@ function Settings() {
            // document.querySelector('input[type="range"]::-webkit-slider-thumb').style.background = '#2196F3';  
         }
     }
+
     function toggleLEDDisable(){
         if(!ledEn){
             document.getElementById('LEDonHour').disabled=true;
@@ -224,48 +294,9 @@ function Settings() {
             document.getElementById('LEDoffMinute').disabled=false;
         }
     }
-    function toggleFEEDDisable(){
-        if(!feedEn){
-            document.getElementById('firsthour').disabled=true;
-            document.getElementById('firstminute').disabled=true;
-            document.getElementById('secondhour').disabled=true;
-            document.getElementById('secondminute').disabled=true;
-            document.getElementById('thirdhour').disabled=true;
-            document.getElementById('thirdminute').disabled=true;
-        }else{
-            document.getElementById('firsthour').disabled=false;
-            document.getElementById('firstminute').disabled=false;
-            document.getElementById('secondhour').disabled=false;
-            document.getElementById('secondminute').disabled=false;
-            document.getElementById('thirdhour').disabled=false;
-            document.getElementById('thirdminute').disabled=false;
-        }
-    }
+
+
     
-    function ToggleTextAddTime(){
-        var first = document.getElementById('first');
-        var second = document.getElementById('second');
-        var third = document.getElementById('third');
-
-        console.log('First: ', first);
-        console.log('Second: ', second);
-        console.log('Third: ', third);
-
-        first.classList.add('firsthide');
-        second.classList.add('secondhide');
-        third.classList.add('thirdhide');
-
-        if (current === 1) {
-            first.classList.remove('firsthide');
-        } else if (current === 2) {
-            second.classList.remove('secondhide');
-        } else if (current === 3) {
-            third.classList.remove('thirdhide');
-        }
-
-        current = (current % 3) + 1
-    }
-
     function getTimezoneList(){
         var url = 'http://localhost:8000/users/'+sessionId+'/timezone-list';
         var headers = {
@@ -349,7 +380,7 @@ function Settings() {
             headers: headers,
             body: JSON.stringify(data)
         })
-        .then((response) => { //null data response (set to T/F later)
+        .then((response) => { 
             if(response.error) {
                 setError(response.error);
                 console.log('Error: ', response.error)
@@ -410,39 +441,115 @@ function Settings() {
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][1]==null))){setLEDoffMinute(data.ledTimer[0][1]);}
                 if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][0]==null))){setLEDonHour(data.ledTimer[1][0]);}
                 if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][1]==null))){setLEDonMinute(data.ledTimer[1][1]);}
-  
-                if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][0]==null))){setfirstHour(data.feedTimer[0][0]);}
-                if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][1]==null))){setfirstMinute(data.feedTimer[0][1]);}
-                if((!(data.feedTimer[1]==null) && !(data.feedTimer[1][0]==null))){setsecondHour(data.feedTimer[1][0]);}
-                if((!(data.feedTimer[1]==null) && !(data.feedTimer[1][1]==null))){setsecondMinute(data.feedTimer[1][1]);}
-                if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][0]==null))){setthirdHour(data.feedTimer[2][0]);}
-                if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][1]==null))){setthirdMinute(data.feedTimer[2][1]);}
+                
+              
+                //load feed times
+                if(!(data.feedTimer[0]==null)){
+                    if((!(data.feedTimer[0][0]==null))){setfirstHour(data.feedTimer[0][0]);}
+                    if((!(data.feedTimer[0][1]==null))){setfirstMinute(data.feedTimer[0][1]);}
+
+                    document.getElementById('wrap1').style.display = 'flex';
+                    if(data.feedTimer[1]==null){
+                        console.log( "here", numFeedTime);
+                        setNumFeedTime(1);
+                        setVisibleWraps([true, false, false]);
+                        document.getElementById('delete-t1').addEventListener('click', deleteTime);
+                    }
+                    console.log(!data.feedEnable)
+                    document.getElementById('firsthour').disabled=!data.feedEnable;
+                    document.getElementById('firstminute').disabled=!data.feedEnable;
+                    document.getElementById('delete-t1').disabled =!data.feedEnable;
+                }
+                if(!(data.feedTimer[1]==null)){
+                    if((!(data.feedTimer[1][0]==null))){setsecondHour(data.feedTimer[1][0]);}
+                    if((!(data.feedTimer[1][1]==null))){setsecondMinute(data.feedTimer[1][1]);}
+                    
+                    
+                    document.getElementById('wrap2').style.display = 'flex';
+                    document.getElementById('delete-t1').disabled = true;
+                    if(data.feedTimer[2]==null){
+                        setNumFeedTime(2);
+                        setVisibleWraps([true, true, false]);
+                        document.getElementById('delete-t2').addEventListener('click', deleteTime);
+                    }
+                    document.getElementById('secondhour').disabled=!data.feedEnable;
+                    document.getElementById('secondminute').disabled=!data.feedEnable;
+                    document.getElementById('delete-t2').disabled = !data.feedEnable;
+                }
+                if(!(data.feedTimer[2]==null)){
+                    if((!(data.feedTimer[2][0]==null))){setthirdHour(data.feedTimer[2][0]);}
+                    if((!(data.feedTimer[2][1]==null))){setthirdMinute(data.feedTimer[2][1]);}
+                    
+                    document.getElementById('wrap3').style.display = 'flex';
+                    document.getElementById('addtime').disabled = true;
+                    document.getElementById('delete-t2').disabled = true;
+                    setNumFeedTime(3);
+                    setVisibleWraps([true, true, true]);
+                    document.getElementById('delete-t3').addEventListener('click', deleteTime);
+                    document.getElementById('thirdhour').disabled=!data.feedEnable;
+                    document.getElementById('thirdminute').disabled=!data.feedEnable;
+                    document.getElementById('delete-t3').disabled = !data.feedEnable;
+                }
+
+
 
                 if((!(data.timezone==null))){setTimezone(data.timezone);}
-
-                if((!(data.timezone==null))){setTimezone(data.timezone);}
-
-                //toggle booleans --> issues getting toggle to reflect user boolean values
                 
                 if(data.phEnable===true){document.getElementById('cs1').click();}
                 if(data.ecEnable===true){document.getElementById('cs2').click();}
                 if(data.tempEnable===true){document.getElementById('cs3').click();}
                 if(data.feedEnable===true){document.getElementById('cs4').click();}
                 if(data.ledEnable===true){document.getElementById('cs5').click();}
-                
             })
             .catch((err) => {
                 setError(err);
                 console.log(err);
             });
     }
-      
+
+    function displayNavSmall(){
+
+        if(navDrop){
+            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
+        }else{
+            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
+        }
+        
+        navDrop = !navDrop;
+    }
 
     return(     
-    
-        <div className='Settings'>
-            <h1 id='warning'>WARNING</h1>
-            <div className='outerbox'>
+        
+        <div className='settings'>
+            <div className="navbar">
+                <span style={{fontFamily:'Courier', color: 'white'}}>Hello Mr. Bubbles! </span>
+                <img id='userIcon' src={generalUserIconImage}></img>
+                <button id='nav-button' onClick={displayNavSmall}></button>
+                <div className="nav-dropdwn">
+                    <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>
+                        <h1 id='nav-text'>Home</h1>
+                        &nbsp;
+                    </button>  
+                    <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>
+                        <h1 id='nav-text'>Account</h1>
+                        &nbsp;
+                    </button> 
+                    <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>
+                        <h1 id='nav-text'>Fish Analyctics</h1>
+                        &nbsp;
+                    </button>
+                    <button id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>
+                        <h1 id='nav-text'>Information</h1>
+                        &nbsp;
+                    </button>  
+                    <button id='navsettings' style={{backgroundColor: "#08398d"}} variant='contained' title='Settings' onClick={() => navigate('/Settings')}>
+                        <h1 id='nav-text'>Settings</h1>
+                        &nbsp;
+                    </button>
+                </div> 
+            </div>
+            <div className="settings-title"><h1 id='settings-title'>Settings</h1></div>
+            <div className='outerbox-s'>
                 <div className='nav'>
                     <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>&nbsp;</button>
                     <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>&nbsp;</button>
@@ -451,6 +558,7 @@ function Settings() {
                     <button id='navsettings' style={{backgroundColor: "#08398d"}} variant='contained' title='Settings' onClick={() => navigate('/Settings')}>&nbsp;</button>
                     </div>
                 <div>
+                
                 <div className='wrap-range'>
                     <h2 id='st1'>RANGES:</h2>
                     <div className="wrap-ph">
@@ -523,45 +631,56 @@ function Settings() {
                     </div>
                     <div className="wrap-timers2">
                         <div className="wrap-feed">
-                            <h2 id='st1'>FEED TIMES:</h2>
-                            <label className='switch' id='feedswitch'>
-                                <input type='checkbox' id='cs4' value={feedEn} onChange={()=>handleCheckChange("feedEn")}></input>
-                                <span className='slider round'></span>
-                            </label>
-                            <p id='cs4'>1 : 
-                                <select id="firsthour" disabled value={firsthour} onChange={(e) => handleInputChange(e, 'firstHour') }>
-                                    <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
-                                    <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
-                                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
-                                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                </select> :
-                                <select id="firstminute" disabled value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
-                                        <option>00</option><option>15</option><option>30</option><option>45</option>
-                                </select>                      
+                            <form className='form-horizontal' role='form'>
+                                <h2 id='st1'>FEED TIMES:</h2>
+                                <label className='switch' id='feedswitch'>
+                                    <input type='checkbox' id='cs4' value={feedEn} onChange={()=>handleCheckChange("feedEn")}></input>
+                                    <span className='slider round'></span>
+                                </label>
+                            </form>
+                            <div className="wrap-first" id="wrap1">
+                                <p id='cs4'>1 : 
+                                    <select id="firsthour" value={firsthour} onChange={(e) => handleInputChange(e, 'firstHour') }>
+                                        <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                        <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                        <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                        <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                    </select> :
+                                    <select id="firstminute" value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
+                                            <option>00</option><option>15</option><option>30</option><option>45</option>
+                                    </select>  
+                                    <button type='button' id='delete-t1'>x</button>                    
                                 </p>
-                            <p id='cs4'>2 : 
-                                <select id="secondhour" disabled value={secondhour} onChange={(e) => handleInputChange(e, 'secondHour')}>
-                                    <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
-                                    <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
-                                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
-                                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                </select> :
-                                <select id="secondminute" disabled value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
-                                        <option>00</option><option>15</option><option>30</option><option>45</option>
-                                </select>
-                            </p>
-                            <p id='cs4'>3 : 
-                                <select id="thirdhour" disabled value={thirdhour} onChange={(e) => handleInputChange(e, 'thirdHour')}>
-                                    <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
-                                    <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
-                                    <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
-                                    <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                </select> :
-                                <select id="thirdminute" disabled value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
-                                        <option>00</option><option>15</option><option>30</option><option>45</option>
-                                </select>
-                            </p>
-                            <button type='button' id='addtime' onClick={() => ToggleTextAddTime()} disabled>Add Time</button>
+                            </div>
+                            <div className="wrap-second" id="wrap2">
+                                <p id='cs4'>2 : 
+                                    <select id="secondhour" value={secondhour} onChange={(e) => handleInputChange(e, 'secondHour')}>
+                                        <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                        <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                        <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                        <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                    </select> :
+                                    <select id="secondminute"  value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
+                                            <option>00</option><option>15</option><option>30</option><option>45</option>
+                                    </select>
+                                    <button  type='button' id='delete-t2'>x</button>      
+                                </p>
+                            </div>
+                            <div className="wrap-third" id="wrap3">
+                                <p id='cs4'>3 : 
+                                    <select id="thirdhour"  value={thirdhour} onChange={(e) => handleInputChange(e, 'thirdHour')}>
+                                        <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                        <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                        <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                        <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                    </select> :
+                                    <select  id="thirdminute"  value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
+                                            <option>00</option><option>15</option><option>30</option><option>45</option>
+                                    </select>
+                                    <button  type='button' id='delete-t3'>x</button>      
+                                </p>
+                            </div>
+                            <button id='addtime' disabled={feedEn} onClick={addTime}>Add Time</button>
                             <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                         </div>
                         <div className="wrap-led">

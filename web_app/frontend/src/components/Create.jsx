@@ -20,51 +20,40 @@ function Create() {
         }, 2000);
     }, [message]);
 
-    useEffect(() => {
-        if(error) {
-            console.log('Validation failed in useEffect');
-        }
-    }, [error]);
-
     const handleInputChange = (e, type) => {
         switch(type){
             case 'name':
                 setError('');
                 setName(e.target.value);
                 if (e.target.value === '') {
-                    setError('Name has been left blank')
+                    setError('Name has been left blank');
+                } else {
+                    document.getElementById('cf1').style.borderColor = '';
                 }
                 break;
             case 'email':
                 setError('');
                 setEmail(e.target.value);
                 if (e.target.value === '') {
-                    setError('Email has been left blank')
-                } //else {
-                //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                //     if (!emailRegex.test(e.target.value)) {
-                //         setError('Invalid email format');
-                //         console.log('Invalid email format');
-                //     } else {
-                //         console.log('Email format is valid');
-                //     }
-                //     console.log('Error: ', error);
-                // }
+                    setError('Email has been left blank');
+                } else {
+                    document.getElementById('cf2').style.borderColor = '';
+                }
                 break;
             case 'password':
                 setError('');
                 setPassword(e.target.value);
                 if (e.target.value === '') {
-                    setError('Password has been left blank')
+                    setError('Password has been left blank');
                 }
                 break;
             case 'cpassword':
                 setError('')
                 setCPassword(e.target.value);
                 if (password !== e.target.value){
-                    setError('Passwords do not match')
+                    setError('Passwords do not match');
                 } else if (e.target.value === ''){
-                    setError('Password has been left blank')
+                    setError('Password has been left blank');
                 }
                 break;
                 default:
@@ -75,18 +64,60 @@ function Create() {
         return email.match(
           /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
-      };
+    };
+
+    function FormValidation() {
+        var n = document.getElementById('cf1');
+        var e = document.getElementById('cf2');
+        var p = document.getElementById('cf3');
+        var cp = document.getElementById('cf4');
+
+        if(!validateEmail(email)){
+            e.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Please enter valid email.');;
+            }, 500);
+            return false;
+        } else if (password !== cpassword) {
+            
+            p.style.borderColor = 'red';
+            cp.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Passwords do not match.');
+            }, 500);
+            return false;
+        } else if (name === '') {
+            
+            n.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Name is needed.');
+            }, 500);
+            return false;
+        } else if ((password === '') || (cpassword === '')) {
+            
+            p.style.borderColor = 'red';
+            cp.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Passwords are needed.');
+            }, 500);
+            return false;
+        } else if (email === '') {
+            
+            e.style.borderColor = 'red';
+            setTimeout(() => {
+                alert('Email is needed.');
+            }, 500);
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 // connects frontend to backend
     function createSubmit(){
-        const validate = validateEmail(email);
-        console.log(name)
-        console.log(email)
-        console.log(password)
-        console.log('Boolean: ', validate && (name !== '') && (email !== '') && (password !== '') && (password === cpassword))
-         if(validate && (name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
-            console.log('Validate: ',validate[0]);
-            if(validate[0]){
+        const validate = FormValidation();
+        if(validate && (name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
+            if(validate){
                 var url = 'http://localhost:8000/users/na/create';
                 var headers = {
                     'Accept': 'application/json',
@@ -143,7 +174,7 @@ function Create() {
                             <br/>
                             <input
                                 type="text" 
-                                id="cf" 
+                                id="cf1" 
                                 placeholder="name" 
                                 value={name.toString()}
                                 onChange={(e) => handleInputChange(e, 'name')}
@@ -156,7 +187,7 @@ function Create() {
                             <br/>
                             <input
                                 type="email" 
-                                id="cf" 
+                                id="cf2" 
                                 placeholder="email" 
                                 value={email.toString()}
                                 onChange={(e) => handleInputChange(e, 'email')}
@@ -171,7 +202,7 @@ function Create() {
                             <br/>
                             <input
                                 type="password" 
-                                id="cf" 
+                                id="cf3" 
                                 placeholder="password" 
                                 value={password.toString()}
                                 onChange={(e) => handleInputChange(e, 'password')}
@@ -184,7 +215,7 @@ function Create() {
                             <br/>
                             <input
                                 type="password" 
-                                id="cf" 
+                                id="cf4" 
                                 placeholder="confirm password" 
                                 value={cpassword.toString()}
                                 onChange={(e) => handleInputChange(e, 'cpassword')}

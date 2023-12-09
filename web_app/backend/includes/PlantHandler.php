@@ -1,7 +1,9 @@
 <?php
+    include_once '../backend/includes/MySessionHandler.php';
 
     class PlantHandler{
         private $tbl; 
+        private $users;
 
         public function __construct(){
             require __DIR__ . '/vendor/autoload.php';
@@ -9,13 +11,15 @@
 
             $db = $m->AutoAquaDB;
             $this->tbl = $db->Plants;
-        }
-        //return id from name
-        public function getID($name){
-
+            $this->users = new UserHandler();
         }
         //return name list (no extra info)
         public function getListAll(){
+
+            if(empty($this->tbl->count())){
+                $this->initialize();
+            }
+
             $ar = array();
             $cursor = $this->tbl->find([],['sort' => ['plant' => 1]]);
 
@@ -27,53 +31,49 @@
 
         //Calculate within range for getListCompatible(...)
         private function withinRange($range1, $range2){
-            if(($range1[1]<=$range2[0])||($range1[0]>=$range2[1])){
+            if(($range2==null)||($range1[1]<=$range2[0])||($range1[0]>=$range2[1])){
                 return false;
             }else{return true;}
         }
         //return list after searching by compatibility (fph is set to true, search by compatible ph)
         public function getListCompatible($id, $fph, $fec, $fhour){
-
-
             //Check user ranges (calculated in UserHandler)
             $arr = [];
 
-            $users= new UserHandler(); 
-
-            $idealPH= $users->calculateIdealPH($id, $this);
-            $idealEC= $users->calculateIdealEC($id, $this);
-            $idealHours= $users->calculateHours($id, $this);
+            $idealPH= $this->users->getRecomPH($id);
+            $idealEC= $this->users->getRecomEC($id);
+            $idealHours= $this->users->getRecomHours($id);
 
             //echo "Ideal: ph- ",json_encode($idealPH)," ec- ", json_encode($idealEC)," hours- ", json_encode($idealHours), "\n";
-            
-            $flagPH=true;$flagEC=true;$flagHour=true;
+                $flagPH=true;$flagEC=true;$flagHour=true;
 
-            
-            $cursor = $this->tbl->find([],['sort' => ['plant' => 1]]);
+                
+                $cursor = $this->tbl->find([],['sort' => ['plant' => 1]]);
 
-            foreach ($cursor as $item) {
-                if($fph){ // check pH
-                    $flagPH=true;
-                    if(!($this->withinRange($item->ph_range, $idealPH))){
-                        $flagPH=false;
+                foreach ($cursor as $item) {
+                    if($fph){ // check pH
+                        $flagPH=true;
+                        if(!($this->withinRange($item->ph_range, $idealPH))){
+                            $flagPH=false;
+                        }
+                    }
+                    if($fec){ //check ec
+                        $flagEC=true;
+                        if(!($this->withinRange($item->ec_range, $idealEC))){
+                            $flagEC=false;
+                        }
+                    }
+                    if($fhour){ // check hours
+                        $flagHour=true;
+                        if(!($this->withinRange($item->daily_light_requirement, $idealHours))){
+                            $flagHour=false;
+                        }
+                    }
+                    if($flagPH && $flagEC && $flagHour){//push if all conditions met
+                        array_push($arr, $item->plant);                  
                     }
                 }
-                if($fec){ //check ec
-                    $flagEC=true;
-                    if(!($this->withinRange($item->ec_range, $idealEC))){
-                        $flagEC=false;
-                    }
-                }
-                if($fhour){ // check hours
-                    $flagHour=true;
-                    if(!($this->withinRange($item->daily_light_requirement, $idealHours))){
-                        $flagHour=false;
-                    }
-                }
-                if($flagPH && $flagEC && $flagHour){//push if all conditions met
-                    array_push($arr, $item->plant);                  
-                }
-            }
+            
             return $arr; 
         }
 
@@ -112,12 +112,14 @@
 
        //Set doc list
        public function initialize(){
-            $this->createPlant('Arugula',[12, 14],[6.5,7.0],[0.8,1.8],'NA');
-            $this->createPlant('Dill',[12, 14],[5.5,6.5],[1.2,1.8],'NA');
-            $this->createPlant('Bok Choy',[6,8],[6.0,6.5],[1.2,1.8],'NA');
-            $this->createPlant('Leek',[14,16],[6.5,7.0],[1.2,1.8],'NA');
+            $string = file_get_contents("../backend/includes/init/plants.json");
+            $json = json_decode($string, true);
+
+            for($i =0; $i<count($json['plants']); $i++) {           
+                $p = $json['plants'][$i];
+                $this->createPlant($p['plant'], $p['daily_light_requirement'], $p['ph_range'], $p['ec_range'], $p['info']);
+            }
         }
 
     }
-
 ?>

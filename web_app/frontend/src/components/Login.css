@@ -31,7 +31,14 @@ html, body {
     width: 500px;
     height: 25px;
     align-self: flex-start;
-    border: none; 
+}
+
+#lt2{
+    background-color: #908c8c;
+    padding: 10px;
+    width: 500px;
+    height: 25px;
+    align-self: flex-start;
 }
 
 #ll1{
@@ -83,6 +90,12 @@ html, body {
     height: 50px;
     width: 100px;
     margin-top: 10px;
+    cursor: pointer;
+}
+
+#lb1:hover {
+    background-color: #3176af;
+    transition: 0.4s;
 }
 
 #lp1 {

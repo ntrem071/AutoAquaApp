@@ -1,0 +1,53 @@
+{
+    "fish":[
+        {
+            "fish": "Goldfish",
+            "tank_size": "120 gallon for five fish",
+            "ph_range": [6,8],
+            "temp_range": [25.6,27.8],
+            "info": "Tolerant to a wider pH range and polluted waters. Sadly not edible or mixable with other fish"
+        },
+        {
+            "fish": "Koi",
+            "tank_size": "1000 gallon for 6-5 fish",
+            "ph_range": [6.5,8],
+            "temp_range": [18.3,25.6],
+            "info": "Higher maintenance ornamental fish. These  fish have a long lifespan and are resistant to many sorts of parasites and diseases."
+        },
+        {
+            "fish": "Catfish",
+            "tank_size": "8 gallons per fish",
+            "ph_range": [7,8],
+            "temp_range": [18.3,32.2],
+            "info": "This omnivorous fish boasts a high yeild and high temperature tolerance. These boys can get pretty big and pretty spiky!"
+        },
+        {
+            "fish": "Trout",
+            "tank_size": "120 gallons for five fish",
+            "ph_range": [6.5,8],
+            "temp_range": [14,16],
+            "info": "A very tasty disease resistant treat. These fish can be oxygen-demanding and prefer much cooler climates."
+        },
+        {
+            "fish": "Largemouth Bass",
+            "tank_size": "100-150 gallons for eight fish",
+            "ph_range": [6,8],
+            "temp_range": [18.3, 26.7],
+            "info": "Not picky eaters. Closer monitoring of potassium levels, oxygen, pH, low light and clean water. They are a little sensistive."
+        },
+        {
+            "fish": "Tilapea",
+            "tank_size": "3-5 gallons per fish",
+            "ph_range": [6.5,9],
+            "temp_range": [24,30],
+            "info": "A hardy fish with a wide temperature tolerance, this fish has a mild taste and fast growth rate. Tillapea have a preference for plant based foods and warm water. Population managment is recommended"
+        },
+        {
+            "fish": "Salmon",
+            "tank_size": "220 gallons for four fish",
+            "ph_range": [6.5,8],
+            "temp_range": [13,18.3],
+            "info": "A top tier tasty but not so disease resistant treat. They are very social and eat a lot, ideally 70% vege, 30% marine pellets."
+        }
+    ]
+}

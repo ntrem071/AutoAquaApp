@@ -1,6 +1,7 @@
 <?php
     include_once '../includes/PlantHandler.php';
     include_once '../includes/UserHandler.php';
+
     
     class TestPlants{
         private $session;
@@ -52,6 +53,6 @@
 
         // USE ID: '6556fe88325077a4a9068fd2' to filter by ideal
         $test->newPlant('Fennel',[12,14],[6.5,7.0],[1.2,1.6],'NA');
-        echo json_encode($test->getSession()->getListCompatible('6556fe88325077a4a9068fd2', true, false, false));
+        echo json_encode($test->getSession()->getListCompatible(new \MongoDB\BSON\ObjectId('65667348770bfad9690bc8b2'), true, false, false));
 
 ?>

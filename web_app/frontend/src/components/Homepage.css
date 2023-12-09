@@ -103,15 +103,6 @@
     background-repeat: no-repeat;
 }
 
-#navsettings:hover{
-    background-color: #08398d;
-    transition: 0.4s;
-}
-
-#nav-button{
-    display: none;
-}
-
 .outerbox-hp {
     background-color: #d9d9d9;
     width: 1500px;
@@ -120,6 +111,13 @@
     margin-right: 75px;
     display: grid;
     grid-template-columns: 750px 750px;
+}
+
+.Homepage {
+    background-color: #403c3c;
+    overflow-x: auto;
+    height: 940px;
+    margin-left: auto;
 }
 
 .wrap-graphs{
@@ -137,44 +135,6 @@
 .Homepage {
     background-color: #403c3c;
     overflow-x: auto;
-
     height: 940px;
     margin-left: auto;
-}
-
-
-#nav-small-bar{
-    display:none
-}
-
-@media screen and (max-width: 920px) {
-    .nav {
-        flex-direction: column;
-        display: none;
-    }
-
-    #nav-small-bar{
-        display: flex;
-        width: 150%;
-        height: 100px;
-        overflow: hidden;
-        background-color: #0844ac;
-        margin-bottom: 30px;
-    }
-
-    #nav-button{
-        display:flex;
-        overflow: hidden;
-        background-image: url(../pictures/nav-button-icon.png);
-        background-color: transparent;
-        width: 200%;
-        height: 150px;
-        padding: 0;
-        background-position: left;
-        background-repeat: no-repeat;
-    }
-
-    #nav-button:focus{
-        display:flex
-    }
 }
