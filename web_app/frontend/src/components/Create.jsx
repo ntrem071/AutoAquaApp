@@ -175,7 +175,7 @@ function Create() {
                             <input
                                 type="text" 
                                 id="cf1" 
-                                placeholder="name" 
+                                placeholder="Name" 
                                 value={name.toString()}
                                 onChange={(e) => handleInputChange(e, 'name')}
                             />
@@ -236,8 +236,8 @@ function Create() {
                             Back to Login
                     </button>
                 
+                </div>
             </div>
-        </div>
             <div id='image-column'>
                 <img 
                     src={backgroundimg} 

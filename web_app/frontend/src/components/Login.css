@@ -2,19 +2,29 @@
     font-family: 'Armata';
     src: url('../fonts/ArmataHL.otf')
 }
+
+#login-column,
+#create-column {
+    z-index: 2;
+}
+
+#title {
+    z-index: 5000;
+}
+
 #lh1 {
     font-family: 'Armata', serif;
-    color: #ffffff;
-    font-size: 90px;
-    font-weight: lighter;
-    text-align: center;
+    color: #5094cc;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
 }
 
 #lh2{
     font-family: 'Armata', serif;
-    font-size: 70px;
-    color: #ffffff;
-    font-weight: lighter;
+    font-size: 80px;
+    color: #5094cc;
+    font-weight: bolder;
     text-align: left;
     margin-left: 50%x;
     margin-bottom: 20px;
@@ -22,23 +32,59 @@
 
 html, body {
     margin: 0;
+    padding: 0;
     overflow: hidden;
 }
 
 #lt1{
-    background-color: #908c8c;
-    padding: 10px;
-    width: 500px;
+    background-color: #e2dede;
+    padding: 10px 10px 10px 30px;
+    width: 250px;
     height: 25px;
     align-self: flex-start;
 }
 
+#l-email-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    left: 25%;
+    top: 35%;
+    transform: translateY(150%);
+}
+
 #lt2{
-    background-color: #908c8c;
-    padding: 10px;
-    width: 500px;
+    background-color: #e2dede;
+    padding: 10px 10px 10px 30px;
+    width: 250px;
     height: 25px;
     align-self: flex-start;
+}
+
+#l-password-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    left: 2%;
+    top:60%;
+    transform: translateY(-275%);
+}
+
+#eye-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    top: 27%;
+    left: 90%;
 }
 
 #ll1{
@@ -51,12 +97,6 @@ html, body {
     margin-bottom: -25px;
     margin-right: 100px;
 }
-
-/* .column {
-    float: left;
-    width: 50%;
-    height: auto;
-} */
 
 #column {
     position: relative;
@@ -101,11 +141,11 @@ html, body {
 #lp1 {
     font-family: 'Armata', sans-serif;
     font-size: 25px;
-    color: #ffffff;
+    color: #5094cc;
 }
 
 #la1 {
-    color: #ffffff;
+    color: #5094cc;
     font-weight: 600;
 }
 
@@ -135,42 +175,57 @@ html, body {
 #container {
     display: flex;
     flex-wrap: wrap;
+    min-height: 100vh;
+    background-image: url('../pictures/test1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#rectangle {
+    height: 70%;
+    width: 60%;
+    padding: 50px;
+    border-radius: 25px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#row {
+    display: flex;
+    flex-direction: row;
 }
 
 #login-column {
     flex: 1;
-    background-color: #403c3c;
+    background-color: #ffffff;
     padding: 20px;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-#image-column {
-    flex: 1;
-}
-
-#login-img {
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    overflow: hidden;
-    object-fit: cover;
+    position: relative;
+    top: 50px;
 }
 
 @media (max-width: 768px) {
     #container {
       flex-direction: column;
     }
-}
 
-#login-column {
-    order: 1;
-}
+    #rectangle {
+        flex-direction: column;
+    }
 
-#image-column {
-    order: 2;
+    #login-column, #create-column {
+        order:initial;
+        width: 100%;
+        max-width: 400px;
+        margin-right: 0;
+    }
 }
 
 .input-group {
@@ -195,13 +250,395 @@ html, body {
     transform: translateY(-50%);
     cursor: pointer;
 }
-/* * {
+
+/* Create css */
+
+@font-face {
+    font-family: 'Armata';
+    src: url('../fonts/ArmataHL.otf')
+}
+
+@media (max-width: 768px) {
+    #container {
+      flex-direction: column;
+    }
+}
+
+#container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#h1 {
+    font-family: 'Armata', serif;
+    color: #ffffff;
+    font-size: 90px;
+    font-weight: lighter;
+    text-align: center;
+    padding: 25px;
+    margin-top: 75px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 10px;
+}
+
+#create {
+    margin-bottom: 25px;
+    margin-top: 10px;
+}
+
+#name {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    margin-bottom: -25px;
+    position: relative;
+}
+
+#name-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
     box-sizing: border-box;
+    top: 25%;
+    /* left: ; */
+    transform: translateY(-70%);
+}
+
+#email {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    margin-bottom: -25px;
+}
+
+#email-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    top: 53.5%;
+    transform: translateY(-77%);
+}
+
+#password {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    margin-bottom: -25px;
+    margin-top: -14%;
+}
+
+#password-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    top: 63%;
+    transform: translateY(-325%);
+}
+
+#confirm-password {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    margin-bottom: -25px;
+}
+
+#cpassword-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    top: 74.75%;
+    transform: translateY(-800%);
+}
+
+#cf1 {
+    background-color: #e2dede;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+    position: relative;
+    /* border: none; */
+}
+
+#cf1::placeholder {
+    color: #868686;
+    font-weight: bolder;
+}
+
+#cf2 {
+    background-color: #e2dede;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+}
+
+#cf2::placeholder {
+    color: #868686;
+    font-weight: bolder;
+}
+
+#cf3 {
+    background-color: #e2dede;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+}
+
+#cf3::placeholder {
+    color: #868686;
+    font-weight: bolder;
+}
+
+#cf4 {
+    background-color: #e2dede;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+}
+
+#cf4::placeholder {
+    color: #868686;
+    font-weight: bolder;
+}
+
+.create-img img {
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.Create {
+    align-items: center;
+    display: flex;
+    text-align: left;
+    margin-left: 225px;
+}
+
+#image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100vh;
+    z-index: 0;
+}
+
+#create-img {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    overflow: hidden;
+}
+
+#create-column {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#image-column {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    #container {
+      flex-direction: column;
+    }
+}
+
+#create-column {
+    order: 1;
+}
+
+#image-column {
+    order: 2;
+}
+
+#ch1 {
+    font-family: 'Armata', serif;
+    color: #5094cc;
+    font-size: 75px;
+    font-weight: bold;
+    text-align: center;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+#ch2{
+    font-family: 'Armata', serif;
+    font-size: 70px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    margin-left: 50%x;
+    margin-bottom: 20px;
+}
+
+#button-create {
+    font-family: 'Armata', 'serif';
+    font-size: 25px;
+    background-color: #5094cc;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    height: 50px;
+    width: 200px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#button-create:hover {
+    background-color: #3176af;
+    transition: 0.4s;
+}
+
+#button-login {
+    font-family: 'Armata', 'serif';
+    font-size: 25px;
+    background-color: #5094cc;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    height: 50px;
+    width: 175px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#button-login:hover {
+    background-color: #3176af;
+    transition: 0.4s;
+}
+
+/* #overlay-container {
+    background-image: url('../pictures/background2.png');
+    position: relative;
 } */
 
-/* .column#image {
-    float: left;
-    width: 50%;
-    background-position: center;
-    background-repeat: no-repeat;
+/* Overlay */
+
+#overlay {
+    top: 0;
+    left: 0;
+    height: 70%;
+    width: 60%;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1000;
+}
+
+/* .show-left {
+    display: none;
+} */
+
+/* .show-right {
+    display: none;
+} */
+
+#o-content-right {
+    width: 60%;
+    max-width: 300%;
+    z-index: 2;
+    color: #ffffff;
+    position: absolute;
+    text-align: center;
+    z-index: 2;
+    transform: translate(105%, 50%);
+    display: block;
+}
+
+/* #o-content-left {
+    display: none;
+} */
+
+#o-img {
+    border-radius: 25px;
+    object-fit: cover;
+    transform: translateY(18.75%) translateX(29%);
+    position: absolute;
+    object-position: 0% 0%;
+    clip-path: polygon(60% 0%,125% 0%,175% 100%,60% 100%)
+    /* overflow: hidden; */
+}
+
+#overlay-img {
+    border-radius: 25px;
+    width: 108.5%;
+    height: 743px;
+}
+
+#o-content-right h1 {
+    font-family: 'Armata', 'serif';
+    font-size: 75px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#o-content-right p {
+    font-family: 'Armata', 'serif';
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#o-content-right button {
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: #5094cc; /* Adjust button color as needed */
+    color: white; /* Adjust text color as needed */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Animation */
+
+.animated-div {
+    transition: transform 0.5s ease-in-out;
+}
+
+/* .right {
+    transform: translateX(0);
+}
+
+.left {
+    transform: translateX(100%);
 } */
