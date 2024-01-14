@@ -75,7 +75,7 @@ class FishController {
             $this->response['status_code_header'] = 'HTTP/1.0 403 Name Null';
         }
         else{        
-                $result = $this->fish->getFishInfo($this->sel1);
+                $result = $this->fish->getFishInfo(str_replace('_',' ', $this->sel1));
 
                 if(is_null($result)){
                     $this->response['status_code_header'] = 'HTTP/1.1 504 Fish Does Not Exist';

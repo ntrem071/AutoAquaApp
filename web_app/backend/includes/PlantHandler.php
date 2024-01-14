@@ -3,6 +3,7 @@
 
     class PlantHandler{
         private $tbl; 
+        private $users;
 
         public function __construct(){
             require __DIR__ . '/vendor/autoload.php';
@@ -10,13 +11,15 @@
 
             $db = $m->AutoAquaDB;
             $this->tbl = $db->Plants;
-        }
-        //return id from name
-        public function getID($name){
-
+            $this->users = new UserHandler();
         }
         //return name list (no extra info)
         public function getListAll(){
+
+            if(empty($this->tbl->count())){
+                $this->initialize();
+            }
+
             $ar = array();
             $cursor = $this->tbl->find([],['sort' => ['plant' => 1]]);
 
@@ -34,16 +37,12 @@
         }
         //return list after searching by compatibility (fph is set to true, search by compatible ph)
         public function getListCompatible($id, $fph, $fec, $fhour){
-
-
             //Check user ranges (calculated in UserHandler)
             $arr = [];
 
-            $users= new UserHandler(); 
-
-            $idealPH= $users->calculateIdealPH($id, $this);
-            $idealEC= $users->calculateIdealEC($id, $this);
-            $idealHours= $users->calculateHours($id, $this);
+            $idealPH= $this->users->getRecomPH($id);
+            $idealEC= $this->users->getRecomEC($id);
+            $idealHours= $this->users->getRecomHours($id);
 
             //echo "Ideal: ph- ",json_encode($idealPH)," ec- ", json_encode($idealEC)," hours- ", json_encode($idealHours), "\n";
                 $flagPH=true;$flagEC=true;$flagHour=true;
@@ -113,12 +112,14 @@
 
        //Set doc list
        public function initialize(){
-            $this->createPlant('Arugula',[12, 14],[6.5,7.0],[0.8,1.8],'NA');
-            $this->createPlant('Dill',[12, 14],[5.5,6.5],[1.2,1.8],'NA');
-            $this->createPlant('Bok Choy',[6,8],[6.0,6.5],[1.2,1.8],'NA');
-            $this->createPlant('Leek',[14,16],[6.5,7.0],[1.2,1.8],'NA');
+            $string = file_get_contents("../backend/includes/init/plants.json");
+            $json = json_decode($string, true);
+
+            for($i =0; $i<count($json['plants']); $i++) {           
+                $p = $json['plants'][$i];
+                $this->createPlant($p['plant'], $p['daily_light_requirement'], $p['ph_range'], $p['ec_range'], $p['info']);
+            }
         }
 
     }
-
 ?>

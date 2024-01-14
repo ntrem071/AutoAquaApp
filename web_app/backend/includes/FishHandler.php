@@ -13,6 +13,11 @@
 
         //return name list (no extra info)
         public function getList(){
+            if(empty($this->tbl->count())){
+                $this->initialize();
+                
+            }
+
             $ar = array();
             $cursor = $this->tbl->find([],['sort' => ['fish' => 1]]);
 
@@ -57,9 +62,13 @@
        }
 
         public function initialize(){
-            $this->createFish('Goldfish','120 gallon for five fish',[6,8],[25.6,27.8],'NA');
-            $this->createFish('Trout','NA',[6.5,8],[14,16],'NA');
-            $this->createFish('Salmon','220 gallon for four fish',[7,8],[13,18],'NA');
+            $string = file_get_contents("../backend/includes/init/fish.json");
+            $json = json_decode($string, true);
+
+            for($i =0; $i<count($json['fish']); $i++) {           
+                $f = $json['fish'][$i];
+                $this->createFish($f['fish'], $f['tank_size'], $f['ph_range'], $f['temp_range'], $f['info']);
+            }
         }
     }
 

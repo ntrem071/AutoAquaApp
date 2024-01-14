@@ -109,6 +109,8 @@ label {
 
 .outerbox-s {
     background-color: #ebebeb;
+.outerbox-s {
+    background-color: #ebebeb;
     width: 700px;
     /* height: 100%; */
     padding: 20px 20px;
@@ -190,6 +192,10 @@ label {
     border-style: inset;
     background: #c4c2c2;
     border-width: 0.25px;
+}
+
+#addtime {
+    
 }
 
 /*tick markings PH*/

@@ -12,6 +12,9 @@ import './Homepage.css';
 import userIcon from '../pictures/user.png';
 import generalUserIconImage from '../pictures/userImageFishUwU.png';
 
+import userIcon from '../pictures/user.png';
+import generalUserIconImage from '../pictures/userImageFishUwU.png';
+
 
 function Homepage() {
     const navigate = useNavigate();
@@ -185,11 +188,6 @@ function Homepage() {
           }
         ]
     });
-
-    function nav(str){
-        document.cookie = `sessionId=${sessionId}`
-        navigate(str)
-    }
 
     function displayNavSmall(){
 

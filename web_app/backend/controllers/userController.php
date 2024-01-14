@@ -161,6 +161,15 @@ class UserController {
                 elseif($this->sel2=="species"){
                     if(isset($this->data->plants)){$this->users->setPlants($id, $this->data->plants);}
                     if(isset($this->data->fish)){$this->users->setFish($id, $this->data->fish);}
+                    if(isset($this->data->plants)||isset($this->data->fish)){
+                        $this->users->calculateIdealPH($id);
+                        $this->users->calculateIdealEC($id);
+                        $this->users->calculateHours($id);
+                    }
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
+                }
+                elseif($this->sel2=="navigate"){
+                    $this->users->refresh($this->sel1); 
                     $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
                 }
                 else{

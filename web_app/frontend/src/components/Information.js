@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import './Information.css';
+import InfoPopup from './InfoPopup';
+import userIcon from '../pictures/user.png';
+import generalUserIconImage from '../pictures/userImageFishUwU.png';
 import './Information.css';
 import InfoPopup from './InfoPopup';
 import userIcon from '../pictures/user.png';

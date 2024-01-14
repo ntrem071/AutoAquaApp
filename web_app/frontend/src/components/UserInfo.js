@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './UserInfo.css';
+import userIcon from '../pictures/user.png';
+import generalUserIconImage from '../pictures/userImageFishUwU.png';
 
 function UserInfo(props) {
     const navigate = useNavigate();

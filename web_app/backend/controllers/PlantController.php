@@ -92,7 +92,7 @@ class PlantController {
     private function getList(){
         $result = $this->plants->getListAll();
 
-        if(is_null($result)){
+        if($result==[]){
             $this->response['status_code_header'] = 'HTTP/1.1 504 Plant Collection Empty';
         }else{
             $this->response['status_code_header'] = 'HTTP/1.1 200 OK';

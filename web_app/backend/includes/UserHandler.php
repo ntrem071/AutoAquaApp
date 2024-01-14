@@ -23,6 +23,10 @@
             $this->session->gc();
         }
 
+        public function refresh($id){
+            $this->session->updateSessionExpiry($id);
+        }
+        
         //User created on login -> no two emails can be the same
         public function createNewUser($name, $email, $password){
             
@@ -31,7 +35,8 @@
                 $this->tbl->insertOne(['name'=> $name,'email'=> $email, 'password'=> $password, 
                     'ledTimer'=> DEFAULT_LED, 'feedTimer'=> DEFAULT_FEED, 'phRange'=> DEFAULT_PH, 'ecRange'=> DEFAULT_EC,'tempRange'=> DEFAULT_TEMP, 
                         'phEnable'=> false,  'ecEnable'=> false,  'tempEnable'=> false, 'feedEnable'=>false, 'ledEnable'=>false,
-                            'phGraph'=> [], 'ecGraph'=> [],'tempGraph'=> [], 'waterGraph'=> [], 'timezone'=>'UTC', 'plants'=>[], 'fish'=> null]);
+                            'phGraph'=> [], 'ecGraph'=> [],'tempGraph'=> [], 'waterGraph'=> [], 'timezone'=>'UTC', 'plants'=>[], 'fish'=> null, 
+                                'recomPH'=>null, 'recomEC'=>null, 'recomHours'=>null]);
                 return true;
 
             }else{return false;}
@@ -150,9 +155,21 @@
         public function setTimezone($id, $str){
             $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['timezone'=>$str]]);
        }
-    public function  getTimezoneList(){
-        return DateTimeZone::listIdentifiers();
-    }
+       public function  getTimezoneList(){
+            return DateTimeZone::listIdentifiers();
+        }
+
+       //set ideal ranges based off user saved plants/fish
+       public function setRecomPH($id, $ar){
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['recomPH'=>$ar]]);
+       }
+       public function setRecomEC($id, $ar){
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['recomEC'=>$ar]]);
+        }
+        public function setRecomHours($id, $ar){
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['recomHours'=>$ar]]);
+        }
+
 
        //Update users saved plant docs using array of names as input
        public function setPlants($id, $arr){
@@ -203,6 +220,10 @@
         public function getPlants($id){return $this->getAccount($id)->plants;}
         public function getFish($id){return $this->getAccount($id)->fish;}
 
+        public function getRecomPH($id){return $this->getAccount($id)->recomPH;}
+        public function getRecomEC($id){return $this->getAccount($id)->recomEC;}
+        public function getRecomHours($id){return $this->getAccount($id)->recomHours;}
+
         
         //Calculate compatibility ranges and hours from user saved plant/ fish species
         public function calculateIdealPH($id){
@@ -216,8 +237,10 @@
                 foreach($u1->plants as $item){
                     if(isset($ideal)){
                         if (($ideal[1] <= $item->ph_range[0]) || ($ideal[0] >= $item->ph_range[1])){
+                            $this->setRecomPH($id, null);
                             return; //Mutual Exclusion Compatibility Error
-                            return;
+                            
+
                         }else{
                             if(($ideal[0] < $item->ph_range[0])){
                                 $ideal[0] = $item->ph_range[0];
@@ -231,6 +254,7 @@
                     }
                 }
             }
+            $this->setRecomPH($id, $ideal);
             return $ideal;
         }
         public function calculateIdealEC($id){
@@ -240,6 +264,7 @@
                 foreach($u1->plants as $item){
                     if(isset($ideal)){
                         if (($ideal[1] <= $item->ec_range[0]) || ($ideal[0] >= $item->ec_range[1])){
+                            $this->setRecomPH($id, null);
                             return; //Mutual Exclusion Compatibility Error
                         }else{
                             if(($ideal[0] < $item->ec_range[0])){
@@ -255,6 +280,7 @@
                     }
                 }
             }
+            $this->setRecomEC($id, $ideal);
             return $ideal;
         }
         //chooses greater value
@@ -273,6 +299,7 @@
                     }
                 }
             }
+            $this->setRecomHours($id, $ideal);
             return $ideal;
         }
 

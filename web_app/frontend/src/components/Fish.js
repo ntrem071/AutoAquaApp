@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Fish.css';
@@ -13,6 +13,7 @@ function Fish() {
         document.cookie = `sessionId=${sessionId}`
         navigate(str)
     }
+
 
     return(
         <div id='fish-analyctics'>

@@ -194,10 +194,7 @@ function Settings() {
         }
         if(error!=''){
             console.log(error);
-            //document.querySelector("#warning").style.display;
         }
-        
-
     }
     const handleCheckChange = (type) => {
         setError('');
@@ -208,11 +205,11 @@ function Settings() {
                 break;
             case 'ecEn':
                 setECEnable(!ecEn);  
-                //toggleRangeDisable(ecEn, 'ecMin', 'ecMax')
+                //toggleRangeDisable(ecEn, 'ec')
                 break;
             case 'tempEn':
                 setTempEnable(!tempEn);
-                //toggleRangeDisable(tempEn, 'tempMin', 'tempMax')
+                //toggleRangeDisable(tempEn, 'temp')
                 break;
             case 'feedEn':
                 setFeedEnable(!feedEn); 
@@ -229,12 +226,15 @@ function Settings() {
     function toggleRangeDisable(va, str1){
         if(!va){
             document.querySelector(".range-slider .progress-"+str1).style.background = '#5f5f5f'; 
+            //document.getElementsByClassName(".range-input input").style['-webkit-slider-thumb'].background= '#5f5f5f'; 
+            //document.querySelector("input[type=\"range\"]::-webkit-slider-thumb").style.background = '#5f5f5f'; 
             //document.querySelector('.range-slider').style.setProperty(--SlideColor, '#5f5f5f'); //MAKE CIRCLES GREY?  
         }else{
             document.querySelector(".range-slider .progress-"+str1).style.background = '#2196F3';
            // document.querySelector('input[type="range"]::-webkit-slider-thumb').style.background = '#2196F3';  
         }
     }
+
     function toggleLEDDisable(){
         if(!ledEn){
             document.getElementById('LEDonHour').disabled=true;
@@ -436,10 +436,15 @@ function addTime(){
     }
 
     function updateFeed(){
+        var arr=[];
+        if(visibleWraps[0]){arr.push([firsthour,firstminute])}
+        if(visibleWraps[1]){arr.push([secondhour,secondminute])}
+        if(visibleWraps[2]){arr.push([thirdhour,thirdminute])}
+
         var url = 'http://localhost:8000/users/'+sessionId+'/feed';
         var data = {
             feedEnable: !feedEn,
-            feedTimer: [[firsthour,firstminute],[secondhour,secondminute],[thirdhour,thirdminute]]                      
+            feedTimer: arr                     
         };
         sendRequest(url, data);
     }
@@ -531,13 +536,48 @@ function addTime(){
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][1]==null))){setLEDoffMinute(data.ledTimer[0][1]);}
                 if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][0]==null))){setLEDonHour(data.ledTimer[1][0]);}
                 if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][1]==null))){setLEDonMinute(data.ledTimer[1][1]);}
-  
-                if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][0]==null))){setfirstHour(data.feedTimer[0][0]);}
-                if((!(data.feedTimer[0]==null) && !(data.feedTimer[0][1]==null))){setfirstMinute(data.feedTimer[0][1]);}
-                if((!(data.feedTimer[1]==null) && !(data.feedTimer[1][0]==null))){setsecondHour(data.feedTimer[1][0]);}
-                if((!(data.feedTimer[1]==null) && !(data.feedTimer[1][1]==null))){setsecondMinute(data.feedTimer[1][1]);}
-                if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][0]==null))){setthirdHour(data.feedTimer[2][0]);}
-                if((!(data.feedTimer[2]==null) && !(data.feedTimer[2][1]==null))){setthirdMinute(data.feedTimer[2][1]);}
+                
+              
+                //load feed times
+                if(!(data.feedTimer[0]==null)){
+                    if((!(data.feedTimer[0][0]==null))){setfirstHour(data.feedTimer[0][0]);}
+                    if((!(data.feedTimer[0][1]==null))){setfirstMinute(data.feedTimer[0][1]);}
+
+                    document.getElementById('wrap1').style.display = 'flex';
+                    if(data.feedTimer[1]==null){
+                        setVisibleWraps([true, false, false]);
+                    }
+                    console.log(!data.feedEnable)
+                    document.getElementById('firsthour').disabled=!data.feedEnable;
+                    document.getElementById('firstminute').disabled=!data.feedEnable;
+                    document.getElementById('delete-t1').disabled =!data.feedEnable;
+                }
+                if(!(data.feedTimer[1]==null)){
+                    if((!(data.feedTimer[1][0]==null))){setsecondHour(data.feedTimer[1][0]);}
+                    if((!(data.feedTimer[1][1]==null))){setsecondMinute(data.feedTimer[1][1]);}
+                    
+                    
+                    document.getElementById('wrap2').style.display = 'flex';
+                    document.getElementById('delete-t1').disabled = true;
+                    if(data.feedTimer[2]==null){
+                        setVisibleWraps([true, true, false]);
+                    }
+                    document.getElementById('secondhour').disabled=!data.feedEnable;
+                    document.getElementById('secondminute').disabled=!data.feedEnable;
+                    document.getElementById('delete-t2').disabled = !data.feedEnable;
+                }
+                if(!(data.feedTimer[2]==null)){
+                    if((!(data.feedTimer[2][0]==null))){setthirdHour(data.feedTimer[2][0]);}
+                    if((!(data.feedTimer[2][1]==null))){setthirdMinute(data.feedTimer[2][1]);}
+                    
+                    document.getElementById('wrap3').style.display = 'flex';
+                    document.getElementById('addtime').disabled = true;
+                    document.getElementById('delete-t2').disabled = true;
+                    setVisibleWraps([true, true, true]);
+                    document.getElementById('thirdhour').disabled=!data.feedEnable;
+                    document.getElementById('thirdminute').disabled=!data.feedEnable;
+                    document.getElementById('delete-t3').disabled = !data.feedEnable;
+                }
 
                 if((!(data.timezone==null))){setTimezone(data.timezone);}
                 
@@ -572,6 +612,7 @@ function addTime(){
             <div className="settings-title" style={{zIndex: 0}}><h1 id='settings-title'>Settings</h1></div>
             <div className='outerbox-s'>
                 <div>
+                
                 <div className='wrap-range'>
                     <h2 id='st1'>RANGES:</h2>
                     <div className="wrap-ph">
