@@ -12,9 +12,6 @@ import './Homepage.css';
 import userIcon from '../pictures/user.png';
 import generalUserIconImage from '../pictures/userImageFishUwU.png';
 
-import userIcon from '../pictures/user.png';
-import generalUserIconImage from '../pictures/userImageFishUwU.png';
-
 
 function Homepage() {
     const navigate = useNavigate();
@@ -189,11 +186,6 @@ function Homepage() {
         ]
     });
 
-    function displayNavSmall(){
-
-        document.getElementsByClassName("nav")[0].style.display = 'flex';
-    }
-
     function setValues(){
         var url = 'http://localhost:8000/users/'+sessionId;
         var header = {         
@@ -224,17 +216,6 @@ function Homepage() {
             setError(err);
             console.log(err);
         });
-    }
-
-    function displayNavSmall(){
-
-        if(navDrop){
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
-        }else{
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
-        }
-        
-        navDrop = !navDrop;
     }
     
     return(

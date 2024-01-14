@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Information.css';
 import InfoPopup from './InfoPopup';
-import userIcon from '../pictures/user.png';
-import generalUserIconImage from '../pictures/userImageFishUwU.png';
-import './Information.css';
-import InfoPopup from './InfoPopup';
-import userIcon from '../pictures/user.png';
-import generalUserIconImage from '../pictures/userImageFishUwU.png';
 
 function Fish() {
     const navigate = useNavigate();
@@ -255,17 +248,6 @@ function Fish() {
             console.log(err);
         });
 
-    }
-
-    function displayNavSmall(){
-
-        if(navDrop){
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
-        }else{
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
-        }
-
-        navDrop = !navDrop;
     }
 
     const modifySelectPF=(type, elem)=>{
