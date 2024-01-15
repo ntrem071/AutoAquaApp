@@ -3,8 +3,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Information.css';
 import InfoPopup from './InfoPopup';
-import userIcon from '../pictures/user.png';
-import generalUserIconImage from '../pictures/userImageFishUwU.png';
+import Navigation from './Navigation';
 
 function Fish() {
     const navigate = useNavigate();
@@ -310,6 +309,7 @@ function Fish() {
     return(
      
             <div className='info-fish-plant'>
+            <Navigation/>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
             <h1>Compatibility Search</h1>
             <h3>

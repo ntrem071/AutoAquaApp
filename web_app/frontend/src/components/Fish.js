@@ -2,6 +2,7 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Fish.css';
+import Navigation from './Navigation';
 
 
 function Fish() {
@@ -16,6 +17,7 @@ function Fish() {
 
     return(
         <div id='fish-analyctics'>
+            <Navigation/>
             <h1>Fish Behavior</h1>
             <h3>
                 <div id='m'>
