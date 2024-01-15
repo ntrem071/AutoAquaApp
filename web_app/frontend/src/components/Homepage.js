@@ -9,8 +9,7 @@ import { DataTemp } from "../utils/DataTemp";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 import './Homepage.css';
-import userIcon from '../pictures/user.png';
-import generalUserIconImage from '../pictures/userImageFishUwU.png';
+import Navigation from './Navigation';
 
 
 function Homepage() {
@@ -221,6 +220,7 @@ function Homepage() {
     return(
 
         <div className='Homepage'>
+            <Navigation/>
             <div className='outerbox-hp'>
                 <div className='wrap-graphs'>
                     <h3 id='wltitle'>Water Level</h3>

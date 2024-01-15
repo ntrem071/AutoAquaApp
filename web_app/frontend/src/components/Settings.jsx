@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Settings.css';
-import userIcon from '../pictures/user.png';
-import generalUserIconImage from '../pictures/userImageFishUwU.png';
-import UserInfo from './UserInfo';
+import Navigation from './Navigation';
 
 function Settings() {
     const navigate = useNavigate();
@@ -593,22 +591,9 @@ function addTime(){
             });
     }
 
-    function displayNavSmall(){
-
-        if(navDrop){
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
-        }else{
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
-        }
-        navDrop = !navDrop;
-    }
-
-    function profileAppear(){
-        setBtnPopup(!btnPopup);
-    }
-
     return(     
         <div className='settings'>
+            <Navigation/>
             <div className="settings-title" style={{zIndex: 0}}><h1 id='settings-title'>Settings</h1></div>
             <div className='outerbox-s'>
                 <div>
