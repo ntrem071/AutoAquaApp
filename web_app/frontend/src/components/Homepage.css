@@ -1,11 +1,11 @@
 .outerbox-hp {
     background-color: #d9d9d9;
-    width: 1500px;
+    width: 96vw;
     padding: 20px 20px;
-    margin-left: auto;
-    margin-right: 75px;
     display: grid;
-    grid-template-columns: 750px 750px;
+    overflow: visible;
+    margin-bottom: 40px;
+    grid-template-columns: 48vw 48vw;
 }
 
 .Homepage {
@@ -20,7 +20,7 @@
     padding-right: 80px; 
     padding-bottom: 15px;
     padding-top: 1px;
-    position: relative;   
+    position: relative;  
     border-style: inset;
     border-width: 2px;
     margin: 5px;
