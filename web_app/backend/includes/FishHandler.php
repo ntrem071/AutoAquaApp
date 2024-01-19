@@ -33,6 +33,10 @@
             return $this->tbl->findOne(['fish'=>$name],['projection'=>['_id'=>false]]);
         }
 
+        public function getFishImage($path){
+            return file_get_contents('serverURL'); //TODO
+        }
+
         /* FISH DOC CONTAINS
             -fish name
             -tank size : # fish

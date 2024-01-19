@@ -87,6 +87,23 @@ class FishController {
         return $this->response;
     }
 
+    private function getFishImage(){
+        if (!isset($this->sel1)) {
+            $this->response['status_code_header'] = 'HTTP/1.0 403 Name Null';
+        }
+        else{        
+                $result = $this->fish->getFishImage(str_replace('_',' ', $this->sel1));
+
+                if(is_null($result)){
+                    $this->response['status_code_header'] = 'HTTP/1.1 504 Fish Does Not Exist';
+                }else{
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
+                    $this->response['body'] = json_encode($result);
+                }
+        } 
+        return $this->response;
+    }
+
     private function deleteFish(){
         if(is_null($this->fish->getFishInfo($this->sel1))){
             $this->response['status_code_header'] = 'HTTP/1.1 405 Fish Does Not Exist In Collection';
