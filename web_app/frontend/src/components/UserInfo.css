@@ -1,0 +1,54 @@
+.user-details{
+    background-color: #d9d9d9;
+    width: 200px;
+    padding: 20px 20px;
+    height:190px;
+    z-index: 2;
+    position: absolute;
+    text-align: center;
+    border: 5px solid #7a7a7a;
+    border-radius: 5px;
+    margin-top: 80px;
+    margin-left: 70vw;
+}
+
+.use-logout{
+    align-items: center;
+}
+
+.user-details{
+    background-color: #d9d9d9;
+    width: 400px;
+    padding: 20px 20px;
+    margin: auto;
+    height:150px
+}
+
+#user-info{
+    overflow:visible;
+    height:1000px;
+}
+.infoUser{
+    text-align: left;
+}
+
+#ntitle{
+    font-weight: bold;
+}
+#etitle{
+    font-weight: bold;
+}
+
+#use-logout{
+    background-color: rgb(247, 247, 247);
+    padding: 10px 10px;
+    border: 2px solid #7a7a7a;
+    width: 100px;
+    transition-duration: 0.4s;
+    margin-top: 10px;
+}
+
+#use-logout:hover {
+    background-color: #5c5c5c;
+    color: white;
+}
