@@ -185,16 +185,8 @@ html, body {
 
 #pw {
     margin-bottom: 25px;
-    position: relative;
 }
 
-.eye-icon {
-    position: absolute;
-    top: 72%;
-    right: 8px;
-    transform: translateY(-50%);
-    cursor: pointer;
-}
 /* * {
     box-sizing: border-box;
 } */
