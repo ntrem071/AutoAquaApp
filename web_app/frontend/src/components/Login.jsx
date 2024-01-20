@@ -362,7 +362,7 @@ function Login() {
                             <button
                                 type='button'
                                 id='lb1'
-                                className='button'
+                                className='button-login'
                                 onClick={loginSubmit}
                             >
                             Login
