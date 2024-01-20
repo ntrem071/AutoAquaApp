@@ -35,15 +35,18 @@
         $test->getSession()->initialize();
         $test->newPlant('Fennel',null,null,null,null);
        
-        echo "\nPlant List: \n";
-        print_r($test->getSession()->getListAll());
-
+        echo "\nPlant List Snippet: \n";
+       $l =$test->getSession()->getListAll();
+        for($i=0;$i<5;$i++){ 
+           echo " ", $l[$i], ",";
+        }
+        echo " ", $l[5],"\n";
         echo "\nSelecting Plant File Info: \n";
         $test->printUserDoc('Dill');
         $test->printUserDoc('Fennel');
         
         echo "\nSelected Plant File Info After Update: \n";
-        $test->getSession()->updatePlant('Fennel',[12,14],[6.5,7.0],[1.2,1.6],'NA');
+        $test->getSession()->updatePlant('Fennel',[8,14],[6,9.0],[1.6,1.8],'NA');
         $test->printUserDoc('Fennel');
 
         echo "\nSelected Plant File Info After Deletion: \n";
@@ -53,6 +56,7 @@
 
         // USE ID: '6556fe88325077a4a9068fd2' to filter by ideal
         $test->newPlant('Fennel',[12,14],[6.5,7.0],[1.2,1.6],'NA');
-        echo json_encode($test->getSession()->getListCompatible(new \MongoDB\BSON\ObjectId('65667348770bfad9690bc8b2'), true, false, false));
+        echo "Filtered list based on ideal PH: ";
+        echo json_encode($test->getSession()->getListCompatible(new \MongoDB\BSON\ObjectId('6575247960c91c63d0019af2'), true, false, false));
 
 ?>

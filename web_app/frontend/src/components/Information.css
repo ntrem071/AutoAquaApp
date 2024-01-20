@@ -17,7 +17,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
 }
 
 .nav button{
@@ -95,14 +94,60 @@
     overflow: auto;
 }
 .outerbox-p{
+    position: relative;
+    width: 1120px;
+    margin: auto;
+}
+.searchbox-pf{
+    position: absolute;
     background-color:  #d9d9d9;
     width: 700px;
+    height: 600px;
     padding: 20px 20px;
-    margin: auto;
     border-style: solid solid none solid;
     border-width: 1.5px;
     border-color: #a8adb1;
 }
+
+.wrap-stats-pf{
+    position: absolute;
+    background: #d9d9d9;
+    top:0px;
+    right:0px;
+    width: 320px;
+    height: 600px;
+    padding: 20px 20px;
+    border-style: solid solid none solid;
+    border-width: 1.5px;
+    border-color: #a8adb1;
+}
+.wrap-s2-pf{
+    background-color: #c7c7c7;
+    padding-left: 50px;
+    padding-right: 20px;
+    height: 150px;
+    border: inset;
+    border-width: 1px;
+    overflow-y: auto;
+}
+.wrap-s3-pf{
+    background-color: #c7c7c7;
+    padding-left: 50px;
+    padding-right: 20px;
+    height: 200px;
+    border: inset;
+    border-width: 1px;
+}
+.pf-p2{
+    font-weight: 600;
+    text-align: left;
+    text-indent: -30px;
+}
+.pf-p3{
+    font-weight: normal;
+    display: inline;
+}
+
 .wrap-popup{
     background-color:  #d9d9d9;
     width: 800px;
@@ -132,7 +177,6 @@
     border-style: none;
     background-color: #d9d9d9;
 }
-
 
 /*SEARCH BAR*/
 .wrap-search-pf{

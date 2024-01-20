@@ -19,7 +19,7 @@
             $m= new \MongoDB\Client("mongodb://localhost:27017"); 
             $this->tbl = $m->AutoAquaDB->Users;
 
-            $this->session = new MySessionHandler(20*60); //set to 20 min expiry
+            $this->session = new MySessionHandler(30*60); //set to 20 min expiry
             $this->session->gc();
         }
 
@@ -68,11 +68,29 @@
         //return account doc using id (use json_encode to display)
         public function getAccount($id){
             if(!is_null($this->session->read($id))){
+                //$this->testGraphs($id); //REMOVE AFTER TESTING
                 return $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'password'=>false]]);
             }else{
                 return null;
             }
-
+        }
+        //return shortened page-specific user doc
+        public function getUser($id, $sel){
+            $user = null;
+            if(!is_null($this->session->read($id))){
+                if($sel=='home'){
+                    $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'phGraph'=>true,'ecGraph'=>true,'tempGraph'=>true,'waterGraph'=>true]]);
+                }elseif($sel=='user'){
+                    $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'name'=>true,'email'=>true]]);
+                }elseif($sel=='behavior'){
+                    $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'email'=>true]]);
+                }elseif($sel=='search'){
+                    $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'recomPH'=>true,'recomEC'=>true,'recomHours'=>true,'plants'=>true,'fish'=>true]]);
+                }elseif($sel=='settings'){
+                    $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'ledTimer'=>true,'feedTimer'=>true,'phRange'=>true,'ecRange'=>true,'tempRange'=>true,'phEnable'=>true,'ecEnable'=>true,'tempEnable'=>true,'feedEnable'=>true,'ledEnable'=>true]]);
+                }      
+            }
+            return $user;
         }
         //delete user
         public function deleteAccount($id){
@@ -121,23 +139,31 @@
             point[0]= timestamp of data collected
             point[1]= data value
           Appends (x,y) pairing to graph array
-          Current graph array limit equivalent to 1 year of data if collected hourly (8760 points) -> FIFO
+          Current graph array limit equivalent to a months of data if collected hourly (760 points) -> FIFO
 
-          !!!IMPLEMENT: graph timespan selection for UI (data over 1 week/ 1 month/ 3 months/ etc)!!!
+          !!!IMPLEMENT: graph timespan selection for UI (data over 1 day/ 1 week/ 1 month/ etc)!!!
         */     
         public function setPHGraph($id, $point){  //set to lower slice val for function testing  
-            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['phGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['phGraph'=>['$each'=>[$point], '$slice'=>-760]]]);    
       }
         public function setECGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['ecGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['ecGraph'=>['$each'=>[$point], '$slice'=>-760]]]);    
       }
         public function setTEMPGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['tempGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['tempGraph'=>['$each'=>[$point], '$slice'=>-760]]]);    
      }
         public function setWATERGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['waterGraph'=>['$each'=>[$point], '$slice'=>-8760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['waterGraph'=>['$each'=>[$point], '$slice'=>-760]]]);    
      }
-
+        
+        public function testGraphs($id){
+            for($i=0;$i<760;$i++){
+                $this->setPHGraph($id, [$i , (rand(50, 80)/10)]);
+                $this->setECGraph($id, [$i , (rand(0, 60)/10)]);
+                $this->setTEMPGraph($id, [$i , (rand(15, 35))]);
+                $this->setWATERGraph($id, [$i , (rand(140, 300))]);
+            }
+        }
         /*Input param for array of time pairs (hour, minute):
             arr[0] = LED ON 
             arr[1] = LED OFF 
@@ -238,9 +264,7 @@
                     if(isset($ideal)){
                         if (($ideal[1] <= $item->ph_range[0]) || ($ideal[0] >= $item->ph_range[1])){
                             $this->setRecomPH($id, null);
-                            return; //Mutual Exclusion Compatibility Error
-                            
-
+                            return; //Mutual Exclusion Compatibility Error                            
                         }else{
                             if(($ideal[0] < $item->ph_range[0])){
                                 $ideal[0] = $item->ph_range[0];
@@ -264,7 +288,7 @@
                 foreach($u1->plants as $item){
                     if(isset($ideal)){
                         if (($ideal[1] <= $item->ec_range[0]) || ($ideal[0] >= $item->ec_range[1])){
-                            $this->setRecomPH($id, null);
+                            $this->setRecomEC($id, null);
                             return; //Mutual Exclusion Compatibility Error
                         }else{
                             if(($ideal[0] < $item->ec_range[0])){

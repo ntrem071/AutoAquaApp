@@ -41,85 +41,11 @@ function Settings() {
             progress2 = document.querySelector(".range-slider .progress-ec"),
                 progress3 = document.querySelector(".range-slider .progress-temp");
     let phGap= 0.4, ecGap=0.4, tempGap=3;
-
-
-    function toggleFEEDDisable(){
-        console.log('-t-',feedEn);
-        console.log('-t-',visibleWraps);
-            document.getElementById('addtime').disabled = !feedEn;
-            if(visibleWraps[0]==true){
-                document.getElementById('firsthour').disabled=!feedEn;
-                document.getElementById('firstminute').disabled=!feedEn;
-                if(visibleWraps[1]==false){document.getElementById('delete-t1').disabled = !feedEn;}
-            }
-            if(visibleWraps[1]==true){
-                document.getElementById('secondhour').disabled=!feedEn;
-                document.getElementById('secondminute').disabled=!feedEn;
-                if(visibleWraps[2]==false){document.getElementById('delete-t2').disabled = !feedEn;}
-            }
-            if(visibleWraps[2]==true){
-                document.getElementById('thirdhour').disabled=!feedEn;
-                document.getElementById('thirdminute').disabled=!feedEn;
-                document.getElementById('delete-t3').disabled = !feedEn;
-                console.log(document.getElementById('addtime').disabled);
-                document.getElementById('addtime').disabled = true;
-            }
-    }
-
-
-    function addTime(){     
-        console.log('-a-',feedEn);
-        console.log('-a-',visibleWraps);
-            if (visibleWraps[0]==false){
-                setVisibleWraps([true, false, false]);
-                document.getElementById('wrap1').style.display = 'flex';
-
-            } else if (visibleWraps[1]==false) {
-                setVisibleWraps([true, true, false]);
-                document.getElementById('wrap2').style.display = 'flex';
-                document.getElementById('delete-t1').disabled = true;
-                document.getElementById('delete-t2').disabled = false;
-
-            } else if (visibleWraps[2]==false) {
-                setVisibleWraps([true, true, true]);
-                document.getElementById('wrap3').style.display = 'flex';
-                document.getElementById('delete-t2').disabled = true;
-                document.getElementById('delete-t3').disabled = false;
-                document.getElementById('addtime').disabled = true;
-            }    
-    }
-
-    function deleteTime() {
-            console.log('-d-',feedEn);
-            console.log('-d-',visibleWraps);
-
-            if (visibleWraps[2]==true) {
-                console.log('here3');
-                setVisibleWraps([true, true, false]);
-                document.getElementById('delete-t2').disabled = false;
-                document.getElementById('wrap3').style.display = 'none';
-            } 
-            else if (visibleWraps[1]==true) {
-                console.log('here2');
-                setVisibleWraps([true, false, false]);
-                document.getElementById('delete-t1').disabled = false;
-                document.getElementById('wrap2').style.display = 'none';
-            } 
-            else if (visibleWraps[0]==true) {
-                console.log('here1');
-                setVisibleWraps([false, false, false]);
-                document.getElementById('wrap1').style.display = 'none';
-            }  
-
-            document.getElementById('addtime').disabled = false;
-    }
     
     useEffect(() => {
         getTimezoneList();
         setValues(); //initialize values from user doc on page load
     }, []);
-
-
 
     const handleInputChange = (e, type) => {
         setError('');
@@ -239,15 +165,15 @@ function Settings() {
         switch(type){
             case 'phEn':
                 setPHEnable(!phEn); 
-                //toggleRangeDisable(phEn, 'ph')
+                toggleRangeDisable(phEn, 'ph')
                 break;
             case 'ecEn':
                 setECEnable(!ecEn);  
-                //toggleRangeDisable(ecEn, 'ec')
+                toggleRangeDisable(ecEn, 'ec')
                 break;
             case 'tempEn':
                 setTempEnable(!tempEn);
-                //toggleRangeDisable(tempEn, 'temp')
+                toggleRangeDisable(tempEn, 'temp')
                 break;
             case 'feedEn':
                 setFeedEnable(!feedEn); 
@@ -262,15 +188,93 @@ function Settings() {
         }
     }
     function toggleRangeDisable(va, str1){
+        var thumbs=document.querySelectorAll( 'input[type="range"]' );
+        var min, max; 
+        if(str1=="ph"){min=thumbs[0];max=thumbs[1];}
+        else if(str1=="ec"){min=thumbs[2];max=thumbs[3];}
+        else if(str1=="temp"){min=thumbs[4];max=thumbs[5];}
+
         if(!va){
-            document.querySelector(".range-slider .progress-"+str1).style.background = '#5f5f5f'; 
-            //document.getElementsByClassName(".range-input input").style['-webkit-slider-thumb'].background= '#5f5f5f'; 
-            //document.querySelector("input[type=\"range\"]::-webkit-slider-thumb").style.background = '#5f5f5f'; 
-            //document.querySelector('.range-slider').style.setProperty(--SlideColor, '#5f5f5f'); //MAKE CIRCLES GREY?  
+            document.querySelector(".range-slider .progress-"+str1).style.background = '#969493'; 
+            min.style.setProperty( '--color', '#969493');
+            max.style.setProperty( '--color', '#969493');
+ 
         }else{
             document.querySelector(".range-slider .progress-"+str1).style.background = '#2196F3';
-           // document.querySelector('input[type="range"]::-webkit-slider-thumb').style.background = '#2196F3';  
+            min.style.setProperty( '--color', '#2196F3');
+            max.style.setProperty( '--color', '#2196F3');
         }
+    }
+
+    function toggleFEEDDisable(){
+        console.log('-t-',feedEn);
+        console.log('-t-',visibleWraps);
+            document.getElementById('addtime').disabled = !feedEn;
+            if(visibleWraps[0]==true){
+                document.getElementById('firsthour').disabled=!feedEn;
+                document.getElementById('firstminute').disabled=!feedEn;
+                if(visibleWraps[1]==false){document.getElementById('delete-t1').disabled = !feedEn;}
+            }
+            if(visibleWraps[1]==true){
+                document.getElementById('secondhour').disabled=!feedEn;
+                document.getElementById('secondminute').disabled=!feedEn;
+                if(visibleWraps[2]==false){document.getElementById('delete-t2').disabled = !feedEn;}
+            }
+            if(visibleWraps[2]==true){
+                document.getElementById('thirdhour').disabled=!feedEn;
+                document.getElementById('thirdminute').disabled=!feedEn;
+                document.getElementById('delete-t3').disabled = !feedEn;
+                console.log(document.getElementById('addtime').disabled);
+                document.getElementById('addtime').disabled = true;
+            }
+    }
+
+
+    function addTime(){     
+        console.log('-a-',feedEn);
+        console.log('-a-',visibleWraps);
+            if (visibleWraps[0]==false){
+                setVisibleWraps([true, false, false]);
+                document.getElementById('wrap1').style.display = 'flex';
+
+            } else if (visibleWraps[1]==false) {
+                setVisibleWraps([true, true, false]);
+                document.getElementById('wrap2').style.display = 'flex';
+                document.getElementById('delete-t1').disabled = true;
+                document.getElementById('delete-t2').disabled = false;
+
+            } else if (visibleWraps[2]==false) {
+                setVisibleWraps([true, true, true]);
+                document.getElementById('wrap3').style.display = 'flex';
+                document.getElementById('delete-t2').disabled = true;
+                document.getElementById('delete-t3').disabled = false;
+                document.getElementById('addtime').disabled = true;
+            }    
+    }
+
+    function deleteTime() {
+            console.log('-d-',feedEn);
+            console.log('-d-',visibleWraps);
+
+            if (visibleWraps[2]==true) {
+                console.log('here3');
+                setVisibleWraps([true, true, false]);
+                document.getElementById('delete-t2').disabled = false;
+                document.getElementById('wrap3').style.display = 'none';
+            } 
+            else if (visibleWraps[1]==true) {
+                console.log('here2');
+                setVisibleWraps([true, false, false]);
+                document.getElementById('delete-t1').disabled = false;
+                document.getElementById('wrap2').style.display = 'none';
+            } 
+            else if (visibleWraps[0]==true) {
+                console.log('here1');
+                setVisibleWraps([false, false, false]);
+                document.getElementById('wrap1').style.display = 'none';
+            }  
+
+            document.getElementById('addtime').disabled = false;
     }
 
     function toggleLEDDisable(){
@@ -390,7 +394,7 @@ function Settings() {
     }
 
     function setValues(){
-            var url = 'http://localhost:8000/users/'+sessionId;
+            var url = 'http://localhost:8000/users/'+sessionId+'/settings';
             var header = {         
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'   
@@ -409,6 +413,8 @@ function Settings() {
                 }
             })
             .then(data => {
+                console.log(data);
+                //load range sliders
                 if((!(data.phRange[0]==null))){
                     setpHMin(data.phRange[0]);
                     document.querySelector(".range-slider .progress-ph").style.left = ((data.phRange[0]-6)/2)*100+'%';         
@@ -434,6 +440,10 @@ function Settings() {
                     document.querySelector(".range-slider .progress-temp").style.right = 100-((data.tempRange[1]-20)/10)*100 + '%';
                 }
 
+                toggleRangeDisable(data.phEn, 'ph');
+                toggleRangeDisable(data.ecEn, 'ec');
+                toggleRangeDisable(data.tempEnEn, 'temp');
+                //load LED times
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][0]==null))){setLEDoffHour(data.ledTimer[0][0]);}
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][1]==null))){setLEDoffMinute(data.ledTimer[0][1]);}
                 if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][0]==null))){setLEDonHour(data.ledTimer[1][0]);}

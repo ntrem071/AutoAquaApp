@@ -21,7 +21,7 @@ function UserInfo() {
     }, []);
 
     function setValues(){
-        var url = 'http://localhost:8000/users/'+sessionId;
+        var url = 'http://localhost:8000/users/'+sessionId+'/user';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   

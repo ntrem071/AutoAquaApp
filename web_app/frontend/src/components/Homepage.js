@@ -21,170 +21,114 @@ function Homepage() {
 
     var navDrop = false;
     
-    const optionspH = {
-        plugins: {
-            legend: {
-                display: false
-            },
-            responsive: false
-        },
-        // responsive: false,
-        scales: {
-            x:{
-                ticks: {
-                    color: ['black', 'rgb(105,105,105)']
+    useEffect(() => {
+        setValues(); 
+    }, []);
+
+    const [tWater, setTWater] = useState('day');
+    const [tEC, setTEC] = useState('day');
+    const [tPH, setTPH] = useState('day');
+    const [tTemp, setTTemp] = useState('day');
+
+    const [pHData, setpHData] = useState(graphData([0,0]));
+    const [waterLevlData, setwaterLevlData] = useState(graphData([0,0]));
+    const [ecData, setecData] = useState(graphData([0,0]));
+    const [tempData, settempData] = useState(graphData([0,0]));
+
+    const [inPH, setInPH] = useState(graphData([0,0]));
+    const [inWaterLevel, setInWaterLevel] = useState(graphData([0,0]));
+    const [inEC, setInEC] = useState(graphData([0,0]));
+    const [inTemp, setInTemp] = useState(graphData([0,0]));
+
+    const handleInputChange = (e, type) => {
+        setError('');
+        var n; 
+        if(e.target.value=='day'){n=24;}
+        else if (e.target.value=='week'){n=168;}
+        else if (e.target.value=='month'){n=760;}
+
+        switch(type){
+            case 'water':
+                setTWater(e.target.value);
+                setwaterLevlData(graphData(inWaterLevel.slice(0,n)));
+                break;
+            case 'ec':
+                setTEC(e.target.value);
+                setecData(graphData(inEC.slice(0,n)));
+                break;
+            case 'ph':
+                setTPH(e.target.value);
+                setpHData(graphData(inPH.slice(0,n)));
+                break;
+            case 'temp':
+                setTTemp(e.target.value);
+                settempData(graphData(inTemp.slice(0,n)));
+                break;
+            default:
+        }
+        
+        if(error!=''){
+            console.log(error);
+        }
+    }
+
+
+    function graphData(points){
+        var d = {
+            labels: points.map((data) => data[0]),
+            datasets: [
+              {
+                label: "pH",
+                data: points.map((data) => data[1]),
+                backgroundColor: "rgba(33,150,243,1.0)",
+                borderColor: "rgba(33,150,243,1)",
+                pointRadius: 1,
+                pointHoverRadius: 3,
+                borderWidth: 1,
+                spanGaps: true,
+                fill: {
+                    target: 'origin',
+                    above: 'rgb(33,150,243, 0.2)',   
+                  }
+              }
+            ]
+        };
+        return d;
+    }
+
+    function graphOptions(labelY){
+        var op = {
+            plugins: {
+                legend: {
+                    display: false,
                 },
-                title: {
-                    display: true,
-                    text: 'Time from last hour in minutes',
-                    color: 'black'
+            },
+            scales: {
+                x:{ 
+                    ticks: {
+                        color: ['black', 'rgb(105,105,105)']
+                    },
+                    title: {
+                        display: true,
+                        text: 'Timestamp',
+                        color: 'black'
+                    }
+                },
+                y:{
+                    ticks: {
+                        color: 'black'
+                    },
+                    title: {
+                        display: true,
+                        text: labelY,
+                        color: 'black'
+                    }
+                    
                 }
             },
-            y:
-            {
-                ticks: {
-                    color: 'black'
-                },
-                afterDataLimits: (scale) => {
-                    scale.max = 8;
-                    scale.min = 6;},
-            }
-        },
-    };
-
-    const optionsWaterLevel = {
-        plugins: {
-            legend: {
-                display: false
-            },
-        },
-        scales: {
-            x:{
-                ticks: {
-                    color: ['black', 'rgb(105,105,105)']
-                },
-                title: {
-                    display: true,
-                    text: 'Time from last hour in minutes',
-                    color: 'black'
-                }
-            },
-            y:
-            {
-                ticks: {
-                    color: 'black'
-                },
-                afterDataLimits: (scale) => {
-                    scale.max = 300;
-                    scale.min = 150;},
-            }
-        },
-    };
-
-    const optionsEC = {
-        plugins: {
-            legend: {
-                display: false
-            },
-        },
-        scales: {
-            x:{
-                ticks: {
-                    color: ['black', 'rgb(105,105,105)']
-                },
-                title: {
-                    display: true,
-                    text: 'Time from last hour in minutes',
-                    color: 'black'
-                }
-            },
-            y:{
-                ticks: {
-                    color: 'black'
-                },
-                afterDataLimits: (scale) => {
-                    scale.max = 5.0;
-                    scale.min = 2.0;},
-            }
-        },
-    };
-
-    const optionsTemp = {
-        plugins: {
-            legend: {
-                display: false
-            },
-        },
-        scales: {
-            x:{
-                ticks: {
-                    color: ['black', 'rgb(105,105,105)']
-                },
-                title: {
-                    display: true,
-                    text: 'Time from last hour in minutes',
-                    color: 'black'
-                }
-            },
-            y:
-            {
-                ticks: {
-                    color: 'black'
-                },
-                afterDataLimits: (scale) => {
-                    scale.max = 35.0;
-                    scale.min = 15.0;},
-            }
-        },
-    };
-
-    const [pHData, setpHData] = useState({
-        labels: DatapH.map((data) => data.time),
-        datasets: [
-          {
-            label: "pH",
-            data: DatapH.map((data) => data.values),
-            backgroundColor: "rgba(0,0,255,1.0)",
-            borderColor: "rgba(0,0,255,0.1)",
-          }
-        ]
-    });
-
-    const [waterLevlData, setwaterLevlData] = useState({
-        labels: DataWaterLevel.map((data) => data.time),
-        datasets: [
-          {
-            label: "water level",
-            data: DataWaterLevel.map((data) => data.values),
-            backgroundColor: "rgba(0,0,255,1.0)",
-            borderColor: "rgba(0,0,255,0.1)",
-          }
-        ]
-    });
-
-    const [ecData, setecData] = useState({
-        labels: DataEC.map((data) => data.time),
-        datasets: [
-          {
-            label: "water level",
-            data: DataEC.map((data) => data.values),
-            backgroundColor: "rgba(0,0,255,1.0)",
-            borderColor: "rgba(0,0,255,0.1)",
-          }
-        ]
-    });
-
-    const [tempData, settempData] = useState({
-        labels: DataTemp.map((data) => data.time),
-        datasets: [
-          {
-            label: "water level",
-            data: DataTemp.map((data) => data.values),
-            backgroundColor: "rgba(0,0,255,1.0)",
-            borderColor: "rgba(0,0,255,0.1)",
-          }
-        ]
-    });
+        };
+        return op;
+    }
 
     function displayNavSmall(){
 
@@ -192,12 +136,11 @@ function Homepage() {
     }
 
     function setValues(){
-        var url = 'http://localhost:8000/users/'+sessionId;
+        var url = 'http://localhost:8000/users/'+sessionId+'/home';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
         };
-
         const id = fetch(url, {
             method: 'GET',
             headers: header
@@ -211,10 +154,24 @@ function Homepage() {
             }
         })
         .then(data => {
-            if((!(data.phGraph[0]==null))){setpHData(data.phGraph);}
-            if((!(data.ecGraph[0]==null))){setecData(data.ecGraph);}
-            if((!(data.tempGraph[0]==null))){settempData(data.tempGraph);}
-            if((!(data.waterGraph[0]==null))){setwaterLevlData(data.waterGraph);}
+            console.log(data)
+
+            if((!(data.phGraph[0]==null))){
+                setInPH(data.phGraph);
+                setpHData(graphData(data.phGraph.slice(0,24)));
+            }
+            if((!(data.ecGraph[0]==null))){
+                setInEC(data.ecGraph);
+                setecData(graphData(data.ecGraph.slice(0,24)));
+            }
+            if((!(data.tempGraph[0]==null))){
+                setInTemp(data.tempGraph);
+                settempData(graphData(data.tempGraph.slice(0,24)));
+            }
+            if((!(data.waterGraph[0]==null))){
+                setInWaterLevel(data.waterGraph);
+                setwaterLevlData(graphData(data.waterGraph.slice(0,24)));
+            }
             
         })
         .catch((err) => {
@@ -274,19 +231,31 @@ function Homepage() {
             <div className='outerbox-hp'>
                 <div className='wrap-graphs'>
                     <h3 id='wltitle'>Water Level</h3>
-                    <Line data={waterLevlData} options={optionsWaterLevel}/>
+                    <Line data={waterLevlData} options={graphOptions('Water Level (mm)')}/>
+                    <select id="st-water" value={tWater} onChange={(e) => handleInputChange(e, 'water')}>
+                        <option>day</option><option>week</option><option>month</option>
+                    </select> 
                 </div>
                 <div className='wrap-graphs'>
                     <h3 id='phtitle'>pH Level</h3>
-                    <Line data={pHData} options={optionspH}/>                        
+                    <Line data={pHData} options={graphOptions('pH')}/> 
+                    <select id="st-ph" value={tPH} onChange={(e) => handleInputChange(e, 'ph')}>
+                    <option>day</option><option>week</option><option>month</option>
+                    </select>                        
                 </div>
                 <div className='wrap-graphs'>
                     <h3 id='ectitle'>Electrical Condutivity</h3>
-                    <Line data={ecData} options={optionsEC}/>                        
+                    <Line data={ecData} options={graphOptions('Conductivity (mS/cm)')}/>    
+                    <select id="st-ec" value={tEC} onChange={(e) => handleInputChange(e, 'ec')}>
+                        <option>day</option><option>week</option><option>month</option>
+                    </select>                    
                 </div>
                 <div className='wrap-graphs'>
                     <h3 id='ttitle'>Temperature</h3>
-                    <Line data={tempData} options={optionsTemp}/>                        
+                    <Line data={tempData} options={graphOptions('Temperature (°C)')}/>
+                    <select id="st-temp" value={tTemp} onChange={(e) => handleInputChange(e, 'temp')}>
+                        <option>day</option><option>week</option><option>month</option>
+                    </select>                         
                 </div>
             </div>    
         </div>

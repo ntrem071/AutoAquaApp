@@ -115,7 +115,7 @@ class UserController {
     }
     //return user doc from id string
     private function getUser(){
-        $result = $this->users->getAccount($this->sel1);
+        $result = $this->users->getUser($this->sel1, $this->sel2);
         if(is_null($result)){
             $this->response['status_code_header'] = 'HTTP/1.1 504 User information not found';
         }else{

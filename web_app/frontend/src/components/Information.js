@@ -96,7 +96,7 @@ function Fish() {
     function showCheckbox(){document.getElementById('wrap-list-customize').style.display='block';}
 
     function setValues(){
-        var url = 'http://localhost:8000/users/'+sessionId;
+        var url = 'http://localhost:8000/users/'+sessionId+'/search';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
@@ -126,10 +126,11 @@ function Fish() {
                 setPlantsArr(arr);
                 setPlants(arr.join(', '));
             }
+            console.log(data);
             if((!(data.fish==null))){setFish(data.fish.fish);};
             if((!(data.recomPH==null))){setPH(data.recomPH.join('-'));}else{setPH('none')}
-            if((!(data.recomEC==null))){setEC(data.recomEC.join('-'));}else{setEC('none')}
-            if((!(data.recomHours==null))){setHours(data.recomHours.join('-'));}else{setHours('none')}
+            if((!(data.recomEC==null))){setEC(data.recomEC.join('-')+" Sm/cm");}else{setEC('none')}
+            if((!(data.recomHours==null))){setHours(data.recomHours.join('-')+" hours");}else{setHours('none')}
         })
         .catch((err) => {
             setError(err);
@@ -294,6 +295,7 @@ function Fish() {
     }
 
     const modifySelectPF=(type, elem)=>{
+        console.log(!phCheck+" "+!ecCheck+" "+!hoursCheck);
         switch(type){
             case 'add-plant':
                 if(plantsArr.includes(elem)){
@@ -304,6 +306,7 @@ function Fish() {
                     setPlants(arr.join(', '));
                     updateUserSelect(arr, fish);
                 }
+                getModifiedList(!phCheck, !ecCheck, !hoursCheck);
                 break;
             case 'remove-plant':
                 if(plantsArr.includes(elem)){
@@ -315,6 +318,7 @@ function Fish() {
                 }else{
                     setError("Plant not in current user selection")
                 }
+                getModifiedList(!phCheck, !ecCheck, !hoursCheck);
                 break;
             case 'replace-fish':
                 if(elem!=fish){         
@@ -330,7 +334,8 @@ function Fish() {
                 break;
             default:
         }
-        setValues();       
+        setValues();
+
     }
 
     return(
@@ -367,39 +372,47 @@ function Fish() {
             <h1>Compatibility Search</h1>
             <h3>
                 <div className='outerbox-p'>
-
-                    <div className='nav'>
-                        <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>&nbsp;</button>
-                        <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>&nbsp;</button>
-                        <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>&nbsp;</button>
-                        <button id='navinfo' style={{backgroundColor: "#08398d"}} variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>&nbsp;</button>
-                        <button id='navsettings' variant='contained' title='Settings' onClick={() => navigate('/Settings')}>&nbsp;</button>
-                    </div>
-                    <div>
-                        <div className='wrap-toggle-pf'>
-                            <button type='button' id='plant-toggle' onClick={getPlantList}>Plants </button>
-                            <button type='button' id='fish-toggle' onClick={getFishList}>Fish</button>
+                    <div className='searchbox-pf'>
+                        <div className='nav'>
+                            <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>&nbsp;</button>
+                            <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>&nbsp;</button>
+                            <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>&nbsp;</button>
+                            <button id='navinfo' style={{backgroundColor: "#08398d"}} variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>&nbsp;</button>
+                            <button id='navsettings' variant='contained' title='Settings' onClick={() => navigate('/Settings')}>&nbsp;</button>
                         </div>
-                        <div className='wrap-selection-pf'>
-                            <p>User Saved Selection</p>
-                            <p>Plants: {plants}</p>
-                            <p>Fish: {fish}</p>
-                            <p>Ideal PH: {PH} | Ideal EC: {EC} | Ideal Hours: {Hours}</p>
-                        </div>
-                        <div className='wrap-search-pf'>
-                            <form>
-                                <i className="fas fa-search"></i>
-                                <input type='text' id='search-pf' placeholder='Search...' onChange={()=>search()}></input>
-                            </form>
-                            <div className='wrap-list-customize' id='wrap-list-customize'>
-                                <p></p><label>Compatible with current:</label>
-                                <input type='checkbox' id='ph-checkbox' value={phCheck} onChange={()=>handleCheckChange('ph')}></input>PH
-                                <input type='checkbox' id='ec-checkbox' value={ecCheck} onChange={()=>handleCheckChange('ec')}></input>EC
-                                <input type='checkbox' id='hours-checkbox' value={hoursCheck} onChange={()=>handleCheckChange('hours')}></input>Lighting Requirements
+                        <div>
+                            <div className='wrap-toggle-pf'>
+                                <button type='button' id='plant-toggle' onClick={getPlantList}>Plants </button>
+                                <button type='button' id='fish-toggle' onClick={getFishList}>Fish</button>
                             </div>
+                            <div className='wrap-search-pf'>
+                                <form>
+                                    <i className="fas fa-search"></i>
+                                    <input type='text' id='search-pf' placeholder='Search...' onChange={()=>search()}></input>
+                                </form>
+                                <div className='wrap-list-customize' id='wrap-list-customize'>
+                                    <p></p><label>Compatible with current:</label>
+                                    <input type='checkbox' id='ph-checkbox' value={phCheck} onChange={()=>handleCheckChange('ph')}></input>PH
+                                    <input type='checkbox' id='ec-checkbox' value={ecCheck} onChange={()=>handleCheckChange('ec')}></input>EC
+                                    <input type='checkbox' id='hours-checkbox' value={hoursCheck} onChange={()=>handleCheckChange('hours')}></input>Lighting Requirements
+                                </div>
+                            </div>
+                            <div className='wrap-display-pf' id='wrap-display-pf'></div>
                         </div>
-                        <div className='wrap-display-pf' id='wrap-display-pf'></div>
                     </div>
+                    <div  className='wrap-stats-pf'>
+                        <p className='pf-p1'>Based on your current saved selection,</p>
+                        <div className='wrap-s2-pf'>     
+                            <p className='pf-p2'>Plants: <p className='pf-p3'>{plants}</p></p>
+                            <p className='pf-p2'>Fish: <p className='pf-p3'>{fish}</p></p>
+                        </div>
+                        <p className='pf-p1'>these are your recommended system ranges!</p>
+                        <div className='wrap-s3-pf'>
+                            <p className='pf-p2'>Daily Plant Light: <p className='pf-p3'>{Hours} </p></p>
+                            <p className='pf-p2'>Ideal EC:  <p className='pf-p3'>{EC} </p></p>
+                            <p className='pf-p2'>Ideal PH: <p className='pf-p3'>{PH} </p></p>
+                        </div>
+                    </div> 
                     <InfoPopup trigger={btnPopup} type={typePF} name={namePF} setTrigger={setbtnPopup} modifySelect={modifySelectPF}></InfoPopup>
                 </div>
             </h3>
