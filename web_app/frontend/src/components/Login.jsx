@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
 import { Buffer } from 'buffer';
 import Cookies from 'js-cookie';
 import './Login.css'
@@ -12,7 +13,7 @@ function Login() {
     const[password, setPassword] = useState('');
     const[error, setError] = useState('');
     const[message, setMessage] = useState('');
-
+    const[passwordVisible, setPasswordVisible] = useState(false);
 
     const valuesIn = (e, type) => {
         switch(type){
@@ -28,6 +29,10 @@ function Login() {
                     setError('Password needed');
                 }
         }
+    }
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible = ((prevVisible) => !prevVisible);
     }
 
     function loginSubmit(){
@@ -156,7 +161,7 @@ function Login() {
                         />
                     </div>
                     <br />
-                    <div id='pw'>
+                    <div id='pw' className='flex'>
                         <label id='ll1' htmlFor='inputBox'>
                             Password:{' '}
                         </label>
@@ -169,6 +174,9 @@ function Login() {
                             value={password.toString()}
                             onChange={(e) => valuesIn(e, 'password')}
                         />
+                        <div className='eye-icon' onClick={() => setPasswordVisible(!passwordVisible)}>
+                            {passwordVisible ? <EyeOutlined/> : <EyeInvisibleOutlined/>}
+                        </div>
                         <br />
                     </div>
                 </form>

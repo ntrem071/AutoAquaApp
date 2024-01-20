@@ -1,7 +1,6 @@
 <?php
     include_once '../includes/PlantHandler.php';
     include_once '../includes/UserHandler.php';
-
     
     class TestPlants{
         private $session;
