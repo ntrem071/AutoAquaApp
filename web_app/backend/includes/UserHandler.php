@@ -78,6 +78,7 @@
         public function getUser($id, $sel){
             $user = null;
             if(!is_null($this->session->read($id))){
+                //$this->testGraphs($id); //REMOVE AFTER TESTING
                 if($sel=='home'){
                     $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'phGraph'=>true,'ecGraph'=>true,'tempGraph'=>true,'waterGraph'=>true]]);
                 }elseif($sel=='user'){
