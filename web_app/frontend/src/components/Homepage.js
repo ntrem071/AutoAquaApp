@@ -221,6 +221,7 @@ function Homepage() {
 
         <div className='Homepage'>
             <Navigation/>
+            <h1>The ecosystem is doing <i>swimmingly</i> well~</h1>
             <div className='outerbox-hp'>
                 <div className='wrap-graphs'>
                     <h3 id='wltitle'>Water Level</h3>
