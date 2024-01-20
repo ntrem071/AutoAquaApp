@@ -4,7 +4,7 @@ import React from 'react';
 //import Button from '@material-ui/core/Button';
 import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
 //import WebAppRoutes from './WebAppRoutes';
-import Create from './components/Create';
+// import Create from './components/Create';
 import Login from './components/Login';
 import Homepage from './components/Homepage';
 import UserInfo from './components/UserInfo';
@@ -28,7 +28,7 @@ function App() {
       <div id='login'>
         <Routes>
           <Route path='/' element={ <Login/> }/>
-          <Route path='/CreateAccount' element={ <Create/> }/>
+          {/* <Route path='/CreateAccount' element={ <Create/> }/> */}
           <Route path='/Home' element={ <Homepage/> }/>
           <Route path='/User-Info' element={ <UserInfo/> }/>
           <Route path='/Fish' element={ <Fish/> }/>
