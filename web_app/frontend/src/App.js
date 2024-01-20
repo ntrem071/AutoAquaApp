@@ -12,17 +12,22 @@ import Fish from './components/Fish';
 import Information from './components/Information';
 import Settings from './components/Settings';
 //import './components/Settings.css';
+import userIcon from './pictures/user.png';
+import generalUserIconImage from './pictures/userImageFishUwU.png';
+import { useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const navigateToLogin = () => {
-  //   navigate('/Login');
-  // }
+  const navigateToLogin = () => {
+    navigate('/Login');
+  }
 
-  // const navigatetoCreateAccount = () => {
-  //   navigate('/CreateAccount');
-  // }
+  const navigatetoCreateAccount = () => {
+    navigate('/CreateAccount');
+  }
+
   return (
     <div className='App'>
       <div id='login'>
@@ -30,7 +35,6 @@ function App() {
           <Route path='/' element={ <Login/> }/>
           <Route path='/CreateAccount' element={ <Create/> }/>
           <Route path='/Home' element={ <Homepage/> }/>
-          <Route path='/User-Info' element={ <UserInfo/> }/>
           <Route path='/Fish' element={ <Fish/> }/>
           <Route path='/Information' element={ <Information/> }/>
           <Route path='/Settings' element={ <Settings/> }/>
