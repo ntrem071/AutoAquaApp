@@ -2,15 +2,455 @@
     font-family: 'Armata';
     src: url('../fonts/ArmataHL.otf')
 }
+
+body {
+    background: #f6f5f7;
+}
+
+/*id: Title */
+#title {
+    position: relative;
+    transition: color 0.7s ease-in-out;
+    z-index: 5000;
+}
+
+.title-left {
+    color: white;
+    z-index: 5000;
+}
+
+/*id: "AUTOMATED AQUAPONICS */
 #lh1 {
+    font-family: 'Armata', serif;
+    color: #5094cc;
+    font-size: 20px;
+    font-weight: 900;
+    text-align: left;
+    margin-left: 15px;
+    z-index: 5000;
+} 
+
+.blue-text {
+    color: #5094cc;
+}
+
+.white-text {
+    color: #ffffff;
+}
+
+/*  (\(^.^)/) Login (\(^.^)/) */
+
+/*id: Login Title*/
+#lh2{
+    font-family: 'Armata', serif;
+    font-size: 75px;
+    color: #5094cc;
+    font-weight: bolder;
+    text-align: left;
+    margin-left: 50%x;
+    margin-bottom: 3vh;
+    margin-top: 15vh;
+}
+
+#login {
+    border-radius: 20px 0px 0px 20px;
+}
+
+/*id: Email id*/
+#lt1{
+    background-color: #ffffff;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+    position: relative;
+    border-style: none none solid none;
+}
+
+/*id: Password id*/
+#lt2{
+    background-color: #ffffff;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+    position: relative;
+    border-style: none none solid none;
+}
+
+/*id: Email Icon*/
+#l-email-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    left: 12.5vw;
+    top: 28vh;
+    /* transform: translateY(-275%); */
+}
+
+/*id: Password Icon*/
+#l-password-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    left: 2%;
+    top: 65%;
+    transform: translateY(-275%);
+}
+
+/*id: Eye visibility of password*/
+#eye-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    top: 27%;
+    left: 90%;
+}
+
+/*id: Login Submit Button */
+#lb1 {
+    font-family: 'Armata', sans-serif;
+    font-size: 25px;
+    background-color: #5094cc;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    height: 50px;
+    width: 300px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/*id: Login Submit Button:hovered */
+#lb1:hover {
+    background-color: #3176af;
+    transition: 0.4s;
+}
+
+/*class: Login class */
+.Login {
+    align-items: center;
+    display: flex;
+    text-align: left;
+    /* margin-left: 25vw;
+    margin-top: 25vh; */
+    /* width: 40vw;
+    height: 45vh; */
+    width: 45vw;
+    height: 70vh;
+    border-radius: 20px 0px 0px 20px;
+}
+
+/*class: Outermost div*/
+.container {
+    background-color: #ffffff;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    width: 75vw;
+    max-width: 100%;
+    width: 100%;
+    min-height: 480px;
+    display: flex;
+}
+
+/*id: Holds login, create and overlay */
+#row {
+    display: flex;
+    flex-direction: row;
+    background-color: #cfcfcf;
+    width: 80vw;
+    margin-left: 10vw;
+    height: 70vh;
+    margin-top: 10vh;
+    border-radius: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/*id: */
+
+/*id: Login section */
+#login-column {
+    /* flex: 1; */
+    /* background-color: #ffffff; */
+    /* padding: 20px; */
+    /* box-sizing: border-box; */
+    /* display: flex; */
+    /* flex-direction: column;
+    align-items: center; */
+    /* position: relative;
+    top: 50px; */
+}
+
+/*id: div that holds email input textbox */
+#em {
+    margin-bottom: -10px;
+}
+
+
+
+/*id: div that holds the password input textbox */
+#pw {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/*class: class that holds the eye icon */
+.eye-icon {
+    position: absolute;
+    top: 72%;
+    right: 8px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+/* (\(^.^)/) Create css (\(^.^)/) */
+
+/* font used */
+@font-face {
+    font-family: 'Armata';
+    src: url('../fonts/ArmataHL.otf')
+}
+
+/* when document is 768px or less*/
+@media only screen and (max-width: 768px) {
+    #container {
+      flex-direction: column;
+    }
+}
+
+/* Create css */
+/* #h1 {
     font-family: 'Armata', serif;
     color: #ffffff;
     font-size: 90px;
     font-weight: lighter;
     text-align: center;
+    padding: 25px;
+    margin-top: 75px;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 10px;
+    z-index: 0;
+} */
+
+/*id: form that holds the entire create part */
+#create {
+    border-radius: 0px 20px 20px 0px;
 }
 
-#lh2{
+/* below, might change */
+.Create {
+    margin-left: -1vw;
+    margin-top: -2vh;
+    max-width: 50vw;
+    width: 100%;
+}
+
+#create-column {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    opacity: 1;
+    height: 65.65vh;
+    top: 0vh;
+    left: 83.25vh;
+}
+
+.side-by-side {
+    background-color: transparent;
+    z-index: 3;
+    width: 100%;
+    height: 45vh;
+    /* padding: -5vh; */
+}
+
+/*id: div that holds the name in create*/
+#name {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    margin-bottom: -32.25px;
+    position: relative;
+}
+
+/* id: div that holds name icon*/
+#name-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: relative;
+    box-sizing: border-box;
+    top: -5.25vh;
+}
+
+/* id: div holding the email input*/
+#email {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    top: 0vh;
+    position: relative;
+}
+
+/* id: div holding the email icon*/
+#email-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: relative;
+    box-sizing: border-box;
+    top: -5.25vh;
+    /* transform: translateY(-75%); */
+}
+
+/* id: div holding the password input*/
+#password {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    top: -2.90vh;
+    left: 0.2vw;
+    position: relative;
+    display: flex;
+}
+
+/* id: div holding password icon*/
+#password-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: relative;
+    box-sizing: border-box;
+    left: -15.95vw;
+    top: -0.05vh;
+    /* transform: translateY(-325%); */
+}
+
+/* id:div that holds the "confirm password" and its icon*/
+#confirm-password {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    /* margin-bottom: 0px; */
+    top: -5.5vh;
+    position: relative;
+}
+
+/* id: div that holds the confirm-password icon*/
+#cpassword-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: relative;
+    box-sizing: border-box;
+    top: -5.25vh;
+    /* transform: translateY(-800%); */
+}
+
+/*id: input box of create name*/
+#cf1 {
+    background-color: #ffffff;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+    position: relative;
+    border-style: none none solid none;
+}
+
+/**/
+#cf1::placeholder {
+    color: #868686;
+    font-weight: bolder;
+}
+
+#cf2 {
+    background-color: #ffffff;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+    position: relative;
+    border-style: none none solid none;
+}
+
+#cf2::placeholder {
+    color: #868686;
+    font-weight: bolder;
+}
+
+#cf3 {
+    background-color: #ffffff;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+    position: relative;
+    border-style: none none solid none;
+
+}
+
+#cf3::placeholder {
+    color: #868686;
+    font-weight: bolder;
+}
+
+#cf4 {
+    background-color: #ffffff;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+    position: relative;
+    border-style: none none solid none;
+}
+
+#cf4::placeholder {
+    color: #868686;
+    font-weight: bolder;
+}
+
+/* title */
+#ch1 {
+    font-family: 'Armata', serif;
+    color: #5094cc;
+    font-size: 75px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 10px 25px 10px;
+    margin-bottom: 25px;
+}
+
+#ch2{
     font-family: 'Armata', serif;
     font-size: 70px;
     color: #ffffff;
@@ -20,152 +460,417 @@
     margin-bottom: 20px;
 }
 
-html, body {
-    margin: 0;
-    overflow: hidden;
-}
-
-#lt1{
-    background-color: #908c8c;
-    padding: 10px;
-    width: 500px;
-    height: 25px;
-    align-self: flex-start;
-}
-
-#lt2{
-    background-color: #908c8c;
-    padding: 10px;
-    width: 500px;
-    height: 25px;
-    align-self: flex-start;
-}
-
-#ll1{
-    font-family: 'Armata', serif;
-    font-size: 40px;
-    color: #ffffff;
-    font-weight: lighter;
-    text-align: left;
-    display: block;
-    margin-bottom: -25px;
-    margin-right: 100px;
-}
-
-/* .column {
-    float: left;
-    width: 50%;
-    height: auto;
-} */
-
-#column {
-    position: relative;
-    z-index: 1;
-}
-
-.row:after {
-    content: '';
-    display: table;
-    clear: both;
-}
-
-.login-img img {
-    width: 100%;
-    height: 100vh;
-    background-position: center;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-}
-
-#lb1 {
-    font-family: 'Armata', sans-serif;
+#button-create {
+    font-family: 'Armata', 'serif';
     font-size: 25px;
     background-color: #5094cc;
     color: white;
     border: none;
     border-radius: 24px;
     height: 50px;
-    width: 100px;
+    width: 300px;
     margin-top: 10px;
     cursor: pointer;
 }
 
-#lb1:hover {
+#button-create:hover {
     background-color: #3176af;
     transition: 0.4s;
 }
 
-#lp1 {
-    font-family: 'Armata', sans-serif;
+#button-login {
+    font-family: 'Armata', 'serif';
     font-size: 25px;
-    color: #ffffff;
+    background-color: #5094cc;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    height: 50px;
+    width: 175px;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
-#la1 {
-    color: #ffffff;
-    font-weight: 600;
+#button-login:hover {
+    background-color: #3176af;
+    transition: 0.4s;
 }
 
-.Login {
-    align-items: center;
+/* Overlay */
+
+/*(\(^.^)/)*/
+
+.button-login {
+    border-radius: 20px;
+    border: 1px solid #3176af;
+    background-color: #3176af;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+.button-login:active {
+    transform: scale(0.95);
+}
+
+.button-login:focus {
+    outline: none;
+}
+
+.button-login.ghost {
+    background-color: transparent;
+    border-color: #ffffff;
+}
+
+form {
+    background-color: transparent;
+    /* border-radius: 20px 0px 0px 20px; */
     display: flex;
-    text-align: left;
-    margin-left: 225px;
+    align-items: center;
+    /* justify-content: center; */
+    flex-direction: column;
+    padding: 0 2.6vw;
+	height: 100%;
+	text-align: center;
+    position: relative;
+    width: 35vw;
+    height: 70vh;
 }
 
-#image {
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+    /* left: 0; */
+    width: 40vw;
+    height: 70vh;
+    z-index: 5;
+    background-color: #ffffff;
+    /*turn to 1 to turn on opacity*/
+    opacity: 1;
+    top: 0vh;
+    border-radius: 20px 0px 0px 20px;
+}
+
+.container.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+}
+
+.sign-up-container {
+    top: 13.75vh;
+    left: 50vw;
+    width: 38vw;
+    height: 64vh;
+    background-color: #5a8b34;
+    /* z-index: 8432984393; */
+    border-radius: 0px 20px 20px 0px;
+}
+
+.container.right-panel-active .sign-up-container {
+    transform: translateX(100%);
+    opacity: 50%;
+    z-index: 5;
+    animation: show 0.6s;
+}
+
+.container.right-panel-active .overlay {
+    transform: translateX(50%);
+}
+
+
+.o-panel {
+    font-family: 'Armata', serif;
+    color: #ffffff;
+    font-size: xx-large;
+    background: #5094cc;
+    padding: 20px;
+    border-radius: 20px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+    transition: transform 0.8s ease-in-out, border-radius 0.4s ease-in-out;
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    z-index: 3;
+}
+
+.o-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: inherit;
+    border-radius: inherit;
+    z-index: -1;
+    transition: inherit;
+}
+
+.o-content-left,
+.o-content-right {
+    width: 50%;
+    transform: translateX(0);
+}
+
+.o-content-left {
+    transform: translateX(0);
+    border-radius: 20px 0px 0px 20px;
+    z-index: 7;
+}
+
+.o-content-right {
+    transform: translateX(90.1%);
+    border-radius: 0px 20px 20px 0px;
+    z-index: 7;
+}
+
+.slide-left {
+    transform: translateX(0);
+    border-radius: 20px 0px 0px 20px;
+    z-index: 6;
+}
+
+.slide-right {
+    transform: translateX(95%);
+    border-radius: 0px 20px 20px 0px;
+}
+
+.o-panel.slide-left::before {
+    border-radius: 20px 0px 0px 20px;
+}
+
+.o-panel.slide-right::after {
+    border-radius: 0px 20px 20px 0px;
+}
+
+/* .middle {
+    border-radius: 0;
+} */
+
+.hidden {
+    display: none;
+}
+
+/* .overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 7000;
+} */
+
+/* .container.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+} */
+
+/* top: 0;
+    left: 0;
+    height: 70%;
+    width: 60%;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1000; */
+/* #login-column,
+#create-column {
+    z-index: 2;
+} */
+
+/* html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+} */
+
+/* #column {
+    position: relative;
+    z-index: 1;
+} */
+
+/* .row:after {
+    content: '';
+    display: table;
+    clear: both;
+} */
+
+/* .login-img img {
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+} */
+
+/* #column {
+    position: relative;
+    z-index: 1;
+} */
+
+/* .row:after {
+    content: '';
+    display: table;
+    clear: both;
+} */
+
+/* .login-img img {
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+} */
+
+/* #image {
     position: absolute;
     top: 0;
     left: 0;
     width: 50%;
     height: 100vh;
     z-index: 0;
-}
+} */
 
-#login-img {
+/* #login-img {
     width: 100%;
     height: 100%;
     background-position: center;
     overflow: hidden;
-}
+} */
 
-#container {
+/* #container {
     display: flex;
     flex-wrap: wrap;
-}
-
-#login-column {
-    flex: 1;
-    background-color: #403c3c;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#image-column {
-    flex: 1;
-}
-
-#login-img {
-    width: 100%;
-    height: 100%;
+    min-height: 100vh;
+    background-image: url('../pictures/test1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     background-position: center;
-    overflow: hidden;
-    object-fit: cover;
-}
+} */
 
-@media (max-width: 768px) {
+/* #lp1 {
+    font-family: 'Armata', sans-serif;
+    font-size: 25px;
+    color: #5094cc;
+} */
+
+/* #la1 {
+    color: #5094cc;
+    font-weight: 600;
+} */
+
+/* #rectangle {
+    height: 70%;
+    width: 60%;
+    padding: 50px;
+    border-radius: 25px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} */
+
+/* @media (max-width: 768px) {
     #container {
       flex-direction: column;
     }
-}
 
-#login-column {
+    #rectangle {
+        flex-direction: column;
+    }
+
+    #login-column, #create-column {
+        order:initial;
+        width: 100%;
+        max-width: 400px;
+        margin-right: 0;
+    }
+} */
+
+/* .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+} */
+
+/* #container {
+    display: flex;
+    flex-wrap: wrap;
+} */
+
+/* .create-img img {
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+} */
+
+/* #image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100vh;
+    z-index: 0;
+} */
+
+/* #create-img {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    overflow: hidden;
+} */
+
+/* #overlay-container {
+    background-image: url('../pictures/background2.png');
+    position: relative;
+} */
+
+/* .show-left {
+    display: none;
+} */
+
+/* .show-right {
+    display: none;
+} */
+
+/* #image-column {
+    flex: 1;
+} */
+
+/* @media (max-width: 768px) {
+    #container {
+      flex-direction: column;
+    }
+} */
+
+/* #create-column {
     order: 1;
 }
 
@@ -199,9 +904,35 @@ html, body {
     box-sizing: border-box;
 } */
 
-/* .column#image {
+/* #overlay {
+    flex-direction: row;
     float: left;
-    width: 50%;
-    background-position: center;
-    background-repeat: no-repeat;
+    display: inline;
+} */
+
+/* #overlay-container {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#overlay {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #5a8b34;
+    opacity: 75%;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    z-index: 500;
+    transition: transform 0.6s ease-in-out;
+    display: hidden;
 } */

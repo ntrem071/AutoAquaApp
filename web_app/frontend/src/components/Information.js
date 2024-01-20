@@ -8,7 +8,7 @@ import Navigation from './Navigation';
 function Fish() {
     const navigate = useNavigate();
     const sessionId= Cookies.get('sessionId');
-
+    
     const [plants, setPlants] = useState('not selected');
     const [plantsArr, setPlantsArr] = useState([]);
     const [fish, setFish] = useState('not selected');

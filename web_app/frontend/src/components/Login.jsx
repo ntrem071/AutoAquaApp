@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
 import { Buffer } from 'buffer';
 import Cookies from 'js-cookie';
 import './Login.css'
-import backgroundimg from '../pictures/fishlogin.jpg'
+// import './Login.scss'
+import backgroundimg from '../pictures/wbackground.png'
 
 function Login() {
     const navigate = useNavigate();
@@ -97,49 +99,16 @@ function Login() {
         }
     }
 
-    return(
-            // <div className='row'>
-            //     <div className='column' id='column'>
-            //         <h1 id='lh1'>Automated Aquaponics</h1>
-            //         <h2 id='lh2'>Login</h2>
-            //         <div className='Login'>
-            //             <form id='login'>
-            //                 <label id='ll1' for='inputBox'>Email: </label><br></br>
-            //                 <input
-            //                     type='text'
-            //                     id='lt1'
-            //                     placeholder='Email'
-            //                     value={email.toString()}
-            //                     onChange={(e) => valuesIn(e, 'email')}
-            //                 /><br/>
-            //                 <label id='ll1' for='inputBox'>Password: </label><br></br>
-            //                 <input
-            //                     type='text'
-            //                     id='lt1'
-            //                     placeholder='Password'
-            //                     value={password.toString()}
-            //                     onChange={(e) => valuesIn(e, 'password')}
-            //                 /><br/>
-            //             </form>
-            //         </div>
-            //         <button
-            //             type='button'
-            //             id = 'lb1'
-            //             className='button'
-            //             onClick={loginSubmit}
-            //         >Login
-            //         </button>
-            //         <br/>
-            //         <p id ='lp1'>
-            //             Don't have an account?&nbsp;&nbsp;
-            //             <a id = 'la1' href='/CreateAccount'>Create</a>
-            //         </p>
-            //     </div>
-            //     <div className='column' id='image'>
-            //         <img src={backgroundimg} className='login-img'></img>
-            //     </div>
-            // </div>
+    function onSignUp(){
+        // setOverlayVisible(true);
 
+    }
+
+    function hideOverlay(){
+        // setOverlayVisible(false);
+    }
+
+    return(
         <div id='container'>
             <div id='login-column'>
                 <h1 id='lh1'>Automated Aquaponics</h1>
