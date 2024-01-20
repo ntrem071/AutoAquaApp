@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './InfoPopup.css';
+import imgP from '../pictures/pichpich.jpg';
 
 function InfoPopup(props) {
     const navigate = useNavigate();
@@ -156,6 +157,33 @@ function InfoPopup(props) {
         });
     }
 
+    function displayFishInfoBox(name){
+        var url = 'http://localhost:8000/fish/na/'+name;
+        var header = {         
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'   
+        };
+        const id = fetch(url, {
+            method: 'GET',
+            headers: header
+        })
+        .then((response) => {
+            if(response.error) {
+                setError(response.error);
+                console.log('Error: ', response.error)
+            } else {
+                return response.json()
+            }
+        })
+        .then(data => {
+            
+        })
+        .catch((err) => {
+            setError(err);
+            console.log(err);
+        });
+    }
+
     function setValues(){
         if(props.type=="fish"){displayFishInfoBox(props.name);}
         else if(props.type == 'plant'){displayPlantInfoBox(props.name);}
@@ -174,15 +202,13 @@ function InfoPopup(props) {
                         <div className='popup-section1' id='popup-section1'></div>
                         <div className='popup-section0' id='popup-section0'></div>
                         <div className='popup-section2' id='popup-section2'>
-                            <label className='popup-temp'>Image Placeholder</label>
+                            <img src={imgP} alt="pichpich" width="280" height="280"></img>
                         </div>
                         <div className='popup-section3' id='popup-section3'></div>
                     </div>
                 </div>
             </div>
         </body>
-        
-
     ) : "";
 }
 

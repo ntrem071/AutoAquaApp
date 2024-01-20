@@ -57,7 +57,6 @@ class FishController {
             }
     }
 
-    
     private function getList(){
         $result = $this->fish->getList();
 
