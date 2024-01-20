@@ -178,17 +178,6 @@ function Homepage() {
             console.log(err);
         });
     }
-
-    function displayNavSmall(){
-
-        if(navDrop){
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
-        }else{
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
-        }
-        
-        navDrop = !navDrop;
-    }
     
     return(
 

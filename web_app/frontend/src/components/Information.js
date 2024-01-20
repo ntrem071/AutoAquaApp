@@ -14,62 +14,6 @@ function Fish() {
     const [fish, setFish] = useState('not selected');
     const [list, setList]= useState([]);
 
-    const[phCheck, setPhCheck] = useState(true);
-    const[ecCheck, setEcCheck] = useState(true);
-    const[hoursCheck, setHoursCheck] = useState(true);
-
-    const[btnPopup, setbtnPopup] = useState(false);
-    const[typePF, setTypePF] = useState('');
-    const[namePF, setNamePF] = useState('');
-
-    const[togglePF, setTogglePF] = useState('plant');
-
-    const [error, setError] = useState('');
-
-    var navDrop = false;
-
-    useEffect(() => {
-        setValues(); 
-        getPlantList();
-    }, []);
-
-    const handleCheckChange=(type)=>{
-        setError('');
-
-        switch(type){
-            case 'ph':
-                setPhCheck(!phCheck);
-                getModifiedList(phCheck, !ecCheck, !hoursCheck);
-                break;
-            case 'ec':
-                setEcCheck(!ecCheck);
-                getModifiedList(!phCheck, ecCheck, !hoursCheck);
-                break;
-            case 'hours':
-                setHoursCheck(!hoursCheck);
-                getModifiedList(!phCheck, !ecCheck, hoursCheck);
-                break;
-            default:
-        }
-        
-    }
-    const handleButtonClick=(e, type)=>{
-        setTypePF(type);
-        setNamePF(e.target.id.replace(' ','_'));
-        setbtnPopup(true);
-    }
-
-    const search = () =>{
-        const searchValue = document.getElementById("search-pf").value.toLowerCase();
-        const result = list.filter((item)=> item.toLowerCase().includes(searchValue));
-        displayButtons(result, togglePF);
-    }
-
-    const [plants, setPlants] = useState('not selected');
-    const [plantsArr, setPlantsArr] = useState([]);
-    const [fish, setFish] = useState('not selected');
-    const [list, setList]= useState([]);
-
     const [PH, setPH]= useState([]);
     const [EC, setEC]= useState([]);
     const [Hours, setHours]= useState([]);
@@ -402,13 +346,6 @@ function Fish() {
             <h3>
                 <div className='outerbox-p'>
                     <div className='searchbox-pf'>
-                        <div className='nav'>
-                            <button id='navhome' variant='contained' title='Home' onClick={() => navigate('/Home')}>&nbsp;</button>
-                            <button id='navuser' variant='contained' title='User Info' onClick={() => navigate('/User-Info')}>&nbsp;</button>
-                            <button id='navfish' variant='contained' title='Fish Health' onClick={() => navigate('/Fish')}>&nbsp;</button>
-                            <button id='navinfo' style={{backgroundColor: "#08398d"}} variant='contained' title='Fish and Plant Search' onClick={() => navigate('/Information')}>&nbsp;</button>
-                            <button id='navsettings' variant='contained' title='Settings' onClick={() => navigate('/Settings')}>&nbsp;</button>
-                        </div>
                         <div>
                             <div className='wrap-toggle-pf'>
                                 <button type='button' id='plant-toggle' onClick={getPlantList}>Plants </button>

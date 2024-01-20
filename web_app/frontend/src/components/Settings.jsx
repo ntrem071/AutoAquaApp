@@ -46,16 +46,6 @@ function Settings() {
         setValues(); //initialize values from user doc on page load
     }, []);
 
-    useEffect(() => {
-        const newWrapId = `wrap${numFeedTime}`;
-        const element = document.getElementById(newWrapId);
-    
-        if (element) {
-            element.style.display = 'flex';
-            enableFormElements(newWrapId);
-        }
-    }, [numFeedTime]);
-
     const handleInputChange = (e, type) => {
         setError('');
         console.log(e.target.className,e.target.value);
