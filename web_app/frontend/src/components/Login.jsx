@@ -5,6 +5,7 @@ import { EyeInvisibleOutlined, EyeOutlined, UserOutlined, MailOutlined, LockOutl
 import { Buffer } from 'buffer';
 import Cookies from 'js-cookie';
 import './Login.css'
+// import './Login.scss'
 import backgroundimg from '../pictures/wbackground.png'
 
 function Login() {
@@ -23,6 +24,11 @@ function Login() {
     const [isRight, setIsRight] = useState(true);
     const [createVisible, setCreateVisible] = useState(false);
     const [loginVisible, setLoginVisible] = useState(true);
+    const [leftB8utton, setLeftButton] = useState(false);
+    const [rightButton, setRightButton] = useState(true);
+    const [slideLeft, setSlideLeft] = useState('false');
+    const [responseMessage, setResponseMessage] = useState(false);
+    // const [isMiddle, setIsMiddle] = useState(false);
 
     useEffect(() => {
         setTimeout(function(){
@@ -30,13 +36,44 @@ function Login() {
         }, 2000);
     }, [message]);
 
-    const RightorLeft = () => {
-        console.log('it reaches here!');
-        setIsRight((prevIsRight) => !prevIsRight);
-        console.log('isRight: ', isRight);
+    const handleButtonClick = () => {
+        // setLeftButton(!(leftB8utton));
+        // setRightButton(!(rightButton));
+        // console.log('isMiddle first: ', isMiddle)
+        setSlideLeft(!(slideLeft));
+
+        // setIsMiddle((prevState) => !prevState)
+
+        // setTimeout(() => {
+        //     setIsMiddle(false);
+        //     // console.log('isMiddle next: ', isMiddle)
+        // }, 700);
     }
 
-    const position = RightorLeft ? 'show-right' : 'show-left'
+    const showResponseMessage = () => {
+        setResponseMessage(!responseMessage);
+    }
+
+    const handleLeftButton = () => {
+        setLeftButton(true);
+        setRightButton(false);
+    }
+
+    const handleRightButton = () => {
+        setLeftButton(false);
+        setRightButton(true);
+    }
+
+
+    // const RightorLeft = () => {
+    //     setLeftOverVisible(!leftOverlayVisible);
+    //     setIsRight((prevIsRight) => !prevIsRight);
+    //     console.log('isRight: ', isRight);
+    // }
+
+    // const leftOverlayClass = leftOverlayVisible ? 'show-left': 'hide-left'
+
+    // const position = RightorLeft ? 'show-right' : 'show-left'
 
     const handleInputChange = (e, type) => {
         switch(type){
@@ -131,6 +168,16 @@ function Login() {
         }
     }
 
+    function status(response) {
+        if(response.ok) {
+            return response.json();
+        }else if (response.status === 404) {
+            return [];
+        } else {
+            throw new Error(response.statusText)
+        }
+    }
+
 // connects frontend to backend
     function createSubmit(){
         const validate = FormValidation();
@@ -158,7 +205,10 @@ function Login() {
                     // }
                     return response.json();
                 })
-                .then
+                .then(status)
+                .then((result) => {
+                    showResponseMessage();
+                })
                 .then(navigate('/'))
                 .catch((err) => {
                     setError(err.message);
@@ -190,6 +240,12 @@ function Login() {
 
     const togglePasswordVisibility = () => {
         setPasswordVisible = ((prevVisible) => !prevVisible);
+    }
+
+    const switchSection = () => {
+        setLoginVisible(!loginVisible);
+        setOverlayVisible(!overlayVisible);
+
     }
 
     function loginSubmit(){
@@ -254,31 +310,24 @@ function Login() {
         }
     }
 
-    const showOverlay = () => {
-        setOverlayVisible(true);
+    function onSignUp(){
+        // setOverlayVisible(true);
+
     }
 
-    const hideOverlay = () => {
-        setOverlayVisible(false);
+    function hideOverlay(){
+        // setOverlayVisible(false);
     }
 
     return(
         <div id='container'>
-            <div id='rectangle'>
-                <div id='title'>
-                    <h1 id='lh1'>Automated Aquaponics</h1>
-                </div>
-                <div id='row'>
-                    {/* <div id='o-img' className={`animated-div ${isRight ? 'right' : 'left'}`}>
-                        <img
-                            src={backgroundimg}
-                            id='overlay-img'
-                        />
-                    </div> */}
-                    <div id='login-column'>
-                        <h2 id='lh2'>Login</h2>
-                        <div id='Login'>
-                        <form id='login'>
+            <div id='row'>
+                <div id='login-column' className='form-container sign-in-container'>
+                    <h1 id='lh1' className={slideLeft ? 'title-left' : ''}>AUTOMATED AQUAPONICS</h1>
+                    {/* <h2 id='lh2'>Login</h2> */}
+                    <div id='Login' className='Login'>
+                        <form className='log-in'id='login' action='#'>
+                            <h2 id='lh2' className='form-title'>Login</h2>
                             <div id='em'>
                                 <input
                                     type='text'
@@ -288,9 +337,9 @@ function Login() {
                                     value={email.toString()}
                                     onChange={(e) => valuesIn(e, 'email')}
                                 />
-                            </div>
-                            <div id='l-email-icon'>
-                                <MailOutlined/>
+                                <div id='l-email-icon'>
+                                    <MailOutlined/>
+                                </div>
                             </div>
                             <br />
                             <div id='pw' className='flex'>
@@ -310,31 +359,22 @@ function Login() {
                                 </div>
                                 <br />
                             </div>
+                            <button
+                                type='button'
+                                id='lb1'
+                                className='button'
+                                onClick={loginSubmit}
+                            >
+                            Login
+                            </button>
                         </form>
-                        </div>
-                        <button
-                            type='button'
-                            id='lb1'
-                            className='button'
-                            onClick={loginSubmit}
-                        >
-                        Login
-                        </button>
-                        <br />
-                        <p id='lp1'>
-                            Don't have an account?&nbsp;&nbsp;
-                        <a 
-                            id='la1' 
-                            href='/CreateAccount'
-                        >
-                            Create
-                        </a>
-                        </p>
                     </div>
-                    <div id='create-column'>
-                    <h1 id='ch1'>Create account</h1>
-                    <div id='Create'>
-                        <form id='create'>
+                </div>
+                <div id='create-column' className='form-container sign-up-container'>
+                    <div className='Create'>
+                        <form className='side-by-side' id='create'action='#'>
+                            <h2 id='ch1' className='form-title'>Create account</h2>
+                            {responseMessage && (<p className='response-message'>Account created successfully!</p>)}
                             <div id='name'>
                                 <input
                                     type="text" 
@@ -386,54 +426,20 @@ function Login() {
                                     <LockOutlined/>
                                 </div>
                             </div><br/>
-                        </form>
-                        <button
-                            type='button'
-                            id='button-create' 
-                            onClick={createSubmit}>
+                            <button
+                                type='button'
+                                id='button-create'
+                                className='button'
+                                onClick={createSubmit}>
                                 Create Account
-                        </button>
-                        {/* <br/>
-                        <button
-                            type='button'
-                            id='button-login' 
-                            onClick={goback}>
-                                Back to Login
-                        </button> */}
+                            </button>
+                        </form>
                     </div>
                 </div>
-                </div>
-                {/* <div className='overlay-container'>
-                    <div className='overlay'>
-                        <div className='overlay-left'>
-                            <h2 id='overlay-left-title'>Welcome Back!</h2>
-                            <p id='overlay-left-p'>Please login to get started!</p>
-                            <button className='ghost' id='signIn'>Sign In</button>
-                        </div>
-                        <div className='overlay-right'>
-                            <h2 id='overlay-right-title'>Hello, friend!</h2>
-                            <p id='overlay-right-p'>To get started, please input your personal information</p>
-                            <button className='ghost' id='signUp'>Sign Up</button>
-                        </div>
-                    </div>
-                </div> */}
-            </div>
-            <div id='overlay'>
-                <div className='o-content-left'>
-                    <h2 id='overlay-left-title'>Welcome Back!</h2>
-                    <p id='overlay-left-p'>Please login to get started!</p>
-                    <button className='ghost' id='signIn'>Sign In</button>
-                </div>
-                <div id='o-content-right'>
-                    <h1 id='sign-in-h1'>Hello Friend!</h1>
-                    <p id='sign-in-p'>Enter your personal details and start a journey with us!</p>
-                    <button id='sign-in-t-sign-up' onClick={RightorLeft}>Sign Up</button>
-                </div>
-                <div id='o-img' className={isRight ? 'show-right' : 'show-left'}>
-                    <img
-                        src={backgroundimg}
-                        id='overlay-img'
-                    />
+                <div className={`o-panel o-content-left ${slideLeft ? 'slide-right' : 'slide-left'}`} onClick={handleButtonClick}>
+                    <h2 id='overlay-left-title'>{slideLeft ? 'Hello Friend!' : 'Welcome Back!'}</h2>
+                    <p id='overlay-left-p'>{slideLeft ? 'Enter your personal details and start a journey with us!' : 'Please login to get started!'}</p>
+                    <button className='ghost' id='signIn' onClick={handleButtonClick}>{slideLeft ? 'Sign up' : 'Sign in'}</button>
                 </div>
             </div>
         </div>
