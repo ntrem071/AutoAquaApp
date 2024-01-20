@@ -16,18 +16,6 @@
     align-items: center;
 }
 
-.user-details{
-    background-color: #d9d9d9;
-    width: 400px;
-    padding: 20px 20px;
-    margin: auto;
-    height:150px
-}
-
-#user-info{
-    overflow:visible;
-    height:1000px;
-}
 .infoUser{
     text-align: left;
 }
@@ -35,6 +23,7 @@
 #ntitle{
     font-weight: bold;
 }
+
 #etitle{
     font-weight: bold;
 }
