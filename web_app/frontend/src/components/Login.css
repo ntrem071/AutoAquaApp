@@ -500,7 +500,7 @@ body {
 
 /*(\(^.^)/)*/
 
-button {
+.button-login {
     border-radius: 20px;
     border: 1px solid #3176af;
     background-color: #3176af;
@@ -513,15 +513,15 @@ button {
     transition: transform 80ms ease-in;
 }
 
-button:active {
+.button-login:active {
     transform: scale(0.95);
 }
 
-button:focus {
+.button-login:focus {
     outline: none;
 }
 
-button.ghost {
+.button-login.ghost {
     background-color: transparent;
     border-color: #ffffff;
 }
