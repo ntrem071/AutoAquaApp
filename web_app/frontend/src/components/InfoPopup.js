@@ -149,6 +149,9 @@ function InfoPopup(props) {
            var p3 = document.createElement("p"); p3.className='popup-info';
            p3.innerHTML = data.info;
            s3.appendChild(p3);
+
+           console.log(data);
+           document.getElementById("imgPopUp").src = data.image;
             
         })
         .catch((err) => {
@@ -157,32 +160,32 @@ function InfoPopup(props) {
         });
     }
 
-    function displayFishInfoBox(name){
-        var url = 'http://localhost:8000/fish/na/'+name;
-        var header = {         
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'   
-        };
-        const id = fetch(url, {
-            method: 'GET',
-            headers: header
-        })
-        .then((response) => {
-            if(response.error) {
-                setError(response.error);
-                console.log('Error: ', response.error)
-            } else {
-                return response.json()
-            }
-        })
-        .then(data => {
-            
-        })
-        .catch((err) => {
-            setError(err);
-            console.log(err);
-        });
-    }
+    // function displayFishImage(name){
+    //     var url = 'http://localhost:8000/fish/na/'+name;
+    //     var header = {         
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json'   
+    //     };
+    //     const id = fetch(url, {
+    //         method: 'GET',
+    //         headers: header
+    //     })
+    //     .then((response) => {
+    //         if(response.error) {
+    //             setError(response.error);
+    //             console.log('Error: ', response.error)
+    //         } else {
+    //             return response.json()
+    //         }
+    //     })
+    //     .then(data => {
+    //         document.getElementById("imgPopUp").src = data;
+    //     })
+    //     .catch((err) => {
+    //         setError(err);
+    //         console.log(err);
+    //     });
+    // }
 
     function setValues(){
         if(props.type=="fish"){displayFishInfoBox(props.name);}
@@ -202,7 +205,7 @@ function InfoPopup(props) {
                         <div className='popup-section1' id='popup-section1'></div>
                         <div className='popup-section0' id='popup-section0'></div>
                         <div className='popup-section2' id='popup-section2'>
-                            <img src={imgP} alt="pichpich" width="280" height="280"></img>
+                            <img id="imgPopUp" alt="pichpich" width="280" height="280"></img>
                         </div>
                         <div className='popup-section3' id='popup-section3'></div>
                     </div>
