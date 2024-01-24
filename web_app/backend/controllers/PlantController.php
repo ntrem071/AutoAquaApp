@@ -108,26 +108,8 @@ class PlantController {
         }
         else{        
                 $result = $this->plants->getPlantInfo(str_replace('_',' ', $this->sel2));
-                
+                $result->image = $this->plants->getPlantImage(str_replace('_',' ', $this->sel2));
 
-                if(is_null($result)){
-                    $this->response['status_code_header'] = 'HTTP/1.1 504 Plant Does Not Exist';
-                }else{
-                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
-                    $this->response['body'] = json_encode($result);
-                }
-        } 
-        return $this->response;
-    }
-
-    private function getPlantImage(){
-        
-        if (!isset($this->sel2)) {
-            $this->response['status_code_header'] = 'HTTP/1.0 403 Name Null';
-        }
-        else{        
-                $result = $this->plants->getPlantImage(str_replace('_',' ', $this->sel2));
-                
                 if(is_null($result)){
                     $this->response['status_code_header'] = 'HTTP/1.1 504 Plant Does Not Exist';
                 }else{

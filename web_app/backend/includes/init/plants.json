@@ -29,13 +29,6 @@
             "info": "NA"
         },
         {
-            "plant": "Coriander",
-            "daily_light_requirement": [12,14],
-            "ph_range": [5.5,6.5],
-            "ec_range": [1.2,1.8],
-            "info": "NA"
-        },
-        {
             "plant": "Cucumber",
             "daily_light_requirement": [12,14],
             "ph_range": [5.5,6],

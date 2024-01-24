@@ -34,7 +34,7 @@
         }
 
         public function getFishImage($name){
-            $path = './img/'. $name;
+            $path = '../backend/includes/img/fish-images/'. $name . '.jpg';
             $type = pathinfo($path, PATHINFO_EXTENSION);
             $data = file_get_contents($path);
             $imgData = 'data:image/' . $type . ';base64,' . base64_encode($data);

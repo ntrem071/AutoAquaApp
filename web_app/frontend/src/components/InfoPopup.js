@@ -82,6 +82,8 @@ function InfoPopup(props) {
            var p3 = document.createElement("p"); p3.className='popup-info';
            p3.innerHTML = data.info;
            s3.appendChild(p3);
+
+           document.getElementById("imgPopUp").src = data.image;
         })
         .catch((err) => {
             setError(err);
