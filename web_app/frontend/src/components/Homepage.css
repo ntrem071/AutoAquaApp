@@ -28,6 +28,7 @@
 
 .Homepage {
     background-color: #403c3c;
-    height: 940px;
+    height: 100vw;
     margin-left: auto;
+    margin-top: calc(150px + 2vmin);
 }

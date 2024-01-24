@@ -1,6 +1,6 @@
 .info-fish-plant{
-    height: 1000px;
-    overflow: auto;
+    height: 840px;
+    margin-top: calc(83px + 2vmin);
 }
 .outerbox-p{
     background-color:  #d9d9d9;
