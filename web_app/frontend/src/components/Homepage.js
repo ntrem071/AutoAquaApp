@@ -323,7 +323,6 @@ function Homepage() {
         <div className='Homepage'>
             <Navigation/> 
             <div className='outerbox-h'> 
-
                 <div className="containor-h">
                     <div className= 'warning-state-h'>
                         <span  className="info-warning">

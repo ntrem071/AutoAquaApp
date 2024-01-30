@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+.Homepage{
+    width: 100%;
+    height: 840px;
+    margin-top: calc(83px + 2vmin);
+    overflow-y: auto;
+}
 .outerbox-h{
     width: 90%;
-    height: 1000px;
     margin: 90px auto;
+    margin-top: 20px;
     position: relative;
     display:flex;
 }
@@ -57,6 +63,7 @@
 }
 .containor-h{
     position: relative;
+    overflow-y: auto;
     width:70%;
     margin-top: 3%;
 }
