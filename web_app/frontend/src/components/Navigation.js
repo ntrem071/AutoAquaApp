@@ -36,7 +36,7 @@ function Navigation() {
                 &nbsp;
             </button>
             <button id='navfish' variant='contained' title='Fish Health' onClick={() => {navigate('/Fish'); displayNavSmall(); /*currentPageFish()*/}}>
-                <h1 id='nav-text'>Fish Analyctics</h1>
+                <h1 id='nav-text'>Fish Analytics</h1>
                 &nbsp;
             </button>
             <button id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => {navigate('/Information'); displayNavSmall(); /*currentPageInfo()*/}}>

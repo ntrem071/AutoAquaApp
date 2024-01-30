@@ -8,11 +8,15 @@ import Navigation from './Navigation';
 function Fish() {
     const navigate = useNavigate();
     const sessionId= Cookies.get('sessionId');
-
+    
     const [plants, setPlants] = useState('not selected');
     const [plantsArr, setPlantsArr] = useState([]);
     const [fish, setFish] = useState('not selected');
     const [list, setList]= useState([]);
+
+    const [PH, setPH]= useState([]);
+    const [EC, setEC]= useState([]);
+    const [Hours, setHours]= useState([]);
 
     const[phCheck, setPhCheck] = useState(true);
     const[ecCheck, setEcCheck] = useState(true);
@@ -65,16 +69,33 @@ function Fish() {
         displayButtons(result, togglePF);
     }
 
-    function nav(str){
-        document.cookie = `sessionId=${sessionId}`
-        navigate(str)
+    function refresh(){
+        var url = 'http://localhost:8000/users/'+sessionId+'/navigate';
+        var headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        };
+        fetch(url, {
+            method: 'PUT',
+            headers: headers,
+        })
+        .then((response) => { 
+            if(response.error) {
+                setError(response.error);
+                console.log('Error: ', response.error)
+            }
+        })
+        .catch((err) => {
+            setError(err);
+            console.log(err);
+        });
     }
-
+    
     function hideCheckbox(){document.getElementById('wrap-list-customize').style.display='none';}
     function showCheckbox(){document.getElementById('wrap-list-customize').style.display='block';}
 
     function setValues(){
-        var url = 'http://localhost:8000/users/'+sessionId;
+        var url = 'http://localhost:8000/users/'+sessionId+'/search';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
@@ -104,17 +125,17 @@ function Fish() {
                 setPlantsArr(arr);
                 setPlants(arr.join(', '));
             }
-            if((!(data.fish==null))){
-                setFish(data.fish.fish);
-            };
-            
+            console.log(data);
+            if((!(data.fish==null))){setFish(data.fish.fish);};
+            if((!(data.recomPH==null))){setPH(data.recomPH.join('-'));}else{setPH('none')}
+            if((!(data.recomEC==null))){setEC(data.recomEC.join('-')+" Sm/cm");}else{setEC('none')}
+            if((!(data.recomHours==null))){setHours(data.recomHours.join('-')+" hours");}else{setHours('none')}
         })
         .catch((err) => {
             setError(err);
             console.log(err);
         });
     }
-
 
     function displayButtons(data, type){
         var select = document.getElementById("wrap-display-pf");
@@ -132,6 +153,10 @@ function Fish() {
     }
     
     function getPlantList(){
+        document.getElementById('plant-toggle').style.background= '#d9d9d9';
+        document.getElementById('fish-toggle').style.background= '#c7c7c7';
+
+        refresh();
         showCheckbox();
         setTogglePF('plant');
         var url = 'http://localhost:8000/plants';
@@ -161,6 +186,11 @@ function Fish() {
         });
     }
     function getFishList(){
+        document.getElementById('plant-toggle').style.background= '#c7c7c7';
+
+        document.getElementById('fish-toggle').style.background= '#d9d9d9';
+
+        refresh();
         hideCheckbox();
         setTogglePF('fish');
         var url = 'http://localhost:8000/fish';
@@ -191,6 +221,7 @@ function Fish() {
     }
     
     function getModifiedList(ph, ec, hours){
+        refresh();
         var str='';
         if(ph==true){str+='_ph'}
         if(ec==true){str+='_ec'}
@@ -252,10 +283,7 @@ function Fish() {
     }
 
     const modifySelectPF=(type, elem)=>{
-
-        console.log(elem);
-        console.log(type);
-
+        console.log(!phCheck+" "+!ecCheck+" "+!hoursCheck);
         switch(type){
             case 'add-plant':
                 if(plantsArr.includes(elem)){
@@ -266,6 +294,7 @@ function Fish() {
                     setPlants(arr.join(', '));
                     updateUserSelect(arr, fish);
                 }
+                getModifiedList(!phCheck, !ecCheck, !hoursCheck);
                 break;
             case 'remove-plant':
                 if(plantsArr.includes(elem)){
@@ -277,6 +306,7 @@ function Fish() {
                 }else{
                     setError("Plant not in current user selection")
                 }
+                getModifiedList(!phCheck, !ecCheck, !hoursCheck);
                 break;
             case 'replace-fish':
                 if(elem!=fish){         
@@ -292,7 +322,8 @@ function Fish() {
                 break;
             default:
         }
-        
+        setValues();
+
     }
 
     return(
@@ -303,30 +334,40 @@ function Fish() {
             <h1>Compatibility Search</h1>
             <h3>
                 <div className='outerbox-p'>
-                    <div>
-                        <div className='wrap-toggle-pf'>
-                            <button type='button' id='plant-toggle' onClick={getPlantList}>Plants </button>
-                            <button type='button' id='fish-toggle' onClick={getFishList}>Fish</button>
-                        </div>
-                        <div className='wrap-selection-pf'>
-                            <p>User Saved Selection:</p>
-                            <p>Plants: {plants}</p>
-                            <p>Fish: {fish}</p>
-                        </div>
-                        <div className='wrap-search-pf'>
-                            <form>
-                                <i className="fas fa-search"></i>
-                                <input type='text' id='search-pf' placeholder='Search...' onChange={()=>search()}></input>
-                            </form>
-                            <div className='wrap-list-customize' id='wrap-list-customize'>
-                                <p></p><label>Compatible with current:</label>
-                                <input type='checkbox' id='ph-checkbox' value={phCheck} onChange={()=>handleCheckChange('ph')}></input>PH
-                                <input type='checkbox' id='ec-checkbox' value={ecCheck} onChange={()=>handleCheckChange('ec')}></input>EC
-                                <input type='checkbox' id='hours-checkbox' value={hoursCheck} onChange={()=>handleCheckChange('hours')}></input>Lighting Requirements
+                    <div className='searchbox-pf'>
+                        <div>
+                            <div className='wrap-toggle-pf'>
+                                <button type='button' id='plant-toggle' onClick={getPlantList}>Plants </button>
+                                <button type='button' id='fish-toggle' onClick={getFishList}>Fish</button>
                             </div>
+                            <div className='wrap-search-pf'>
+                                <form>
+                                    <i className="fas fa-search"></i>
+                                    <input type='text' id='search-pf' placeholder='Search...' onChange={()=>search()}></input>
+                                </form>
+                                <div className='wrap-list-customize' id='wrap-list-customize'>
+                                    <p></p><label>Compatible with current:</label>
+                                    <input type='checkbox' id='ph-checkbox' value={phCheck} onChange={()=>handleCheckChange('ph')}></input>PH
+                                    <input type='checkbox' id='ec-checkbox' value={ecCheck} onChange={()=>handleCheckChange('ec')}></input>EC
+                                    <input type='checkbox' id='hours-checkbox' value={hoursCheck} onChange={()=>handleCheckChange('hours')}></input>Lighting Requirements
+                                </div>
+                            </div>
+                            <div className='wrap-display-pf' id='wrap-display-pf'></div>
                         </div>
-                        <div className='wrap-display-pf' id='wrap-display-pf'></div>
                     </div>
+                    <div  className='wrap-stats-pf'>
+                        <p className='pf-p1'>Based on your current saved selection,</p>
+                        <div className='wrap-s2-pf'>     
+                            <p className='pf-p2'>Plants: <p className='pf-p3'>{plants}</p></p>
+                            <p className='pf-p2'>Fish: <p className='pf-p3'>{fish}</p></p>
+                        </div>
+                        <p className='pf-p1'>these are your recommended system ranges!</p>
+                        <div className='wrap-s3-pf'>
+                            <p className='pf-p2'>Daily Plant Light: <p className='pf-p3'>{Hours} </p></p>
+                            <p className='pf-p2'>Ideal EC:  <p className='pf-p3'>{EC} </p></p>
+                            <p className='pf-p2'>Ideal PH: <p className='pf-p3'>{PH} </p></p>
+                        </div>
+                    </div> 
                     <InfoPopup trigger={btnPopup} type={typePF} name={namePF} setTrigger={setbtnPopup} modifySelect={modifySelectPF}></InfoPopup>
                 </div>
             </h3>

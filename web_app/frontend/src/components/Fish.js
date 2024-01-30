@@ -14,8 +14,6 @@ function Fish() {
         document.cookie = `sessionId=${sessionId}`
         navigate(str)
     }
-
-
     return(
         <div id='fish-analyctics'>
             <Navigation/>

@@ -8,15 +8,6 @@ function Settings() {
     const navigate = useNavigate();
     const sessionId= Cookies.get('sessionId');
 
-    const ranges = {
-        pHRangeMin : 6.7,
-        pHRangeMax : 8.3,
-        ecRangeMin : 2,
-        ecRangeMax : 4,
-        tempRangeMin : 16.7,
-        tempRangeMax : 20.0
-    }
-
     var navDrop = false;
 
     const [pHMin, setpHMin] = useState('6.5');
@@ -25,12 +16,12 @@ function Settings() {
     const [ecMax, setecMax] = useState('3.0');
     const [tempMin, settempMin] = useState('22');
     const [tempMax, settempMax] = useState('28');
-    const [firsthour, setfirstHour] = useState('');
-    const [secondhour, setsecondHour] = useState('');
-    const [thirdhour, setthirdHour] = useState('');
-    const [firstminute, setfirstMinute] = useState('');
-    const [secondminute, setsecondMinute] = useState('');
-    const [thirdminute, setthirdMinute] = useState('');
+    const [firsthour, setfirstHour] = useState('00');
+    const [secondhour, setsecondHour] = useState('00');
+    const [thirdhour, setthirdHour] = useState('00');
+    const [firstminute, setfirstMinute] = useState('00');
+    const [secondminute, setsecondMinute] = useState('00');
+    const [thirdminute, setthirdMinute] = useState('00');
     const [LEDonHour, setLEDonHour] = useState('00');
     const [LEDoffHour, setLEDoffHour] = useState('00');
     const [LEDonMinute, setLEDonMinute] = useState('00');
@@ -42,44 +33,18 @@ function Settings() {
     const [ledEn, setLEDEnable] = useState(true);
     const [timezone, setTimezone] = useState('UTC');
     const [visibleWraps, setVisibleWraps] = useState([false, false, false]);
-    const [numFeedTime, setNumFeedTime] = useState(0);
-    const [feedEnabled, setFeedEnabled] = useState(true);
-    const [btnPopup, setBtnPopup] = useState(false);
 
     const [error, setError] = useState('');
-
-    const[timeCount, setCount] = useState(3);
 
     const progress1 = document.querySelector(".range-slider .progress-ph"), 
             progress2 = document.querySelector(".range-slider .progress-ec"),
                 progress3 = document.querySelector(".range-slider .progress-temp");
     let phGap= 0.4, ecGap=0.4, tempGap=3;
-
-    const w1 = document.getElementById('wrap1');
-    const w2 = document.getElementById('wrap2');
-    const w3 = document.getElementById('wrap3');
-
-    const b1 = document.getElementById('delete-t1');
-    const b2 = document.getElementById('delete-t2');
-
-    const at = document.getElementById('addtime');
-
     
-
     useEffect(() => {
         getTimezoneList();
         setValues(); //initialize values from user doc on page load
     }, []);
-
-    useEffect(() => {
-        const newWrapId = `wrap${numFeedTime}`;
-        const element = document.getElementById(newWrapId);
-    
-        if (element) {
-            element.style.display = 'flex';
-            enableFormElements(newWrapId);
-        }
-    }, [numFeedTime]);
 
     const handleInputChange = (e, type) => {
         setError('');
@@ -199,15 +164,15 @@ function Settings() {
         switch(type){
             case 'phEn':
                 setPHEnable(!phEn); 
-                //toggleRangeDisable(phEn, 'ph')
+                toggleRangeDisable(phEn, 'ph')
                 break;
             case 'ecEn':
                 setECEnable(!ecEn);  
-                //toggleRangeDisable(ecEn, 'ec')
+                toggleRangeDisable(ecEn, 'ec')
                 break;
             case 'tempEn':
                 setTempEnable(!tempEn);
-                //toggleRangeDisable(tempEn, 'temp')
+                toggleRangeDisable(tempEn, 'temp')
                 break;
             case 'feedEn':
                 setFeedEnable(!feedEn); 
@@ -222,15 +187,93 @@ function Settings() {
         }
     }
     function toggleRangeDisable(va, str1){
+        var thumbs=document.querySelectorAll( 'input[type="range"]' );
+        var min, max; 
+        if(str1=="ph"){min=thumbs[0];max=thumbs[1];}
+        else if(str1=="ec"){min=thumbs[2];max=thumbs[3];}
+        else if(str1=="temp"){min=thumbs[4];max=thumbs[5];}
+
         if(!va){
-            document.querySelector(".range-slider .progress-"+str1).style.background = '#5f5f5f'; 
-            //document.getElementsByClassName(".range-input input").style['-webkit-slider-thumb'].background= '#5f5f5f'; 
-            //document.querySelector("input[type=\"range\"]::-webkit-slider-thumb").style.background = '#5f5f5f'; 
-            //document.querySelector('.range-slider').style.setProperty(--SlideColor, '#5f5f5f'); //MAKE CIRCLES GREY?  
+            document.querySelector(".range-slider .progress-"+str1).style.background = '#969493'; 
+            min.style.setProperty( '--color', '#969493');
+            max.style.setProperty( '--color', '#969493');
+ 
         }else{
             document.querySelector(".range-slider .progress-"+str1).style.background = '#2196F3';
-           // document.querySelector('input[type="range"]::-webkit-slider-thumb').style.background = '#2196F3';  
+            min.style.setProperty( '--color', '#2196F3');
+            max.style.setProperty( '--color', '#2196F3');
         }
+    }
+
+    function toggleFEEDDisable(){
+        console.log('-t-',feedEn);
+        console.log('-t-',visibleWraps);
+            document.getElementById('addtime').disabled = !feedEn;
+            if(visibleWraps[0]==true){
+                document.getElementById('firsthour').disabled=!feedEn;
+                document.getElementById('firstminute').disabled=!feedEn;
+                if(visibleWraps[1]==false){document.getElementById('delete-t1').disabled = !feedEn;}
+            }
+            if(visibleWraps[1]==true){
+                document.getElementById('secondhour').disabled=!feedEn;
+                document.getElementById('secondminute').disabled=!feedEn;
+                if(visibleWraps[2]==false){document.getElementById('delete-t2').disabled = !feedEn;}
+            }
+            if(visibleWraps[2]==true){
+                document.getElementById('thirdhour').disabled=!feedEn;
+                document.getElementById('thirdminute').disabled=!feedEn;
+                document.getElementById('delete-t3').disabled = !feedEn;
+                console.log(document.getElementById('addtime').disabled);
+                document.getElementById('addtime').disabled = true;
+            }
+    }
+
+
+    function addTime(){     
+        console.log('-a-',feedEn);
+        console.log('-a-',visibleWraps);
+            if (visibleWraps[0]==false){
+                setVisibleWraps([true, false, false]);
+                document.getElementById('wrap1').style.display = 'flex';
+
+            } else if (visibleWraps[1]==false) {
+                setVisibleWraps([true, true, false]);
+                document.getElementById('wrap2').style.display = 'flex';
+                document.getElementById('delete-t1').disabled = true;
+                document.getElementById('delete-t2').disabled = false;
+
+            } else if (visibleWraps[2]==false) {
+                setVisibleWraps([true, true, true]);
+                document.getElementById('wrap3').style.display = 'flex';
+                document.getElementById('delete-t2').disabled = true;
+                document.getElementById('delete-t3').disabled = false;
+                document.getElementById('addtime').disabled = true;
+            }    
+    }
+
+    function deleteTime() {
+            console.log('-d-',feedEn);
+            console.log('-d-',visibleWraps);
+
+            if (visibleWraps[2]==true) {
+                console.log('here3');
+                setVisibleWraps([true, true, false]);
+                document.getElementById('delete-t2').disabled = false;
+                document.getElementById('wrap3').style.display = 'none';
+            } 
+            else if (visibleWraps[1]==true) {
+                console.log('here2');
+                setVisibleWraps([true, false, false]);
+                document.getElementById('delete-t1').disabled = false;
+                document.getElementById('wrap2').style.display = 'none';
+            } 
+            else if (visibleWraps[0]==true) {
+                console.log('here1');
+                setVisibleWraps([false, false, false]);
+                document.getElementById('wrap1').style.display = 'none';
+            }  
+
+            document.getElementById('addtime').disabled = false;
     }
 
     function toggleLEDDisable(){
@@ -247,143 +290,7 @@ function Settings() {
         }
     }
 
-    let secondButtonEnabled = true;
 
-    function toggleFEEDDisable(){
-        const btns = [btn1, btn2, btn3];
-        const btnsStayDisabled = [btn1, btn2];
-
-        if(!feedEn){
-            btns.forEach(btn => (btn.disabled = true));
-
-            disableTimeInputs();
-            setFeedEnabled(true);
-        } else {
-            btnsStayDisabled.forEach(btn => (btn.disabled = true));
-            btns[2].disabled = false;
-            if((w3.style.display !== 'flex') && (w2.style.display !== 'flex')) {
-                btns[0].disabled = false;
-            } else if (w3.style.display !== 'flex') {
-                btns[1].disabled = false;
-            }
-            
-            enableTimeInputs();
-            setFeedEnabled(false);
-        }
-    }
-
-    function disableTimeInputs(){
-        document.getElementById('firsthour').disabled=true;
-        document.getElementById('firstminute').disabled=true;
-        document.getElementById('secondhour').disabled=true;
-        document.getElementById('secondminute').disabled=true;
-        document.getElementById('thirdhour').disabled=true;
-        document.getElementById('thirdminute').disabled=true;
-    }
-
-    function enableTimeInputs() {
-        document.getElementById('firsthour').disabled=false;
-        document.getElementById('firstminute').disabled=false;
-        document.getElementById('secondhour').disabled=false;
-        document.getElementById('secondminute').disabled=false;
-        document.getElementById('thirdhour').disabled=false;
-        document.getElementById('thirdminute').disabled=false;
-    }
-    function hideDiv(id){document.getElementById(id).style.display='none';}
-    function showDiv(id){document.getElementById(id).style.display='block';}
-
-function addTime(){
-
-        if (numFeedTime < 3) {
-            const updatedVisibleWraps = visibleWraps.map((value, index) => index === numFeedTime ? true : value);
-            setNumFeedTime(numFeedTime + 1);
-            setVisibleWraps(updatedVisibleWraps);
-            if (numFeedTime === 0){
-                w1.style.display = 'flex';
-            } else if (numFeedTime === 1) {
-                w2.style.display = 'flex';
-                b1.disabled = true;
-
-            } else if (numFeedTime === 2) {
-                w3.style.display = 'flex';
-                b2.disabled = true;
-                at.disabled = true;
-            }
-
-            const newWrapId = `wrap${numFeedTime + 1}`;
-            const element = document.getElementById(newWrapId);
-            if(element){
-                document.getElementById(newWrapId).style.display = 'flex';
-            }
-            enableFormElements(newWrapId);
-
-        } else if (numFeedTime === 2) {
-            document.getElementById('addtime').disabled = true;
-        }
-        // if (numFeedTime < 3) {
-        //     setNumFeedTime((prevNumFeedTime) => prevNumFeedTime + 1);
-        // } else if (numFeedTime === 2) {
-        //     document.getElementById('addtime').disabled = true;
-        // }
-    }
-
-    function enableFormElements(wrapId) {
-        // const wrap = document.getElementById(wrapId);
-
-        // if(wrap) {
-        //     const formElements = wrap.querySelectorAll('select, button');
-        //     formElements.forEach((element) => {
-        //         element.disabled = false;
-        //     })
-        // }
-        const wrap = document.getElementById(wrapId);
-
-        if (wrap) {
-            const formElements = wrap.querySelectorAll('select, button');
-            formElements.forEach((element) => {
-            element.disabled = false;
-        });
-        }
-    }
-
-    const btn1 = document.getElementById('delete-t1');
-    const btn2 = document.getElementById('delete-t2');
-    const btn3 = document.getElementById('delete-t3');
-
-    if (btn1) {
-        btn1.addEventListener('click', deleteTime);
-    }
-    if (btn2) {
-        btn2.addEventListener('click', deleteTime);
-    }
-    if (btn3) {
-        btn3.addEventListener('click', deleteTime);
-    }
-
-    // btn1.addEventListener('click', deleteTime);
-    // btn2.addEventListener('click', deleteTime);
-    // btn3.addEventListener('click', deleteTime);
-
-    function deleteTime() {
-        const w1 = document.getElementById('wrap1');
-        const w2 = document.getElementById('wrap2');
-        const w3 = document.getElementById('wrap3');
-
-        const at = document.getElementById('addtime');
-
-        if (numFeedTime === 3) {
-            w3.style.display = 'none';
-            btn1.disabled = true;
-            at.disabled = false;
-        } else if (numFeedTime === 2) {
-            w2.style.display = 'none';
-        } else if (numFeedTime === 1) {
-            w1.style.display = 'none';
-        }    
-
-        setNumFeedTime(numFeedTime - 1);
-
-    }
     
     function getTimezoneList(){
         var url = 'http://localhost:8000/users/'+sessionId+'/timezone-list';
@@ -486,7 +393,7 @@ function addTime(){
     }
 
     function setValues(){
-            var url = 'http://localhost:8000/users/'+sessionId;
+            var url = 'http://localhost:8000/users/'+sessionId+'/settings';
             var header = {         
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'   
@@ -505,6 +412,8 @@ function addTime(){
                 }
             })
             .then(data => {
+                console.log(data);
+                //load range sliders
                 if((!(data.phRange[0]==null))){
                     setpHMin(data.phRange[0]);
                     document.querySelector(".range-slider .progress-ph").style.left = ((data.phRange[0]-6)/2)*100+'%';         
@@ -530,6 +439,10 @@ function addTime(){
                     document.querySelector(".range-slider .progress-temp").style.right = 100-((data.tempRange[1]-20)/10)*100 + '%';
                 }
 
+                toggleRangeDisable(data.phEn, 'ph');
+                toggleRangeDisable(data.ecEn, 'ec');
+                toggleRangeDisable(data.tempEnEn, 'temp');
+                //load LED times
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][0]==null))){setLEDoffHour(data.ledTimer[0][0]);}
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][1]==null))){setLEDoffMinute(data.ledTimer[0][1]);}
                 if((!(data.ledTimer[1]==null) && !(data.ledTimer[1][0]==null))){setLEDonHour(data.ledTimer[1][0]);}
@@ -678,47 +591,47 @@ function addTime(){
                             </form>
                             <div className="wrap-first" id="wrap1">
                                 <p id='cs4'>1 : 
-                                    <select id="firsthour" disabled value={firsthour} onChange={(e) => handleInputChange(e, 'firstHour') }>
+                                    <select id="firsthour" value={firsthour} onChange={(e) => handleInputChange(e, 'firstHour') }>
                                         <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
                                         <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                         <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
                                         <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
                                     </select> :
-                                    <select id="firstminute" disabled value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
+                                    <select id="firstminute" value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
                                             <option>00</option><option>15</option><option>30</option><option>45</option>
                                     </select>  
-                                    <button disabled type='button' id='delete-t1'>x</button>                    
+                                    <button type='button' id='delete-t1' onClick={deleteTime}>x</button>                    
                                 </p>
                             </div>
                             <div className="wrap-second" id="wrap2">
                                 <p id='cs4'>2 : 
-                                    <select id="secondhour" disabled value={secondhour} onChange={(e) => handleInputChange(e, 'secondHour')}>
+                                    <select id="secondhour" value={secondhour} onChange={(e) => handleInputChange(e, 'secondHour')}>
                                         <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
                                         <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                         <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
                                         <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
                                     </select> :
-                                    <select id="secondminute" disabled value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
+                                    <select id="secondminute"  value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
                                             <option>00</option><option>15</option><option>30</option><option>45</option>
                                     </select>
-                                    <button disabled type='button' id='delete-t2'>x</button>      
+                                    <button  type='button' id='delete-t2' onClick={deleteTime}>x</button>      
                                 </p>
                             </div>
                             <div className="wrap-third" id="wrap3">
                                 <p id='cs4'>3 : 
-                                    <select id="thirdhour" disabled value={thirdhour} onChange={(e) => handleInputChange(e, 'thirdHour')}>
+                                    <select id="thirdhour"  value={thirdhour} onChange={(e) => handleInputChange(e, 'thirdHour')}>
                                         <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
                                         <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                         <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
                                         <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
                                     </select> :
-                                    <select  id="thirdminute" disabled value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
+                                    <select  id="thirdminute"  value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
                                             <option>00</option><option>15</option><option>30</option><option>45</option>
                                     </select>
-                                    <button disabled type='button' id='delete-t3'>x</button>      
+                                    <button  type='button' id='delete-t3' onClick={deleteTime}>x</button>      
                                 </p>
                             </div>
-                            <button id='addtime' disabled={feedEnabled} onClick={addTime}>Add Time</button>
+                            <button id='addtime' onClick={addTime}>Add Time</button>
                             <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                         </div>
                         <div className="wrap-led">

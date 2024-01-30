@@ -16,8 +16,8 @@ function InfoPopup(props) {
       }, [props.trigger, props.name, props.type]);
 
     const handleButtonClick=(e)=>{
-        props.modifySelect(e.target.id, props.name);
-        props.setTrigger(false)
+        props.modifySelect(e.target.id, props.name.replace('_',' '));
+        exit();
     }
     
     function displayPlantInfoBox(name){
@@ -193,13 +193,20 @@ function InfoPopup(props) {
         if(props.type=="fish"){displayFishInfoBox(props.name);}
         else if(props.type == 'plant'){displayPlantInfoBox(props.name);}
     }
+    function exit(){
+        document.querySelector('.popup-box').setAttribute('close',"");
+        document.querySelector('.popup-box').addEventListener('animationend',()=>{
+            document.querySelector('.popup-box').removeAttribute('closing');
+            props.setTrigger(false); 
+        });     
+    }
 
     return(props.trigger) ? (
         <body>
             <div className='popup-box'>
                 <div className='popup-inner'>
                     <div className='popup-topbar' id='popup-topbar'>
-                        <button className='close-popup' onClick={()=>props.setTrigger(false)}>x</button>
+                        <button className='close-popup' onClick={exit}>x</button>
                         {props.children}
                     </div>
                     <div className='popup-info-display'>

@@ -280,13 +280,14 @@ label {
     pointer-events: none;
     -webkit-appearance: none;
 }
+
 input[type="range"]::-webkit-slider-thumb{
     height: 17px;
     width: 17px;
     border-radius: 50%;
     pointer-events: auto;
     -webkit-appearance: none;
-    background-color: #2196F3;
+    background: var(--color, #2196F3);
 }
 input[type="range"]::-moz-range-thumb{
     height: 17px;
@@ -294,5 +295,5 @@ input[type="range"]::-moz-range-thumb{
     border-radius: 50%;
     pointer-events: auto;
     -moz-appearance: none;
-    background-color: #2196F3;
+    background: var(--color, #2196F3);
 }
