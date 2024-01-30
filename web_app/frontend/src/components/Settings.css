@@ -194,10 +194,6 @@ label {
     border-width: 0.25px;
 }
 
-#addtime {
-    
-}
-
 /*tick markings PH*/
 #tick-marks-ph {display:flex; justify-content:space-between; width:100%; border-radius:5px;}
 #tick-marks-ph p {position:relative; display:flex; justify-content:center; text-align:center; width:1px; top:6px; 
