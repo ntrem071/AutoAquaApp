@@ -108,7 +108,7 @@ class PlantController {
         }
         else{        
                 $result = $this->plants->getPlantInfo(str_replace('_',' ', $this->sel2));
-                
+                $result->image = $this->plants->getPlantImage(str_replace('_',' ', $this->sel2));
 
                 if(is_null($result)){
                     $this->response['status_code_header'] = 'HTTP/1.1 504 Plant Does Not Exist';

@@ -282,17 +282,6 @@ function Fish() {
 
     }
 
-    function displayNavSmall(){
-
-        if(navDrop){
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
-        }else{
-            document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
-        }
-
-        navDrop = !navDrop;
-    }
-
     const modifySelectPF=(type, elem)=>{
         console.log(!phCheck+" "+!ecCheck+" "+!hoursCheck);
         switch(type){

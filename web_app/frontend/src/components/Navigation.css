@@ -52,6 +52,9 @@ h1 {
     background-color: #0844ac;
     margin-bottom: 30px;
     text-align: right;
+    position:fixed;
+    z-index: 1;
+    top: 0;
 }
   
 #nav-button{
