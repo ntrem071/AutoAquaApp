@@ -13,19 +13,23 @@
     echo "   View changes in MongoDB Compass, sessions expire after ",$sec,"s with some delay\n\n";
         
         echo "\tCurrent time ", new \MongoDB\BSON\UTCDateTime(time() * 1000),"\n\n";
-        $id = $s1->newSession("b");
+        $id = $s1->newSession("b", "app");
         echo "\tFirst unique session id: ";
-        if(isset($id)){echo $id," expires at: ",$s1->getSessionExpiry($id);}echo "\n"; // must have unique data (user email)
-        $id = $s1->newSession("b");
-        echo "\tReturn for non-unique session: ", json_encode($id), "\n";
-        $id = $s1->newSession("c");
+        if(isset($id)){echo $id," expires at: ",$s1->getSessionExpiry($id);}echo "\n"; //same id
+        $id = $s1->newSession("b", "app");
+        echo "\tReturn for non-unique session: ";
+        if(isset($id)){echo $id," expires at: ",$s1->getSessionExpiry($id);}echo "\n";
+        $id = $s1->newSession("c", "app");
         echo "\tSecond unique session id: ";
         if(isset($id)){echo $id," expires at: ",$s1->getSessionExpiry($id);}echo "\n";
+        $id = $s1->newSession("c", "system");
+        echo "\tThird unique session id: ";
+        if(isset($id)){echo $id," expires at: ",$s1->getSessionExpiry($id);}echo "\n"; //diff id
 
         echo "\t\tWaiting ",$sec,"s...\n";
         sleep($sec); //all prev expire
 
-        $id = $s1->newSession("d");
+        $id = $s1->newSession("d", "app");
         echo "\tThird unique session id: ";
         if(isset($id)){echo $id," expires at: ",$s1->getSessionExpiry($id);}echo "\n";
 
@@ -58,7 +62,7 @@
 
     /*__________________________________________________TEST_#2________________________________________________________*/
     echo "   DESTROY SESSION BEFORE TIMEOUT\n\n";
-        $id = $s1->newSession("b");
+        $id = $s1->newSession("b", "app");
         $b = $s1->read($id);
         if(isset($b)){echo "\tSUCCESS: ",json_encode($b),"\n"; } // success
         else{ echo "\tEXPIRED\n\n";} 

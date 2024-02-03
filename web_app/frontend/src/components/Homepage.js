@@ -10,7 +10,7 @@ import { CategoryScale, plugins } from "chart.js";
 import Chart from "chart.js/auto";
 import './Homepage.css';
 import Navigation from './Navigation';
-
+import 'chartjs-adapter-date-fns';
 
 function Homepage() {
     const navigate = useNavigate();
@@ -183,6 +183,11 @@ function Homepage() {
             },
             scales: {
                 x:{ 
+                    type:'time',
+                    time:{
+                         unit: 'second',
+                         parser: 'dd/MM/yyyy HH:mm:ss'
+                     },
                     ticks: {
                         color: ['black', 'rgb(105,105,105)']
                     },
@@ -334,6 +339,7 @@ function Homepage() {
                     </div>
                     <div className="carousel-h">
                         <div className="slider-h">
+                        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
                             <section>
                                 <div className='wrap-graphs'>
                                     <h3 className='h3-h' id='wltitle'>WATER LEVEL</h3>
