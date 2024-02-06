@@ -76,20 +76,35 @@ function UserInfo(props) {
 
         nav('/');
     }
+    function exit(){
+        document.querySelector('.user-details').setAttribute('close',"");
+        document.querySelector('.user-details').addEventListener('animationend',()=>{
+            document.querySelector('.user-details').removeAttribute('closing');
+            props.setTrigger(false); 
+        });        
+    }
+    
+    useEffect(() => {
+        document.onclick = function(div){
+        if(((document.getElementById('user-details')!==null) && div.target.id !== 'user-details' && div.target.id !== 'userIcon')){
+            exit();
+        }
+        }
+      }, []);
 
     return(props.trigger) ? (
-        <div className='user-details'>
-            <div className='infoUser'>
-                <h3 style={{textAlign:'center'}}>Profile</h3>
-                <span id='ntitle'>Name: </span><span>{name}</span>
+            <div className='user-details' id='user-details'>
+                <h3 id='user-details' style={{textAlign:'center'}}>Profile</h3>
+                <span id='user-details' className='ntitle'>Name: </span><span id='user-details'>{name}</span>
                 <br></br>
                 <br></br>
-                <span id='etitle'>Email: </span><span>{email}</span>
+                <span id='user-details' className='etitle'>Email: </span><span id='user-details'>{email}</span>
                 <br></br>
                 <br></br>
-            </div>
-            <button type='Sbutton' id='use-logout' onClick={logout}>Logout</button>
-        </div>                      
+                <div id='user-details' className='wrap-logout'>
+                    <button id='user-details' type='Sbutton' className='use-logout' onClick={logout}>Logout</button>
+                </div>
+            </div>                    
     ) : "";
 }
 

@@ -26,6 +26,13 @@
         echo "\tThird unique session id: ";
         if(isset($id)){echo $id," expires at: ",$s1->getSessionExpiry($id);}echo "\n"; //diff id
 
+
+        // $cur = (new \MongoDB\BSON\UTCDateTime((time()) * 1000))->toDateTime()->getTimestamp();
+        // $ex = $s1->getSessionExpiry($id)->toDateTime()->getTimestamp();
+        // $dif = ($ex - $cur)*1000;
+        // $user = ['expiry' => $dif]; // returns time difference in seconds
+        // echo json_encode($user);
+
         echo "\t\tWaiting ",$sec,"s...\n";
         sleep($sec); //all prev expire
 

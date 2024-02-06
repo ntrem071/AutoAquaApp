@@ -19,7 +19,7 @@
             $m= new \MongoDB\Client("mongodb://localhost:27017"); 
             $this->tbl = $m->AutoAquaDB->Users;
 
-            $this->session = new MySessionHandler(30*60); //set to 20 min expiry
+            $this->session = new MySessionHandler(30*60); //set to 30 min expiry
             $this->session->gc();
         }
 
@@ -77,7 +77,17 @@
         //return shortened page-specific user doc
         public function getUser($id, $sel){
             $user = null;
-            if(!is_null($this->session->read($id))){
+            
+            if($sel=='session'){
+                    $cur = (new \MongoDB\BSON\UTCDateTime((time()) * 1000));
+                    $ex = $this->session->getSessionExpiry($id);
+                    $dif= null;
+                    if(isset($ex)){
+                         $dif = ((int)($ex->__toString()) - (int)($cur->__toString()));
+                    }
+                    $user = ['expiry' => $dif]; // returns time to expiry ms
+            } 
+            elseif(!is_null($this->session->read($id))){
                 date_default_timezone_set($this->getTimezone($id));
                 //$this->testGraphs($id); //REMOVE AFTER TESTING
                 if($sel=='home'){
@@ -90,7 +100,7 @@
                     $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'recomPH'=>true,'recomEC'=>true,'recomHours'=>true,'plants'=>true,'fish'=>true]]);
                 }elseif($sel=='settings'){
                     $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'ledTimer'=>true,'feedTimer'=>true,'phRange'=>true,'ecRange'=>true,'tempRange'=>true,'phEnable'=>true,'ecEnable'=>true,'tempEnable'=>true,'feedEnable'=>true,'ledEnable'=>true, 'timezone'=>true]]);
-                } 
+                }
                      
             }
             return $user;

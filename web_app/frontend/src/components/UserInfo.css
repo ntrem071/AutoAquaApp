@@ -1,34 +1,53 @@
+
 .user-details{
-    background-color: #d9d9d9;
-    width: 200px;
-    padding: 20px 20px;
-    height:190px;
+    background-color: #fff;
+    width: 170px;
+    padding: 5px 30px 20px 30px;
+    height:200px;
     z-index: 2;
     position: absolute;
     text-align: center;
-    border: 5px solid #7a7a7a;
     border-radius: 5px;
-    margin-top: 80px;
-    margin-left: 70vw;
+    top: 115px;
+    right: 3vw;
+    text-align: left;
+    animation: dropDown 0.3s ease-in-out;
+    border: 1px solid #000000;
+}
+
+.user-details::before{
+    content: '';
+    position: absolute;
+    top: -11px;
+    right:35px;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    transform: rotate(45deg);
+    border-style: solid none none solid;
+    border-color: #000000;
+    border-width: 1px;
+}
+.user-details[close]{
+    pointer-events: none;
+    animation: fade-out 100ms forwards;
 }
 
 .use-logout{
     align-items: center;
 }
 
-.infoUser{
-    text-align: left;
-}
-
-#ntitle{
+.ntitle{
     font-weight: bold;
 }
 
-#etitle{
+.etitle{
     font-weight: bold;
 }
-
-#use-logout{
+.wrap-logout{
+    text-align: center;
+}
+.use-logout{
     background-color: rgb(247, 247, 247);
     padding: 10px 10px;
     border: 2px solid #7a7a7a;
@@ -37,7 +56,26 @@
     margin-top: 10px;
 }
 
-#use-logout:hover {
+.use-logout:hover {
     background-color: #5c5c5c;
     color: white;
 }
+
+@keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+}
+  @keyframes dropDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px); /* Translate up by 20px */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0); /* Back to the original position */
+    }
+  }

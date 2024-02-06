@@ -57,7 +57,12 @@
             }
 
             public function getSessionExpiry($id){
-                return $this->collection->findOne(['_id' => $id])->session_expiry;
+                $s=$this->collection->findOne(['_id' => $id]);
+                $ex = null;
+                if(isset($s)){
+                    $ex = $s->session_expiry;
+                }
+                return $ex;
             }
      
     }
