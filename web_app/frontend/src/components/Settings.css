@@ -36,12 +36,12 @@
 }
 
 .App {
-    background-color: #403c3c;
+    background-color: #EFECEC;
 }
 
-body {
-    background-color: #403c3c;
-}
+body{
+    background-color: #EFECEC;
+  }
 
 .switch {
     position: relative;
