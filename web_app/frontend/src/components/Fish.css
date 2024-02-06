@@ -1,3 +1,11 @@
+/* 
+#0C2D57
+#FC6736
+#FFB0B0
+#EFECEC
+*/
+
+
 #fish-analyctics{
     height:1000px;
     overflow:visible;
@@ -10,4 +18,77 @@
     margin: 90px auto;
     position: relative;
     display:flex;
+}
+
+.video-container{
+    background-color: #fa774c;
+    width: 600px;
+    height: fit-content;
+    padding: 20px 20px;
+    border-radius: 8px;
+    position:relative;
+}
+
+#h1-fv{
+    text-align: center;
+    font-style: italic;
+    color: #0C2D57
+}
+
+#h1-fs{
+    text-align: center;
+    color: #0C2D57
+}
+
+#h2-fn{
+    text-align: left;
+    color: #0C2D57;
+    margin-bottom: 40px;
+}
+
+.fishes{
+    background-color: #fa774c;
+    width: 600px;
+    height: fit-content;
+    padding: 20px 20px;
+    margin-left: 30px;
+    border-radius: 10px;
+    position: relative;
+    align-items: center;
+}
+
+.fish{
+    background-color: #FFB0B0;
+    width: 90%;
+    position: relative;
+    text-align: center;
+    height: auto;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+}
+
+#f-text{
+    text-align: left;
+    margin-bottom: 30px;
+    color: #0C2D57;
+    font-weight: 500;
+}
+
+#f-bmenu{
+    text-align: left;
+    cursor: pointer;
+    width: 90%;
+}
+
+#f-bmenu li{
+    list-style: none;
+}
+
+#f-bmenu li.active ul{
+    display: block;
+}
+
+.plusMenu{
+    justify-content: right;
 }

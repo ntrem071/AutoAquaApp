@@ -3,25 +3,54 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Fish.css';
 import Navigation from './Navigation';
-
+import video from '../videos/fishTestVideo.mp4';
 
 function Fish() {
     const navigate = useNavigate();
+    const [behaviourVisible, setBehaviourVisible] = useState(false)
     const sessionId= Cookies.get('sessionId');
 
+    const toggleBehaviour = () => {
+        setBehaviourVisible(!behaviourVisible);
+    }
 
     function nav(str){
         document.cookie = `sessionId=${sessionId}`
         navigate(str)
     }
+
     return(
         <div id='fish-analyctics'>
             <Navigation/>
-            <div class="outerbox-f">
-                <div class="video-container">
-                    <video height="300px" weight="">
-                        <source src="../videos/fishTestVideo.mp4" type="video/mp4"/>
+            <div className="outerbox-f">
+                <div className="video-container">
+                    <h1 id='h1-fv'>Last hour...</h1>
+                    <video id="videoID" height="300px" controls loop>
+                        <source src={video} type="video/mp4"/>
+                        Your browser doesn't support HTML5 video tag.
                     </video>
+                </div>
+                <div className="fishes">
+                    <h1 id="h1-fs" color="rgb(77, 77, 77)">My fish</h1>
+                    <div className="fish">
+                        <h2 id="h2-fn">Mr. Bubbles</h2>
+                        <p id="f-text">Mr. Bubbles is healthy!</p>
+                        <div id="f-bmenu">
+                            <button id="f-bbutton" onClick={toggleBehaviour}>
+                                Noticed behaviour <span className='plusMenu'>+</span>
+                            </button>
+                            { behaviourVisible && (
+                                <ul>
+                                    <li>
+                                        Eating his poop
+                                    </li>
+                                    <li>
+                                        Cutie patootie
+                                    </li>
+                                </ul>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
