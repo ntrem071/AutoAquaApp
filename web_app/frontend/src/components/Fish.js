@@ -17,12 +17,13 @@ function Fish() {
     return(
         <div id='fish-analyctics'>
             <Navigation/>
-            <h1>Fish Behavior</h1>
-            <h3>
-                <div id='m'>
-                    <p id='model'>ML Model Undergoing Developement...</p>
+            <div class="outerbox-f">
+                <div class="video-container">
+                    <video height="300px" weight="">
+                        <source src="../videos/fishTestVideo.mp4" type="video/mp4"/>
+                    </video>
                 </div>
-            </h3>
+            </div>
         </div>
     );
 }

@@ -3,3 +3,11 @@
     overflow:visible;
     margin-top: 150px;
 }
+
+.outerbox-f{
+    width: 90%;
+    height: 1000px;
+    margin: 90px auto;
+    position: relative;
+    display:flex;
+}
