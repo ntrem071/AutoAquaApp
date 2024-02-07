@@ -7,28 +7,33 @@
 }
 .wrap-sessionbox{
     margin: auto;
-    width: 40%;
+    width: 30%;
     text-align: center;
-    border: 1px solid rgb(0, 0, 0);
+    border: 2px solid #222021;
     padding: 30px;
-    background-color: aliceblue;
+    background-color: #f8f8f9;
     transform:translateY(200px);
     animation: dropDownEx 0.4s ease-in-out;  
+    border-radius: 5px;
 }
 .wrap-sessionbox h3{
-    font-weight: 400;
+    font-weight: 500;
 }
 .expired-ok{
-    background-color: rgb(247, 247, 247);
+    background-color: #222021;
     padding: 10px 10px;
-    border: 2px solid #7a7a7a;
+    border: 2px solid #222021;
     width: 100px;
     transition-duration: 0.4s;
     margin-top: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
 }
 .expired-ok:hover {
-    background-color: #5c5c5c;
-    color: white;
+    background-color: #aaadda;
+    
+    color: #222021;
 }
 @keyframes fade-in {
     from {

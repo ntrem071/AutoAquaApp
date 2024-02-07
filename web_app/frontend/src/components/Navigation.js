@@ -3,7 +3,7 @@ import UserInfo from './UserInfo';
 import Cookies from 'js-cookie';
 import generalUserIconImage from '../pictures/userImageFishUwU.png';
 import { useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Navigation.css';
 import Session from './Session';
 
@@ -17,31 +17,56 @@ function Navigation() {
   const sessionId= Cookies.get('sessionId');
 
   const [timer, setTimer] = useState(null);
-
+  const location = useLocation();
 
   useEffect(() => {
     checkExpiry();
+    if(location.pathname=="/Home"){
+      document.getElementById('nav-title').innerHTML="AUTO AQUA | Home"
+    }else if(location.pathname=="/Fish"){
+      document.getElementById('nav-title').innerHTML="AUTO AQUA | Analytics"
+    }else if(location.pathname=="/Information"){
+      document.getElementById('nav-title').innerHTML="AUTO AQUA | Information"
+    }else if(location.pathname=="/Settings"){
+      document.getElementById('nav-title').innerHTML="AUTO AQUA | Settings"
+    }
   }, []);
 
-  function displayNavSmall(session){
-    if(!session){
-        if(navDrop){
-          document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';  
-        }else{
-          document.getElementsByClassName('nav-dropdwn')[0].style.display = 'block';
-        }
+  function displayNavSmall(session) {
+    const wrapper =document.querySelector('.wrap-nav-dropdown');
+    const navDropdown = document.querySelector('.nav-dropdwn');
+    if (!expireSesh && !session) {
         setNavDrop(!navDrop);
-    }else{
-      document.getElementsByClassName('nav-dropdwn')[0].style.display = 'none';
-      setNavDrop(false);
+        if (!navDrop) {
+            wrapper.style.display = 'block';
+            setTimeout(() => navDropdown.classList.add('active'), 0);
+        } else {
+            navDropdown.classList.remove('active');
+            setTimeout(() => {
+                wrapper.style.display = 'none'; 
+            }, 300); 
+        }
+    } else if(expireSesh || session) {
+        navDropdown.classList.remove('active');
+        setTimeout(() => {
+            wrapper.style.display = 'none'; 
+        }, 300); 
+        setNavDrop(false);
     }
-  }
+}
 
   function profileAppear(){
     if(!btnPopup && !expireSesh){
       setBtnPopup(true);
+    }else if(btnPopup && !expireSesh){
+      document.querySelector('.user-details').setAttribute('close',"");
+      document.querySelector('.user-details').addEventListener('animationend',()=>{
+          document.querySelector('.user-details').removeAttribute('closing');
+          setBtnPopup(false);
+      });        
     }
   }
+
   function checkExpiry(){
     var url = 'http://localhost:8000/users/'+sessionId+'/session';
     var header = {         
@@ -74,32 +99,38 @@ function Navigation() {
         console.log(err);
     });
 }
-
-
+function logout(){
+  clearTimeout(timer);
+  navigate('/');
+}
+  
   return (
     <div className="navbar">
         <img className='part-of-nav' id='userIcon' src={generalUserIconImage} onClick={profileAppear}></img>
         <button id='nav-button' onClick={() =>{displayNavSmall(false)}}></button>
-        <div className="nav-dropdwn">
-            <button className='part-of-nav' id='navhome' variant='contained' title='Home' onClick={() => {clearTimeout(timer);navigate('/Home'); displayNavSmall(false); /*currentPageHome()*/}}>
-                  <h1 className='part-of-nav' id='nav-text'>Home</h1>
-                  &nbsp;
-            </button>
-            <button className='part-of-nav' id='navfish' variant='contained' title='Fish Health' onClick={() => {clearTimeout(timer);navigate('/Fish'); displayNavSmall(false); /*currentPageFish()*/}}>
-                  <h1 id='nav-text'>Fish Analytics</h1>
-                  &nbsp;
-            </button>
-            <button className='part-of-nav' id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => {clearTimeout(timer);navigate('/Information'); displayNavSmall(false); /*currentPageInfo()*/}}>
-                  <h1 className='part-of-nav' id='nav-text'>Information</h1>
-                  &nbsp;
-            </button>  
-            <button className='part-of-nav' id='navsettings' variant='contained' title='Settings' onClick={() => {clearTimeout(timer);navigate('/Settings'); displayNavSmall(false); /*currentPageSettings()*/}}>
-                  <h1 className='part-of-nav' id='nav-text'>Settings</h1>
-                  &nbsp;
-            </button>
-        </div> 
-        <UserInfo trigger={btnPopup} setTrigger={setBtnPopup}></UserInfo>
-        <Session trigger={expireSesh} setTrigger={setExpireSesh} closeNav={displayNavSmall}></Session>
+        <div id='nav-title'>AUTO AQUA</div>
+        <div classList='part-of-nav' className='wrap-nav-dropdown' id='wrap-nav-dropdown'>
+          <div classList='part-of-nav' className="nav-dropdwn">
+              <button classList='part-of-nav' id='navhome' variant='contained' title='Home' onClick={() => {clearTimeout(timer);navigate('/Home'); displayNavSmall(false); }}>
+                    <h1 classList='part-of-nav' id='nav-text'>Home</h1>
+                    &nbsp;
+              </button>
+              <button classList='part-of-nav' id='navfish' variant='contained' title='Fish Health' onClick={() => {clearTimeout(timer);navigate('/Fish'); displayNavSmall(false); }}>
+                    <h1 classList='part-of-nav' id='nav-text'>Fish Analytics</h1>
+                    &nbsp;
+              </button>
+              <button classList='part-of-nav' id='navinfo' variant='contained' title='Fish and Plant Search' onClick={() => {clearTimeout(timer);navigate('/Information'); displayNavSmall(false);}}>
+                    <h1 classList='part-of-nav' id='nav-text'>Information</h1>
+                    &nbsp;
+              </button>  
+              <button classList='part-of-nav' id='navsettings' variant='contained' title='Settings' onClick={() => {clearTimeout(timer);navigate('/Settings'); displayNavSmall(false); }}>
+                    <h1 classList='part-of-nav' id='nav-text'>Settings</h1>
+                    &nbsp;
+              </button>
+          </div> 
+        </div>
+        <UserInfo trigger={btnPopup} setTrigger={setBtnPopup} displayNavSmall={displayNavSmall} logout={logout}></UserInfo>
+        <Session trigger={expireSesh} setTrigger={setExpireSesh} closeNav={displayNavSmall} logout={logout}></Session>
     </div>
     
   );

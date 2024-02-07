@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './UserInfo.css';
+import './Navigation.css';
 import userIcon from '../pictures/user.png';
 import generalUserIconImage from '../pictures/userImageFishUwU.png';
 
@@ -13,7 +14,8 @@ function UserInfo(props) {
     const [email, setEmail] = useState('');
 
     const [error, setError] = useState('');
-
+    const location=useLocation();
+    
     useEffect(() => {
         setValues(); 
     }, []);
@@ -73,8 +75,7 @@ function UserInfo(props) {
             setError(err);
             console.log(err);
         });
-
-        nav('/');
+        props.logout();
     }
     function exit(){
         document.querySelector('.user-details').setAttribute('close',"");
@@ -86,10 +87,15 @@ function UserInfo(props) {
     
     useEffect(() => {
         document.onclick = function(div){
-        if(((document.getElementById('user-details')!==null) && div.target.id !== 'user-details' && div.target.id !== 'userIcon')){
-            exit();
+                if(((document.getElementById('user-details')!==null) && div.target.id !== 'user-details' && div.target.id !== 'userIcon')){
+                    exit();
+                }if(((document.getElementById('wrap-nav-dropdown').style.display=='block') && div.target.classList !== 'part-of-nav' && div.target.id != 'nav-button')){     
+                    props.displayNavSmall(true);
+                }
         }
-        }
+        return () => {
+            document.onclick = null;
+        };
       }, []);
 
     return(props.trigger) ? (
