@@ -87,7 +87,6 @@ function Navigation() {
     })
     .then(data => {
         clearTimeout(timer);
-        console.log(data.expiry);
         if(data.expiry <= 0){
             setExpireSesh(true);
         }else{
@@ -106,7 +105,7 @@ function logout(){
   
   return (
     <div className="navbar">
-        <img className='part-of-nav' id='userIcon' src={generalUserIconImage} onClick={profileAppear}></img>
+        <img className='part-of-nav' id='userIcon' title='User Profile' src={generalUserIconImage} onClick={profileAppear}></img>
         <button id='nav-button' onClick={() =>{displayNavSmall(false)}}></button>
         <div id='nav-title'>AUTO AQUA</div>
         <div classList='part-of-nav' className='wrap-nav-dropdown' id='wrap-nav-dropdown'>

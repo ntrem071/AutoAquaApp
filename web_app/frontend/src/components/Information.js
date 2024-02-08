@@ -125,7 +125,6 @@ function Fish() {
                 setPlantsArr(arr);
                 setPlants(arr.join(', '));
             }
-            console.log(data);
             if((!(data.fish==null))){setFish(data.fish.fish);};
             if((!(data.recomPH==null))){setPH(data.recomPH.join('-'));}else{setPH('none')}
             if((!(data.recomEC==null))){setEC(data.recomEC.join('-')+" Sm/cm");}else{setEC('none')}

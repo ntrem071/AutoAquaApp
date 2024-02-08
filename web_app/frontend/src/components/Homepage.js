@@ -38,98 +38,106 @@ function Homepage() {
     const [inWaterLevel, setInWaterLevel] = useState(graphData([0,0]));
     const [inEC, setInEC] = useState(graphData([0,0]));
     const [inTemp, setInTemp] = useState(graphData([0,0]));
+    const [percent, setPercent] = useState(30);
+
+    const zoom_in = document.getElementById('zoom_in');
+    const zoom_out = document.getElementById('zoom_out');
+    const zoom_text = document.getElementById('zoom-percent');
 
     const downDWater=100, downCWater=150; 
     const upDPH=9, upCPH=8.5, downCPH=6.5, downDPH=6.0; 
     const upDEC=2.2, upCEC=2.0, downCEC=0.2, downDEC=0; 
     const upDTemp=30, upCTemp=22, downCTemp=18, downDTemp=10;
+    
+    const warningColor='rgb(232,83,72, 0.9)'; const dangerColor = 'rgb(255,165,0, 0.9)';
 
-    // carousel slider effects
+    var sectionIndex = 0;
+    
+    // carousel slider and graph zoom effects
     useEffect(() => {
         const slider = document.querySelector('.slider-h');
         const leftArrow = document.querySelector('.left');
         const rightArrow = document.querySelector('.right');
         const controlsIndicators = document.querySelectorAll('.controls-h li');
         const indicatorParents = document.querySelector('.controls-h ul');
-        var sectionIndex = 0;
     
         const handleRightArrowClick = () => {
             sectionIndex = (sectionIndex < 3) ? sectionIndex + 1 : 0;
             document.querySelector('.controls-h .selected').classList.remove('selected');
             indicatorParents.children[sectionIndex].classList.add('selected');
+            updateTitle(sectionIndex);
             slider.style.transform = 'translate(' + (sectionIndex) * (-25) + '%)';
         };
-    
         const handleLeftArrowClick = () => {
             sectionIndex = (sectionIndex > 0) ? sectionIndex - 1 : 3;
             document.querySelector('.controls-h .selected').classList.remove('selected');
             indicatorParents.children[sectionIndex].classList.add('selected');
+            updateTitle(sectionIndex);
             slider.style.transform = 'translate(' + (sectionIndex) * (-25) + '%)';
         };
-    
         const handleScrollCircle = (indicator, ind) => {
             sectionIndex = ind;
             document.querySelector('.controls-h .selected').classList.remove('selected');
             indicator.classList.add('selected');
+            updateTitle(sectionIndex);
             slider.style.transform = 'translate(' + (sectionIndex) * (-25) + '%)';
         }
-    
+
         // Event listeners for arrows
-        if (rightArrow) {
-            rightArrow.addEventListener('click', handleRightArrowClick);
-        }
-        if (leftArrow) {
-            leftArrow.addEventListener('click', handleLeftArrowClick);
-        }
+        if (rightArrow) {rightArrow.addEventListener('click', handleRightArrowClick);}
+        if (leftArrow) {leftArrow.addEventListener('click', handleLeftArrowClick);}
         controlsIndicators.forEach((indicator, ind) => {
             indicator.addEventListener('click', () => handleScrollCircle(indicator, ind));
         });
-    
         // Clean up the event listeners when the component is unmounted
         return () => {
-            if (rightArrow) {
-                rightArrow.removeEventListener('click', handleRightArrowClick);
-            }
-            if (leftArrow) {
-                leftArrow.removeEventListener('click', handleLeftArrowClick);
-            }
+            if (rightArrow) {rightArrow.removeEventListener('click', handleRightArrowClick);}
+            if (leftArrow) {leftArrow.removeEventListener('click', handleLeftArrowClick);}
             controlsIndicators.forEach((indicator, ind) => {
                 indicator.removeEventListener('click', () => handleScrollCircle(ind));
             });
         };
     }, []);
-   
 
-    const handleInputChange = (e, type) => {
-        setError('');
-        var n; 
-        if(e.target.value=='day'){n=24;}
-        else if (e.target.value=='week'){n=168;}
-        else if (e.target.value=='month'){n=760;}
-
-        switch(type){
-            case 'water':
-                setTWater(e.target.value);
-                setwaterLevlData(graphData(inWaterLevel.slice(-n)));
-                break;
-            case 'ec':
-                setTEC(e.target.value);
-                setecData(graphData(inEC.slice(-n)));
-                break;
-            case 'ph':
-                setTPH(e.target.value);
-                setpHData(graphData(inPH.slice(-n)));
-                break;
-            case 'temp':
-                setTTemp(e.target.value);
-                settempData(graphData(inTemp.slice(-n)));
-                break;
-            default:
-        }
+    //zoom on graphs
+    const handleZoomOut = () => {
+        var p = (percent < 100) ? percent + 10 : 100;//increment by 10%
+        setPercent(p);
+        adjustGraph(p);
+        zoom_text.innerHTML=p+'%';
+    };
+    const handleZoomIn = () => {
+        var p = (percent > 10) ? percent - 10 : 10;
+        setPercent(p);
+        adjustGraph(p);
+        zoom_text.innerHTML=p+'%';
+    };
+    function adjustGraph(p){
+        var n = 76;
+        n= parseInt((p/100) * inWaterLevel.length);
+        setwaterLevlData(graphData(inWaterLevel.slice(-n)));
         
-        if(error!=''){
-            console.log(error);
-        }
+        n= parseInt((p/100) * inPH.length);
+        setpHData(graphData(inPH.slice(-n)));
+
+        n= parseInt((p/100) * inEC.length);
+        setecData(graphData(inEC.slice(-n)));
+
+        n= parseInt((p/100) * inTemp.length);
+        settempData(graphData(inTemp.slice(-n)));
+    }
+
+    function updateTitle(sectionIndex){
+        console.log('here'+ sectionIndex);
+        if(sectionIndex==0){
+            document.getElementById('graph-title').innerText="Water Level";
+        }else if(sectionIndex==1){
+            document.getElementById('graph-title').innerText="PH";
+        }else if(sectionIndex==2){
+            document.getElementById('graph-title').innerText="Electrical Conductivity";
+        }else if(sectionIndex==3){
+            document.getElementById('graph-title').innerText="Temperature";
+        }        
     }
 
     function graphDangerLine(num, color){
@@ -158,16 +166,16 @@ function Homepage() {
               {
                 label: "pH",
                 data: points.map((data) => data[1]),
-                backgroundColor: "rgba(33,150,243,1.0)",
-                borderColor: "rgba(33,150,243,1)",
+                backgroundColor: "rgba(135,222,214,1) ",
+                borderColor: "rgba(135,222,214,1) ",
                 pointRadius: 1,
                 pointHoverRadius: 3,
                 borderWidth: 1,
                 spanGaps: true,
                 fill: {
                     target: 'origin',
-                    above: 'rgb(33,150,243, 0.2)',   
-                  }
+                    above: 'rgb(135,222,214, 0.2)',   
+                  },
               }
             ]
         };
@@ -189,24 +197,35 @@ function Homepage() {
                          parser: 'dd/MM/yyyy HH:mm:ss'
                      },
                     ticks: {
-                        color: ['black', 'rgb(105,105,105)']
+                        color: ['#c9c9c9', '#939393']
                     },
                     title: {
                         display: true,
                         text: 'Timestamp',
-                        color: 'black'
-                    }
+                        color: '#f0f0f0'
+                    },
+                    grid: {
+                        color: '#323232'
+                    },
+                    border: {
+                        color: '#f0f0f0', 
+                    },
                 },
                 y:{
                     ticks: {
-                        color: 'black'
+                        color: '#c9c9c9'
                     },
                     title: {
                         display: true,
                         text: labelY,
-                        color: 'black'
-                    }
-                    
+                        color: '#f0f0f0',
+                    },
+                    grid: {
+                        color: '#323232'
+                    },
+                    border: {
+                        color: '#f0f0f0', 
+                    },
                 }
             },
             animation: false
@@ -245,7 +264,7 @@ function Homepage() {
                 var curr=data.phGraph.slice(-1)[0];
 
                 setInPH(data.phGraph);
-                setpHData(graphData(data.phGraph.slice(-24)));
+                setpHData(graphData(data.phGraph.slice(-parseInt((percent/100)*data.phGraph.length))));
                 document.getElementById('cur-ph-p2').innerText = 'timestamp: '+curr[0];
                 document.getElementById('cur-ph-p3').innerText = curr[1];
 
@@ -261,7 +280,7 @@ function Homepage() {
                 var curr=data.ecGraph.slice(-1)[0];
 
                 setInEC(data.ecGraph);
-                setecData(graphData(data.ecGraph.slice(-24)));
+                setecData(graphData(data.ecGraph.slice(-parseInt((percent/100)*data.ecGraph.length))));
                 document.getElementById('cur-ec-p2').innerText = 'timestamp: '+curr[0];
                 document.getElementById('cur-ec-p3').innerText = curr[1]+'mS/cm';
             
@@ -277,12 +296,11 @@ function Homepage() {
                 var curr=data.tempGraph.slice(-1)[0];
 
                 setInTemp(data.tempGraph);
-                settempData(graphData(data.tempGraph.slice(-24)));
+                settempData(graphData(data.tempGraph.slice(-parseInt((percent/100)*data.tempGraph.length))));
                 document.getElementById('cur-temp-p2').innerText = 'timestamp: '+curr[0];
                 document.getElementById('cur-temp-p3').innerText = curr[1]+'°C';
                 
                 if((curr[1]<=downDTemp) || (curr[1]>=upDTemp)){
-                    console.log(upDTemp);
                     document.getElementById('cur-temp').style.border='4px solid #e85348';
                     d=true; 
                 }else if((curr[1]<=downCTemp) || (curr[1]>=upCTemp)){
@@ -294,7 +312,7 @@ function Homepage() {
                 var curr=data.waterGraph.slice(-1)[0];
 
                 setInWaterLevel(data.waterGraph);
-                setwaterLevlData(graphData(data.waterGraph.slice(-24)));
+                setwaterLevlData(graphData(data.waterGraph.slice(-parseInt((percent/100)*data.waterGraph.length))));
                 document.getElementById('cur-water-p2').innerText = 'timestamp: '+curr[0];
                 document.getElementById('cur-water-p3').innerText = curr[1]+'mm';
                 
@@ -307,11 +325,11 @@ function Homepage() {
                 }
             }
             if(d){
-                document.querySelector('.warning-state-h').style.borderColor='#e85348';
+                document.querySelector('.warning-state-h').style.borderColor=warningColor;
                 document.querySelector('.warning-state-h').style.backgroundColor='#fcd4d2';
                 document.getElementById('h0-h').innerText='DANGER: Your system has reached unsafe levels!';
             }else if(c){
-                document.querySelector('.warning-state-h').style.borderColor='#FFA500';
+                document.querySelector('.warning-state-h').style.borderColor=dangerColor  ;
                 document.querySelector('.warning-state-h').style.backgroundColor='#f7e0b5';
                 document.getElementById('h0-h').innerText='CAUTION: Hey! Keep an eye on your system buddy >:(';
             }
@@ -342,49 +360,37 @@ function Homepage() {
                         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <h3 className='h3-h' id='wltitle'>WATER LEVEL</h3>
-                                    <Line data={waterLevlData} options={graphOptions('Water Level (mm)')} plugins={[graphDangerLine(downDWater, '#e85348'), graphDangerLine(downCWater, '#FFA500')]}/>
-                                    <div className="st">
-                                        <select id="st-water" value={tWater} onChange={(e) => handleInputChange(e, 'water')}>
-                                            <option>day</option><option>week</option><option>month</option>
-                                        </select> 
-                                    </div>
+                                    <Line data={waterLevlData} options={graphOptions('Water Level (mm)')} plugins={[graphDangerLine(downDWater, warningColor), graphDangerLine(downCWater, dangerColor  )]}/>
                                 </div>
                             </section>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <h3 className='h3-h' id='phtitle'>PH</h3>
-                                    <Line data={pHData} options={graphOptions('pH')} plugins={[graphDangerLine(downDPH, '#e85348'), graphDangerLine(upDPH, '#e85348'), graphDangerLine(downCPH, '#FFA500'), graphDangerLine(upCPH, '#FFA500')]}/> 
-                                    <div className="st">
-                                        <select id="st-ph" value={tPH} onChange={(e) => handleInputChange(e, 'ph')}>
-                                            <option>day</option><option>week</option><option>month</option>
-                                        </select>  
-                                    </div>                      
+                                    <Line data={pHData} options={graphOptions('pH')} plugins={[graphDangerLine(downDPH, warningColor), graphDangerLine(upDPH, warningColor), graphDangerLine(downCPH, dangerColor  ), graphDangerLine(upCPH, dangerColor  )]}/>                    
                                 </div>
                             </section>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <h3 className='h3-h' id='ectitle'>ELECTRICAL CONDUCTIVITY</h3>
-                                    <Line data={ecData} options={graphOptions('Conductivity (mS/cm)')} plugins={[graphDangerLine(downDEC, '#e85348'), graphDangerLine(upDEC, '#e85348'), graphDangerLine(downCEC, '#FFA500'), graphDangerLine(upCEC, '#FFA500')]}/>    
-                                    <div className="st">
-                                        <select id="st-ec" value={tEC} onChange={(e) => handleInputChange(e, 'ec')}>
-                                            <option>day</option><option>week</option><option>month</option>
-                                        </select>  
-                                    </div>                 
+                                    <Line data={ecData} options={graphOptions('Conductivity (mS/cm)')} plugins={[graphDangerLine(downDEC, warningColor), graphDangerLine(upDEC, warningColor), graphDangerLine(downCEC, dangerColor  ), graphDangerLine(upCEC, dangerColor  )]}/>                   
                                 </div>
                             </section>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <h3 className='h3-h' id='ttitle'>TEMPERATURE</h3>
-                                    <Line data={tempData} options={graphOptions('Temperature (°C)')} plugins={[graphDangerLine(downDTemp, '#e85348'), graphDangerLine(upDTemp, '#e85348'), graphDangerLine(downCTemp, '#FFA500'), graphDangerLine(upCTemp, '#FFA500')]}/>
-                                    <div className="st">
-                                        <select id="st-temp" value={tTemp} onChange={(e) => handleInputChange(e, 'temp')}>
-                                            <option>day</option><option>week</option><option>month</option>
-                                        </select>                         
-                                    </div>
+                                    <Line data={tempData} options={graphOptions('Temperature (°C)')} plugins={[graphDangerLine(downDTemp, warningColor), graphDangerLine(upDTemp, warningColor), graphDangerLine(downCTemp, dangerColor  ), graphDangerLine(upCTemp, dangerColor  )]}/>
                                 </div>
                             </section>
                         </div>
+                        <div  className="graph-zoom">
+                                <p className='h3-h' id='graph-title'>Water Level</p>
+                                <div className='inner-zoom'>
+                                    <i className='material-icons' id='zoom_out' onClick={handleZoomOut}>
+                                        zoom_out
+                                    </i>
+                                    <p id='zoom-percent'>{percent}%</p>
+                                     <i className='material-icons' id='zoom_in' onClick={handleZoomIn}>
+                                        zoom_in
+                                    </i>
+                                </div>
+                            </div>
                         <div className="controls-h">
                             <span className="arrow left">
                                 <i className='material-icons'>
