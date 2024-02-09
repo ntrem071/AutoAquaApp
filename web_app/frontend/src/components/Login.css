@@ -573,10 +573,10 @@ body {
 
 .ghost {
     background-color: transparent;
-    border-color: #3176af;
+    border-color: white;
     border-radius: 20px;
     width: 30%;
-    color: #3176af;
+    color: white;
     font-family: 'Armata', 'serif';
     font-size: xx-large;
     font-weight: bold;
