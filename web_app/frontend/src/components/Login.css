@@ -60,16 +60,16 @@ body {
 
 .white-text {
     color: #ffffff;
+    font-size: 90px;
+    font-weight: lighter;
+    text-align: center;
 }
 
-/*  (\(^.^)/) Login (\(^.^)/) */
-
-/*id: Login Title*/
 #lh2{
     font-family: 'Armata', serif;
-    font-size: 75px;
-    color: #5094cc;
-    font-weight: bolder;
+    font-size: 70px;
+    color: #ffffff;
+    font-weight: lighter;
     text-align: left;
     margin-left: 50%x;
     margin-bottom: 3vh;
@@ -84,22 +84,18 @@ body {
     border-radius: 20px 0px 0px 20px;
 }
 
-/*id: Email id*/
 #lt1{
-    background-color: #ffffff;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
+    background-color: #908c8c;
+    padding: 10px;
+    width: 500px;
     height: 25px;
     align-self: flex-start;
-    position: relative;
-    border-style: none none solid none;
 }
 
-/*id: Password id*/
 #lt2{
-    background-color: #ffffff;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
+    background-color: #908c8c;
+    padding: 10px;
+    width: 500px;
     height: 25px;
     align-self: flex-start;
     position: relative;
@@ -325,8 +321,8 @@ body {
     font-weight: lighter;
     text-align: left;
     display: block;
-    margin-bottom: -32.25px;
-    position: relative;
+    margin-bottom: -25px;
+    margin-right: 100px;
 }
 
 /* id: div that holds name icon*/
@@ -509,8 +505,8 @@ body {
     margin-bottom: 20px;
 }
 
-#button-create {
-    font-family: 'Armata', 'serif';
+#lb1 {
+    font-family: 'Armata', sans-serif;
     font-size: 25px;
     background-color: #5094cc;
     color: white;
@@ -523,48 +519,20 @@ body {
     margin: auto;
 }
 
-#button-create:hover {
+#lb1:hover {
     background-color: #3176af;
     transition: 0.4s;
 }
 
-#button-login {
-    font-family: 'Armata', 'serif';
+#lp1 {
+    font-family: 'Armata', sans-serif;
     font-size: 25px;
-    background-color: #5094cc;
-    color: white;
-    border: none;
-    border-radius: 24px;
-    height: 50px;
-    width: 175px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-#button-login:hover {
-    background-color: #3176af;
-    transition: 0.4s;
-}
-
-/* Overlay */
-
-/*(\(^.^)/)*/
-
-.button-login {
-    border-radius: 20px;
-    border: 1px solid #3176af;
-    background-color: #3176af;
     color: #ffffff;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 12px 45px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: transform 80ms ease-in;
 }
 
-.button-login:active {
-    transform: scale(0.95);
+#la1 {
+    color: #ffffff;
+    font-weight: 600;
 }
 
 .button-login:focus {
@@ -822,16 +790,16 @@ form {
     width: 50%;
     height: 100vh;
     z-index: 0;
-} */
+}
 
-/* #login-img {
+#login-img {
     width: 100%;
     height: 100%;
     background-position: center;
     overflow: hidden;
-} */
+}
 
-/* #container {
+#container {
     display: flex;
     flex-wrap: wrap;
     min-height: 100vh;
@@ -917,149 +885,44 @@ form {
     height: 100%;
     background-position: center;
     overflow: hidden;
-} */
+    object-fit: cover;
+}
 
-/* #overlay-container {
-    background-image: url('../pictures/background2.png');
-    position: relative;
-} */
-
-/* .show-left {
-    display: none;
-} */
-
-/* .show-right {
-    display: none;
-} */
-
-/* #image-column {
-    flex: 1;
-} */
-
-/* @media (max-width: 768px) {
+@media (max-width: 768px) {
     #container {
       flex-direction: column;
     }
-} */
+}
 
-/* #create-column {
+#login-column {
     order: 1;
 }
 
 #image-column {
     order: 2;
-} */
-
-/* #o-content-right button {
-    font-size: 20px;
-    padding: 10px 20px;
-    background-color: #5094cc;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-} */
-
-/* Animation */
-
-/* .animated-div {
-    transition: transform 0.5s ease-in-out;
-} */
-
-/* .right {
-    transform: translateX(0);
 }
 
-.left {
-    transform: translateX(100%);
-} */
-
-/* #ll1{
-    font-family: 'Armata', serif;
-    font-size: 40px;
-    color: #ffffff;
-    font-weight: lighter;
-    text-align: left;
-    display: block;
-    margin-bottom: -25px;
-    margin-right: 100px;
-} */
-
-/* #o-content-right {
-    width: 60%;
-    max-width: 300%;
-    z-index: 2;
-    color: #ffffff;
-    position: absolute;
-    text-align: center;
-    z-index: 2;
-    transform: translate(105%, 50%);
-    display: block;
-} */
-
-/* #o-content-left {
-    display: none;
-} */
-
-/* #o-img {
-    border-radius: 25px;
-    object-fit: cover;
-    transform: translateY(18.75%) translateX(29%);
-    position: absolute;
-    object-position: 0% 0%;
-    clip-path: polygon(60% 0%,125% 0%,175% 100%,60% 100%)
-    overflow: hidden;
-} */
-
-/* #overlay-img {
-    border-radius: 25px;
-    width: 108.5%;
-    height: 743px;
-}
-
-#o-content-right h1 {
-    font-family: 'Armata', 'serif';
-    font-size: 75px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-
-#o-content-right p {
-    font-family: 'Armata', 'serif';
-    font-size: 20px;
-    font-weight: bold;
-} */
-
-/* #overlay {
-    flex-direction: row;
-    float: left;
-    display: inline;
-} */
-
-/* #overlay-container {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.input-group {
     display: flex;
     align-items: center;
-    justify-content: center;
+    margin-bottom: 15px;
 }
 
-#overlay {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #5a8b34;
-    opacity: 75%;
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    z-index: 500;
-    transition: transform 0.6s ease-in-out;
-    display: hidden;
+#em {
+    margin-bottom: -10px;
+}
+
+#pw {
+    margin-bottom: 25px;
+}
+
+/* * {
+    box-sizing: border-box;
+} */
+
+/* .column#image {
+    float: left;
+    width: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
 } */

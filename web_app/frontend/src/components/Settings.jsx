@@ -489,11 +489,7 @@ function Settings() {
                     document.getElementById('thirdminute').disabled=!data.feedEnable;
                     document.getElementById('delete-t3').disabled = !data.feedEnable;
                 }
-
-                if(!data.feedEnable){
-                    document.getElementById('addtime').disabled = true;
-                }
-
+                
                 if((!(data.timezone==null))){setTimezone(data.timezone);}
                 
                 if(data.phEnable===true){document.getElementById('cs1').click();}

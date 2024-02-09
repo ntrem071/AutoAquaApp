@@ -8,16 +8,18 @@ class UserController {
     private $users;
     private $sel1;
     private $sel2;
+    private $sel3;
     private $data;
     private $response;
     
 
-    public function __construct($requestMethod, $sel1, $sel2)
+    public function __construct($requestMethod, $sel1, $sel2, $sel3)
     {
         $this->users = new UserHandler();
         $this->requestMethod = $requestMethod;
         $this->sel1 = $sel1; 
         $this->sel2 = $sel2;   
+        $this->sel3 = $sel3;   
         $this->data = json_decode(file_get_contents('php://input')); 
 
         $this->response['status_code_header'] = null;
@@ -88,12 +90,12 @@ class UserController {
             $this->response['status_code_header'] = 'HTTP/1.0 403 Credentials Null';
         }
         else{        
-                $result = $this->users->Login($this->data->email, $this->data->password);
+                $result = $this->users->Login($this->data->email, $this->data->password, $this->sel3);
 
                 if(is_null($result)){
                     $this->response['status_code_header'] = 'HTTP/1.1 504 Credentials Invalid';
                 }elseif($result=="Already Logged In"){
-                    $this->response['status_code_header'] = 'HTTP/1.1 504 User Already Logged In';
+                    $this->response['status_code_header'] = 'HTTP/1.1 504 Invalid Requestor';
                 }else{
                     $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
                     $this->response['body'] = json_encode(array('sessionId' => $result->__toString()));
@@ -167,11 +169,19 @@ class UserController {
                         $this->users->calculateHours($id);
                     }
                     $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
+                }                
+                elseif($this->sel2=="graphs"){
+                    if(isset($this->data->phPoint)){$this->users->setPHGraph($id,$this->data->phPoint);}
+                    if(isset($this->data->ecPoint)){$this->users->setECGraph($id, $this->data->ecPoint);} 
+                    if(isset($this->data->tempPoint)){$this->users->setTEMPGraph($id,$this->data->tempPoint);}
+                    if(isset($this->data->waterPoint)){$this->users->setWATERGraph($id, $this->data->waterPoint);} 
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
                 }
                 elseif($this->sel2=="navigate"){
                     $this->users->refresh($this->sel1); 
                     $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
                 }
+
                 else{
                     $this->response['status_code_header'] = 'HTTP/1.1 502 Select Valid Setting Change Option';
                 }

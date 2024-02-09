@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EyeInvisibleOutlined, EyeOutlined, UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import { Buffer } from 'buffer';
 import Cookies from 'js-cookie';
 import './Login.css'
-// import './Login.scss'
-import backgroundimg from '../pictures/wbackground.png'
+import backgroundimg from '../pictures/fishlogin.jpg'
 
 function Login() {
     const navigate = useNavigate();
@@ -252,7 +249,7 @@ function Login() {
         const e = document.getElementById('lt1');
         const p = document.getElementById('lt2');
         if((password !== '') && (email !== '')){
-            var url = 'http://localhost:8000/users/na/login';
+            var url = 'http://localhost:8000/users/na/login/app';
             //var buf = Buffer.from(email + ':' + password).toString('base64');
             var header = {         
                 //'Authorization':'Basic ' + buf,
@@ -311,6 +308,48 @@ function Login() {
     }
 
     return(
+            // <div className='row'>
+            //     <div className='column' id='column'>
+            //         <h1 id='lh1'>Automated Aquaponics</h1>
+            //         <h2 id='lh2'>Login</h2>
+            //         <div className='Login'>
+            //             <form id='login'>
+            //                 <label id='ll1' for='inputBox'>Email: </label><br></br>
+            //                 <input
+            //                     type='text'
+            //                     id='lt1'
+            //                     placeholder='Email'
+            //                     value={email.toString()}
+            //                     onChange={(e) => valuesIn(e, 'email')}
+            //                 /><br/>
+            //                 <label id='ll1' for='inputBox'>Password: </label><br></br>
+            //                 <input
+            //                     type='text'
+            //                     id='lt1'
+            //                     placeholder='Password'
+            //                     value={password.toString()}
+            //                     onChange={(e) => valuesIn(e, 'password')}
+            //                 /><br/>
+            //             </form>
+            //         </div>
+            //         <button
+            //             type='button'
+            //             id = 'lb1'
+            //             className='button'
+            //             onClick={loginSubmit}
+            //         >Login
+            //         </button>
+            //         <br/>
+            //         <p id ='lp1'>
+            //             Don't have an account?&nbsp;&nbsp;
+            //             <a id = 'la1' href='/CreateAccount'>Create</a>
+            //         </p>
+            //     </div>
+            //     <div className='column' id='image'>
+            //         <img src={backgroundimg} className='login-img'></img>
+            //     </div>
+            // </div>
+
         <div id='container'>
             <div id='row'>
                 <div id='login-column' className='form-container sign-in-container'>
@@ -438,9 +477,6 @@ function Login() {
                     <p id='overlay-left-p'>{slideLeft ? 'Enter your personal details and start a journey with us!' : 'Please login to get started!'}</p>
                     <button className='ghost' id='signIn' onClick={handleButtonClick}>{slideLeft ? 'SIGN UP' : 'SIGN IN'}</button>
                 </div>
-                {/* <div className={`title-continer ${overlayTitle ? 'title-over-overlay' : ''}`}>
-
-                </div> */}
             </div>
         </div>
         )

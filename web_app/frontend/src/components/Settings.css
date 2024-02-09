@@ -29,17 +29,11 @@
 }
 
 .settings {
-    background-color: #403c3c;
-    height: 950px;
+    height: 840px;
+    margin-top: calc(83px + 2vmin);
+    overflow-y: auto;
 }
 
-.App {
-    background-color: #403c3c;
-}
-
-body {
-    background-color: #403c3c;
-}
 
 .switch {
     position: relative;

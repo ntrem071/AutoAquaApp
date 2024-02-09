@@ -19,7 +19,7 @@
             $m= new \MongoDB\Client("mongodb://localhost:27017"); 
             $this->tbl = $m->AutoAquaDB->Users;
 
-            $this->session = new MySessionHandler(30*60); //set to 20 min expiry
+            $this->session = new MySessionHandler(30*60); //set to 30 min expiry
             $this->session->gc();
         }
 
@@ -44,13 +44,13 @@
         }
     
         //Login with email and password ---- return session id
-        public function Login($email, $password){
+        public function Login($email, $password, $requestor){
             $doc= $this->tbl->findOne(['email'=>$email]);
 
             if(is_null($doc) || (!is_null($doc) && !($doc->password==$password))){
                  return null;
             }else{
-                $id= $this->session->newSession($email);
+                $id= $this->session->newSession($email, $requestor);
                 if(!is_null($id)){
                     date_default_timezone_set($this->getTimezone($id));
                     return $id;
@@ -77,7 +77,18 @@
         //return shortened page-specific user doc
         public function getUser($id, $sel){
             $user = null;
-            if(!is_null($this->session->read($id))){
+            
+            if($sel=='session'){
+                    $cur = (new \MongoDB\BSON\UTCDateTime((time()) * 1000));
+                    $ex = $this->session->getSessionExpiry($id);
+                    $dif= null;
+                    if(isset($ex)){
+                         $dif = ((int)($ex->__toString()) - (int)($cur->__toString()));
+                    }
+                    $user = ['expiry' => $dif]; // returns time to expiry ms
+            } 
+            elseif(!is_null($this->session->read($id))){
+                date_default_timezone_set($this->getTimezone($id));
                 //$this->testGraphs($id); //REMOVE AFTER TESTING
                 if($sel=='home'){
                     $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'phGraph'=>true,'ecGraph'=>true,'tempGraph'=>true,'waterGraph'=>true]]);
@@ -88,8 +99,9 @@
                 }elseif($sel=='search'){
                     $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'recomPH'=>true,'recomEC'=>true,'recomHours'=>true,'plants'=>true,'fish'=>true]]);
                 }elseif($sel=='settings'){
-                    $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'ledTimer'=>true,'feedTimer'=>true,'phRange'=>true,'ecRange'=>true,'tempRange'=>true,'phEnable'=>true,'ecEnable'=>true,'tempEnable'=>true,'feedEnable'=>true,'ledEnable'=>true]]);
-                }      
+                    $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'ledTimer'=>true,'feedTimer'=>true,'phRange'=>true,'ecRange'=>true,'tempRange'=>true,'phEnable'=>true,'ecEnable'=>true,'tempEnable'=>true,'feedEnable'=>true,'ledEnable'=>true, 'timezone'=>true]]);
+                }
+                     
             }
             return $user;
         }
@@ -145,24 +157,29 @@
           !!!IMPLEMENT: graph timespan selection for UI (data over 1 day/ 1 week/ 1 month/ etc)!!!
         */     
         public function setPHGraph($id, $point){  //set to lower slice val for function testing  
-            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['phGraph'=>['$each'=>[$point], '$slice'=>-760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['phGraph'=>['$each'=>[[$this->setDate(), $point]], '$slice'=>-760]]]);    
       }
         public function setECGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['ecGraph'=>['$each'=>[$point], '$slice'=>-760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['ecGraph'=>['$each'=>[[$this->setDate(), $point]], '$slice'=>-760]]]);    
       }
         public function setTEMPGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['tempGraph'=>['$each'=>[$point], '$slice'=>-760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['tempGraph'=>['$each'=>[[$this->setDate(), $point]], '$slice'=>-760]]]);    
      }
         public function setWATERGraph($id, $point){
-            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['waterGraph'=>['$each'=>[$point], '$slice'=>-760]]]);    
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$push'=>['waterGraph'=>['$each'=>[[$this->setDate(), $point]], '$slice'=>-760]]]);    
+     }
+        public function setDate(){
+            $arr = getdate();
+            return sprintf("%02d/%02d/%04d %02d:%02d:%02d", $arr['mday'], $arr['mon'], $arr['year'],$arr['hours'],$arr['minutes'],$arr['seconds']);
      }
         
         public function testGraphs($id){
             for($i=0;$i<760;$i++){
-                $this->setPHGraph($id, [$i , (rand(50, 80)/10)]);
-                $this->setECGraph($id, [$i , (rand(0, 60)/10)]);
-                $this->setTEMPGraph($id, [$i , (rand(15, 35))]);
-                $this->setWATERGraph($id, [$i , (rand(140, 300))]);
+                $this->setPHGraph($id, (rand(50, 80)/10));
+                $this->setECGraph($id, (rand(0, 30)/10));
+                $this->setTEMPGraph($id, (rand(9, 31)));
+                $this->setWATERGraph($id, (rand(140, 300)));
+                sleep(1);
             }
         }
         /*Input param for array of time pairs (hour, minute):

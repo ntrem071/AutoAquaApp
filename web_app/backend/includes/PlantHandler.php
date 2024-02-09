@@ -82,6 +82,14 @@
             return $this->tbl->findOne(['plant'=>$name],['projection'=>['_id'=>false]]);
         }
 
+        public function getPlantImage($name){
+            $path = '../backend/includes/img/plant-images/'. $name . '.jpg';
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $imgData = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            return $imgData;
+        }
+
         /* PLANT DOC CONTAINS
             -plant name
             -hours for daily light requirement
