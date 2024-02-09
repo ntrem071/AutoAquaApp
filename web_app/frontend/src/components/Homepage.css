@@ -1,20 +1,194 @@
-.outerbox-hp {
-    background-color: #d9d9d9;
-    width: 1500px;
-    padding: 20px 20px;
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+.Homepage{
+    width: 100%;
+    height: 900px;
+    margin-top: calc(83px + 2vmin);
+    overflow-y: auto;
+}
+.outerbox-h{
+    width: 80%;
     margin:auto;
-    display: grid;
-    grid-template-columns: 750px 750px;
+    margin-top: 40px;
+    position: relative;
+    display:flex;
 }
 
 .wrap-graphs{
-    background: #babfc4;
+    width: 75%;
+    height: 100%;
     padding-left: 80px;
     padding-right: 80px; 
     padding-bottom: 15px;
     padding-top: 1px;
-    position: relative;   
-    border-style: inset;
-    border-width: 2px;
+    position: relative;
     margin: 5px;
+    margin-top: 400px;
+}
+.graph-zoom{
+    position: absolute;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100px;
+    width: 100%;
+    top: 50px;
+    margin-left: 3vw;
+}
+.inner-zoom{
+    display: flex;
+    margin-top: 5px;
+    align-items: center; 
+    margin-left: 15px;    
+}
+.inner-zoom i{
+    font-size: 22.5px;
+    color:#888888;
+}
+.inner-zoom i:hover{
+    cursor:pointer;
+    scale: 1.4;
+}
+.inner-zoom p{
+    font-size: 14px;
+    margin: 3px;
+    color:#888888;
+    font-weight: 650;
+}
+.graph-zoom p:hover{
+    cursor: default;
+}
+.h3-h{
+    font-weight: 500;
+    font-size: 30px;
+    color:#222021;
+
+}
+.current-stats-h{
+    height: 1000px;
+    width: 29%;
+    position: relative;
+    margin-left: 1%;
+}
+.cur-h{
+    height: 20.45%;
+    margin-bottom: 5px;
+    position: relative;
+    border-radius: 5px;
+    border: 2px solid #222021;
+    background: #fff;
+    box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
+    padding: 5px 30px 5px 30px;
+    overflow: hidden;
+    background: rgb(199,227,194);
+    background: linear-gradient(140deg, rgb(236, 252, 255) 11%, rgb(217, 229, 252) 99%);
+}
+
+.p1-h{
+    font-size: 20px;
+    text-align: left;
+    color: #222021;
+}
+.p2-h{
+    font-size: 15px;
+    text-align: left;
+    margin-top: -20px;
+    color: #222021;
+}
+.p3-h{
+    font-size: 35px;
+    color: #222021;
+}
+
+.st{
+    margin-left: 49px;
+    margin-right: 4px;
+}
+.containor-h{
+    position: relative;
+    overflow-y: auto;
+    width:70%;
+    color: #222021;
+}
+.warning-state-h{
+    position: relative;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 2px solid 	#008000;
+    background: #bef8be;
+    box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.info-warning i{
+    font-size: 30px;
+    padding:5px 8px 5px 20px;
+}
+.warning-state-h h1{
+    color: #222021;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: left;
+    padding:5px 8px 5px 8px;
+}
+.carousel-h{
+    height: 800px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid rgba(0,0,0,0.25);
+    border-radius: 5px;
+    background: #f8f8f9;
+    box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
+}
+.slider-h{
+    height: 100%;
+    display: flex; 
+    width: 400%; 
+    transition: all 0.3s;
+}
+.slider-h section{
+    flex-basis: 100%;
+    justify-content: center; 
+    align-items: center;
+    display: flex;
+    font-size: 20px;
+}
+.controls-h .arrow{
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color:#8d8d8d;
+}
+.controls-h .arrow i{
+    font-size: 80px;
+}
+.arrow.left{
+    left:10px;
+}
+.arrow.right{
+    right:10px;
+}
+.controls-h ul{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    list-style: none;
+    display:flex;
+    padding: 0;
+    margin: 0;
+}
+.controls-h ul li{
+    width: 14px;
+    height: 14px;
+    border: 2px solid #8d8d8d;
+    border-radius: 50px;
+    margin: 10px;
+    background: #8d8d8d;
+    cursor: pointer;
+}
+.controls-h ul li.selected{
+    background: transparent;
 }

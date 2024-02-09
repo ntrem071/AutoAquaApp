@@ -57,7 +57,6 @@ class FishController {
             }
     }
 
-    
     private function getList(){
         $result = $this->fish->getList();
 
@@ -76,6 +75,7 @@ class FishController {
         }
         else{        
                 $result = $this->fish->getFishInfo(str_replace('_',' ', $this->sel1));
+                $result->image = $this->fish->getFishImage(str_replace('_',' ', $this->sel1));
 
                 if(is_null($result)){
                     $this->response['status_code_header'] = 'HTTP/1.1 504 Fish Does Not Exist';

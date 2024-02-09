@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EyeInvisibleOutlined, EyeOutlined, UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import { Buffer } from 'buffer';
 import Cookies from 'js-cookie';
 import './Login.css'
-// import './Login.scss'
-import backgroundimg from '../pictures/wbackground.png'
+import backgroundimg from '../pictures/fishlogin.jpg'
 
 function Login() {
     const navigate = useNavigate();
@@ -20,7 +17,7 @@ function Login() {
     const [name, setName] = useState('');
     const [cpassword, setCPassword] = useState('');
 
-    const [overlayVisible, setOverlayVisible] = useState(false);
+    const [overlayTitle, setOverlayTitle] = useState(false);
     const [isRight, setIsRight] = useState(true);
     const [createVisible, setCreateVisible] = useState(false);
     const [loginVisible, setLoginVisible] = useState(true);
@@ -28,6 +25,7 @@ function Login() {
     const [rightButton, setRightButton] = useState(true);
     const [slideLeft, setSlideLeft] = useState('false');
     const [responseMessage, setResponseMessage] = useState(false);
+    const [white, setWhite] = useState(false);
     // const [isMiddle, setIsMiddle] = useState(false);
 
     useEffect(() => {
@@ -40,8 +38,18 @@ function Login() {
         // setLeftButton(!(leftB8utton));
         // setRightButton(!(rightButton));
         // console.log('isMiddle first: ', isMiddle)
-        setSlideLeft(!(slideLeft));
+        if(slideLeft){
+            setSlideLeft(!(slideLeft));
+            console.log('goes into if');
+            
 
+        } else if (!(handleInputChange() && FormValidation())) {
+            setSlideLeft(!(slideLeft));
+            showResponseMessage()
+        } else {
+            console.log('it reaches here');
+            setSlideLeft(!(slideLeft));
+        }
         // setIsMiddle((prevState) => !prevState)
 
         // setTimeout(() => {
@@ -50,8 +58,14 @@ function Login() {
         // }, 700);
     }
 
+    // (\(O.O)/)
+    // const white = () => {
+        
+    // }
+
     const showResponseMessage = () => {
-        setResponseMessage(!responseMessage);
+        // setResponseMessage(!responseMessage);
+        setResponseMessage('Account created successful!');
     }
 
     const handleLeftButton = () => {
@@ -63,17 +77,6 @@ function Login() {
         setLeftButton(false);
         setRightButton(true);
     }
-
-
-    // const RightorLeft = () => {
-    //     setLeftOverVisible(!leftOverlayVisible);
-    //     setIsRight((prevIsRight) => !prevIsRight);
-    //     console.log('isRight: ', isRight);
-    // }
-
-    // const leftOverlayClass = leftOverlayVisible ? 'show-left': 'hide-left'
-
-    // const position = RightorLeft ? 'show-right' : 'show-left'
 
     const handleInputChange = (e, type) => {
         switch(type){
@@ -242,17 +245,11 @@ function Login() {
         setPasswordVisible = ((prevVisible) => !prevVisible);
     }
 
-    const switchSection = () => {
-        setLoginVisible(!loginVisible);
-        setOverlayVisible(!overlayVisible);
-
-    }
-
     function loginSubmit(){
         const e = document.getElementById('lt1');
         const p = document.getElementById('lt2');
         if((password !== '') && (email !== '')){
-            var url = 'http://localhost:8000/users/na/login';
+            var url = 'http://localhost:8000/users/na/login/app';
             //var buf = Buffer.from(email + ':' + password).toString('base64');
             var header = {         
                 //'Authorization':'Basic ' + buf,
@@ -310,20 +307,53 @@ function Login() {
         }
     }
 
-    function onSignUp(){
-        // setOverlayVisible(true);
-
-    }
-
-    function hideOverlay(){
-        // setOverlayVisible(false);
-    }
-
     return(
+            // <div className='row'>
+            //     <div className='column' id='column'>
+            //         <h1 id='lh1'>Automated Aquaponics</h1>
+            //         <h2 id='lh2'>Login</h2>
+            //         <div className='Login'>
+            //             <form id='login'>
+            //                 <label id='ll1' for='inputBox'>Email: </label><br></br>
+            //                 <input
+            //                     type='text'
+            //                     id='lt1'
+            //                     placeholder='Email'
+            //                     value={email.toString()}
+            //                     onChange={(e) => valuesIn(e, 'email')}
+            //                 /><br/>
+            //                 <label id='ll1' for='inputBox'>Password: </label><br></br>
+            //                 <input
+            //                     type='text'
+            //                     id='lt1'
+            //                     placeholder='Password'
+            //                     value={password.toString()}
+            //                     onChange={(e) => valuesIn(e, 'password')}
+            //                 /><br/>
+            //             </form>
+            //         </div>
+            //         <button
+            //             type='button'
+            //             id = 'lb1'
+            //             className='button'
+            //             onClick={loginSubmit}
+            //         >Login
+            //         </button>
+            //         <br/>
+            //         <p id ='lp1'>
+            //             Don't have an account?&nbsp;&nbsp;
+            //             <a id = 'la1' href='/CreateAccount'>Create</a>
+            //         </p>
+            //     </div>
+            //     <div className='column' id='image'>
+            //         <img src={backgroundimg} className='login-img'></img>
+            //     </div>
+            // </div>
+
         <div id='container'>
             <div id='row'>
                 <div id='login-column' className='form-container sign-in-container'>
-                    <h1 id='lh1' className={slideLeft ? 'title-left' : ''}>AUTOMATED AQUAPONICS</h1>
+                    <h1 id='lh1' className={slideLeft ? 'title-right' : 'title-left'}>AUTOMATED AQUAPONICS</h1>
                     {/* <h2 id='lh2'>Login</h2> */}
                     <div id='Login' className='Login'>
                         <form className='log-in'id='login' action='#'>
@@ -374,7 +404,7 @@ function Login() {
                     <div className='Create'>
                         <form className='side-by-side' id='create'action='#'>
                             <h2 id='ch1' className='form-title'>Create account</h2>
-                            {responseMessage && (<p className='response-message'>Account created successfully!</p>)}
+                            {/* {responseMessage && (<p className='response-message'>Account created successfully!</p>)} */}
                             <div id='name'>
                                 <input
                                     type="text" 
@@ -430,16 +460,22 @@ function Login() {
                                 type='button'
                                 id='button-create'
                                 className='button'
-                                onClick={createSubmit}>
+                                // onClick={createSubmit}
+                                onClick = {() => {
+                                    createSubmit();
+                                    handleButtonClick();
+                                }}
+                                >
                                 Create Account
                             </button>
                         </form>
                     </div>
                 </div>
-                <div className={`o-panel o-content-left ${slideLeft ? 'slide-right' : 'slide-left'}`} onClick={handleButtonClick}>
+                <div className={`o-panel o-content ${slideLeft ? 'slide-right' : 'slide-left'}`} onClick={handleButtonClick}>
+                    <h1 className='title-overlay'>{slideLeft ? '' : 'AUTOMATED AQUAPONICS'}</h1>
                     <h2 id='overlay-left-title'>{slideLeft ? 'Hello Friend!' : 'Welcome Back!'}</h2>
                     <p id='overlay-left-p'>{slideLeft ? 'Enter your personal details and start a journey with us!' : 'Please login to get started!'}</p>
-                    <button className='ghost' id='signIn' onClick={handleButtonClick}>{slideLeft ? 'Sign up' : 'Sign in'}</button>
+                    <button className='ghost' id='signIn' onClick={handleButtonClick}>{slideLeft ? 'SIGN UP' : 'SIGN IN'}</button>
                 </div>
             </div>
         </div>

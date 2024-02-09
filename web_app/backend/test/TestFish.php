@@ -1,11 +1,11 @@
 <?php
     include_once '../includes/FishHandler.php';
-    
+
     class TestFish{
         private $session;
 
         public function __construct(){
-            echo "_____PLANT HANDLER TESTING_____\n";
+            echo "_____FISH HANDLER TESTING_____\n";
             $this->session = new FishHandler();
 
         }
@@ -26,7 +26,7 @@
 
     }
         
-        //TESTPLANTS CALLS
+        //TESTFISH CALLS
         //connection and creation
         $test= new TestFish();
         $test->getSession()->initialize();
@@ -47,5 +47,37 @@
         echo "\nSelected Fish File Info After Deletion: \n";
         $test->getSession()->deleteFish('Bass');
         $test->printUserDoc('Bass');
+
+        echo nl2br("\n\n\n_______________Testing Fish images retrieval_______________\n\n\n");
+        
+        //need to change path because of the folders ../includes/img/fish-images/
+        $imgSRC = $test->getSession()->getFishImage('Largemouth Bass');
+        echo "\n<img src={$imgSRC} width='250' height='250'/> \n\n\n";
+
+        $imgSRC = $test->getSession()->getFishImage("Goldfish");
+        echo "\n<img src={$imgSRC} width='250' height='250'/> \n\n\n";
+
+        $imgSRC = $test->getSession()->getFishImage('Koi');
+        echo "\n<img src={$imgSRC} width='250' height='250'/> \n\n\n";
+
+        $imgSRC = $test->getSession()->getFishImage('Trout');
+        echo "\n<img src={$imgSRC} width='250' height='250'/> \n\n\n";
+
+        $imgSRC = $test->getSession()->getFishImage('Tilapea');
+        echo "\n<img src={$imgSRC} width='250' height='250'/> \n\n\n";
+
+        $imgSRC = $test->getSession()->getFishImage('Salmon');
+        echo "\n<img src={$imgSRC} width='250' height='250'/> \n\n\n";
+
+        $imgSRC = $test->getSession()->getFishImage('Catfish');
+        echo "\n<img src={$imgSRC} width='250' height='250'/> \n\n\n";
+
+        echo nl2br("\n\n\n_______________Testing JSON_______________\n\n");
+        
+        $json = $test->getSession()->getFishInfo('Trout');
+        $json->image = $imgSRC;
+        $json = json_encode($json);
+        echo $json;
+
 
 ?>
