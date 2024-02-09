@@ -49,7 +49,7 @@ function Homepage() {
     const upDEC=2.2, upCEC=2.0, downCEC=0.2, downDEC=0; 
     const upDTemp=30, upCTemp=22, downCTemp=18, downDTemp=10;
     
-    const warningColor='rgb(232,83,72, 0.9)'; const dangerColor = 'rgb(255,165,0, 0.9)';
+    const warningColor='#ff9966'; const dangerColor = '#cc3300';
 
     var sectionIndex = 0;
     
@@ -166,15 +166,15 @@ function Homepage() {
               {
                 label: "pH",
                 data: points.map((data) => data[1]),
-                backgroundColor: "rgba(135,222,214,1) ",
-                borderColor: "rgba(135,222,214,1) ",
+                backgroundColor: "rgba(58, 128, 214,0.4)",
+                borderColor: "rgba(58, 128, 214, 0.4)",
                 pointRadius: 1,
                 pointHoverRadius: 3,
                 borderWidth: 1,
                 spanGaps: true,
                 fill: {
                     target: 'origin',
-                    above: 'rgb(135,222,214, 0.2)',   
+                    above: 'rgb(58, 128, 214, 0.05)',   
                   },
               }
             ]
@@ -197,34 +197,34 @@ function Homepage() {
                          parser: 'dd/MM/yyyy HH:mm:ss'
                      },
                     ticks: {
-                        color: ['#c9c9c9', '#939393']
+                        color: ['#000', '#939393']
                     },
                     title: {
                         display: true,
                         text: 'Timestamp',
-                        color: '#f0f0f0'
+                        color: '#000'
                     },
                     grid: {
-                        color: '#323232'
+                        color: '#f0f0f0'
                     },
                     border: {
-                        color: '#f0f0f0', 
+                        color: '#323232', 
                     },
                 },
                 y:{
                     ticks: {
-                        color: '#c9c9c9'
+                        color: '#000'
                     },
                     title: {
                         display: true,
                         text: labelY,
-                        color: '#f0f0f0',
+                        color: '#000',
                     },
                     grid: {
-                        color: '#323232'
+                        color: '#f0f0f0'
                     },
                     border: {
-                        color: '#f0f0f0', 
+                        color: '#323232', 
                     },
                 }
             },
@@ -269,10 +269,10 @@ function Homepage() {
                 document.getElementById('cur-ph-p3').innerText = curr[1];
 
                 if((curr[1]<=downDPH) || (curr[1]>=upDPH)){
-                    document.getElementById('cur-ph').style.border='4px solid #e85348';
+                    document.getElementById('cur-ph').style.border='2px solid '+dangerColor;
                     d=true; 
                 }else if((curr[1]<=downCPH) || (curr[1]>=upCPH)){
-                    document.getElementById('cur-ph').style.border='4px solid #FFA500';
+                    document.getElementById('cur-ph').style.border='2px solid '+warningColor;
                     c=true;
                 }
             }
@@ -285,10 +285,10 @@ function Homepage() {
                 document.getElementById('cur-ec-p3').innerText = curr[1]+'mS/cm';
             
                 if((curr[1]<=downDEC) || (curr[1]>=upDEC)){
-                    document.getElementById('cur-ec').style.border='4px solid #e85348';
+                    document.getElementById('cur-ec').style.border='2px solid '+dangerColor;
                     d=true; 
                 }else if((curr[1]<=downCEC) || (curr[1]>=upCEC)){
-                    document.getElementById('cur-ec').style.border='4px solid #FFA500';
+                    document.getElementById('cur-ec').style.border='2px solid '+warningColor;
                     c=true;
                 }
             }
@@ -301,10 +301,10 @@ function Homepage() {
                 document.getElementById('cur-temp-p3').innerText = curr[1]+'°C';
                 
                 if((curr[1]<=downDTemp) || (curr[1]>=upDTemp)){
-                    document.getElementById('cur-temp').style.border='4px solid #e85348';
+                    document.getElementById('cur-temp').style.border='2px solid '+dangerColor;
                     d=true; 
                 }else if((curr[1]<=downCTemp) || (curr[1]>=upCTemp)){
-                    document.getElementById('cur-temp').style.border='4px solid #FFA500';
+                    document.getElementById('cur-temp').style.border='2px solid '+warningColor;
                     c=true;
                 }
             }
@@ -317,19 +317,19 @@ function Homepage() {
                 document.getElementById('cur-water-p3').innerText = curr[1]+'mm';
                 
                 if(curr[1]<=downDWater){
-                    document.getElementById('cur-water').style.border='4px solid #e85348';
+                    document.getElementById('cur-water').style.border='2px solid '+dangerColor;
                     d=true; 
                 }else if(curr[1]<=downCWater){
-                    document.getElementById('cur-water').style.border='4px solid #FFA500';
+                    document.getElementById('cur-water').style.border='2px solid '+warningColor;
                     c=true;
                 }
             }
             if(d){
-                document.querySelector('.warning-state-h').style.borderColor=warningColor;
+                document.querySelector('.warning-state-h').style.borderColor=dangerColor;
                 document.querySelector('.warning-state-h').style.backgroundColor='#fcd4d2';
                 document.getElementById('h0-h').innerText='DANGER: Your system has reached unsafe levels!';
             }else if(c){
-                document.querySelector('.warning-state-h').style.borderColor=dangerColor  ;
+                document.querySelector('.warning-state-h').style.borderColor=warningColor;
                 document.querySelector('.warning-state-h').style.backgroundColor='#f7e0b5';
                 document.getElementById('h0-h').innerText='CAUTION: Hey! Keep an eye on your system buddy >:(';
             }
@@ -360,22 +360,22 @@ function Homepage() {
                         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <Line data={waterLevlData} options={graphOptions('Water Level (mm)')} plugins={[graphDangerLine(downDWater, warningColor), graphDangerLine(downCWater, dangerColor  )]}/>
+                                    <Line data={waterLevlData} options={graphOptions('Water Level (mm)')} plugins={[graphDangerLine(downDWater, dangerColor), graphDangerLine(downCWater, warningColor  )]}/>
                                 </div>
                             </section>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <Line data={pHData} options={graphOptions('pH')} plugins={[graphDangerLine(downDPH, warningColor), graphDangerLine(upDPH, warningColor), graphDangerLine(downCPH, dangerColor  ), graphDangerLine(upCPH, dangerColor  )]}/>                    
+                                    <Line data={pHData} options={graphOptions('pH')} plugins={[graphDangerLine(downDPH, dangerColor), graphDangerLine(upDPH, dangerColor), graphDangerLine(downCPH, warningColor  ), graphDangerLine(upCPH, warningColor  )]}/>                    
                                 </div>
                             </section>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <Line data={ecData} options={graphOptions('Conductivity (mS/cm)')} plugins={[graphDangerLine(downDEC, warningColor), graphDangerLine(upDEC, warningColor), graphDangerLine(downCEC, dangerColor  ), graphDangerLine(upCEC, dangerColor  )]}/>                   
+                                    <Line data={ecData} options={graphOptions('Conductivity (mS/cm)')} plugins={[graphDangerLine(downDEC, dangerColor), graphDangerLine(upDEC, dangerColor), graphDangerLine(downCEC, warningColor  ), graphDangerLine(upCEC, warningColor  )]}/>                   
                                 </div>
                             </section>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <Line data={tempData} options={graphOptions('Temperature (°C)')} plugins={[graphDangerLine(downDTemp, warningColor), graphDangerLine(upDTemp, warningColor), graphDangerLine(downCTemp, dangerColor  ), graphDangerLine(upCTemp, dangerColor  )]}/>
+                                    <Line data={tempData} options={graphOptions('Temperature (°C)')} plugins={[graphDangerLine(downDTemp, dangerColor), graphDangerLine(upDTemp, dangerColor), graphDangerLine(downCTemp, warningColor  ), graphDangerLine(upCTemp, warningColor  )]}/>
                                 </div>
                             </section>
                         </div>

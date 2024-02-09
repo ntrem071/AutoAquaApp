@@ -60,7 +60,7 @@
 .h3-h{
     font-weight: 500;
     font-size: 30px;
-    color:#f0f0f0;
+    color:#000;
 
 }
 .current-stats-h{
@@ -74,13 +74,13 @@
     margin-bottom: 5px;
     position: relative;
     border-radius: 5px;
-    border: 2px solid #000000;
+    border: 1px solid #000000;
     background: #fff;
     box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
     padding: 5px 30px 5px 30px;
     overflow: hidden;
     background: rgb(199,227,194);
-    background: linear-gradient(140deg, rgba(199,227,194,0.4906337535014006) 11%, rgba(135,222,214,0.5214460784313726) 99%);
+    background: linear-gradient(140deg, rgb(236, 252, 255) 11%, rgb(217, 229, 252) 99%);
 }
 
 .p1-h{
@@ -133,9 +133,9 @@
     height: 800px;
     overflow: hidden;
     position: relative;
-    border: 3px solid #000;
+    border: 1px solid #000;
     border-radius: 5px;
-    background: #201f22;
+    background: #f8f8f9;
     box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
 }
 .slider-h{
@@ -156,7 +156,7 @@
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color:#f0f0f0;
+    color:#000;
 }
 .controls-h .arrow i{
     font-size: 80px;
@@ -180,10 +180,10 @@
 .controls-h ul li{
     width: 14px;
     height: 14px;
-    border: 2px solid #f0f0f0;
+    border: 2px solid #000;
     border-radius: 50px;
     margin: 10px;
-    background: #f0f0f0;
+    background: #000;
     cursor: pointer;
 }
 .controls-h ul li.selected{
