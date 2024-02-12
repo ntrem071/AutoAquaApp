@@ -2,28 +2,42 @@ import jetson.inference
 import jetson.utils
 import cv2
 
+capture_height = 720
+capture_width = 1280
+frame_rate = 21
+display_width = 860
+display_height = 640
+flip_method = 0
+
 net = jetson.inference.detectNet("ssd-mobilenet-v2", threshold=0.5) #more threshold deects less objects
 
 cameraYX = jetson.utils.gstCamera(1280, 720, "/dev/video1") #to know where the camera will be, run comand in terminal v4l2-ctl --list-devices
                                                             #to know the resolution supported of the camera, run command v4l2-ctl --device /dev/video1 --list-formats-ext
-#cameraYZ = jetson.utils.gstCamera(1280, 720, "/dev/video1") #to know where the camera will be, run comand in terminal v4l2-ctl --list-devices
-                                                          #to know the resolution supported of the camera, run command v4l2-ctl --device /dev/video1 --list-formats-ext
 
 display = jetson.utils.glDisplay()
 
 ######### Save video ##########
 
-video = cv2.VideoCapture(0) 
+gstr = ('nvarguscamerasrc ! video/x-raw(memory:NVMM),'
+        'width=%s, height=%s,'
+        'framerate= %s'
+        'format=NV12 ! nvvidconv flip-method= %s ! video/x-raw,'   
+        'width=%s, height=%s,'
+        'format=BGRx ! videoconvert ! appsink'
+        % (capture_width, capture_height, frame_rate, flip_method, 
+        display_width, display_height))
+
+video = cv2.VideoCapture(gstr, cv2.CAP_GSTREAMER) 
 
 if (video.isOpened() == False):  
     print("Error reading video file") 
 
-frame_width = int(video.get(3)) 
-frame_height = int(video.get(4)) 
+frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH)) 
+frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT)) 
 
 size = (frame_width, frame_height) 
 
-result = cv2.VideoWriter('filename.avi', cv2.VideoWriter_fourcc(*'MJPG'), 10, size) 
+result = cv2.VideoWriter('./output.avi', cv2.VideoWriter_fourcc(*'XVID'), float(frame_rate), size, True) 
 
 while(True): 
     ret, frame = video.read() 
@@ -61,9 +75,4 @@ while display.IsOpen():
     imgYX, widthYX, heightYX = cameraYX.CaptureRGBA()
     detectionsYX = net.Detect(imgYX, widthYX, heightYX)
     display.RenderOnce(imgYX, widthYX, heightYX)
-    display.SetTitle("Object Detection | Network {:.0f} FPS".format(net.GetNetwork()))
-
-    imgYZ, widthYZ, heightYZ = cameraYZ.CaptureRGBA()
-    detectionsYZ = net.Detect(imgYZ, widthYZ, heightYZ)
-    display.RenderOnce(imgYZ, widthYZ, heightYZ)
     display.SetTitle("Object Detection | Network {:.0f} FPS".format(net.GetNetwork()))
