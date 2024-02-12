@@ -12,6 +12,9 @@ function Fish() {
 
     const toggleBehaviour = () => {
         setBehaviourVisible(!behaviourVisible);
+        behaviourVisible? 
+            document.getElementById('elementsB').style.height = '0px' :
+            document.getElementById('elementsB').style.height = '150px';
     }
 
     function nav(str){
@@ -35,20 +38,18 @@ function Fish() {
                     <div className="fish">
                         <h2 id="h2-fn">Mr. Bubbles</h2>
                         <p id="f-text">Mr. Bubbles is healthy!</p>
-                        <div id="f-bmenu">
-                            <button id="f-bbutton" onClick={toggleBehaviour}>
-                                Noticed behaviour <span className='plusMenu'>+</span>
-                            </button>
-                            { behaviourVisible && (
-                                <ul>
-                                    <li>
-                                        Eating his poop
-                                    </li>
-                                    <li>
-                                        Cutie patootie
-                                    </li>
-                                </ul>
-                            )}
+                        <div id="f-behaviour">
+                            <div id="f-bmenu" onClick={toggleBehaviour}>
+                                <span id="f-text">Noticed behaviour</span> <span id='ddSign'>{behaviourVisible ? '-' : '+'}</span>
+                            </div>  
+                            <ul id='elementsB'>
+                                <li>
+                                    Eating his poop
+                                </li>
+                                <li>
+                                    Cutie patootie
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>

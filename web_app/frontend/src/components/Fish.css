@@ -31,17 +31,20 @@
 
 #h1-fv{
     text-align: center;
+    font-size: 60px;
     font-style: italic;
     color: #0C2D57
 }
 
 #h1-fs{
     text-align: center;
+    font-size: 60px;
     color: #0C2D57
 }
 
 #h2-fn{
     text-align: left;
+    font-size: 40px;
     color: #0C2D57;
     margin-bottom: 40px;
 }
@@ -70,25 +73,49 @@
 
 #f-text{
     text-align: left;
+    font-size: 20px;
     margin-bottom: 30px;
     color: #0C2D57;
     font-weight: 500;
 }
 
 #f-bmenu{
-    text-align: left;
     cursor: pointer;
-    width: 90%;
+    width: inherit;
+    background-color:#ffd1d1;
+    padding: 20px;
+    text-align: left;
+    color: #0C2D57
 }
 
-#f-bmenu li{
+#f-behaviour{
+    cursor: pointer;
+    text-align: left;
+    color: #0C2D57
+}
+
+#f-behaviour ul{
+    width: inherit;
     list-style: none;
+    padding-left: 0%;
+    margin: 0%;
+    height: 0;
+    overflow: hidden;
+    transition: 0.5s linear;
 }
 
-#f-bmenu li.active ul{
-    display: block;
+#f-behaviour li{
+    background-color: #ffc4c4;
+    width: inherit;
+    list-style: none;
+    padding: 5%;
+    padding-left: 50px;
+    border: solid 2px;
+    border-color: #FFB0B0;
 }
 
-.plusMenu{
-    justify-content: right;
+#ddSign{
+    text-align: right;
+    font-weight: 700;
+    padding-left: 60%;
 }
