@@ -27,6 +27,8 @@ function Fish() {
     const[namePF, setNamePF] = useState('');
 
     const[togglePF, setTogglePF] = useState('plant');
+    const[blue, setBlue] = useState('true');
+    const[green, setGreen] = useState('false');
 
     const [error, setError] = useState('');
 
@@ -139,21 +141,32 @@ function Fish() {
     function displayButtons(data, type){
         var select = document.getElementById("wrap-display-pf");
         select.replaceChildren();
+
         for(var i = 0; i < data.length; i++) {
             var elBtn = document.createElement("button");
             elBtn.className = 'btnItem';
             elBtn.id = data[i];
+            
+            // document.getElementById('data[i]').style.borderColor = 
+
+            // elBtn.style.borderColor = buttonColour;
+            // elBtn.style.backgroundColor = bgColor;
+            
             var name= data[i].replace(/ /g,"_");
-            if(type=='fish'){elBtn.addEventListener("click", (e)=>handleButtonClick(e,'fish'));}
-            else if(type=='plant'){elBtn.addEventListener("click", (e)=>handleButtonClick(e, 'plant'));}
+            if(type=='fish'){
+                elBtn.addEventListener("click", (e)=>handleButtonClick(e,'fish'));
+            }else if(type=='plant'){
+                elBtn.addEventListener("click", (e)=>handleButtonClick(e, 'plant'));
+            }
             elBtn.appendChild(document.createTextNode(data[i]));
             select.appendChild(elBtn);
         }
     }
     
-    function getPlantList(){
-        document.getElementById('plant-toggle').style.background= '#8284ad';
-        document.getElementById('fish-toggle').style.background= '#686ba5';
+    function getPlantList(data){
+        document.getElementById('plant-toggle').style.background= '#9db8cc';
+        document.getElementById('fish-toggle').style.background= '#bdd0df';
+        // document.getElementById('searchbox-p').style.backgroundColor = '#a7becf';
 
         refresh();
         showCheckbox();
@@ -185,9 +198,11 @@ function Fish() {
         });
     }
     function getFishList(){
-        document.getElementById('plant-toggle').style.background= '#686ba5';
+        document.getElementById('plant-toggle').style.background= '#bdd0df';
+        document.getElementById('fish-toggle').style.background= '#9db8cc';
+        // document.getElementById('searchbox-p').style.backgroundColor= '#abc0ad';
 
-        document.getElementById('fish-toggle').style.background= '#8284ad';
+        // displayButtons(data, 'fish', '')
 
         refresh();
         hideCheckbox();
@@ -210,6 +225,7 @@ function Fish() {
             }
         })
         .then(data => {
+            console.log('it reaches here');
             displayButtons(data,'fish');    
             setList(data);
         })
@@ -381,7 +397,7 @@ function Fish() {
                         <button type='button' id='fish-toggle' onClick={getFishList}>Fish</button>
                     </div>
                     <div className='row'>
-                        <div className='searchbox-pf'>
+                        <div className='searchbox-pf' id='searchbox-p'>
                             <div>
                                 <div className='wrap-search-pf'>
                                     <form>
@@ -407,20 +423,20 @@ function Fish() {
                                 <div className='wrap-display-pf' id='wrap-display-pf'></div>
                             </div>
                         </div>
-                        <div  className='wrap-stats-pf'>
-                            <p className='pf-p1'>Based on your current saved selection,</p>
-                            <div className='wrap-s2-pf'>     
-                                <p className='pf-p2'>Plants: <p className='pf-p3'>{plants}</p></p>
-                                <p className='pf-p2'>Fish: <p className='pf-p3'>{fish}</p></p>
-                            </div>
-                            <p className='pf-p1'>these are your recommended system ranges!</p>
-                            <div className='wrap-s3-pf'>
-                                <p className='pf-p2'>Daily Plant Light: <p className='pf-p3'>{Hours} </p></p>
-                                <p className='pf-p2'>Ideal EC:  <p className='pf-p3'>{EC} </p></p>
-                                <p className='pf-p2'>Ideal PH: <p className='pf-p3'>{PH} </p></p>
-                            </div>
-                        </div> 
                     </div>
+                    <div  className='wrap-stats-pf'>
+                        <p className='pf-p1'>Based on your current saved selection,</p>
+                        <div className='wrap-s2-pf'>     
+                            <p className='pf-p2'>Plants: <p className='pf-p3'>{plants}</p></p>
+                            <p className='pf-p2'>Fish: <p className='pf-p3'>{fish}</p></p>
+                        </div>
+                        <p className='pf-p1'>these are your recommended system ranges!</p>
+                        <div className='wrap-s3-pf'>
+                            <p className='pf-p2'>Daily Plant Light: <p className='pf-p3'>{Hours} </p></p>
+                            <p className='pf-p2'>Ideal EC:  <p className='pf-p3'>{EC} </p></p>
+                            <p className='pf-p2'>Ideal PH: <p className='pf-p3'>{PH} </p></p>
+                        </div>
+                    </div> 
                     <InfoPopup trigger={btnPopup} type={typePF} name={namePF} setTrigger={setbtnPopup} modifySelect={modifySelectPF}></InfoPopup>
                 </div>
             </h3>

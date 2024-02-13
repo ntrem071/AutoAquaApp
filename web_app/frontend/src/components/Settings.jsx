@@ -206,32 +206,31 @@ function Settings() {
     }
 
     function toggleFEEDDisable(){
-        console.log('-t-',feedEn);
-        console.log('-t-',visibleWraps);
-            document.getElementById('addtime').disabled = !feedEn;
-            if(visibleWraps[0]==true){
-                document.getElementById('firsthour').disabled=!feedEn;
-                document.getElementById('firstminute').disabled=!feedEn;
-                if(visibleWraps[1]==false){document.getElementById('delete-t1').disabled = !feedEn;}
-            }
-            if(visibleWraps[1]==true){
-                document.getElementById('secondhour').disabled=!feedEn;
-                document.getElementById('secondminute').disabled=!feedEn;
-                if(visibleWraps[2]==false){document.getElementById('delete-t2').disabled = !feedEn;}
-            }
-            if(visibleWraps[2]==true){
-                document.getElementById('thirdhour').disabled=!feedEn;
-                document.getElementById('thirdminute').disabled=!feedEn;
-                document.getElementById('delete-t3').disabled = !feedEn;
-                console.log(document.getElementById('addtime').disabled);
-                document.getElementById('addtime').disabled = true;
-            }
+        console.log('!feedEn: ', !feedEn);
+        console.log('addTime disabled: ', document.getElementById('addtime').disabled);
+        document.getElementById('addtime').disabled = feedEn;
+        if(visibleWraps[0]==true){
+            document.getElementById('firsthour').disabled=!feedEn;
+            document.getElementById('firstminute').disabled=!feedEn;
+            if(visibleWraps[1]==false){document.getElementById('delete-t1').disabled = !feedEn;}
+        }
+        if(visibleWraps[1]==true){
+            document.getElementById('secondhour').disabled=!feedEn;
+            document.getElementById('secondminute').disabled=!feedEn;
+            if(visibleWraps[2]==false){document.getElementById('delete-t2').disabled = !feedEn;}
+        }
+        if(visibleWraps[2]==true){
+            document.getElementById('thirdhour').disabled=!feedEn;
+            document.getElementById('thirdminute').disabled=!feedEn;
+            document.getElementById('delete-t3').disabled = !feedEn;
+            console.log(document.getElementById('addtime').disabled);
+            //document.getElementById('addtime').disabled = true;
+        }
     }
 
 
     function addTime(){     
-        console.log('-a-',feedEn);
-        console.log('-a-',visibleWraps);
+        console.log('it reaches here');
             if (visibleWraps[0]==false){
                 setVisibleWraps([true, false, false]);
                 document.getElementById('wrap1').style.display = 'flex';
@@ -511,6 +510,7 @@ function Settings() {
                 <div> 
                 <div className='wrap-range'>
                     <h2 id='st1'>RANGES:</h2>
+                    <p className='wp'>Manage the water parameters for your system.</p>
                     <div className="wrap-ph">
                         <div className='wrap-title-toggle'>
                             <p className='range-titles' id='pHTitle'>PH Range </p>
@@ -580,68 +580,76 @@ function Settings() {
                 </div>
                 <div className="wrap-timers">
                     <div className="wrap-timezone">
-                        <h2 id='st1'>TIMEZONE:</h2>
-                        <select id="timezone-list" value={timezone} onChange={(e) => handleInputChange(e, 'timezone')}>
-                            <option>UTC</option>
-                        </select>
-                        <button type='button' id='Save' onClick={updateTimezone}>Save Changes</button>
+                        <div className='titles'>
+                            <h2 id='st1'>TIMEZONE:</h2>
+                            <p className='tz'>Edit the timing of your system.</p>
+                        </div>
+                        <div className='timezone'>
+                            <select id="timezone-list" value={timezone} onChange={(e) => handleInputChange(e, 'timezone')}>
+                                <option>UTC</option>
+                            </select>
+                            <button type='button' id='Save' onClick={updateTimezone}>Save Changes</button>
+                        </div>
                     </div>
                     <div className="wrap-timers2">
                         <div className="wrap-feed">
-                            <form className='form-horizontal' role='form'>
-                                <h2 id='st1'>FEED TIMES:</h2>
-                                <label className='switch' id='feedswitch'>
-                                    <input type='checkbox' id='cs4' value={feedEn} onChange={()=>handleCheckChange("feedEn")}></input>
-                                    <span className='slider round'></span>
-                                </label>
-                            </form>
-                            <div className="wrap-first" id="wrap1">
-                                <p id='cs4'>1 : 
-                                    <select id="firsthour" value={firsthour} onChange={(e) => handleInputChange(e, 'firstHour') }>
-                                        <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
-                                        <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
-                                        <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
-                                        <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                    </select> :
-                                    <select id="firstminute" value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
-                                            <option>00</option><option>15</option><option>30</option><option>45</option>
-                                    </select>  
-                                    <button type='button' id='delete-t1' onClick={deleteTime}>x</button>                    
-                                </p>
+                            <div className='ft-titles'>
+                                <h2 id='st2'>FEED TIMES:</h2>
+                                <p className='ft-caption'>Add up to 3 feed times.</p>
                             </div>
-                            <div className="wrap-second" id="wrap2">
-                                <p id='cs4'>2 : 
-                                    <select id="secondhour" value={secondhour} onChange={(e) => handleInputChange(e, 'secondHour')}>
-                                        <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
-                                        <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
-                                        <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
-                                        <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                    </select> :
-                                    <select id="secondminute"  value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
-                                            <option>00</option><option>15</option><option>30</option><option>45</option>
-                                    </select>
-                                    <button  type='button' id='delete-t2' onClick={deleteTime}>x</button>      
-                                </p>
+                            <div className='feedswitch' id='feedswitch'>
+                                <input type='checkbox' id='cs4' value={feedEn} checked={feedEn} onChange={()=>handleCheckChange("feedEn")}></input>
+                                <span className='slider round'></span>
                             </div>
-                            <div className="wrap-third" id="wrap3">
-                                <p id='cs4'>3 : 
-                                    <select id="thirdhour"  value={thirdhour} onChange={(e) => handleInputChange(e, 'thirdHour')}>
-                                        <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
-                                        <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
-                                        <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
-                                        <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                    </select> :
-                                    <select  id="thirdminute"  value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
-                                            <option>00</option><option>15</option><option>30</option><option>45</option>
-                                    </select>
-                                    <button  type='button' id='delete-t3' onClick={deleteTime}>x</button>      
-                                </p>
+                            <div className='feedTimes'>
+                                <div className="wrap-first" id="wrap1">
+                                    <p id='cs4'>1 : 
+                                        <select id="firsthour" value={firsthour} onChange={(e) => handleInputChange(e, 'firstHour') }>
+                                            <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                            <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                            <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                            <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                        </select> :
+                                        <select id="firstminute" value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
+                                                <option>00</option><option>15</option><option>30</option><option>45</option>
+                                        </select>  
+                                        <button type='button' id='delete-t1' onClick={deleteTime}>x</button>                    
+                                    </p>
+                                </div>
+                                <div className="wrap-second" id="wrap2">
+                                    <p id='cs4'>2 : 
+                                        <select id="secondhour" value={secondhour} onChange={(e) => handleInputChange(e, 'secondHour')}>
+                                            <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                            <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                            <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                            <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                        </select> :
+                                        <select id="secondminute"  value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
+                                                <option>00</option><option>15</option><option>30</option><option>45</option>
+                                        </select>
+                                        <button  type='button' id='delete-t2' onClick={deleteTime}>x</button>      
+                                    </p>
+                                </div>
+                                <div className="wrap-third" id="wrap3">
+                                    <p id='cs4'>3 : 
+                                        <select id="thirdhour"  value={thirdhour} onChange={(e) => handleInputChange(e, 'thirdHour')}>
+                                            <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
+                                            <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
+                                            <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+                                            <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
+                                        </select> :
+                                        <select  id="thirdminute"  value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
+                                                <option>00</option><option>15</option><option>30</option><option>45</option>
+                                        </select>
+                                        <button  type='button' id='delete-t3' onClick={deleteTime}>x</button>      
+                                    </p>
+                                </div>
                             </div>
                             <button id='addtime' onClick={addTime}>Add Time</button>
                             <button type='button' id='Save' onClick={updateFeed}>Save Changes</button>
                         </div>
                         <div className="wrap-led">
-                            <h2 id='st1'>LED TIMES:</h2>
+                            <h2 id='st2'>LED TIMES:</h2>
                             <label className='switch' id='ledSwitch'>
                                 <input type='checkbox' id='cs5' value={ledEn} onChange={()=>handleCheckChange("ledEn")}></input>
                                 <span className='slider round'></span>
