@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { EyeInvisibleOutlined, EyeOutlined, UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
+import Popup from 'react-popup';
 import { Buffer } from 'buffer';
 import Cookies from 'js-cookie';
 import './Login.css'
@@ -38,17 +40,17 @@ function Login() {
         // setLeftButton(!(leftB8utton));
         // setRightButton(!(rightButton));
         // console.log('isMiddle first: ', isMiddle)
-        if(slideLeft){
+        if(FormValidation()){
             setSlideLeft(!(slideLeft));
+            console.log('FormValidation: ', FormValidation());
             console.log('goes into if');
             
-
-        } else if (!(handleInputChange() && FormValidation())) {
+        } else if (slideLeft) {
             setSlideLeft(!(slideLeft));
-            showResponseMessage()
+            console.log('it reaches into else if')
         } else {
             console.log('it reaches here');
-            setSlideLeft(!(slideLeft));
+            setSlideLeft((slideLeft));
         }
         // setIsMiddle((prevState) => !prevState)
 
@@ -56,6 +58,10 @@ function Login() {
         //     setIsMiddle(false);
         //     // console.log('isMiddle next: ', isMiddle)
         // }, 700);
+    }
+
+    const oHandleButtonClick = () => {
+        setSlideLeft(!(slideLeft))
     }
 
     // (\(O.O)/)
@@ -133,7 +139,7 @@ function Login() {
         if(!validateEmail(email)){
             e.style.borderColor = 'red';
             setTimeout(() => {
-                alert('Please enter valid email.');;
+                alert('Please enter valid email.');
             }, 500);
             return false;
         } else if (password !== cpassword) {
@@ -167,6 +173,10 @@ function Login() {
             }, 500);
             return false;
         } else {
+            n.style.borderColor = 'rgb(118, 118, 118)';
+            e.style.borderColor = 'rgb(118, 118, 118)';
+            p.style.borderColor = 'rgb(118, 118, 118)';
+            cp.style.borderColor = 'rgb(118, 118, 118)';
             return true;
         }
     }
@@ -183,43 +193,39 @@ function Login() {
 
 // connects frontend to backend
     function createSubmit(){
-        const validate = FormValidation();
-        if(validate && (name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
-            if(validate){
-                var url = 'http://localhost:8000/users/na/create';
-                var headers = {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                };
-                var data = {
-                    name: name,
-                    email: email,
-                    password: password
-                };
-                fetch(url, {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify(data)
-                })
-                .then((response) => {
-                    console.log('Server response: ', response)
-                    // if(!response.ok) {
-                    //     console.log('Response is not okay');
-                    // }
-                    return response.json();
-                })
-                .then(status)
-                .then((result) => {
-                    showResponseMessage();
-                })
-                .then(navigate('/'))
-                .catch((err) => {
-                    setError(err.message);
-                    console.log('Fetch error: ', err);
-                });
-            } else {
-                setError('Email must be valid');
-            }
+        //const validate = FormValidation();
+        if((name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
+            var url = 'http://localhost:8000/users/na/create';
+            var headers = {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            };
+            var data = {
+                name: name,
+                email: email,
+                password: password
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(data)
+            })
+            .then((response) => {
+                console.log('Server response: ', response)
+                // if(!response.ok) {
+                //     console.log('Response is not okay');
+                // }
+                return response.json();
+            })
+            .then(status)
+            .then((result) => {
+                showResponseMessage();
+            })
+            .then(alert('Account created successfully!'))
+            .catch((err) => {
+                setError(err.message);
+                console.log('Fetch error: ', err);
+            });
         } else {
             setError('All fields must be filled')
         }
@@ -402,9 +408,8 @@ function Login() {
                 </div>
                 <div id='create-column' className='form-container sign-up-container'>
                     <div className='Create'>
-                        <form className='side-by-side' id='create'action='#'>
-                            <h2 id='ch1' className='form-title'>Create account</h2>
-                            {/* {responseMessage && (<p className='response-message'>Account created successfully!</p>)} */}
+                        <form className='side-by-side row' id='create'action='#'>
+                            <h2 id='ch1' className='form-title col'>Create account</h2>
                             <div id='name'>
                                 <input
                                     type="text" 
@@ -471,11 +476,11 @@ function Login() {
                         </form>
                     </div>
                 </div>
-                <div className={`o-panel o-content ${slideLeft ? 'slide-right' : 'slide-left'}`} onClick={handleButtonClick}>
+                <div className={`o-panel o-content ${slideLeft ? 'slide-right' : 'slide-left'}`}>
                     <h1 className='title-overlay'>{slideLeft ? '' : 'AUTOMATED AQUAPONICS'}</h1>
                     <h2 id='overlay-left-title'>{slideLeft ? 'Hello Friend!' : 'Welcome Back!'}</h2>
                     <p id='overlay-left-p'>{slideLeft ? 'Enter your personal details and start a journey with us!' : 'Please login to get started!'}</p>
-                    <button className='ghost' id='signIn' onClick={handleButtonClick}>{slideLeft ? 'SIGN UP' : 'SIGN IN'}</button>
+                    <button className='ghost' id='signIn' onClick={oHandleButtonClick}>{slideLeft ? 'SIGN UP' : 'SIGN IN'}</button>
                 </div>
             </div>
         </div>
