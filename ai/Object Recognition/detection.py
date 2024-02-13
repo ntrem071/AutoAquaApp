@@ -1,6 +1,7 @@
 import jetson.inference
 import jetson.utils
 import cv2
+from roboflow import Roboflow #pip install roboflow
 
 capture_height = 720
 capture_width = 1280
@@ -70,9 +71,24 @@ print("The video was successfully saved")
 
 ######### End Video Save ###########
 
-while display.IsOpen():
+rf = Roboflow(api_key="qZ8fLZkBFuZllwmCf6w9")
+project = rf.workspace().project("fish-uyu9m")
+model = project.version("4").model
 
-    imgYX, widthYX, heightYX = cameraYX.CaptureRGBA()
-    detectionsYX = net.Detect(imgYX, widthYX, heightYX)
-    display.RenderOnce(imgYX, widthYX, heightYX)
-    display.SetTitle("Object Detection | Network {:.0f} FPS".format(net.GetNetwork()))
+job_id, signed_url, expire_time = model.predict_video(
+    "YOUR_VIDEO.mp4",
+    fps=5,
+    prediction_type="batch-video",
+)
+
+results = model.poll_until_video_results(job_id)
+
+print(results)
+
+
+# while display.IsOpen():
+
+#     imgYX, widthYX, heightYX = cameraYX.CaptureRGBA()
+#     detectionsYX = net.Detect(imgYX, widthYX, heightYX)
+#     display.RenderOnce(imgYX, widthYX, heightYX)
+#     display.SetTitle("Object Detection | Network {:.0f} FPS".format(net.GetNetwork()))
