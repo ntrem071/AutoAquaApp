@@ -87,7 +87,7 @@ function UserInfo(props) {
     
     useEffect(() => {
         document.onclick = function(div){
-                if(((document.getElementById('user-details')!==null) && div.target.id !== 'user-details' && div.target.id !== 'userIcon')){
+                if(((document.getElementById('user-details')!==null) && div.target.id !== 'user-details' && div.target.id !== 'userIcon' && div.target.id != 'userIconImage')){
                     exit();
                 }if(((document.getElementById('wrap-nav-dropdown').style.display=='block') && div.target.classList !== 'part-of-nav' && div.target.id != 'nav-button')){     
                     props.displayNavSmall(true);
@@ -100,16 +100,14 @@ function UserInfo(props) {
 
     return(props.trigger) ? (
             <div className='user-details' id='user-details'>
-                <h3 id='user-details' style={{textAlign:'center'}}>Profile</h3>
-                <span id='user-details' className='ntitle'>Name: </span><span id='user-details'>{name}</span>
-                <br></br>
-                <br></br>
-                <span id='user-details' className='etitle'>Email: </span><span id='user-details'>{email}</span>
-                <br></br>
-                <br></br>
-                <div id='user-details' className='wrap-logout'>
-                    <button id='user-details' type='Sbutton' className='use-logout' onClick={logout}>Logout</button>
-                </div>
+                <h3 id='user-details' style={{textAlign:'center'}}>User Profile</h3>
+                <div className="wrap-ne" id="user-details">
+                    <div id='wrap-line-ui'><span id='user-details' className='ntitle'>Name: </span><span id='user-details'>{name}</span></div>
+                    <div id='wrap-line-ui'><span id='user-details' className='etitle'>Email: </span><span id='user-details'>{email}</span></div>
+                    <div id='user-details' className='wrap-logout'>
+                        <button id='user-details' type='Sbutton' className='use-logout' onClick={logout}>Logout</button>
+                    </div>
+                </div>     
             </div>                    
     ) : "";
 }

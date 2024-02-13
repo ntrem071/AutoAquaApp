@@ -330,7 +330,6 @@ function Fish() {
             <div className='info-fish-plant'>
             <Navigation/>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-            <h1>Compatibility Search</h1>
             <h3>
                 <div className='outerbox-p'>
                     <div className='searchbox-pf'>

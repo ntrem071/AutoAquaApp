@@ -105,7 +105,11 @@ function logout(){
   
   return (
     <div className="navbar">
-        <img className='part-of-nav' id='userIcon' title='User Profile' src={generalUserIconImage} onClick={profileAppear}></img>
+        <span className='part-of-nav' id='userIcon' title='User Profile' /*src={generalUserIconImage}*/ onClick={profileAppear}>
+              <i className='material-icons' id='userIconImage'>
+                    person
+              </i>
+        </span>
         <button id='nav-button' onClick={() =>{displayNavSmall(false)}}></button>
         <div id='nav-title'>AUTO AQUA</div>
         <div classList='part-of-nav' className='wrap-nav-dropdown' id='wrap-nav-dropdown'>
