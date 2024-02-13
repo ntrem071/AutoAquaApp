@@ -27,13 +27,19 @@ while True:
         if data:
             print(datetime.datetime.now())
             print(data)
+            # probeData = json.dumps({
+            #     "phPoint": struct.unpack('d', data[0])[0],
+            #     "tempPoint": struct.unpack('d', data[1])[0], 
+            #     "waterPoint": struct.unpack('d', data[2])[0],
+            #     "ecPoint": struct.unpack('d', data[3])[0]
+            # })
             probeData = json.dumps({
-                "phPoint": struct.unpack('d', data[0])[0],
-                "tempPoint": struct.unpack('d', data[1])[0], 
-                "waterPoint": struct.unpack('d', data[2])[0],
-                "ecPoint": struct.unpack('d', data[3])[0]
+                "phPoint": 6.8,
+                "tempPoint": 17.4, 
+                "waterPoint": 300.0,
+                "ecPoint": 2.5
             })
-            resp = requests.post('https://ceg4913.duckdns.org:8000/'+ sessionID + '/graphs', params=probeData) #server url..?
+            resp = requests.post('https://ceg4913.duckdns.com/users/'+ sessionID + '/graphs', params=probeData) #server url..?
             print("\n")
         else:
             print("No data found") 
