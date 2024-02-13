@@ -166,15 +166,15 @@ function Homepage() {
               {
                 label: "pH",
                 data: points.map((data) => data[1]),
-                backgroundColor: "rgba(58, 128, 214,0.4)",
-                borderColor: "rgba(58, 128, 214, 0.4)",
+                backgroundColor: "rgba(80, 148, 204, 0.6)",
+                borderColor: "rgba(80, 148, 204, 0.6)",
                 pointRadius: 1,
                 pointHoverRadius: 3,
                 borderWidth: 1,
                 spanGaps: true,
                 fill: {
                     target: 'origin',
-                    above: 'rgb(58, 128, 214, 0.05)',   
+                    above: 'rgb(80, 148, 204, 0.2)',   
                   },
               }
             ]
@@ -269,10 +269,10 @@ function Homepage() {
                 document.getElementById('cur-ph-p3').innerText = curr[1];
 
                 if((curr[1]<=downDPH) || (curr[1]>=upDPH)){
-                    document.getElementById('cur-ph').style.border='2px solid '+dangerColor;
+                    document.getElementById('cur-ph').style.border='2.5px solid '+dangerColor;
                     d=true; 
                 }else if((curr[1]<=downCPH) || (curr[1]>=upCPH)){
-                    document.getElementById('cur-ph').style.border='2px solid '+warningColor;
+                    document.getElementById('cur-ph').style.border='2.5px solid '+warningColor;
                     c=true;
                 }
             }
@@ -285,10 +285,10 @@ function Homepage() {
                 document.getElementById('cur-ec-p3').innerText = curr[1]+'mS/cm';
             
                 if((curr[1]<=downDEC) || (curr[1]>=upDEC)){
-                    document.getElementById('cur-ec').style.border='2px solid '+dangerColor;
+                    document.getElementById('cur-ec').style.border='2.5px solid '+dangerColor;
                     d=true; 
                 }else if((curr[1]<=downCEC) || (curr[1]>=upCEC)){
-                    document.getElementById('cur-ec').style.border='2px solid '+warningColor;
+                    document.getElementById('cur-ec').style.border='2.5px solid '+warningColor;
                     c=true;
                 }
             }
@@ -301,10 +301,10 @@ function Homepage() {
                 document.getElementById('cur-temp-p3').innerText = curr[1]+'°C';
                 
                 if((curr[1]<=downDTemp) || (curr[1]>=upDTemp)){
-                    document.getElementById('cur-temp').style.border='2px solid '+dangerColor;
+                    document.getElementById('cur-temp').style.border='2.5px solid '+dangerColor;
                     d=true; 
                 }else if((curr[1]<=downCTemp) || (curr[1]>=upCTemp)){
-                    document.getElementById('cur-temp').style.border='2px solid '+warningColor;
+                    document.getElementById('cur-temp').style.border='2.5px solid '+warningColor;
                     c=true;
                 }
             }
@@ -317,10 +317,10 @@ function Homepage() {
                 document.getElementById('cur-water-p3').innerText = curr[1]+'mm';
                 
                 if(curr[1]<=downDWater){
-                    document.getElementById('cur-water').style.border='2px solid '+dangerColor;
+                    document.getElementById('cur-water').style.border='2.5px solid '+dangerColor;
                     d=true; 
                 }else if(curr[1]<=downCWater){
-                    document.getElementById('cur-water').style.border='2px solid '+warningColor;
+                    document.getElementById('cur-water').style.border='2.5px solid '+warningColor;
                     c=true;
                 }
             }

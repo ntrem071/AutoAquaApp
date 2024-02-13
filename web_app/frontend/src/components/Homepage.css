@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 .Homepage{
     width: 100%;
-    height: 900px;
+    height: calc(100vh - 83px - 2vmin);
     margin-top: calc(83px + 2vmin);
     overflow-y: auto;
 }
@@ -75,28 +75,43 @@
     position: relative;
     border-radius: 5px;
     border: 2px solid #222021;
-    background: #fff;
     box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
     padding: 5px 30px 5px 30px;
     overflow: hidden;
-    background: rgb(199,227,194);
-    background: linear-gradient(140deg, rgb(236, 252, 255) 11%, rgb(217, 229, 252) 99%);
+    /* background: rgb(199,227,194); */
+    /* background: linear-gradient(140deg, rgb(236, 252, 255) 11%, rgb(217, 229, 252) 99%); */
+}
+#cur-water{
+    background: rgb(123, 164, 97);
+    background: linear-gradient(140deg, rgb(123, 164, 97) 0%, rgba(79,92,67,0.9920343137254902) 100%);
+}
+#cur-ph{
+    background: rgb(169,209,142);
+    background: linear-gradient(140deg, rgba(169,209,142,1) 0%, rgba(79,92,67,0.9920343137254902) 100%);
+}
+#cur-ec{
+    background: rgb(197,224,180);
+    background: linear-gradient(140deg, rgba(197,224,180,1) 0%, rgba(79,92,67,0.9920343137254902) 100%);
+}
+#cur-temp{
+    background: rgb(226,240,217);
+    background: linear-gradient(140deg, rgba(226,240,217,1) 0%, rgba(79,92,67,0.9920343137254902) 100%);
 }
 
 .p1-h{
     font-size: 20px;
     text-align: left;
-    color: #222021;
+    color: #fff;
 }
 .p2-h{
     font-size: 15px;
     text-align: left;
     margin-top: -20px;
-    color: #222021;
+    color: #fff;
 }
 .p3-h{
     font-size: 35px;
-    color: #222021;
+    color: #fff;
 }
 
 .st{

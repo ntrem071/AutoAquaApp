@@ -199,9 +199,9 @@ function Settings() {
             max.style.setProperty( '--color', '#969493');
  
         }else{
-            document.querySelector(".range-slider .progress-"+str1).style.background = '#2196F3';
-            min.style.setProperty( '--color', '#2196F3');
-            max.style.setProperty( '--color', '#2196F3');
+            document.querySelector(".range-slider .progress-"+str1).style.background = 'rgb(123, 164, 97)';
+            min.style.setProperty( '--color', 'rgb(123, 164, 97)');
+            max.style.setProperty( '--color', 'rgb(123, 164, 97)');
         }
     }
 
@@ -507,14 +507,18 @@ function Settings() {
     return(     
         <div className='settings'>
             <Navigation/>
-            <div className="settings-title" style={{zIndex: 0}}><h1 id='settings-title'>Settings</h1></div>
             <div className='outerbox-s'>
-                <div>
-                
+                <div> 
                 <div className='wrap-range'>
                     <h2 id='st1'>RANGES:</h2>
                     <div className="wrap-ph">
-                        <p id='pHTitle'>PH Range </p>
+                        <div className='wrap-title-toggle'>
+                            <p className='range-titles' id='pHTitle'>PH Range </p>
+                            <label className='switch' id='pHswitch'>
+                                <input type='checkbox' id='cs1' defaultValue={phEn} onChange={()=>handleCheckChange("phEn")}></input>
+                                <span className='slider round'></span>
+                            </label>
+                        </div>
                         <div className="range-slider">
                             <div className="progress-ph"></div>
                             <div className="range-input">
@@ -525,14 +529,17 @@ function Settings() {
                                 <input type="range" id="PHMax" className="range-max" min="6.0" max="8.0"  value={pHMax} onChange={(e) => handleInputChange(e, 'phRange')} step="0.1"></input>
                             </div>   
                         </div>
-                            <label className='switch' id='pHswitch'>
-                                <input type='checkbox' id='cs1' defaultValue={phEn} onChange={()=>handleCheckChange("phEn")}></input>
-                                <span className='slider round'></span>
-                            </label>
+   
                         <br></br>
                     </div>
                     <div className="wrap-ec">
-                        <p id='ECTitle'>EC Range </p>
+                        <div className='wrap-title-toggle'>
+                            <p className='range-titles' id='ECTitle'>EC Range (mS/cm)</p>
+                            <label className='switch' id='ecswitch'>
+                                <input type='checkbox' id='cs2' value={ecEn} onChange={()=>handleCheckChange("ecEn")}></input>
+                                <span className='slider round'></span>
+                            </label>
+                        </div>
                         <div className="range-slider">
                             <div className="progress-ec"></div>
                             <div className="range-input">
@@ -547,14 +554,17 @@ function Settings() {
 
                             </div>   
                         </div>
-                        <label className='switch' id='ecswitch'>
-                            <input type='checkbox' id='cs2' value={ecEn} onChange={()=>handleCheckChange("ecEn")}></input>
-                            <span className='slider round'></span>
-                        </label>
+
                         <br></br>
                     </div>
                     <div className="wrap-temp">
-                    <p id='tempTitle'>Temperature Range (°C) </p>
+                        <div className='wrap-title-toggle'>
+                            <p className='range-titles' id='tempTitle'>Temperature Range (°C) </p>
+                            <label className='switch' id='tempswitch'>
+                                <input type='checkbox' id='cs3' value={tempEn} onChange={()=>handleCheckChange("tempEn")}></input>
+                                <span className='slider round'></span>
+                            </label>
+                        </div>
                         <div className="range-slider">
                                 <div className="progress-temp"></div>
                                 <div className="range-input">
@@ -563,10 +573,6 @@ function Settings() {
                                     <input type="range" id="tempMax" className="range-max" min="20" max="30"  value={tempMax} onChange={(e) => handleInputChange(e, 'tempRange')} step="1"></input>
                                 </div>   
                         </div>
-                        <label className='switch' id='tempswitch'>
-                            <input type='checkbox' id='cs3' value={tempEn} onChange={()=>handleCheckChange("tempEn")}></input>
-                            <span className='slider round'></span>
-                        </label>
                     </div>
                     <div className="save-range">
                         <button type='button' id='Save' onClick={updateRanges}>Save Changes</button>

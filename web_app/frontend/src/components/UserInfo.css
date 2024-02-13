@@ -3,7 +3,6 @@
   background-color: #f8f8f9;
     width: 170px;
     padding: 5px 30px 20px 30px;
-    height:200px;
     z-index: 2;
     position: absolute;
     text-align: center;
@@ -14,11 +13,10 @@
     animation: dropDown 0.3s ease-in-out;
     border: 3px solid #000000;
 }
-
 .user-details::before{
     content: '';
     position: absolute;
-    top: -14px;
+    top: -13px;
     right:35px;
     width: 20px;
     height: 20px;
@@ -31,6 +29,9 @@
 .user-details[close]{
     pointer-events: none;
     animation: fade-out 100ms forwards;
+}
+#wrap-line-ui{
+  margin: 10px;
 }
 
 .use-logout{
@@ -47,6 +48,9 @@
 .wrap-logout{
     text-align: center;
 }
+.wrap-ne{
+  border-top: 2px solid #000000;
+}
 .use-logout{
     background-color: #222021;
     padding: 10px 10px;
@@ -60,8 +64,7 @@
 }
 
 .use-logout:hover {
-    background-color: #a1a7f8;
-    color: #222021;
+    background-color: #5094cc;
     
 }
 

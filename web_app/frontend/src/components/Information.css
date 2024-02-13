@@ -1,11 +1,7 @@
-.info-fish-plant{
-    height: 100vh;
-    overflow: hidden;
-}
 
 .wrap-popup{
     background-color:  #d9d9d9;
-    width: 800px;
+    width: 80%;
     height: 800px;
     padding: 20px 20px;
     position: absolute;
@@ -53,7 +49,7 @@
 
 .wrap-display-pf{
     background: #c7c7c7;
-    height: 400px;
+    height: 510px;
     border: inset;
     border-width: 3px;
     overflow-y: scroll;
@@ -62,6 +58,7 @@
 
 .info-fish-plant{
     height: 1000px;
+    margin-top: calc(83px + 2vmin);
     overflow: auto;
 }
 
@@ -333,21 +330,6 @@ width: 100%;
 .pf-p3{
     font-weight: normal;
     display: inline;
-}
-
-.wrap-popup{
-    background-color:  #d9d9d9;
-    width: 800px;
-    height: 800px;
-    padding: 20px 20px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: auto;
-    border-style: solid solid none solid;
-    border-width: 1.5px;
-    border-color: #a8adb1;
-    display:none;
 }
 
 .wrap-toggle-pf{
