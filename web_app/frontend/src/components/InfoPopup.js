@@ -202,25 +202,23 @@ function InfoPopup(props) {
     }
 
     return(props.trigger) ? (
-        <body>
-            <div className='popup-box' onClick={exit}>
-                <div className='popup-inner'>
-                    <div className='popup-topbar' id='popup-topbar'>
-                        <button className='close-popup' onClick={exit}>x</button>
-                        {props.children}
+        <div className='popup-box' onClick={exit}>
+            <div className='popup-inner'>
+                <div className='popup-topbar' id='popup-topbar'>
+                    <button className='close-popup' onClick={exit}>x</button>
+                    {props.children}
+                </div>
+                <div className='popup-info-display'>
+                    
+                    <div className='popup-section1' id='popup-section1'></div>
+                    <div className='popup-section0' id='popup-section0'></div>
+                    <div className='popup-section2' id='popup-section2'>
+                        <img id="imgPopUp" alt="pichpich" width="280" height="280"></img>
                     </div>
-                    <div className='popup-info-display'>
-                        
-                        <div className='popup-section1' id='popup-section1'></div>
-                        <div className='popup-section0' id='popup-section0'></div>
-                        <div className='popup-section2' id='popup-section2'>
-                            <img id="imgPopUp" alt="pichpich" width="280" height="280"></img>
-                        </div>
-                        <div className='popup-section3' id='popup-section3'></div>
-                    </div>
+                    <div className='popup-section3' id='popup-section3'></div>
                 </div>
             </div>
-        </body>
+        </div>
     ) : "";
 }
 
