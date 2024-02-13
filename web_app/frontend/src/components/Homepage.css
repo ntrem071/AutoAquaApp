@@ -65,7 +65,7 @@
 }
 .current-stats-h{
     height: 1000px;
-    width: 29%;
+    width: 24%;
     position: relative;
     margin-left: 1%;
 }
@@ -121,7 +121,7 @@
 .containor-h{
     position: relative;
     overflow-y: auto;
-    width:70%;
+    width:75%;
     color: #222021;
 }
 .warning-state-h{
