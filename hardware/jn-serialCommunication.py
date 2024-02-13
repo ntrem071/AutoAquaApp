@@ -1,26 +1,26 @@
 #to have port access sudo chmod 666 /dev/ttyHS1
 
-import serial #import PySerial
+# import serial #import PySerial
 import datetime
 import time
 import requests
 import struct
 import json
 
-arduinoMega=serial.Serial(
-    port = '/dev/ttyTHS1', #UART ports 8(Rx) & 10(Tx)
-    baudrate = 9600
-)
+# arduinoMega=serial.Serial(
+#     port = '/dev/ttyTHS1', #UART ports 8(Rx) & 10(Tx)
+#     baudrate = 9600
+# )
 
 userCreds = json.dumps({
     "email": "lol@pog.ca",
     "password": "c"
 })
 
-sessionID = requests.post('https://ceg4913.duckdns.org:8000/users/na/login/system', userCreds)
+sessionID = requests.post('https://ceg4913:8000.duckdns.org/users/na/login/system', userCreds)
 print(sessionID)
 
-while True:
+while False:
     try:
         data = arduinoMega.readline().rstrip().split(",")
 	    #[pH,temperature,water level,EC]
