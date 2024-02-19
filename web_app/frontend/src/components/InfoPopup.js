@@ -203,7 +203,7 @@ function InfoPopup(props) {
 
     return(props.trigger) ? (
         <body>
-            <div className='popup-box'>
+            <div className='popup-box' onClick={exit}>
                 <div className='popup-inner'>
                     <div className='popup-topbar' id='popup-topbar'>
                         <button className='close-popup' onClick={exit}>x</button>

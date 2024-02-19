@@ -34,7 +34,7 @@ function Login() {
         const e = document.getElementById('lt1');
         const p = document.getElementById('lt2');
         if((password !== '') && (email !== '')){
-            var url = 'http://localhost:8000/users/na/login';
+            var url = 'http://localhost:8000/users/na/login/app';
             //var buf = Buffer.from(email + ':' + password).toString('base64');
             var header = {         
                 //'Authorization':'Basic ' + buf,

@@ -1,24 +1,67 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+.Homepage{
+    width: 100%;
+    height: calc(100vh - 83px - 2vmin);
+    margin-top: calc(83px + 2vmin);
+    overflow-y: auto;
+}
 .outerbox-h{
-    width: 90%;
-    height: 1000px;
-    margin: 90px auto;
+    width: 80%;
+    margin:auto;
+    margin-top: 40px;
     position: relative;
     display:flex;
 }
 
 .wrap-graphs{
-    width: 70%;
+    width: 75%;
+    height: 100%;
     padding-left: 80px;
     padding-right: 80px; 
     padding-bottom: 15px;
     padding-top: 1px;
     position: relative;
     margin: 5px;
-    
+    margin-top: 400px;
+}
+.graph-zoom{
+    position: absolute;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100px;
+    width: 100%;
+    top: 50px;
+    margin-left: 3vw;
+}
+.inner-zoom{
+    display: flex;
+    margin-top: 5px;
+    align-items: center; 
+    margin-left: 15px;    
+}
+.inner-zoom i{
+    font-size: 22.5px;
+    color:#888888;
+}
+.inner-zoom i:hover{
+    cursor:pointer;
+    scale: 1.4;
+}
+.inner-zoom p{
+    font-size: 14px;
+    margin: 3px;
+    color:#888888;
+    font-weight: 650;
+}
+.graph-zoom p:hover{
+    cursor: default;
 }
 .h3-h{
     font-weight: 500;
+    font-size: 30px;
+    color:#222021;
+
 }
 .current-stats-h{
     height: 1000px;
@@ -27,28 +70,48 @@
     margin-left: 1%;
 }
 .cur-h{
-    height: 22%;
+    height: 20.45%;
     margin-bottom: 5px;
     position: relative;
     border-radius: 5px;
-    border: 2px solid #000000;
-    background: #fff;
+    border: 2px solid #222021;
     box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
     padding: 5px 30px 5px 30px;
     overflow: hidden;
-    background-color:rgb(169, 215, 252);
+    /* background: rgb(199,227,194); */
+    /* background: linear-gradient(140deg, rgb(236, 252, 255) 11%, rgb(217, 229, 252) 99%); */
 }
+#cur-water{
+    background: rgb(123, 164, 97);
+    background: linear-gradient(140deg, rgb(123, 164, 97) 0%, rgba(79,92,67,0.9920343137254902) 100%);
+}
+#cur-ph{
+    background: rgb(169,209,142);
+    background: linear-gradient(140deg, rgba(169,209,142,1) 0%, rgba(79,92,67,0.9920343137254902) 100%);
+}
+#cur-ec{
+    background: rgb(197,224,180);
+    background: linear-gradient(140deg, rgba(197,224,180,1) 0%, rgba(79,92,67,0.9920343137254902) 100%);
+}
+#cur-temp{
+    background: rgb(226,240,217);
+    background: linear-gradient(140deg, rgba(226,240,217,1) 0%, rgba(79,92,67,0.9920343137254902) 100%);
+}
+
 .p1-h{
     font-size: 20px;
     text-align: left;
+    color: #fff;
 }
 .p2-h{
     font-size: 15px;
     text-align: left;
     margin-top: -20px;
+    color: #fff;
 }
 .p3-h{
     font-size: 35px;
+    color: #fff;
 }
 
 .st{
@@ -57,13 +120,14 @@
 }
 .containor-h{
     position: relative;
+    overflow-y: auto;
     width:70%;
-    margin-top: 3%;
+    color: #222021;
 }
 .warning-state-h{
     position: relative;
-    margin: 10px;
     border-radius: 5px;
+    margin-bottom: 10px;
     border: 2px solid 	#008000;
     background: #bef8be;
     box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
@@ -77,20 +141,19 @@
     padding:5px 8px 5px 20px;
 }
 .warning-state-h h1{
-    color: #000000;
+    color: #222021;
     font-size: 20px;
     font-weight: normal;
     text-align: left;
     padding:5px 8px 5px 8px;
-
 }
 .carousel-h{
-    border: 2px solid #000000;
     height: 800px;
     overflow: hidden;
     position: relative;
+    border: 2px solid rgba(0,0,0,0.25);
     border-radius: 5px;
-    background: #fff;
+    background: #f8f8f9;
     box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
 }
 .slider-h{
@@ -111,6 +174,7 @@
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
+    color:#8d8d8d;
 }
 .controls-h .arrow i{
     font-size: 80px;
@@ -134,10 +198,10 @@
 .controls-h ul li{
     width: 14px;
     height: 14px;
-    border: 2px solid #333;
+    border: 2px solid #8d8d8d;
     border-radius: 50px;
     margin: 10px;
-    background: #333;
+    background: #8d8d8d;
     cursor: pointer;
 }
 .controls-h ul li.selected{

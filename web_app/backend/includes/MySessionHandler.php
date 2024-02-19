@@ -13,17 +13,20 @@
             }
     
             //on login retrieve new session id string to send to client
-            public function newSession($user){
+            public function newSession($user, $requestor){
                 $id = null;
+                $doc=$this->collection->findOne(['data'=>$user, 'requestor'=>$requestor]);
 
-                if(is_null($this->collection->findOne(['data'=>$user]))){
+                if((is_null($doc) || ($doc->requestor!=$requestor)) && ($requestor=='app' || $requestor=='system')){
                     $this->collection->insertOne([
                         'data' => $user,
+                        'requestor' => $requestor,
                         'session_expiry'=> new \MongoDB\BSON\UTCDateTime((time() + $this->sec) * 1000)
-                    ]);
-                    $id=($this->collection->findOne(['data'=>$user]))->_id;
+                    ]);  
                 }
-                return $id; // null if email already used for session
+
+                $id=($this->collection->findOne(['data'=>$user, 'requestor'=>$requestor]))->_id;
+                return $id; // single seperate id for web 'app' vs hardware 'system'
             } 
 
             //delete session on logout
@@ -54,7 +57,12 @@
             }
 
             public function getSessionExpiry($id){
-                return $this->collection->findOne(['_id' => $id])->session_expiry;
+                $s=$this->collection->findOne(['_id' => $id]);
+                $ex = null;
+                if(isset($s)){
+                    $ex = $s->session_expiry;
+                }
+                return $ex;
             }
      
     }

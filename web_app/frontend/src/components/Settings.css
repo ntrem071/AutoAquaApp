@@ -1,59 +1,19 @@
-
-.firsthide {
-    display: none;
-}
-
-.firstshow {
-    display: block;
-}
-
-.secondhide {
-    display: none;
-}
-
-.secondshow {
-    display: block;
-}
-
-.thirdhide {
-    display: none;
-}
-
-.thirdshow {
-    display: block;
-}
-
 #warning {
     display:none;
-    background-color: #2196F3;
+    background-color: rgb(123, 164, 97);
 }
 
 .settings {
-    background-color: #403c3c;
-    height: 840px;
+    height: calc(100vh - 83px - 2vmin);
     margin-top: calc(83px + 2vmin);
     overflow-y: auto;
 }
-
-.App {
-    background-color: #EFECEC;
-}
-
-body{
-    background-color: #EFECEC;
-  }
 
 .switch {
     position: relative;
     width: 30px;
     height: 15px;
-    top: -38px;
-    left: 60px;
 }
-
-#tempswitch{left: 110px;}
-#feedswitch{left: 90px; top:-41px;}
-#ledSwitch{left: 90px; top:-41px;}
 
 .switch input {
     opacity: 0;
@@ -91,11 +51,11 @@ body{
 }
 
 input:checked + .slider {
-    background-color: #2196F3;
+    background-color: rgb(123, 164, 97);
 }
   
 input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px rgb(123, 164, 97);
 }
   
 input:checked + .slider:before {
@@ -104,38 +64,40 @@ input:checked + .slider:before {
     transform: translateX(15px);
 }
 
-label {
+.switch {
     display: inline-block;
     text-align: right;
 }
 
 .outerbox-s {
-    background-color: #ebebeb;
-    width: 700px;
-    /* height: 100%; */
-    padding: 20px 20px;
+    width: 80%;
+    padding: 20px;
     margin: auto;
-    border-style: solid solid none solid;
-    border-width: 1.5px;
-    border-color: #a8adb1;
+    margin-top: 40px;
+    margin-bottom: 40px;
     position:relative;
     z-index: 0;
 }
-.settings-title{
 
-    height: 60px;
-    margin-bottom: 20px;
+#st1 {
+    color: #545454; 
+    z-index: inherit; 
     position: relative;
-    z-index: 0;
+    text-align: left;
 }
-#settings-title{color: #fffcfc; text-align: center; z-index: 0; position: relative;}
-#st1 {color: #545454; z-index: inherit; position: relative;}
-#pHTitle {color: #3b3838;}
-#ECTitle {color: #3b3838;}
-#tempTitle {color: #3b3838;}
+.range-titles{
+    color: #545454;
+    text-align: left;
+    margin: 30px 1vw 35px 2vw;
+    font-weight: 500;
+}
 
 
 /*wrappers*/
+.wrap-title-toggle{
+    display: flex;
+    align-items: center;
+}
 .wrap-range{
     background: #c7c7c7;
     padding-left: 80px;
@@ -143,8 +105,8 @@ label {
     padding-bottom: 15px;
     padding-top: 1px;
     position:relative;   
-    border-style: inset;
-    border-width: 2px;
+    border: 1.5px solid #000;
+    border-radius: 5px;
     z-index: 0;
 }
 .wrap-ec{padding-top:25px;}
@@ -159,17 +121,18 @@ label {
     padding-bottom: 15px;
     padding-top: 1px;
     position:relative;   
-    border-style: inset;
-    border-width: 2px;
+    border: 1.5px solid #000;
+    border-radius: 5px;
 }
 .wrap-timezone{
     padding-bottom: 30px;
 }
 .wrap-feed{
     padding-bottom: 30px;
-    border-style: inset;
+    margin-bottom: 10px;
+    border: 1.5px solid #000;
+    border-radius: 5px;
     background: #c4c2c2;
-    border-width: 0.25px;
 }
 #wrap1 {
     display:none;
@@ -188,10 +151,11 @@ label {
 }
 .wrap-led{
     padding-bottom: 30px;
+    margin-bottom: 10px;
     padding-top: 1px;
-    border-style: inset;
+    border: 1.5px solid #000;
+    border-radius: 5px;
     background: #c4c2c2;
-    border-width: 0.25px;
 }
 
 /*tick markings PH*/
@@ -199,10 +163,10 @@ label {
 #tick-marks-ph p {position:relative; display:flex; justify-content:center; text-align:center; width:1px; top:6px; 
     background:#5f5f5f; height:10px; line-height:40px; margin:0 7.5px 0 7.5px;}
 
-#tick-interval1-ph {display:flex; justify-content:space-evenly; width:48.5%; margin-left:8px;}
+#tick-interval1-ph {display:flex; justify-content:space-evenly; width:calc(50% - 7.5px); margin-left:7.5px;}
 #tick-interval1-ph p {position:relative; display:flex; width:1px; top:-20px; background:#5f5f5f; height:5px; line-height:10px;}
 
-#tick-interval2-ph {display:flex; justify-content:space-evenly; width:48.5%; margin-left:270px; margin-top:-37px;}
+#tick-interval2-ph {display:flex; justify-content:space-evenly; width:calc(50% - 7.5px); margin-left:calc(50%); margin-top:-37px;}
 #tick-interval2-ph p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
 
 /*tick markings EC*/
@@ -210,20 +174,20 @@ label {
 #tick-marks-ec p {position:relative; display:flex; justify-content:center; text-align:center; width:1px; top:6px; 
     background:#5f5f5f; height:10px; line-height:40px; margin:0 7.5px 0 7.5px;}
 
-#tick-interval1-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:8px;}
+#tick-interval1-ec {display:flex; justify-content:space-evenly; width:calc(20% - 2.9px); margin-left:7.5px;}
 #tick-interval1-ec p {position:relative; display:flex; width:1px; top:-20px; background:#5f5f5f; height:5px; line-height:10px;}
 
-#tick-interval2-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:113px; margin-top:-37px;}
+#tick-interval2-ec {display:flex; justify-content:space-evenly; width:calc(20% - 2.9px); margin-left:calc(20% + 7.5px - 2.9px); margin-top:-37px;}
 #tick-interval2-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
 
-#tick-interval3-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:217.5px; margin-top:-37px;}
-#tick-interval3-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
+#tick-interval3-ec {display:flex; justify-content:space-evenly; width:calc(20% - 2.9px); margin-left:calc(40% + 7.5px - 5.8px); margin-top:-37px;}
+#tick-interval3-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px; }
 
-#tick-interval4-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:322px; margin-top:-37px;}
-#tick-interval4-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
+#tick-interval4-ec {display:flex; justify-content:space-evenly; width:calc(20% - 2.9px); margin-left:calc(60% + 7.5px - 8.7px); margin-top:-37px;}
+#tick-interval4-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px; }
 
-#tick-interval5-ec {display:flex; justify-content:space-evenly; width:19.4%; margin-left:427px; margin-top:-37px;}
-#tick-interval5-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px;}
+#tick-interval5-ec {display:flex; justify-content:space-evenly; width:calc(20% - 2.9px); margin-left:calc(80% + 7.5px - 11.4px); margin-top:-37px;}
+#tick-interval5-ec p {position: relative; display: flex; width: 1px; top:-20px; background: #5f5f5f; height: 5px; line-height: 10px; }
 
 /*tick markings EC*/
 #tick-marks-temp {display:flex; justify-content:space-between; width:100%; border-radius:5px;}
@@ -236,6 +200,8 @@ label {
     border-radius: 5px;
     position: relative;
     background: #ebebeb;
+    margin-left: 7vw;
+    margin-right: 7vw;
 }
 .range-slider .progress-ph{
     height: 5px;
@@ -243,7 +209,7 @@ label {
     left: 25%;
     right: 25%;
     position: absolute;
-    background: #2196F3;
+    background: rgb(123, 164, 97);
 }
 
 .range-slider .progress-ec{
@@ -252,7 +218,7 @@ label {
     left: 40%;
     right: 40%;
     position: absolute;
-    background: #2196F3;
+    background: rgb(123, 164, 97);
 }
 .range-slider .progress-temp{
     height: 5px;
@@ -260,7 +226,7 @@ label {
     left: 20%;
     right: 20%;
     position: absolute;
-    background: #2196F3;
+    background: rgb(123, 164, 97);
 }
 
 .range-input{
@@ -283,7 +249,7 @@ input[type="range"]::-webkit-slider-thumb{
     border-radius: 50%;
     pointer-events: auto;
     -webkit-appearance: none;
-    background: var(--color, #2196F3);
+    background: var(--color, rgb(123, 164, 97));
 }
 input[type="range"]::-moz-range-thumb{
     height: 17px;
@@ -291,5 +257,5 @@ input[type="range"]::-moz-range-thumb{
     border-radius: 50%;
     pointer-events: auto;
     -moz-appearance: none;
-    background: var(--color, #2196F3);
+    background: var(--color, rgb(123, 164, 97));
 }

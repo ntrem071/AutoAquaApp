@@ -125,7 +125,6 @@ function Fish() {
                 setPlantsArr(arr);
                 setPlants(arr.join(', '));
             }
-            console.log(data);
             if((!(data.fish==null))){setFish(data.fish.fish);};
             if((!(data.recomPH==null))){setPH(data.recomPH.join('-'));}else{setPH('none')}
             if((!(data.recomEC==null))){setEC(data.recomEC.join('-')+" Sm/cm");}else{setEC('none')}
@@ -331,7 +330,6 @@ function Fish() {
             <div className='info-fish-plant'>
             <Navigation/>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-            <h1>Compatibility Search</h1>
             <h3>
                 <div className='outerbox-p'>
                     <div className='searchbox-pf'>

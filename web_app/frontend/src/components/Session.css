@@ -1,0 +1,51 @@
+.wrap-session-expired{
+    width: 100%;
+    height: 2000px;
+    overflow:auto;   
+    background-color: rgba(0, 0, 0, 0.6); 
+    animation: fade-in 0.4s ease-in-out;  
+}
+.wrap-sessionbox{
+    margin: auto;
+    width: 30%;
+    text-align: center;
+    border: 2px solid #222021;
+    padding: 30px;
+    background-color: #f8f8f9;
+    transform:translateY(200px);
+    animation: dropDownEx 0.4s ease-in-out;  
+    border-radius: 5px;
+}
+.wrap-sessionbox h3{
+    font-weight: 500;
+}
+.expired-ok{
+    background-color: #222021;
+    padding: 10px 10px;
+    border: 2px solid #222021;
+    width: 100px;
+    transition-duration: 0.4s;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+}
+.expired-ok:hover {
+    background-color: #5094cc;
+}
+@keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+  @keyframes dropDownEx {
+    from {
+      transform: translateY(-150px); 
+    }
+    to {
+      transform: translateY(200px); 
+    }
+  }
