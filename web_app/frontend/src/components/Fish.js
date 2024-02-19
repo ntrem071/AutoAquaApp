@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import './Fish.css';
 import Navigation from './Navigation';
-import video from '../videos/fishTestVideo.mp4';
+import video from '../videos/v1.mp4';
 
 function Fish() {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ function Fish() {
         setBehaviourVisible(!behaviourVisible);
         behaviourVisible? 
             document.getElementById('elementsB').style.height = '0px' :
-            document.getElementById('elementsB').style.height = '150px';
+            document.getElementById('elementsB').style.height = 'max-content';
     }
 
     function nav(str){
@@ -44,10 +44,18 @@ function Fish() {
                             </div>  
                             <ul id='elementsB'>
                                 <li>
-                                    Eating his poop
+                                    <p>Foraging</p>
+                                    <p>
+                                        Your fish has been digging through the bottom of the tank! This behaviour is often found in 
+                                        goldfish. This might be for your fish to search for food or marking his territory!
+                                    </p>
                                 </li>
                                 <li>
-                                    Cutie patootie
+                                    <p>Gasping</p>
+                                    <p>
+                                        The fish has been gulping at the top of the tank to make up for the lack of oxygen. Verify the
+                                        water quality of your system!
+                                    </p>
                                 </li>
                             </ul>
                         </div>
