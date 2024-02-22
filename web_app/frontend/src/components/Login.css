@@ -21,7 +21,7 @@
 
 .title-right {
     font-family: 'Armata', serif;
-    color: #585494;
+    color: #9db8cc;
     z-index: 5000;
     font-size: 20px;
     font-weight: 900;
@@ -51,7 +51,7 @@
 }  */
 
 .blue-text {
-    color: #585494;
+    color: #9db8cc;
 }
 
 .white-text {
@@ -64,7 +64,7 @@
 #lh2{
     font-family: 'Armata', serif;
     font-size: 70px;
-    color: #585494;
+    color: #9db8cc;
     font-weight: bolder;
     text-align: left;
     margin-left: 50%x;
@@ -495,7 +495,7 @@
 /* title */
 #ch1 {
     font-family: 'Armata', serif;
-    color: #585494;
+    color: #9db8cc;
     font-size: 75px;
     font-weight: bold;
     text-align: center;
@@ -516,7 +516,7 @@
 #lb1 {
     font-family: 'Armata', sans-serif;
     font-size: 25px;
-    background-color: #585494;
+    background-color: #9db8cc;
     color: white;
     border: none;
     border-radius: 24px;
@@ -527,7 +527,7 @@
 }
 
 #lb1:hover {
-    background-color: #908cc0;
+    background-color: #83a0b6;
     transition: 0.4s;
 }
 
@@ -549,7 +549,7 @@
 #button-create {
     font-family: 'Armata', sans-serif;
     font-size: 25px;
-    background-color: #585494;
+    background-color: #9db8cc;
     color: white;
     border: none;
     border-radius: 24px;
@@ -559,12 +559,13 @@
 }
 
 #button-create:hover {
-    background-color: #908cc0;
+    background-color: #83a0b6;
     transition: 0.4s;
 }
 
 .ghost {
     background-color: transparent;
+    border: solid 1px;
     border-color: white;
     border-radius: 20px;
     width: 30%;
@@ -576,7 +577,7 @@
 }
 
 .ghost:hover {
-    background-color: #908cc0;;
+    background-color: #83a0b6;
 }
 
 form {
@@ -609,6 +610,7 @@ form {
     height: 70vh;
     z-index: 5;
     background-color: #ffffff;
+    box-shadow: 2px 2px 10px #788996;
     /*turn to 1 to turn on opacity*/
     opacity: 1;
     top: 0vh;
@@ -625,6 +627,7 @@ form {
     width: 40.25vw;
     height: 70vh;
     background-color: #5a8b34;
+    box-shadow: 2px 2px 10px #788996;
     /* z-index: 8432984393; */
     border-radius: 0px 20px 20px 0px;
     text-align: center;
@@ -653,7 +656,7 @@ form {
     font-family: 'Armata', serif;
     color: #ffffff;
     font-size: xx-large;
-    background: #585494;
+    background: #9db8cc;
     padding: 20px;
     border-radius: 20px;
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */

@@ -1,7 +1,7 @@
-.row {
+/* .row {
     display: flex;
     flex-direction: row;
-}
+} */
 
 .wrap-popup{
     background-color:  #d9d9d9;
@@ -19,25 +19,34 @@
 }
 
 .wrap-list-customize {
-    margin-top: 2.5vh;
-    position: absolute;
+    /* margin-top: 2.5vh; */
+    position: relative;
     display: flex !important;
     flex-direction: row;
     font-size: 1em;
     width: fit-content;
     z-index: 1;
-    margin-left: 3vw;
+    /* margin-left: 3vw; */
     color: #646464;
 }
 
 .wrap-list-customize h2 {
     font-size: 1em;
+    margin: auto;
 }
 
 .wrap-list-customize label {
     font-size: 15px;
-    margin-top: 2vh;
-    margin-left: 1vw;
+    margin: auto;
+    /* margin-top: 2vh; */
+    /* margin-left: 1vw; */
+
+}
+
+.not-btn {
+    display: flex;
+    flex-direction: column;
+    column-gap: 5%;
 }
 
 /*SEARCH BAR*/
@@ -47,8 +56,9 @@
     height: 0.75vh;
     border-style: none;
     border-radius: 4px;
-    position: relative;
-    align-items: center;
+    position: absolute;
+    display: flex;
+    flex-direction: column !important;
 }
 
 .wrap-search-pf form{
@@ -89,11 +99,11 @@
     height: 50vh;
     border-style: none;
     overflow-y: scroll;
-    margin-top: 6vh;
 }
 
 .info-fish-plant{
-    height: 1000px;
+    /* height: 1000px; */
+    height: calc(100vh - 83px - 2vmin);
     margin-top: calc(83px + 2vmin);
     overflow: auto;
 }
@@ -101,10 +111,18 @@
     position: relative;
     width: 80%;
     margin: auto;
-    margin-top: 40px;
     display:flex;
+    flex-direction: row !important;
+    border: solid 1px #c0c0c0;
+    height: calc(100vh - 83px - 2vmin);
+}
+
+.outerbox {
+    /* position: absolute; */
+    display: flex;
     flex-direction: column;
 }
+
 .searchbox-pf{
     /* border-radius: 2px; */
     display: flex;
@@ -113,30 +131,26 @@
     margin-top: 4.25vh;
     background-color:  #9db8cc;
     /* background-color: #7c93a5; */
-    width: 35vw;
+    width: 60%;
     /* height: 70vh; */
-    height: fit-content;
+    height: calc(100vh - 83px - 2vmin);
     padding: 20px 20px;
     border-style: none solid solid solid;
     border-width: 1px;
     border-color: #7f94a5;
     border-radius: 0px 0px 5px 5px;
-    margin-left: 5vw;
 }
 
 .wrap-stats-pf{
-    position: relative;
-    margin-left: 5px;
+    position: absolute;
+    right: 0px;
     background: #cbd9c6;
     width: 30%;
-    height: 57vh;
     padding: 20px 20px;
     border-style: solid;
     border-width: 1px;
     border-color: #869481;
     border-radius: 5px;
-    margin-left: 45vw;
-    margin-top: -65vh;
     color: #646464;
 }
 .wrap-s2-pf{
@@ -174,8 +188,8 @@
     display: flex;
     gap: 3px;
     position: absolute;
-    width: 37.15vw;
-    margin-left: 5vw;
+    width: 62.75%;
+    /* margin-left: 5vw; */
 }
 
 .wrap-toggle-pf button{

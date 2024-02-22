@@ -392,19 +392,20 @@ function Fish() {
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
             <h3>
                 <div className='outerbox-p'>
-                    <div className='wrap-toggle-pf'>
-                        <button type='button' id='plant-toggle' onClick={getPlantList}>Plants </button>
-                        <button type='button' id='fish-toggle' onClick={getFishList}>Fish</button>
-                    </div>
-                    <div className='row'>
+                    <div className='outerbox'>
+                        <div className='wrap-toggle-pf'>
+                            <button type='button' id='plant-toggle' onClick={getPlantList}>Plants </button>
+                            <button type='button' id='fish-toggle' onClick={getFishList}>Fish</button>
+                        </div>
                         <div className='searchbox-pf' id='searchbox-p'>
-                            <div>
+                            <div className='not-btn'>
                                 <div className='wrap-search-pf'>
                                     <form>
                                         <i className="fas fa-search"></i>
                                         <input type='text' id='search-pf' placeholder='Search...' onChange={()=>search()}></input>
                                     </form>
-                                    <div className='wrap-list-customize' id='wrap-list-customize'>
+                                </div>
+                                <div className='wrap-list-customize' id='wrap-list-customize'>
                                         <h2 className='compatible'>Compatible with current:</h2>
                                         <label className='pH'>pH
                                             <input className='check' type='checkbox' id='ph-checkbox' value={phCheck} onChange={()=>handleCheckChange('ph')}></input>
@@ -418,7 +419,6 @@ function Fish() {
                                             <input className='check' type='checkbox' id='hours-checkbox' value={hoursCheck} onChange={()=>handleCheckChange('hours')}></input>
                                             <span className='cm3'></span>
                                         </label>
-                                    </div>
                                 </div>
                                 <div className='wrap-display-pf' id='wrap-display-pf'></div>
                             </div>

@@ -678,10 +678,10 @@ function Settings() {
                             </div> 
                             <p className='wq'>Select lighting hours for your growbed</p>
                             <div className= "wrap-bns"> 
-                                <div className='wrap-af'>
-                                    <div className='ftb' id='wrap51'>
-                                        <p id='cs5'>ON : 
-                                            <select  id="LEDonHour" disabled value={LEDonHour} onChange={(e) => handleInputChange(e, 'LEDonHour') }>
+                                <div className='wrap-aff'>
+                                    <div className='ftb1' id='wrap51'>
+                                        <p id='cs5' className='LEDOn'>ON :</p>
+                                        <select  id="LEDonHour" disabled value={LEDonHour} onChange={(e) => handleInputChange(e, 'LEDonHour') }>
                                                 <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
                                                 <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                                 <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
@@ -689,21 +689,19 @@ function Settings() {
                                             </select> :
                                             <select id="LEDonMinute" disabled value={LEDonMinute} onChange={(e) => handleInputChange(e, 'LEDonMinute')}>
                                                     <option>00</option><option>15</option><option>30</option><option>45</option>
-                                            </select>                      
-                                            </p>
+                                        </select> 
                                     </div>
-                                    <div className='ftb' id='wrap52'>
-                                        <p id='cs5'>OFF : 
-                                            <select id="LEDoffHour" disabled value={LEDoffHour} onChange={(e) => handleInputChange(e, 'LEDoffHour')}>
+                                    <div className='ftb1' id='wrap52'>
+                                        <p id='cs5' className='LEDOff'>OFF :</p>
+                                        <select id="LEDoffHour" disabled value={LEDoffHour} onChange={(e) => handleInputChange(e, 'LEDoffHour')}>
                                                 <option>00</option><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option>
                                                 <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                                 <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
                                                 <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                            </select> :
-                                            <select id="LEDoffMinute" disabled value={LEDoffMinute} onChange={(e) => handleInputChange(e, 'LEDoffMinute')}>
-                                                    <option>00</option><option>15</option><option>30</option><option>45</option>
-                                            </select>
-                                        </p>
+                                        </select> :
+                                        <select id="LEDoffMinute" disabled value={LEDoffMinute} onChange={(e) => handleInputChange(e, 'LEDoffMinute')}>
+                                                <option>00</option><option>15</option><option>30</option><option>45</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div className='wrap-sb1'>
