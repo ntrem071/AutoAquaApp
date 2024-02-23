@@ -27,8 +27,10 @@ function Fish() {
     const[namePF, setNamePF] = useState('');
 
     const[togglePF, setTogglePF] = useState('plant');
-    const[blue, setBlue] = useState('true');
-    const[green, setGreen] = useState('false');
+    // const[blue, setBlue] = useState('true');
+    // const[green, setGreen] = useState('false');
+
+    const [isVisible, setIsVisible] = useState(false);
 
     const [error, setError] = useState('');
 
@@ -95,6 +97,10 @@ function Fish() {
     
     function hideCheckbox(){document.getElementById('wrap-list-customize').style.display='none';}
     function showCheckbox(){document.getElementById('wrap-list-customize').style.display='block';}
+
+    function changeVisibility() {
+        setIsVisible(!isVisible);
+    }
 
     function setValues(){
         var url = 'http://localhost:8000/users/'+sessionId+'/search';
@@ -169,7 +175,8 @@ function Fish() {
         // document.getElementById('searchbox-p').style.backgroundColor = '#a7becf';
 
         refresh();
-        showCheckbox();
+        // showCheckbox();
+        setIsVisible(!isVisible);
         setTogglePF('plant');
         var url = 'http://localhost:8000/plants';
         var header = {         
@@ -205,7 +212,8 @@ function Fish() {
         // displayButtons(data, 'fish', '')
 
         refresh();
-        hideCheckbox();
+        // hideCheckbox();
+        setIsVisible(!isVisible);
         setTogglePF('fish');
         var url = 'http://localhost:8000/fish';
         var header = {         
@@ -405,7 +413,7 @@ function Fish() {
                                         <input type='text' id='search-pf' placeholder='Search...' onChange={()=>search()}></input>
                                     </form>
                                 </div>
-                                <div className='wrap-list-customize' id='wrap-list-customize'>
+                                <div className={`wrap-list-customize ${isVisible ? 'visible' : 'hidden'}`} id='wrap-list-customize'>
                                         <h2 className='compatible'>Compatible with current:</h2>
                                         <label className='pH'>pH
                                             <input className='check' type='checkbox' id='ph-checkbox' value={phCheck} onChange={()=>handleCheckChange('ph')}></input>
