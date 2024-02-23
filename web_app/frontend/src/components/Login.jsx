@@ -221,7 +221,6 @@ function Login() {
             .then((result) => {
                 showResponseMessage();
             })
-            .then(alert('Account created successfully!'))
             .catch((err) => {
                 setError(err.message);
                 console.log('Fetch error: ', err);
