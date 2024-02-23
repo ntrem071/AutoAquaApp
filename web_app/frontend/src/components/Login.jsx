@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EyeInvisibleOutlined, EyeOutlined, UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import Popup from 'react-popup';
@@ -314,48 +314,134 @@ function Login() {
     }
 
     return(
-            // <div className='row'>
-            //     <div className='column' id='column'>
-            //         <h1 id='lh1'>Automated Aquaponics</h1>
-            //         <h2 id='lh2'>Login</h2>
-            //         <div className='Login'>
-            //             <form id='login'>
-            //                 <label id='ll1' for='inputBox'>Email: </label><br></br>
-            //                 <input
-            //                     type='text'
-            //                     id='lt1'
-            //                     placeholder='Email'
-            //                     value={email.toString()}
-            //                     onChange={(e) => valuesIn(e, 'email')}
-            //                 /><br/>
-            //                 <label id='ll1' for='inputBox'>Password: </label><br></br>
-            //                 <input
-            //                     type='text'
-            //                     id='lt1'
-            //                     placeholder='Password'
-            //                     value={password.toString()}
-            //                     onChange={(e) => valuesIn(e, 'password')}
-            //                 /><br/>
-            //             </form>
-            //         </div>
-            //         <button
-            //             type='button'
-            //             id = 'lb1'
-            //             className='button'
-            //             onClick={loginSubmit}
-            //         >Login
-            //         </button>
-            //         <br/>
-            //         <p id ='lp1'>
-            //             Don't have an account?&nbsp;&nbsp;
-            //             <a id = 'la1' href='/CreateAccount'>Create</a>
-            //         </p>
-            //     </div>
-            //     <div className='column' id='image'>
-            //         <img src={backgroundimg} className='login-img'></img>
-            //     </div>
-            // </div>
-
+        // <div id='container'>
+        //     <div id='row'>
+        //         <div id='login-column' className='form-container sign-in-container'>
+        //             <h1 id='lh1' className={slideLeft ? 'title-right' : 'title-left'}>AUTOMATED AQUAPONICS</h1>
+        //             {/* <h2 id='lh2'>Login</h2> */}
+        //             <div id='Login' className='Login'>
+        //                 <form className='log-in'id='login' action='#'>
+        //                     <h2 id='lh2' className='form-title'>Login</h2>
+        //                     <div id='em'>
+        //                         <input
+        //                             type='text'
+        //                             id='lt1'
+        //                             className='email'
+        //                             placeholder='Email'
+        //                             value={email.toString()}
+        //                             onChange={(e) => valuesIn(e, 'email')}
+        //                         />
+        //                         <div id='l-email-icon'>
+        //                             <MailOutlined/>
+        //                         </div>
+        //                     </div>
+        //                     <br />
+        //                     <div id='pw' className='flex'>
+        //                         <input
+        //                             type= {passwordVisible ? 'text' : 'password'}
+        //                             id='lt2'
+        //                             className='password'
+        //                             placeholder='Password'
+        //                             value={password.toString()}
+        //                             onChange={(e) => valuesIn(e, 'password')}
+        //                         />
+        //                         <div id='l-password-icon'>
+        //                             <LockOutlined/>
+        //                         </div>
+        //                         <div className='eye-icon' id='eye-icon' onClick={() => setPasswordVisible(!passwordVisible)}>
+        //                             {passwordVisible ? <EyeOutlined/> : <EyeInvisibleOutlined/>}
+        //                         </div>
+        //                         <br />
+        //                     </div>
+        //                     <button
+        //                         type='button'
+        //                         id='lb1'
+        //                         className='button-login'
+        //                         onClick={loginSubmit}
+        //                     >
+        //                     Login
+        //                     </button>
+        //                 </form>
+        //             </div>
+        //         </div>
+        //         <div id='create-column' className='form-container sign-up-container'>
+        //             <div className='Create'>
+        //                 <form className='side-by-side row' id='create'action='#'>
+        //                     <h2 id='ch1' className='form-title col'>Create account</h2>
+        //                     <div id='name'>
+        //                         <input
+        //                             type="text" 
+        //                             id="cf1" 
+        //                             placeholder="Name" 
+        //                             value={name.toString()}
+        //                             onChange={(e) => handleInputChange(e, 'name')}
+        //                         />
+        //                         <div id='name-icon'>
+        //                             <UserOutlined/>
+        //                         </div>
+        //                     </div><br/>
+        //                     <div id='email'>
+        //                         <input
+        //                             type="email" 
+        //                             id="cf2" 
+        //                             placeholder="Email" 
+        //                             value={email.toString()}
+        //                             onChange={(e) => handleInputChange(e, 'email')}
+        //                             pattern='.+@example\.com'
+        //                             required
+        //                         />
+        //                         <div id='email-icon'>
+        //                             <MailOutlined/>
+        //                         </div>
+        //                     </div><br/>
+        //                     <div id='password'>
+        //                         <br/>
+        //                         <input
+        //                             type="password" 
+        //                             id="cf3" 
+        //                             placeholder="Password" 
+        //                             value={password.toString()}
+        //                             onChange={(e) => handleInputChange(e, 'password')}
+        //                         />
+        //                         <div id='password-icon'>
+        //                             <LockOutlined/>
+        //                         </div>
+        //                     </div><br/>
+        //                     <div id='confirm-password'>
+        //                         <input
+        //                             type="password" 
+        //                             id="cf4" 
+        //                             placeholder="Confirm Password" 
+        //                             value={cpassword.toString()}
+        //                             onChange={(e) => handleInputChange(e, 'cpassword')}
+        //                         />
+        //                         <div id='cpassword-icon'>
+        //                             <LockOutlined/>
+        //                         </div>
+        //                     </div><br/>
+        //                     <button
+        //                         type='button'
+        //                         id='button-create'
+        //                         className='button'
+        //                         // onClick={createSubmit}
+        //                         onClick = {() => {
+        //                             createSubmit();
+        //                             handleButtonClick();
+        //                         }}
+        //                         >
+        //                         Create Account
+        //                     </button>
+        //                 </form>
+        //             </div>
+        //         </div>
+        //         <div className={`o-panel o-content ${slideLeft ? 'slide-right' : 'slide-left'}`}>
+        //             <h1 className='title-overlay'>{slideLeft ? '' : 'AUTOMATED AQUAPONICS'}</h1>
+        //             <h2 id='overlay-left-title'>{slideLeft ? 'Hello Friend!' : 'Welcome Back!'}</h2>
+        //             <p id='overlay-left-p'>{slideLeft ? 'Enter your personal details and start a journey with us!' : 'Please login to get started!'}</p>
+        //             <button className='ghost' id='signIn' onClick={oHandleButtonClick}>{slideLeft ? 'SIGN UP' : 'SIGN IN'}</button>
+        //         </div>
+        //     </div>
+        // </div>
         <div id='container'>
             <div id='row'>
                 <div id='login-column' className='form-container sign-in-container'>
@@ -386,6 +472,11 @@ function Login() {
                                     placeholder='Password'
                                     value={password.toString()}
                                     onChange={(e) => valuesIn(e, 'password')}
+                                    onKeyDown={(n) => {
+                                        if (n.key === 'Enter'){
+                                            loginSubmit();
+                                        }
+                                    }}
                                 />
                                 <div id='l-password-icon'>
                                     <LockOutlined/>
