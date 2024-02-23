@@ -183,11 +183,15 @@ function Login() {
 
     function status(response) {
         if(response.ok) {
+            console.log('response is ok for some reason....');
             return response.json();
         }else if (response.status === 404) {
             return [];
-        } else {
-            throw new Error(response.statusText)
+        } else if (response.status === 503) {
+            console.log('response is at 503 for some reason....');
+            return [];
+        }else {
+            throw new Error(response.statusText);
         }
     }
 
@@ -212,9 +216,12 @@ function Login() {
             })
             .then((response) => {
                 console.log('Server response: ', response)
-                // if(!response.ok) {
-                //     console.log('Response is not okay');
-                // }
+                if(!response.ok) {
+                    console.log('Response is not okay');
+                } else {
+                    handleButtonClick();
+                    alert('Account created successfully!');
+                }
                 return response.json();
             })
             .then(status)
@@ -457,6 +464,11 @@ function Login() {
                                     placeholder='Email'
                                     value={email.toString()}
                                     onChange={(e) => valuesIn(e, 'email')}
+                                    onKeyDown={(n) => {
+                                        if (n.key === 'Enter'){
+                                            loginSubmit();
+                                        }
+                                    }}
                                 />
                                 <div id='l-email-icon'>
                                     <MailOutlined/>
@@ -546,6 +558,9 @@ function Login() {
                                     placeholder="Confirm Password" 
                                     value={cpassword.toString()}
                                     onChange={(e) => handleInputChange(e, 'cpassword')}
+                                    onKeyDown={(n) => {
+                                        if (n.key === 'Enter'){createSubmit}
+                                    }}
                                 />
                                 <div id='cpassword-icon'>
                                     <LockOutlined/>
