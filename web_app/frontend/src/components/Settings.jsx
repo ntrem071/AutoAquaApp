@@ -625,7 +625,7 @@ function Settings() {
                                                 <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                                 <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
                                                 <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                            </select> :
+                                            </select>:
                                             <select id="firstminute" value={firstminute} onChange={(e) => handleInputChange(e, 'firstMinute')}>
                                                     <option>00</option><option>15</option><option>30</option><option>45</option>
                                             </select>  
@@ -639,7 +639,7 @@ function Settings() {
                                                 <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                                 <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
                                                 <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                            </select> :
+                                            </select>:
                                             <select id="secondminute"  value={secondminute} onChange={(e) => handleInputChange(e, 'secondMinute')}>
                                                     <option>00</option><option>15</option><option>30</option><option>45</option>
                                             </select>
@@ -653,7 +653,7 @@ function Settings() {
                                                 <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                                 <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
                                                 <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                            </select> :
+                                            </select>:
                                             <select  id="thirdminute"  value={thirdminute} onChange={(e) => handleInputChange(e, 'thirdMinute')}>
                                                     <option>00</option><option>15</option><option>30</option><option>45</option>
                                             </select>
@@ -686,7 +686,8 @@ function Settings() {
                                                 <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                                 <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
                                                 <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                            </select> :
+                                            </select> 
+                                            <p id='dots'> : </p>
                                             <select id="LEDonMinute" disabled value={LEDonMinute} onChange={(e) => handleInputChange(e, 'LEDonMinute')}>
                                                     <option>00</option><option>15</option><option>30</option><option>45</option>
                                         </select> 
@@ -698,16 +699,18 @@ function Settings() {
                                                 <option>07</option><option>08</option><option>09</option><option>10</option><option>11</option><option>12</option>
                                                 <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
                                                 <option>19</option><option>20</option><option>21</option><option>22</option><option>23</option>
-                                        </select> :
+                                        </select> 
+                                        <p id='dots'> : </p>
                                         <select id="LEDoffMinute" disabled value={LEDoffMinute} onChange={(e) => handleInputChange(e, 'LEDoffMinute')}>
                                                 <option>00</option><option>15</option><option>30</option><option>45</option>
                                         </select>
                                     </div>
                                 </div>
+                                </div>
                                 <div className='wrap-sb1'>
                                     <button className='sbuttons' type='button' id='Save' onClick={updateLED}>Save Changes</button>  
                                 </div>
-                            </div>
+                            
                         </div>
                     </div>
                     </div>

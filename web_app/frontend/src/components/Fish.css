@@ -7,25 +7,26 @@
 
 
 #fish-analyctics{
-    height:1000px;
-    overflow:visible;
-    margin-top: 150px;
+    width: 100%;
+    height: calc(100vh - 83px - 2vmin);
+    margin-top: calc(83px + 2vmin);
+    overflow-y: auto;
 }
 
 .outerbox-f{
-    width: 90%;
-    height: 1000px;
-    margin: 90px auto;
+    width: 80%;
+    margin:auto;
+    margin-top: 40px;
     position: relative;
     display:flex;
 }
 
 .video-container{
     background-color: #fa774c;
-    width: 600px;
+    width: 60%;
     height: fit-content;
     padding: 20px 20px;
-    border-radius: 8px;
+    border-radius: 5px;
     position:relative;
 }
 
@@ -51,11 +52,11 @@
 
 .fishes{
     background-color: #fa774c;
-    width: 600px;
+    width: 40%;
     height: fit-content;
     padding: 20px 20px;
     margin-left: 30px;
-    border-radius: 10px;
+    border-radius: 5px;
     position: relative;
     align-items: center;
 }
@@ -118,4 +119,9 @@
     text-align: right;
     font-weight: 700;
     padding-left: 60%;
+}
+#videoID{
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
 }
