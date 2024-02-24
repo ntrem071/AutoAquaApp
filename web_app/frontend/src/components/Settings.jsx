@@ -209,8 +209,8 @@ function Settings() {
             document.getElementById('addtime').disabled = !feedEn;
             console.log(feedEn);
             if(feedEn && visibleWraps[2]!=true){
-                document.getElementById('addtime').style.backgroundColor = '#222021';
-                document.getElementById('addtime').style.borderColor = '#222021';
+                document.getElementById('addtime').style.backgroundColor = '#95ac8c';
+                document.getElementById('addtime').style.borderColor = '#687962';
             }else{
                 document.getElementById('addtime').style.backgroundColor = '#8d8d8d';
                 document.getElementById('addtime').style.borderColor = '#8d8d8d';
@@ -281,8 +281,8 @@ function Settings() {
             }  
 
             document.getElementById('addtime').disabled = false;
-            document.getElementById('addtime').style.backgroundColor = '#222021';
-            document.getElementById('addtime').style.borderColor = '#222021';
+            document.getElementById('addtime').style.backgroundColor = '#95ac8c';
+            document.getElementById('addtime').style.borderColor = '#687962';
     }
 
     function toggleLEDDisable(){

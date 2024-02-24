@@ -183,14 +183,13 @@ function Login() {
 
     function status(response) {
         if(response.ok) {
-            console.log('response is ok for some reason....');
             return response.json();
         }else if (response.status === 404) {
             return [];
         } else if (response.status === 503) {
-            console.log('response is at 503 for some reason....');
             return [];
         }else {
+            console.log('it reaches the else');
             throw new Error(response.statusText);
         }
     }
@@ -218,16 +217,17 @@ function Login() {
                 console.log('Server response: ', response)
                 if(!response.ok) {
                     console.log('Response is not okay');
+                    alert('Email submitted is already in our database. Please try to login.')
                 } else {
                     handleButtonClick();
                     alert('Account created successfully!');
                 }
                 return response.json();
             })
-            .then(status)
-            .then((result) => {
-                showResponseMessage();
-            })
+            // .then(status)
+            // .then((result) => {
+            //     showResponseMessage();
+            // })
             .catch((err) => {
                 setError(err.message);
                 console.log('Fetch error: ', err);
@@ -519,6 +519,9 @@ function Login() {
                                     placeholder="Name" 
                                     value={name.toString()}
                                     onChange={(e) => handleInputChange(e, 'name')}
+                                    onKeyDown={(n) => {
+                                        if (n.key === 'Enter'){createSubmit()}
+                                    }}
                                 />
                                 <div id='name-icon'>
                                     <UserOutlined/>
@@ -533,6 +536,9 @@ function Login() {
                                     onChange={(e) => handleInputChange(e, 'email')}
                                     pattern='.+@example\.com'
                                     required
+                                    onKeyDown={(n) => {
+                                        if (n.key === 'Enter'){createSubmit()}
+                                    }}
                                 />
                                 <div id='email-icon'>
                                     <MailOutlined/>
@@ -546,6 +552,9 @@ function Login() {
                                     placeholder="Password" 
                                     value={password.toString()}
                                     onChange={(e) => handleInputChange(e, 'password')}
+                                    onKeyDown={(n) => {
+                                        if (n.key === 'Enter'){createSubmit()}
+                                    }}
                                 />
                                 <div id='password-icon'>
                                     <LockOutlined/>
@@ -559,7 +568,7 @@ function Login() {
                                     value={cpassword.toString()}
                                     onChange={(e) => handleInputChange(e, 'cpassword')}
                                     onKeyDown={(n) => {
-                                        if (n.key === 'Enter'){createSubmit}
+                                        if (n.key === 'Enter'){createSubmit()}
                                     }}
                                 />
                                 <div id='cpassword-icon'>
@@ -573,7 +582,6 @@ function Login() {
                                 // onClick={createSubmit}
                                 onClick = {() => {
                                     createSubmit();
-                                    handleButtonClick();
                                 }}
                                 >
                                 Create Account

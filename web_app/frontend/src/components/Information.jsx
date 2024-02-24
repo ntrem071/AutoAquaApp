@@ -176,7 +176,7 @@ function Fish() {
 
         refresh();
         // showCheckbox();
-        setIsVisible(!isVisible);
+        setIsVisible(true);
         setTogglePF('plant');
         var url = 'http://localhost:8000/plants';
         var header = {         
@@ -213,7 +213,7 @@ function Fish() {
 
         refresh();
         // hideCheckbox();
-        setIsVisible(!isVisible);
+        setIsVisible(false);
         setTogglePF('fish');
         var url = 'http://localhost:8000/fish';
         var header = {         
@@ -398,23 +398,23 @@ function Fish() {
         <div className='info-fish-plant'>
             <Navigation/>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
-            <h3>
+
                 <div className='outerbox-p'>
                     <div className='outerbox'>
                         <div className='wrap-toggle-pf'>
-                            <button type='button' id='plant-toggle' onClick={getPlantList}>Plants </button>
-                            <button type='button' id='fish-toggle' onClick={getFishList}>Fish</button>
+                            <button type='button' id='plant-toggle' onClick={getPlantList}>PLANTS</button>
+                            <button type='button' id='fish-toggle' onClick={getFishList}>FISH</button>
                         </div>
                         <div className='searchbox-pf' id='searchbox-p'>
                             <div className='not-btn'>
                                 <div className='wrap-search-pf'>
                                     <form>
                                         <i className="fas fa-search"></i>
-                                        <input type='text' id='search-pf' placeholder='Search...' onChange={()=>search()}></input>
+                                        <input  type='text' id='search-pf' placeholder='Search...' onChange={()=>search()}></input>
                                     </form>
                                 </div>
                                 <div className={`wrap-list-customize ${isVisible ? 'visible' : 'hidden'}`} id='wrap-list-customize'>
-                                        <h2 className='compatible'>Compatible with current:</h2>
+                                        <h3 className='compatible'>Compatible with current:</h3>
                                         <label className='pH'>pH
                                             <input className='check' type='checkbox' id='ph-checkbox' value={phCheck} onChange={()=>handleCheckChange('ph')}></input>
                                             <span className='cm1'></span>
@@ -447,7 +447,7 @@ function Fish() {
                     </div> 
                     <InfoPopup trigger={btnPopup} type={typePF} name={namePF} setTrigger={setbtnPopup} modifySelect={modifySelectPF}></InfoPopup>
                 </div>
-            </h3>
+
         </div>
     );
 }
