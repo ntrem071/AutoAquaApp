@@ -29,8 +29,8 @@ headers = {
     'body': json.dumps(data)
 }
 
-#sessionID = requests.post("http://192.168.2.20:8000/index.php/users/na/login", headers=headers)
-sessionID = requests.get('http://192.168.2.20:8000', timeout=5)
+sessionID = requests.post("https://ceg4913-server.duckdns.com/users/na/login/app", headers=headers, timeout=5)
+#sessionID = requests.get('http://192.168.2.20:8080/index.php', timeout=5)
 print(sessionID.status_code)
 
 while False:
