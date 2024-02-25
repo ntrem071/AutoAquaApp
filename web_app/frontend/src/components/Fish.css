@@ -21,7 +21,7 @@
 }
 
 .video-container{
-    background-color: #fa774c;
+    background-color: #63ac62;
     width: 600px;
     height: fit-content;
     padding: 20px 20px;
@@ -33,24 +33,24 @@
     text-align: center;
     font-size: 60px;
     font-style: italic;
-    color: #0C2D57
+    color: white
 }
 
 #h1-fs{
     text-align: center;
     font-size: 60px;
-    color: #0C2D57
+    color: white
 }
 
 #h2-fn{
     text-align: left;
     font-size: 40px;
-    color: #0C2D57;
+    color: #3e4f64;
     margin-bottom: 40px;
 }
 
 .fishes{
-    background-color: #fa774c;
+    background-color: #63ac62;
     width: 600px;
     height: fit-content;
     padding: 20px 20px;
@@ -61,7 +61,7 @@
 }
 
 .fish{
-    background-color: #FFB0B0;
+    background-color: #98d797;
     width: 90%;
     position: relative;
     text-align: center;
@@ -82,7 +82,7 @@
 #f-bmenu{
     cursor: pointer;
     width: inherit;
-    background-color:#ffd1d1;
+    background-color:#c0f9bf;
     padding: 20px;
     text-align: left;
     color: #0C2D57
@@ -105,13 +105,13 @@
 }
 
 #f-behaviour li{
-    background-color: #ffc4c4;
+    background-color: #e5ffe5;
     width: inherit;
     list-style: none;
     padding: 5%;
     padding-left: 50px;
     border: solid 2px;
-    border-color: #FFB0B0;
+    border-color: #a5e2a4;
     height: max max-content;
 }
 
