@@ -32,7 +32,7 @@ while True:
 	try:
         #data = arduinoMega.readline().rstrip().split(",")
 	    #[pH,temperature,water level,EC]
-		if True:
+		if True: #True when no arduino to test, otherwise -> data[0] && data[1] && data[2] && data[3]
 			print(datetime.datetime.now())
 			#print(data)
 			# probeData = json.dumps({
@@ -51,7 +51,9 @@ while True:
 			})
 			resp = requests.put('https://ceg4913-server.duckdns.org/users/'+ sessionId + '/graphs', data=probeData, headers=serverHeader, timeout=5) 
 			print(resp.status_code)
-			print("Collected data successfully!")
+
+			if(resp.status_code == 200):
+				print("Collected data successfully!")
 			time.sleep(3)
 		else:
 			print("No data found") 
