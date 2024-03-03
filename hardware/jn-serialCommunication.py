@@ -61,3 +61,5 @@ while True:
 
 	except Exception as e:
 		print(e)
+
+requests.post('https://ceg4913-server.duckdns.org/users/' + sessionId + '/login/system', headers=serverHeader, data=userCreds, timeout=5)

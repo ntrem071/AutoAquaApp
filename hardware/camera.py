@@ -50,7 +50,7 @@ def show_camera():
 			frame_width = int(video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
 			frame_height = int(video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 			size = (frame_width, frame_height)
-			result = cv2.VideoWriter('./output.avi', cv2.VideoWriter_fourcc(*'XVID'), 						21.0, size, True)
+			result = cv2.VideoWriter('./output.avi', cv2.VideoWriter_fourcc(*'XVID'),21.0, size, True)
 			window_handle = cv2.namedWindow(window_title, cv2.WINDOW_AUTOSIZE)
 			while True:
 				ret_val, frame = video_capture.read()
@@ -62,9 +62,9 @@ def show_camera():
 					break 
 				keyCode = cv2.waitKey(10) & 0xFF
 				if keyCode == 27 or keyCode == ord('q'):
- 					break
+					break
 		finally:
-            		video_capture.release()
+			video_capture.release()
 			cv2.destroyAllWindows()
 	else:
 		print("Error: Unable to open camera")
