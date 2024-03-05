@@ -20,10 +20,12 @@ ardnoMData = {
 	"feed": 0,
 	"pump": [
 		{
-            "pH": 0,
+            "pHmin": 6.0,
+			"pHmax": 7.0,
         },		
 		{
-            "ec": 0,
+            "ECmin": 1.6,
+			"ECmax": 2.6,
         }
 	]	
 }
@@ -69,6 +71,8 @@ timezone = pytz.timezone(uTimezone)
 ledONtimer = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerON[0]), minute=int(uLEDtimerON[1]), second=0, microsecond=0)
 ledOFFtimer = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerOFF[0]), minute=int(uLEDtimerOFF[1]), second=0, microsecond=0)
 
+feedAckNOT = 1 #signal to indicate the feed has been executed
+
 #Function to get the probe data
 def sendProbeData():
 	try:
@@ -104,14 +108,35 @@ def sendProbeData():
 	except Exception as e:
 		print(e)
 
+def updateUserSettings():
+	#Get the initial values for data collection time
+    globals()["userSettings"] = requests.get('https://ceg4913-server.duckdns.org/users/'+sessionId+'/settings', headers=serverHeader, timeout=5)
+    globals()["userSettings"] = json.loads(userSettings.text)
+    print('Updated User Update: ' + userSettings)
+    globals()["uLEDtimerOFF"] = userSettings["ledTimer"][0]#first index of the timer is OFF
+    globals()["uLEDtimerON"] = userSettings["ledTimer"][1]#second index of the timer is ON
+    globals()["uLEDtimerEN"] = userSettings["ledEnable"]#enable of the leds
+    globals()["uFEEDtimerON"] = userSettings["feedTimer"]#array of the time for enable feed
+    globals()["uFEEDtimerEN"] = userSettings["feedEnable"]#enable of the feed
+    globals()["uphRange"] = userSettings["phRange"]#pH range
+    globals()["upHEnable"] = userSettings["phEnable"]#pH enable
+    globals()["utempRange"] = userSettings["tempRange"]#temperature range
+    globals()["utempEnable"] = userSettings["tempEnable"]#temperature enable
+    globals()["uecRange"] = userSettings["ecRange"]#ec range
+    globals()["uecEnable"] = userSettings["ecEnable"]#ec enable
+    globals()["uTimezone"] = userSettings["timezone"]#timezone of user
+	
+timerUserUpdate = threading.Timer(300, updateUserSettings)
 timerProbe = threading.Timer(3600, sendProbeData)
 timerCamera = threading.Timer(3600, camera)
 
 timerProbe.start()
 timerCamera.start()
 
+counter = 0
+
 #While loop that synchronizes the data collection time
-while True:
+while counter < 0:
 	print(userSettings)
 	now = datetime.datetime.now(timezone)
 	# if(msvcrt.kbhit()):
@@ -131,20 +156,30 @@ while True:
 	if(uFEEDtimerEN):
 		print('Feed enable')
 		for t in uFEEDtimerON:
-			fTime = datetime.datetime.now(timezone).replace(hour=int(t[0]), minute=int(t[1]), second=0, microsecond=0)
-			if(fTime == now):
+			fTime1 = datetime.datetime.now(timezone).replace(hour=int(t[0]), minute=int(t[1]), second=0, microsecond=0)
+			fTime2 = datetime.datetime.now(timezone).replace(hour=int(t[0]), minute=int(t[1]) + 1, second=0, microsecond=0)
+			if((fTime1 <= now <= fTime2) & feedAckNOT):
 				print('sent feed time flag')
-				ardnoMData["feed"] = 1; 
+				ardnoMData["feed"] = 1
 	else:
 		print('User has disabled the automatic feed feature')
 	if(upHEnable):
 		print('Dosing pH')
+		ardnoMData["pump"][0]["pHmin"] = uphRange[0]
+		ardnoMData["pump"][0]["pHmax"] = uphRange[1]
 	else:
 		print('User has disabled the pH dosing system')
+		ardnoMData["pump"][0]["pHmin"] = 'null'
+		ardnoMData["pump"][0]["pHmax"] = 'null'
 	if(uecEnable):
 		print('Dosing ec')
+		ardnoMData["pump"][1]["ECmin"] = uecRange[0]
+		ardnoMData["pump"][1]["ECmax"] = uecRange[1]
 	else:
 		print('User has disabled ec')
+		ardnoMData["pump"][1]["ECmin"] = 'null'
+		ardnoMData["pump"][1]["ECmax"] = 'null'
+	counter = 1
 		
            
 
