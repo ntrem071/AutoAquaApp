@@ -85,25 +85,25 @@
     /* background: rgb(123, 164, 97);
     background: linear-gradient(140deg, rgb(123, 164, 97) 0%, rgba(79,92,67,0.9920343137254902) 100%); */
     background-color: #9db8cc;
-    background: linear-gradient(140deg, #9db8cc 0%, #758ea3 100%);
+    /* background: linear-gradient(140deg, #9db8cc 0%, #5e7486 100%); */
 }
 #cur-ph{
     /* background: rgb(169,209,142);
     background: linear-gradient(140deg, rgba(169,209,142,1) 0%, rgba(79,92,67,0.9920343137254902) 100%); */
-    background-color: #aecbe2;
-    background: linear-gradient(140deg, #aecbe2 0%, #758ea3 100%);
+    background-color: #9db8cc;
+    /* background: linear-gradient(140deg, #9db8cc 0%, #5e7486 100%); */
 }
 #cur-ec{
     /* background: rgb(197,224,180);
     background: linear-gradient(140deg, rgba(197,224,180,1) 0%, rgba(79,92,67,0.9920343137254902) 100%); */
-    background-color: #cbe2f3;
-    background: linear-gradient(140deg, #cbe2f3 0%, #758ea3 100%);
+    background-color: #9db8cc;
+    /* background: linear-gradient(140deg, #9db8cc 0%, #5e7486 100%); */
 }
 #cur-temp{
     /* background: rgb(226,240,217);
     background: linear-gradient(140deg, rgba(226,240,217,1) 0%, rgba(79,92,67,0.9920343137254902) 100%); */
-    background-color: #ddf0ff;
-    background: linear-gradient(140deg, #ddf0ff 0%, #758ea3 100%);
+    background-color: #9db8cc;
+    /* background: linear-gradient(140deg, #9db8cc 0%, #5e7486 100%); */
 }
 
 .p1-h{
@@ -163,7 +163,7 @@
     position: relative;
     border: 2px solid rgba(0,0,0,0.25);
     border-radius: 5px;
-    background: #f8f8f9;
+    background: #fff;
     box-shadow: 0 0 4px rgba(0,0,0,0.2), 0 4px 10px, rgba(0,0,0,0.1);
 }
 .slider-h{
