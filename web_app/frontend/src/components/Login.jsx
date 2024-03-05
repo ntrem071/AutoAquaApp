@@ -196,8 +196,8 @@ function Login() {
 
 // connects frontend to backend
     function createSubmit(){
-        //const validate = FormValidation();
-        if((name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
+        const validate = FormValidation();
+        if(((name !== '') && (email !== '') && (password !== '') && (password === cpassword)) && validate){
             var url = 'http://localhost:8000/users/na/create';
             var headers = {
                 'Accept': 'application/json',
