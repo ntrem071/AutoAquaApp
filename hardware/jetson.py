@@ -6,14 +6,27 @@ import time
 import requests
 import struct
 import json
-import msvcrt
-
-interrSystem = False
+#import msvcrt
+import pytz
+import threading
+import camera
 
 #arduinoMega=serial.Serial(
  #   port = '/dev/ttyTHS1', #UART ports 8(Rx) & 10(Tx)
   #  baudrate = 9600
 #)
+
+ardnoMData = {
+	"feed": 0,
+	"pump": [
+		{
+            "pH": 0,
+        },		
+		{
+            "ec": 0,
+        }
+	]	
+}
 
 #Server headers
 serverHeader = {
@@ -49,8 +62,12 @@ utempRange = userSettings["tempRange"]#temperature range
 utempEnable = userSettings["tempEnable"]#temperature enable
 uecRange = userSettings["ecRange"]#ec range
 uecEnable = userSettings["ecEnable"]#ec enable
-uTimezone = userSettings["timezone"]#tiezone of user
+uTimezone = userSettings["timezone"]#timezone of user
 
+timezone = pytz.timezone(uTimezone)
+
+ledONtimer = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerON[0]), minute=int(uLEDtimerON[1]), second=0, microsecond=0)
+ledOFFtimer = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerOFF[0]), minute=int(uLEDtimerOFF[1]), second=0, microsecond=0)
 
 #Function to get the probe data
 def sendProbeData():
@@ -87,27 +104,48 @@ def sendProbeData():
 	except Exception as e:
 		print(e)
 
+timerProbe = threading.Timer(3600, sendProbeData)
+timerCamera = threading.Timer(3600, camera)
+
+timerProbe.start()
+timerCamera.start()
 
 #While loop that synchronizes the data collection time
 while True:
-	if(msvcrt.kbhit()):
-		if(msvcrt.getch() == 'q'):
-			break
-		else:
-			print('system continues')
+	print(userSettings)
+	now = datetime.datetime.now(timezone)
+	# if(msvcrt.kbhit()):
+	# 	if(msvcrt.getch() == 'q'):
+	# 		break
+	# 	else:
+	# 		print('system continues')
+	# else:
+	if(uLEDtimerEN):
+		print('leds toggle')
+		if(now == ledONtimer):
+			print('turn leds ON')
+		elif(now == ledOFFtimer):
+			print('turn leds OFF')
 	else:
-		if(uLEDtimerEN):
-			print('leds toggle')
-		else:
-			print('User has disabled the LEDs')
-        #if(uFEEDtimerEN):
-         #   print('Feed fish')
-        #else:
-            
-        
-
-        
-	
-
+		print('User has disabled the LEDs')
+	if(uFEEDtimerEN):
+		print('Feed enable')
+		for t in uFEEDtimerON:
+			fTime = datetime.datetime.now(timezone).replace(hour=int(t[0]), minute=int(t[1]), second=0, microsecond=0)
+			if(fTime == now):
+				print('sent feed time flag')
+				ardnoMData["feed"] = 1; 
+	else:
+		print('User has disabled the automatic feed feature')
+	if(upHEnable):
+		print('Dosing pH')
+	else:
+		print('User has disabled the pH dosing system')
+	if(uecEnable):
+		print('Dosing ec')
+	else:
+		print('User has disabled ec')
+		
+           
 
 requests.post('https://ceg4913-server.duckdns.org/users/' + sessionId + '/logout/system', headers=serverHeader, timeout=5)
