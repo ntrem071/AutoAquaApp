@@ -133,10 +133,8 @@ timerCamera = threading.Timer(3600, camera)
 timerProbe.start()
 timerCamera.start()
 
-counter = 0
-
 #While loop that synchronizes the data collection time
-while counter < 0:
+while True:
 	print(userSettings)
 	now = datetime.datetime.now(timezone)
 	# if(msvcrt.kbhit()):
@@ -147,9 +145,13 @@ while counter < 0:
 	# else:
 	if(uLEDtimerEN):
 		print('leds toggle')
-		if(now == ledONtimer):
+		ledONTime1 = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerON[0]), minute=int(uLEDtimerON[1]), second=0, microsecond=0)
+		ledONTime2 = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerON[0]), minute=int(uLEDtimerON[1]) + 1, second=0, microsecond=0)
+		ledOFFTime1 = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerOFF[0]), minute=int(uLEDtimerOFF[1]), second=0, microsecond=0)
+		ledOFFTime2 = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerOFF[0]), minute=int(uLEDtimerOFF[1]) + 1, second=0, microsecond=0)
+		if(ledONTime1 <= now <= ledONTime2):
 			print('turn leds ON')
-		elif(now == ledOFFtimer):
+		elif(ledOFFTime1 <= now <= ledOFFTime2):
 			print('turn leds OFF')
 	else:
 		print('User has disabled the LEDs')
@@ -179,8 +181,6 @@ while counter < 0:
 		print('User has disabled ec')
 		ardnoMData["pump"][1]["ECmin"] = 'null'
 		ardnoMData["pump"][1]["ECmax"] = 'null'
-	counter = 1
 		
-           
 
 requests.post('https://ceg4913-server.duckdns.org/users/' + sessionId + '/logout/system', headers=serverHeader, timeout=5)
