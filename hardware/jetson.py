@@ -18,16 +18,10 @@ arduinoMega=serial.Serial(
 
 ardnoMData = {
     "feed": 0,
-    "pump": [
-        {
-            "pHmin": 6.0,
-            "pHmax": 7.0,
-        },		
-        {
-            "ECmin": 1.6,
-            "ECmax": 2.6,
-        }
-    ]	
+    "pHmin": 6.0,
+    "pHmax": 7.0,
+    "ECmin": 1.6,
+    "ECmax": 2.6
 }
 
 #Server headers
@@ -76,9 +70,9 @@ feedAck = 0 #signal to indicate the feed has been executed
 #Function to get the probe data
 def sendProbeData():
     try:
-        data = arduinoMega.readline().rstrip().split(",")
+        data = arduinoMega.readline().decode().rstrip().split(",")
         #[pH,temperature,water level,EC,feedACK,feedEmpty]
-        if True: #True when no arduino to test, otherwise -> data[0] && data[1] && data[2] && data[3]
+        if data: #True when no arduino to test, otherwise -> data[0] && data[1] && data[2] && data[3]
             print(datetime.datetime.now())
             print(data)
             probeData = json.dumps({
@@ -127,7 +121,7 @@ def updateUserSettings():
     globals()["uTimezone"] = userSettings["timezone"]#timezone of user
 
     if(arduinoMega.writable()):
-        arduinoMega.write(str(ardnoMData).encode)
+        arduinoMega.write(str(ardnoMData).encode())
 
     
 timerUserUpdate = threading.Timer(300, updateUserSettings)
@@ -170,24 +164,29 @@ while True:
                 ardnoMData["feed"] = 1
                 if(arduinoMega.writable()):
                     arduinoMega.write(str(ardnoMData).encode)
+                while(arduinoMega.readable()):
+                    data = arduinoMega.readline().decode().rstrip().split(",")
+                    if(data[4]):
+                        feedAck = 0;
+                        break;
     else:
         print('User has disabled the automatic feed feature')
     if(upHEnable):
         print('Dosing pH')
-        ardnoMData["pump"][0]["pHmin"] = uphRange[0]
-        ardnoMData["pump"][0]["pHmax"] = uphRange[1]
+        ardnoMData["pHmin"] = uphRange[0]
+        ardnoMData["pHmax"] = uphRange[1]
     else:
         print('User has disabled the pH dosing system')
-        ardnoMData["pump"][0]["pHmin"] = 'null'
-        ardnoMData["pump"][0]["pHmax"] = 'null'
+        ardnoMData["pHmin"] = 'null'
+        ardnoMData["pHmax"] = 'null'
     if(uecEnable):
         print('Dosing ec')
-        ardnoMData["pump"][1]["ECmin"] = uecRange[0]
-        ardnoMData["pump"][1]["ECmax"] = uecRange[1]
+        ardnoMData["ECmin"] = uecRange[0]
+        ardnoMData["ECmax"] = uecRange[1]
     else:
         print('User has disabled ec')
-        ardnoMData["pump"][1]["ECmin"] = 'null'
-        ardnoMData["pump"][1]["ECmax"] = 'null'
+        ardnoMData["ECmin"] = 'null'
+        ardnoMData["ECmax"] = 'null'
         
 
 requests.post('https://ceg4913-server.duckdns.org/users/' + sessionId + '/logout/system', headers=serverHeader, timeout=5)
