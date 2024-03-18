@@ -1,4 +1,4 @@
-#to have port access sudo chmod 666 /dev/ttyHS1
+#to have port access sudo chmod 666 /dev/ttyTHS1
 
 import serial #import PySerial
 import datetime
@@ -20,8 +20,7 @@ ardnoMData = {
     "feed": 0,
     "pHmin": 6.0,
     "pHmax": 7.0,
-    "ECmin": 1.6,
-    "ECmax": 2.6
+    "ECmin": 1.6
 }
 
 #Server headers
@@ -65,14 +64,19 @@ timezone = pytz.timezone(uTimezone)
 ledONtimer = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerON[0]), minute=int(uLEDtimerON[1]), second=0, microsecond=0)
 ledOFFtimer = datetime.datetime.now(timezone).replace(hour=int(uLEDtimerOFF[0]), minute=int(uLEDtimerOFF[1]), second=0, microsecond=0)
 
-feedAck = 0 #signal to indicate the feed has been executed
+feedAckNot = 1 #signal to indicate the feed has been executed
+
+#no need for timezone since we just want to see if an hour passed but just in case
+hourTimer = datetime.datetime.now(timezone).strftime('%H:%M:%S')
+updateUserValuesTimer = hourTimer
+print(hourTimer)
 
 #Function to get the probe data
 def sendProbeData():
     try:
-        data = arduinoMega.readline().decode().rstrip().split(",")
+        data = arduinoMega.readline().rstrip().split(",")
         #[pH,temperature,water level,EC,feedACK,feedEmpty]
-        if data: #True when no arduino to test, otherwise -> data[0] && data[1] && data[2] && data[3]
+        if True: #True when no arduino to test, otherwise -> data[0] && data[1] && data[2] && data[3]
             print(datetime.datetime.now())
             print(data)
             probeData = json.dumps({
@@ -106,7 +110,7 @@ def updateUserSettings():
     #Get the initial values for data collection time
     globals()["userSettings"] = requests.get('https://ceg4913-server.duckdns.org/users/'+sessionId+'/settings', headers=serverHeader, timeout=5)
     globals()["userSettings"] = json.loads(userSettings.text)
-    print('Updated User Update: ' + userSettings)
+    print('Updated User Update: ' + str(userSettings))
     globals()["uLEDtimerOFF"] = userSettings["ledTimer"][0]#first index of the timer is OFF
     globals()["uLEDtimerON"] = userSettings["ledTimer"][1]#second index of the timer is ON
     globals()["uLEDtimerEN"] = userSettings["ledEnable"]#enable of the leds
@@ -121,21 +125,23 @@ def updateUserSettings():
     globals()["uTimezone"] = userSettings["timezone"]#timezone of user
 
     if(arduinoMega.writable()):
-        arduinoMega.write(str(ardnoMData).encode())
+        arduinoMega.write((str(ardnoMData["feed"]) + ',').encode())
+        arduinoMega.write((str(ardnoMData["pHmin"]) + ',').encode())
+        arduinoMega.write((str(ardnoMData["pHmax"]) + ',').encode())
+        arduinoMega.write((str(ardnoMData["ECmin"])).encode())
+        print(str(ardnoMData))
 
-    
-timerUserUpdate = threading.Timer(300, updateUserSettings)
-timerProbe = threading.Timer(3600, sendProbeData)
-timerCamera = threading.Timer(3600, camera)
-
-timerProbe.start()
-timerCamera.start()
-timerUserUpdate.start()
+arduinoMega.write((str(1) + ',').encode())
+arduinoMega.write((str(ardnoMData["pHmin"]) + ',').encode())
+arduinoMega.write((str(ardnoMData["pHmax"]) + ',').encode())
+arduinoMega.write((str(ardnoMData["ECmin"])).encode())
+print(str(ardnoMData))
 
 #While loop that synchronizes the data collection time
 while True:
-    print(userSettings)
     now = datetime.datetime.now(timezone)
+    nowSTRP = now.strftime('%H:%M:%S')
+    print(now.strftime('%H:%M:%S'))
     # if(msvcrt.kbhit()):
     # 	if(msvcrt.getch() == 'q'):
     # 		break
@@ -159,16 +165,15 @@ while True:
         for t in uFEEDtimerON:
             fTime1 = datetime.datetime.now(timezone).replace(hour=int(t[0]), minute=int(t[1]), second=0, microsecond=0)
             fTime2 = datetime.datetime.now(timezone).replace(hour=int(t[0]), minute=int(t[1]) + 1, second=0, microsecond=0)
-            if((fTime1 <= now <= fTime2) & feedAck):
+            if((fTime1 <= now <= fTime2) & feedAckNot):
                 print('sent feed time flag')
                 ardnoMData["feed"] = 1
                 if(arduinoMega.writable()):
-                    arduinoMega.write(str(ardnoMData).encode)
-                while(arduinoMega.readable()):
-                    data = arduinoMega.readline().decode().rstrip().split(",")
-                    if(data[4]):
-                        feedAck = 0;
-                        break;
+                    arduinoMega.write((str(ardnoMData["feed"]) + ',').encode())
+                    arduinoMega.write((str(ardnoMData["pHmin"]) + ',').encode())
+                    arduinoMega.write((str(ardnoMData["pHmax"]) + ',').encode())
+                    arduinoMega.write((str(ardnoMData["ECmin"])).encode())
+                    print(str(ardnoMData))
     else:
         print('User has disabled the automatic feed feature')
     if(upHEnable):
@@ -187,6 +192,16 @@ while True:
         print('User has disabled ec')
         ardnoMData["ECmin"] = 'null'
         ardnoMData["ECmax"] = 'null'
+    
+    diffHour = (datetime.datetime.strptime(nowSTRP, '%H:%M:%S') - datetime.datetime.strptime(hourTimer, '%H:%M:%S')).total_seconds()/1200
+    diffMin = (datetime.datetime.strptime(nowSTRP, '%H:%M:%S') - datetime.datetime.strptime(updateUserValuesTimer, '%H:%M:%S')).total_seconds()/60
+    print(diffMin)
+    if(diffMin > 5):
+        updateUserSettings()
+        updateUserValuesTimer = datetime.datetime.now(timezone).strftime('%H:%M:%S')
+    if(diffHour > 1):
+        sendProbeData()
+        camera
+        hourTimer = datetime.datetime.now(timezone).strftime('%H:%M:%S')
         
-
 requests.post('https://ceg4913-server.duckdns.org/users/' + sessionId + '/logout/system', headers=serverHeader, timeout=5)
