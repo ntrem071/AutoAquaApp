@@ -26,7 +26,7 @@ function UserInfo(props) {
     }
 
     function setValues(){
-        var url = 'http://localhost:8000/users/'+sessionId+'/user';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/user';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
@@ -56,7 +56,7 @@ function UserInfo(props) {
 
     function logout(){
 
-        var url = 'http://localhost:8000/users/'+sessionId+'/logout/app';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/logout/app';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   

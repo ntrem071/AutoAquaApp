@@ -198,7 +198,7 @@ function Login() {
     function createSubmit(){
         const validate = FormValidation();
         if(((name !== '') && (email !== '') && (password !== '') && (password === cpassword)) && validate){
-            var url = 'http://localhost:8080/users/na/create';
+            var url = 'https://ceg4913-server.duckdns.org/users/na/create';
             var headers = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -261,7 +261,7 @@ function Login() {
         const e = document.getElementById('lt1');
         const p = document.getElementById('lt2');
         if((password !== '') && (email !== '')){
-            var url = 'http://localhost:8080/users/na/login/app';
+            var url = 'https://ceg4913-server.duckdns.org/users/na/login/app';
             //var buf = Buffer.from(email + ':' + password).toString('base64');
             var header = {         
                 //'Authorization':'Basic ' + buf,

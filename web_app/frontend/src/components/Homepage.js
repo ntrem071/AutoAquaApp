@@ -239,7 +239,7 @@ function Homepage() {
     }
 
     function setValues(){
-        var url = 'http://localhost:8000/users/'+sessionId+'/home';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/home';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   

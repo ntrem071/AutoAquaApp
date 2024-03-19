@@ -22,7 +22,7 @@ function InfoPopup(props) {
     
     function displayPlantInfoBox(name){
 
-        var url = 'http://localhost:8000/plants/na/'+name;
+        var url = 'https://ceg4913-server.duckdns.org/plants/na/'+name;
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
@@ -91,7 +91,7 @@ function InfoPopup(props) {
         });
     }
     function displayFishInfoBox(name){
-        var url = 'http://localhost:8000/fish/na/'+name;
+        var url = 'https://ceg4913-server.duckdns.org/fish/na/'+name;
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
@@ -163,7 +163,7 @@ function InfoPopup(props) {
     }
 
     // function displayFishImage(name){
-    //     var url = 'http://localhost:8000/fish/na/'+name;
+    //     var url = 'https://ceg4913-server.duckdns.org/fish/na/'+name;
     //     var header = {         
     //         'Accept': 'application/json',
     //         'Content-Type': 'application/json'   

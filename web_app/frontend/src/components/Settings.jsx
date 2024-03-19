@@ -302,7 +302,7 @@ function Settings() {
 
     
     function getTimezoneList(){
-        var url = 'http://localhost:8000/users/'+sessionId+'/timezone-list';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/timezone-list';
         var headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -337,7 +337,7 @@ function Settings() {
     }
 
     function updateRanges(){
-        var url = 'http://localhost:8000/users/'+sessionId+'/ranges';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/ranges';
         var data = {
             phRange: [parseFloat(pHMin), parseFloat(pHMax)],
             ecRange: [parseFloat(ecMin), parseFloat(ecMax)],
@@ -355,7 +355,7 @@ function Settings() {
         if(visibleWraps[1]){arr.push([secondhour,secondminute])}
         if(visibleWraps[2]){arr.push([thirdhour,thirdminute])}
 
-        var url = 'http://localhost:8000/users/'+sessionId+'/feed';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/feed';
         var data = {
             feedEnable: !feedEn,
             feedTimer: arr                     
@@ -363,7 +363,7 @@ function Settings() {
         sendRequest(url, data);
     }
     function updateLED(){
-        var url = 'http://localhost:8000/users/'+sessionId+'/led';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/led';
         var data = {
             ledEnable: !ledEn,
             ledTimer: [[LEDoffHour,LEDoffMinute],[LEDonHour,LEDonMinute]]                    
@@ -371,7 +371,7 @@ function Settings() {
         sendRequest(url, data);
     }
     function updateTimezone(){
-        var url = 'http://localhost:8000/users/'+sessionId+'/timezone';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/timezone';
         var data = {
             timezone: timezone           
         };
@@ -402,7 +402,7 @@ function Settings() {
     }
 
     function setValues(){
-            var url = 'http://localhost:8000/users/'+sessionId+'/settings';
+            var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/settings';
             var header = {         
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'   

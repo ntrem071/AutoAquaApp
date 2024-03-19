@@ -74,7 +74,7 @@ function Fish() {
     }
 
     function refresh(){
-        var url = 'http://localhost:8000/users/'+sessionId+'/navigate';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/navigate';
         var headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -103,7 +103,7 @@ function Fish() {
     }
 
     function setValues(){
-        var url = 'http://localhost:8000/users/'+sessionId+'/search';
+        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/search';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
@@ -178,7 +178,7 @@ function Fish() {
         // showCheckbox();
         setIsVisible(true);
         setTogglePF('plant');
-        var url = 'http://localhost:8000/plants';
+        var url = 'https://ceg4913-server.duckdns.org/plants';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
@@ -215,7 +215,7 @@ function Fish() {
         // hideCheckbox();
         setIsVisible(false);
         setTogglePF('fish');
-        var url = 'http://localhost:8000/fish';
+        var url = 'https://ceg4913-server.duckdns.org/fish';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
@@ -250,7 +250,7 @@ function Fish() {
         if(ec==true){str+='_ec'}
         if(hours==true){str+='_hour'}
 
-       var url = 'http://localhost:8000/plants/'+sessionId+'/'+str;
+       var url = 'https://ceg4913-server.duckdns.org/plants/'+sessionId+'/'+str;
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   
@@ -278,7 +278,7 @@ function Fish() {
 
     }
     function updateUserSelect(arr, str){
-       var url = 'http://localhost:8000/users/'+sessionId+'/species';
+       var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/species';
         var header = {         
             'Accept': 'application/json',
             'Content-Type': 'application/json'   

@@ -68,7 +68,7 @@ function Navigation() {
   }
 
   function checkExpiry(){
-    var url = 'http://localhost:8000/users/'+sessionId+'/session';
+    var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/session';
     var header = {         
         'Accept': 'application/json',
         'Content-Type': 'application/json'   
