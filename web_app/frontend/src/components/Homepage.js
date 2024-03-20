@@ -182,19 +182,26 @@ function Homepage() {
         return d;
     }
 
-    function graphOptions(labelY){
+    function graphOptions(labelY, mini){
         var op = {
             plugins: {
                 legend: {
-                    display: false,
+                    display: false
                 },
+                pan: {
+                    enabled: true
+                }
             },
             scales: {
                 x:{ 
-                    type:'time',
+                    type:'timeseries',
                     time:{
-                         unit: 'second',
+                         unit: 'minute',
                          parser: 'dd/MM/yyyy HH:mm:ss'
+                        // displayFormats: {
+                        //     minute: 'HH:mm'
+                        // }
+
                      },
                     ticks: {
                         color: ['#000', '#939393']
@@ -209,9 +216,10 @@ function Homepage() {
                     },
                     border: {
                         color: '#323232', 
-                    },
+                    }
                 },
                 y:{
+                    type: 'linear',
                     ticks: {
                         color: '#000'
                     },
@@ -226,9 +234,11 @@ function Homepage() {
                     border: {
                         color: '#323232', 
                     },
+                    // grace: '50%',
+                    min: mini
                 }
             },
-            animation: false
+            animation: true
         };
         return op;
     }
@@ -360,22 +370,22 @@ function Homepage() {
                         <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <Line data={waterLevlData} options={graphOptions('Water Level (mm)')} plugins={[graphDangerLine(downDWater, dangerColor), graphDangerLine(downCWater, warningColor  )]}/>
+                                    <Line data={waterLevlData} options={graphOptions('Water Level (mm)', 0)} plugins={[graphDangerLine(downDWater, dangerColor), graphDangerLine(downCWater, warningColor  )]}/>
                                 </div>
                             </section>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <Line data={pHData} options={graphOptions('pH')} plugins={[graphDangerLine(downDPH, dangerColor), graphDangerLine(upDPH, dangerColor), graphDangerLine(downCPH, warningColor  ), graphDangerLine(upCPH, warningColor  )]}/>                    
+                                    <Line data={pHData} options={graphOptions('pH', 5)} plugins={[graphDangerLine(downDPH, dangerColor), graphDangerLine(upDPH, dangerColor), graphDangerLine(downCPH, warningColor  ), graphDangerLine(upCPH, warningColor  )]}/>                    
                                 </div>
                             </section>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <Line data={ecData} options={graphOptions('Conductivity (mS/cm)')} plugins={[graphDangerLine(downDEC, dangerColor), graphDangerLine(upDEC, dangerColor), graphDangerLine(downCEC, warningColor  ), graphDangerLine(upCEC, warningColor  )]}/>                   
+                                    <Line data={ecData} options={graphOptions('Conductivity (mS/cm)', 0)} plugins={[graphDangerLine(downDEC, dangerColor), graphDangerLine(upDEC, dangerColor), graphDangerLine(downCEC, warningColor  ), graphDangerLine(upCEC, warningColor  )]}/>                   
                                 </div>
                             </section>
                             <section>
                                 <div className='wrap-graphs'>
-                                    <Line data={tempData} options={graphOptions('Temperature (°C)')} plugins={[graphDangerLine(downDTemp, dangerColor), graphDangerLine(upDTemp, dangerColor), graphDangerLine(downCTemp, warningColor  ), graphDangerLine(upCTemp, warningColor  )]}/>
+                                    <Line data={tempData} options={graphOptions('Temperature (°C)', 20, 30)} plugins={[graphDangerLine(downDTemp, dangerColor), graphDangerLine(upDTemp, dangerColor), graphDangerLine(downCTemp, warningColor  ), graphDangerLine(upCTemp, warningColor  )]}/>
                                 </div>
                             </section>
                         </div>
