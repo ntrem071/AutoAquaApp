@@ -1,15 +1,32 @@
+/* font used */
 @font-face {
     font-family: 'Armata';
     src: url('../fonts/ArmataHL.otf')
 }
 
-/*id: Title */
-#title {
-    position: relative;
-    transition: color 0.7s ease-in-out;
-    z-index: 5000;
+/* when document is 768px or less*/
+@media only screen and (max-width: 768px) {
+    #container {
+      flex-direction: column;
+    }
 }
 
+/*class: outermost div*/
+.container {
+    background-color: #ffffff;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    width: 75vw;
+    max-width: 100%;
+    width: 100%;
+    min-height: 480px;
+    display: flex;
+}
+
+/*TITLE: AQUAPONICS*/
+
+/*class: title when the overlay is on the left*/
 .title-left {
     font-family: 'Armata', serif;
     color: white;
@@ -19,6 +36,7 @@
     /* background-color:black; */
 }
 
+/*class: title when the overlay is on the right*/
 .title-right {
     font-family: 'Armata', serif;
     color: #9db8cc;
@@ -27,40 +45,23 @@
     font-weight: 900;
 }
 
-.title-overlay {
-    font-family: 'Armata', serif;
-    color: white;
-    z-index: 2192892000;
-    font-size: 20px;
-    font-weight: 550;
-    position: absolute;
-    top: 0;
-}
+/***commenting this out vvv (arrows)***/
+/*classes: form for both login and create*/
+/* .sign-in-container form,
+.sign-up-container form{
+    flex: 1;
+    box-sizing: border-box;
+    width: 50%;
+} */
 
-/*id: "AUTOMATED AQUAPONICS */
-/* #lh1 {
-    font-family: 'Armata', serif;
-    color: #5094cc;
-    font-size: 20px;
-    font-weight: 900;
-    text-align: left;
-    display: inline;
-    position: absolute;
-    margin-left: 15px;
-    z-index: 5000;
-}  */
+/*trying something vvv */
+/* .container.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+} */
 
-.blue-text {
-    color: #9db8cc;
-}
+/*(\(^.^)/) LOGIN (\(^.^)/)*/
 
-.white-text {
-    color: #ffffff;
-    font-size: 90px;
-    font-weight: lighter;
-    text-align: center;
-}
-
+/*id: login title*/
 #lh2{
     font-family: 'Armata', serif;
     font-size: 70px;
@@ -72,14 +73,75 @@
     margin-top: 15vh;
 }
 
-/* .create-msg {
-    display: none;
-} */
+/*id: div holding login and create*/
+#login-create-overlay {
+    display: flex;
+    flex-direction: row;
+    background-color: #cfcfcf;
+    width: 80vw;
+    margin-left: 10vw;
+    height: 70vh;
+    margin-top: 10vh;
+    border-radius: 20px;
+    position: relative;
+    z-index: 1;
+}
 
-/* #login {
+/*class: login and create forms*/
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    transition: all 0.6s ease-in-out;
+}
+
+/*class: holds login form*/
+.sign-in-container {
+    width: 40vw;
+    height: 70vh;
+    z-index: 3;
+    background-color: #ffffff;
+    /* box-shadow: 0px 0px 10px #788996; */
+    box-shadow: 1px 2px 15px gray,  10px 10px 10px gray, 0px 0px 0px gray;
+    opacity: 1;
+    top: 0vh;
     border-radius: 20px 0px 0px 20px;
-} */
+}
 
+/*class: login div */
+.Login {
+    align-items: center;
+    display: flex;
+    text-align: left;
+    width: 45vw;
+    height: 70vh;
+    border-radius: 20px 0px 0px 20px;
+}
+
+/*class: form holding login*/
+.log-in {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 2.6vw;
+	height: 100%;
+	text-align: center;
+    position: relative;
+    width: 35vw;
+    height: 70vh;
+}
+
+/*-> EMAIL*/
+
+/*id: div that holds email input textbox */
+#em {
+    margin-bottom: -10px;
+}
+
+/*id: input box for email*/
 #lt1{
     background-color: white;
     border-style: none none solid none;
@@ -89,18 +151,7 @@
     align-self: flex-start;
 }
 
-#lt2{
-    background-color: white;
-    border-style: none none solid none;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
-    height: 25px;
-    align-self: flex-start;
-    position: relative;
-    border-style: none none solid none;
-}
-
-/*id: Email Icon*/
+/*id: email icon*/
 #l-email-icon {
     color: #868686;
     height: 5px;
@@ -111,8 +162,26 @@
     left: 0.5vw;
     top: -4vh;
     display: flex;
-    /* align-items: flex-start; */
-    /* transform: translateY(-275%); */
+}
+
+/*-> PASSWORD*/
+
+/*id: div that holds the password input textbox */
+#pw {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/*id: input box for password*/
+#lt2{
+    background-color: white;
+    border-style: none none solid none;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+    position: relative;
+    border-style: none none solid none;
 }
 
 /*id: Password Icon*/
@@ -128,7 +197,7 @@
     transform: translateY(-275%);
 }
 
-/*id: Eye visibility of password*/
+/*id: eye icon button for visibility of password SAME vvvvvvvv*/
 #eye-icon {
     color: #868686;
     height: 5px;
@@ -140,97 +209,7 @@
     left: 90%;
 }
 
-/*id: Login Submit Button */
-/* #lb1 {
-    font-family: 'Armata', sans-serif;
-    font-weight: bold;
-    font-size: 25px;
-    background-color: #5094cc;
-    color: white;
-    border: none;
-    border-radius: 24px;
-    height: 50px;
-    width: 300px;
-    margin-top: 10px;
-    cursor: pointer;
-} */
-
-/*id: Login Submit Button:hovered */
-#lb1:hover {
-    background-color: #3176af;
-    transition: 0.4s;
-}
-
-/*class: Login class */
-.Login {
-    align-items: center;
-    display: flex;
-    text-align: left;
-    /* margin-left: 25vw;
-    margin-top: 25vh; */
-    /* width: 40vw;
-    height: 45vh; */
-    width: 45vw;
-    height: 70vh;
-    border-radius: 20px 0px 0px 20px;
-}
-
-/*class: Outermost div*/
-.container {
-    background-color: #ffffff;
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;
-    width: 75vw;
-    max-width: 100%;
-    width: 100%;
-    min-height: 480px;
-    display: flex;
-}
-
-/*id: Holds login, create and overlay */
-#row {
-    display: flex;
-    flex-direction: row;
-    background-color: #cfcfcf;
-    width: 80vw;
-    margin-left: 10vw;
-    height: 70vh;
-    margin-top: 10vh;
-    border-radius: 20px;
-    position: relative;
-    z-index: 1;
-}
-
-/*id: */
-
-/*id: Login section */
-/* #login-column {
-    flex: 1;
-    background-color: #ffffff;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    top: 50px;
-} */
-
-/*id: div that holds email input textbox */
-#em {
-    margin-bottom: -10px;
-}
-
-
-
-/*id: div that holds the password input textbox */
-#pw {
-    margin-bottom: 25px;
-    position: relative;
-}
-
-/*class: class that holds the eye icon */
+/*class: class that holds the eye icon button SAME ^^^^^^^^*/
 .eye-icon {
     position: absolute;
     top: 72%;
@@ -239,96 +218,102 @@
     cursor: pointer;
 }
 
-/* (\(^.^)/) Create css (\(^.^)/) */
+/*-> SUBMIT BUTTON*/
 
-/* font used */
-@font-face {
-    font-family: 'Armata';
-    src: url('../fonts/ArmataHL.otf')
+/*class:for login submit button*/
+.button-login {
+    font-family: 'Armata', sans-serif;
+    font-size: 25px;
+    background-color: #9db8cc;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    height: 50px;
+    width: 175px;
+    cursor: pointer;
 }
 
-/* when document is 768px or less*/
-@media only screen and (max-width: 768px) {
-    #container {
-      flex-direction: column;
-    }
+.button-login:focus {
+    outline: none;
 }
 
-/* Create css */
-/* #h1 {
-    font-family: 'Armata', serif;
-    color: #ffffff;
-    font-size: 90px;
-    font-weight: lighter;
-    text-align: center;
-    padding: 25px;
-    margin-top: 75px;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-bottom: 10px;
-    z-index: 0;
-} */
+/*id: hover over button*/
+#lb1:hover {
+    background-color: #83a0b6;
+    transition: 0.4s;
+}
 
-/*id: form that holds the entire create part */
-#create {
+/*(\(^.^)/) CREATE (\(^.^)/)*/
+
+/****form-container is in login****/
+
+/*class: div holding sign up create, same class in form-container*/
+.sign-up-container {
+    width: 40vw;
+    z-index: 5;
+    height: 70vh;
+    background-color: #5a8b34;
+    /* box-shadow: 2px 0px 2px 2px #788996; */
+    /* box-shadow: 0px 0px 0px gray,  10px 10px 10px gray, 0px 0px 0px gray, 5px 5px 5px gray; */
     border-radius: 0px 20px 20px 0px;
 }
 
-/* below, might change */
-.Create {
-    /* margin-left: -1vw;
-    margin-top: -2vh;
-    max-width: 50vw;
-    width: 100%; */
+/*id: div, same component as sign-up-container above*/
+#create-column {
+    z-index: 3;
+    display: flex;
+    background-color: #ffffff;
+    flex-direction: column;
+    flex: 0.5 1;
+    align-items: center;
+    opacity: 1;
+    height: 70vh;
+    width: 40vw;
+    left: 50%;
+    top: 0vh;
+}
 
+/*class: div holding create*/
+.Create {
     align-items: center;
     display: flex;
     text-align: left;
-    width: 45vw;
+    width: 40vw;
     height: 70vh;
 }
 
-#create-column {
-    z-index: 5;
-    /* display: inline;
-    flex: 1; */
-    display: flex;
-    background-color: #ffffff;
-    padding: 20px;
-    flex-direction: column;
-    align-items: center;
-    opacity: 1;
-    height: 65.65vh;
-    width: 38.15vw;
-    /* width: 35vw;
-    height: 70vh; */
-    left: 39.750vw;
-
-    top: 0vh;
-    /* left: 83.25vh; */
-        /* height: 70vh; */
-}
-
+/*class: form holding create*/
 .side-by-side {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     margin: auto;
     background-color: transparent;
     z-index: 3;
     align-items: center;
-    /* width: 100%;
-    height: 45vh; */
-    width: 38.25vw;
+    width: 40vw;
     height: 70vh;
-    /* margin-left: auto;
-    margin-right: auto; */
-    /* top: -5vh; */
-    /* margin-left: 11vw; */
-    /* padding: -5vh; */
+    box-shadow: 1px 2px 15px gray,  10px 10px 10px gray, 0px 0px 0px gray;
 }
 
-/*id: div that holds the name in create*/
+/*id: form holding create*/
+#create {
+    border-radius: 0px 20px 20px 0px;
+}
+
+/*id: h2 containing create title*/
+#ch1 {
+    font-family: 'Armata', serif;
+    color: #9db8cc;
+    font-size: 75px;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px 10px 25px 10px;
+    margin-bottom: 0px;
+}
+
+/*-> NAME*/
+
+/*id: div that holds the name input*/
 #name {
     font-family: 'Armata', 'serif';
     font-size: 40px;
@@ -337,11 +322,26 @@
     text-align: left;
     display: block;
     margin-bottom: -25px;
-    /* margin-right: 100px; */
     left: 0.5vw;
 }
 
-/* id: div that holds name icon*/
+/*id: input box for name*/
+#cf1 {
+    background-color: #ffffff;
+    padding: 10px 10px 10px 45px;
+    width: 250px;
+    height: 25px;
+    align-self: flex-start;
+    position: relative;
+    border-style: none none solid none;
+}
+
+#cf1::placeholder {
+    color: #868686;
+    font-weight: bolder;
+}
+
+/* id: div that holds the name icon*/
 #name-icon {
     color: #868686;
     height: 3px;
@@ -353,6 +353,8 @@
     left: 0.5vw;
     font-size: large;
 }
+
+/*-> EMAIL*/
 
 /* id: div holding the email input*/
 #email {
@@ -366,94 +368,7 @@
     position: relative;
 }
 
-/* id: div holding the email icon*/
-#email-icon {
-    color: #868686;
-    height: 10px;
-    width: 10px;
-    padding: 4px;
-    position: relative;
-    box-sizing: border-box;
-    top: -4vh;
-    left: 0.55vw;
-    font-size: medium;
-    /* transform: translateY(-75%); */
-}
-
-/* id: div holding the password input*/
-#password {
-    font-family: 'Armata', 'serif';
-    font-size: 40px;
-    color: #ffffff;
-    font-weight: lighter;
-    text-align: left;
-    display: block;
-    top: -2.90vh;
-    left: 0.2vw;
-    position: relative;
-    display: flex;
-}
-
-/* id: div holding password icon*/
-#password-icon {
-    color: #868686;
-    height: 5px;
-    width: 5px;
-    padding: 4px;
-    position: absolute;
-    box-sizing: border-box;
-    /* left: -15.35vw;
-    top: 1vh; */
-    left: 0.3vw;
-    top: 1vh;
-    font-size: large;
-    /* transform: translateY(-325%); */
-}
-
-/* id:div that holds the "confirm password" and its icon*/
-#confirm-password {
-    font-family: 'Armata', 'serif';
-    font-size: 40px;
-    color: #ffffff;
-    font-weight: lighter;
-    text-align: left;
-    display: block;
-    /* margin-bottom: 0px; */
-    top: -5.5vh;
-    position: relative;
-}
-
-/* id: div that holds the confirm-password icon*/
-#cpassword-icon {
-    color: #868686;
-    height: 5px;
-    width: 5px;
-    padding: 4px;
-    position: relative;
-    box-sizing: border-box;
-    top: -3.5vh;
-    left: 0.5vw;
-    font-size: large;
-    /* transform: translateY(-800%); */
-}
-
-/*id: input box of create name*/
-#cf1 {
-    background-color: #ffffff;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
-    height: 25px;
-    align-self: flex-start;
-    position: relative;
-    border-style: none none solid none;
-}
-
-/**/
-#cf1::placeholder {
-    color: #868686;
-    font-weight: bolder;
-}
-
+/*id: input box for email*/
 #cf2 {
     background-color: #ffffff;
     padding: 10px 10px 10px 45px;
@@ -469,6 +384,36 @@
     font-weight: bolder;
 }
 
+/* id: div that holds the email icon*/
+#email-icon {
+    color: #868686;
+    height: 10px;
+    width: 10px;
+    padding: 4px;
+    position: relative;
+    box-sizing: border-box;
+    top: -4vh;
+    left: 0.55vw;
+    font-size: medium;
+}
+
+/*-> PASSWORD*/
+
+/* id: div holding the password input*/
+#password {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    top: -2.90vh;
+    left: 0.2vw;
+    position: relative;
+    display: flex;
+}
+
+/*id: input box for password*/
 #cf3 {
     background-color: #ffffff;
     padding: 10px 10px 10px 45px;
@@ -485,6 +430,35 @@
     font-weight: bolder;
 }
 
+/*id: div that holds the password icon*/
+#password-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: absolute;
+    box-sizing: border-box;
+    left: 0.3vw;
+    top: 1vh;
+    font-size: large;
+}
+
+/*-> CONFIRM PASSWORD*/
+
+/* id: div holding confirm password input*/
+#confirm-password {
+    font-family: 'Armata', 'serif';
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: lighter;
+    text-align: left;
+    display: block;
+    /* margin-bottom: 0px; */
+    top: -5.5vh;
+    position: relative;
+}
+
+/*id: input box for confirm password*/
 #cf4 {
     background-color: #ffffff;
     padding: 10px 10px 10px 45px;
@@ -502,60 +476,22 @@
     font-weight: bolder;
 }
 
-/* title */
-#ch1 {
-    font-family: 'Armata', serif;
-    color: #9db8cc;
-    font-size: 75px;
-    font-weight: bold;
-    text-align: center;
-    padding: 10px 10px 25px 10px;
-    margin-bottom: 0px;
+/*id: div that holds the confirm password icon*/
+#cpassword-icon {
+    color: #868686;
+    height: 5px;
+    width: 5px;
+    padding: 4px;
+    position: relative;
+    box-sizing: border-box;
+    top: -3.5vh;
+    left: 0.5vw;
+    font-size: large;
 }
 
-#ch2{
-    font-family: 'Armata', serif;
-    font-size: 70px;
-    color: #ffffff;
-    font-weight: lighter;
-    text-align: left;
-    margin-left: 50%x;
-    margin-bottom: 20px;
-}
+/*-> CREATE BUTTON*/
 
-#lb1 {
-    font-family: 'Armata', sans-serif;
-    font-size: 25px;
-    background-color: #9db8cc;
-    color: white;
-    border: none;
-    border-radius: 24px;
-    height: 50px;
-    width: 175px;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-#lb1:hover {
-    background-color: #83a0b6;
-    transition: 0.4s;
-}
-
-#lp1 {
-    font-family: 'Armata', sans-serif;
-    font-size: 25px;
-    color: #ffffff;
-}
-
-#la1 {
-    color: #ffffff;
-    font-weight: 600;
-}
-
-.button-login:focus {
-    outline: none;
-}
-
+/*id: for create button*/
 #button-create {
     font-family: 'Armata', sans-serif;
     font-size: 25px;
@@ -573,6 +509,103 @@
     transition: 0.4s;
 }
 
+/*(\(^.^)/) OVERLAY (\(^.^)/)*/
+
+/*class: div that holds the overlay*/
+.o-panel {
+    /* opacity: 0; */
+    font-family: 'Armata', serif;
+    color: #ffffff;
+    font-size: xx-large;
+    background: #9db8cc;
+    padding: 20px;
+    border-radius: 20px;
+    transition: transform 0.8s ease-in-out, border-radius 0.4s ease-in-out;
+    flex: 0.5 0.5;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    z-index: 40;
+    
+    /*trying*/
+    /* left: 100% */
+}
+
+.o-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: inherit;
+    border-radius: inherit;
+    z-index: -1;
+    transition: inherit;
+    
+}
+
+/*class: div that holds the overlay*/
+.o-content {
+    transform: translateX(0);
+    border-radius: 20px 0px 0px 20px;
+    z-index: 7;
+}
+
+/*class: title when on the left side*/
+.aqua-title-overlay {
+    font-family: 'Armata', serif;
+    color: white;
+    z-index: 2192892000;
+    font-size: 20px;
+    font-weight: 550;
+    position: absolute;
+    top: 0;
+}
+
+/*id: overlay title when on left*/
+#overlay-title {
+    letter-spacing: 3px;
+    font-weight: bolder;
+}
+
+/*-> LEFT*/
+
+/*class: div that moves the overlay to the left*/
+.slide-left {
+    transform: translateX(0);
+    border-radius: 20px 0px 0px 20px;
+    z-index: 6;
+}
+
+/*classes: changes border radius*/
+.o-panel.slide-left::before {
+    border-radius: 20px 0px 0px 20px;
+
+    /*trying*/
+    left:100%
+}
+
+/*-> RIGHT*/
+
+/*class: div that moves the overlay to the right*/
+.slide-right {
+    transform: translateX(95%);
+    border-radius: 0px 20px 20px 0px;
+    z-index: 6;
+}
+
+/*classes: changes border radius*/
+.o-panel.slide-right::after {
+    border-radius: 0px 20px 20px 0px;
+}
+
+/*-> BUTTON*/
+
+/*class: for submit create button*/
 .ghost {
     background-color: transparent;
     border: solid 1px;
@@ -590,379 +623,3 @@
     background-color: #83a0b6;
 }
 
-.log-in {
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: 0 2.6vw;
-	height: 100%;
-	text-align: center;
-    position: relative;
-    width: 35vw;
-    height: 70vh;
-}
-
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    transition: all 0.6s ease-in-out;
-}
-
-.sign-in-container {
-    width: 40vw;
-    height: 70vh;
-    z-index: 5;
-    background-color: #ffffff;
-    box-shadow: 2px 2px 10px #788996;
-    opacity: 1;
-    top: 0vh;
-    border-radius: 20px 0px 0px 20px;
-}
-
-.container.right-panel-active .sign-in-container {
-    transform: translateX(100%);
-}
-
-.sign-up-container {
-    /* top: 5vh; */
-    /* left: 50vw; */
-    width: 40vw;
-    z-index: 5;
-    height: 70vh;
-    background-color: #5a8b34;
-    box-shadow: 2px 2px 10px #788996;
-    /* z-index: 8432984393; */
-    border-radius: 0px 20px 20px 0px;
-    /* text-align: center; */
-}
-
-.container.right-panel-active .sign-up-container {
-    transform: translateX(100%);
-    opacity: 50%;
-    z-index: 5;
-    animation: show 0.6s;
-}
-
-.container.right-panel-active .overlay {
-    transform: translateX(50%);
-}
-
-.sign-in-container form,
-.sign-up-container form{
-    flex: 1;
-    box-sizing: border-box;
-    width: 50%;
-}
-
-
-.o-panel {
-    font-family: 'Armata', serif;
-    color: #ffffff;
-    font-size: xx-large;
-    background: #9db8cc;
-    padding: 20px;
-    border-radius: 20px;
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
-    transition: transform 0.8s ease-in-out, border-radius 0.4s ease-in-out;
-    flex: 0.5;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    width: 50%;
-    z-index: 3;
-}
-
-.o-panel::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: inherit;
-    border-radius: inherit;
-    z-index: -1;
-    transition: inherit;
-    
-}
-
-.o-content,
-.o-content-right {
-    width: 50%;
-    transform: translateX(0);
-}
-
-.o-content {
-    transform: translateX(0);
-    border-radius: 20px 0px 0px 20px;
-    z-index: 7;
-}
-
-.o-content-right {
-    transform: translateX(90.1%);
-    border-radius: 0px 20px 20px 0px;
-    z-index: 7;
-}
-
-.slide-left {
-    transform: translateX(0);
-    border-radius: 20px 0px 0px 20px;
-    z-index: 6;
-}
-
-.slide-right {
-    transform: translateX(95%);
-    border-radius: 0px 20px 20px 0px;
-    z-index: 6;
-}
-
-.o-panel.slide-left::before {
-    border-radius: 20px 0px 0px 20px;
-}
-
-.o-panel.slide-right::after {
-    border-radius: 0px 20px 20px 0px;
-}
-
-#overlay-left-title {
-    letter-spacing: 3px;
-    font-weight: bolder;
-}
-
-/* .middle {
-    border-radius: 0;
-} */
-
-.hidden {
-    display: none;
-}
-
-/* .overlay-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    transition: transform 0.6s ease-in-out;
-    z-index: 7000;
-} */
-
-/* .container.right-panel-active .overlay-container {
-    transform: translateX(-100%);
-} */
-
-/* top: 0;
-    left: 0;
-    height: 70%;
-    width: 60%;
-    border-radius: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 1000; */
-/* #login-column,
-#create-column {
-    z-index: 2;
-} */
-
-/* html, body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-} */
-
-/* #column {
-    position: relative;
-    z-index: 1;
-} */
-
-/* .row:after {
-    content: '';
-    display: table;
-    clear: both;
-} */
-
-/* .login-img img {
-    width: 100%;
-    height: 100vh;
-    background-position: center;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-} */
-
-/* #column {
-    position: relative;
-    z-index: 1;
-} */
-
-/* .row:after {
-    content: '';
-    display: table;
-    clear: both;
-} */
-
-/* .login-img img {
-    width: 100%;
-    height: 100vh;
-    background-position: center;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-} */
-
-/* #image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100vh;
-    z-index: 0;
-}
-
-#login-img {
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    overflow: hidden;
-}
-
-#container {
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 100vh;
-    background-image: url('../pictures/test1.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-} */
-
-/* #lp1 {
-    font-family: 'Armata', sans-serif;
-    font-size: 25px;
-    color: #5094cc;
-} */
-
-/* #la1 {
-    color: #5094cc;
-    font-weight: 600;
-} */
-
-/* #rectangle {
-    height: 70%;
-    width: 60%;
-    padding: 50px;
-    border-radius: 25px;
-    background-color: #ffffff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-} */
-
-/* @media (max-width: 768px) {
-    #container {
-      flex-direction: column;
-    }
-
-    #rectangle {
-        flex-direction: column;
-    }
-
-    #login-column, #create-column {
-        order:initial;
-        width: 100%;
-        max-width: 400px;
-        margin-right: 0;
-    }
-} */
-
-/* .input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-} */
-
-/* #container {
-    display: flex;
-    flex-wrap: wrap;
-} */
-
-/* .create-img img {
-    width: 100%;
-    height: 100vh;
-    background-position: center;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-} */
-
-/* #image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100vh;
-    z-index: 0;
-} */
-
-/* #create-img {
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    overflow: hidden;
-    object-fit: cover;
-}
-
-@media (max-width: 768px) {
-    #container {
-      flex-direction: column;
-    }
-}
-
-#login-column {
-    order: 1;
-}
-
-#image-column {
-    order: 2;
-}
-
-.input-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-#em {
-    margin-bottom: -10px;
-}
-
-#pw {
-    margin-bottom: 25px;
-}
-
-/* * {
-    box-sizing: border-box;
-} */
-
-/* .column#image {
-    float: left;
-    width: 50%;
-    background-position: center;
-    background-repeat: no-repeat;
-} */
