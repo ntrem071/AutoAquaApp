@@ -118,7 +118,7 @@ function Create() {
         const validate = FormValidation();
         if(validate && (name !== '') && (email !== '') && (password !== '') && (password === cpassword)){
             if(validate){
-                var url = 'http://localhost:8080/users/na/create';
+                var url = 'http://ceg4913-server.duckdns.org/users/na/create';
                 var headers = {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'

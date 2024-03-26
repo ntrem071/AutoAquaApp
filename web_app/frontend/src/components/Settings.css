@@ -155,10 +155,6 @@ input:checked + .slider:before {
     border-radius: 5px;
     border-width: 1px;
     font-weight: bold;
-    color: white;
-}
-#addtime:hover{
-    background-color: #709758;
 }
 
 /*wrappers*/

@@ -43,8 +43,70 @@ function Settings() {
     
     useEffect(() => {
         getTimezoneList();
-        setValues(); //initialize values from user doc on page load
+        setValues(); //initialize values from user doc on page load     
+
+        //feed addtime hover colour
+        document.querySelector('#addtime').addEventListener('mouseenter', handleMouseEnterAdd);
+        document.querySelector('#addtime').addEventListener('mouseout', handleMouseOutAdd);
+
+        document.getElementById('delete-t1').addEventListener('mouseenter', handleMouseEnterD1);
+        document.getElementById('delete-t1').addEventListener('mouseout', handleMouseOutD1);
+
+        document.getElementById('delete-t2').addEventListener('mouseenter', handleMouseEnterD2);
+        document.getElementById('delete-t2').addEventListener('mouseout', handleMouseOutD2);
+
+        document.getElementById('delete-t3').addEventListener('mouseenter', handleMouseEnterD3);
+        document.getElementById('delete-t3').addEventListener('mouseout', handleMouseOutD3);
+
+        // Clean up by removing event listeners when the component unmounts
+        return () => {
+            document.querySelector('#addtime').removeEventListener('mouseenter', handleMouseEnterAdd);
+            document.querySelector('#addtime').removeEventListener('mouseout', handleMouseOutAdd);
+
+            document.getElementById('delete-t1').removeEventListener('mouseenter', handleMouseEnterD1);
+            document.getElementById('delete-t1').removeEventListener('mouseout', handleMouseOutD1);
+
+            document.getElementById('delete-t2').removeEventListener('mouseenter', handleMouseEnterD2);
+            document.getElementById('delete-t2').removeEventListener('mouseout', handleMouseOutD2);
+
+            document.getElementById('delete-t3').removeEventListener('mouseenter', handleMouseEnterD3);
+            document.getElementById('delete-t3').removeEventListener('mouseout', handleMouseOutD3);
+        };
     }, []);
+    
+
+    const handleMouseEnterAdd = () => {
+        if(!document.getElementById('addtime').disabled){document.querySelector('#addtime').style.backgroundColor = '#709758';}
+        else{document.querySelector('#addtime').style.backgroundColor = '#bebcbc';}
+    };
+    const handleMouseOutAdd = () => {
+        if(!document.getElementById('addtime').disabled){document.querySelector('#addtime').style.backgroundColor = '#95ac8c';}
+        else{document.querySelector('#addtime').style.backgroundColor = '#bebcbc';}
+    };
+    const handleMouseEnterD1 = () => {
+        if(!document.getElementById('delete-t1').disabled){document.getElementById('delete-t1').style.backgroundColor = '#709758';}
+        else{document.getElementById('delete-t1').style.backgroundColor = '#bebcbc';}
+    };
+    const handleMouseOutD1 = () => {
+        if(!document.getElementById('delete-t1').disabled){document.getElementById('delete-t1').style.backgroundColor = '#95ac8c';}
+        else{document.getElementById('delete-t1').style.backgroundColor = '#bebcbc';}
+    };
+    const handleMouseEnterD2 = () => {
+        if(!document.getElementById('delete-t2').disabled){document.getElementById('delete-t2').style.backgroundColor = '#709758';}
+        else{document.getElementById('delete-t2').style.backgroundColor = '#bebcbc';}
+    };
+    const handleMouseOutD2 = () => {
+        if(!document.getElementById('delete-t2').disabled){document.getElementById('delete-t2').style.backgroundColor = '#95ac8c';}
+        else{document.getElementById('delete-t2').style.backgroundColor = '#bebcbc';}
+    };
+    const handleMouseEnterD3 = () => {
+        if(!document.getElementById('delete-t3').disabled){document.getElementById('delete-t3').style.backgroundColor = '#709758';}
+        else{document.getElementById('delete-t3').style.backgroundColor = '#bebcbc';}
+    };
+    const handleMouseOutD3 = () => {
+        if(!document.getElementById('delete-t3').disabled){document.getElementById('delete-t3').style.backgroundColor = '#95ac8c';}
+        else{document.getElementById('delete-t3').style.backgroundColor = '#bebcbc';}
+    };
 
     const handleInputChange = (e, type) => {
         setError('');
@@ -207,30 +269,42 @@ function Settings() {
 
     function toggleFEEDDisable(){
             document.getElementById('addtime').disabled = !feedEn;
-            console.log(feedEn);
-            if(feedEn && visibleWraps[2]!=true){
-                document.getElementById('addtime').style.backgroundColor = '#95ac8c';
-                document.getElementById('addtime').style.borderColor = '#687962';
-            }else{
-                document.getElementById('addtime').style.backgroundColor = '#8d8d8d';
-                document.getElementById('addtime').style.borderColor = '#8d8d8d';
-            }
 
             if(visibleWraps[0]==true){
                 document.getElementById('firsthour').disabled=!feedEn;
                 document.getElementById('firstminute').disabled=!feedEn;
-                if(visibleWraps[1]==false){document.getElementById('delete-t1').disabled = !feedEn;}
+                if(visibleWraps[1]==false){
+                    document.getElementById('delete-t1').disabled = !feedEn;
+                    document.getElementById('delete-t1').style.backgroundColor = '#95ac8c';
+                }
             }
             if(visibleWraps[1]==true){
                 document.getElementById('secondhour').disabled=!feedEn;
                 document.getElementById('secondminute').disabled=!feedEn;
-                if(visibleWraps[2]==false){document.getElementById('delete-t2').disabled = !feedEn;}
+                if(visibleWraps[2]==false){
+                    document.getElementById('delete-t2').disabled = !feedEn;
+                    document.getElementById('delete-t1').style.backgroundColor = '#bebcbc';
+                    document.getElementById('delete-t2').style.backgroundColor = '#95ac8c';
+                }
             }
             if(visibleWraps[2]==true){
                 document.getElementById('thirdhour').disabled=!feedEn;
                 document.getElementById('thirdminute').disabled=!feedEn;
                 document.getElementById('delete-t3').disabled = !feedEn;
                 document.getElementById('addtime').disabled = true;
+                document.getElementById('delete-t2').style.backgroundColor = '#bebcbc';
+                document.getElementById('delete-t3').style.backgroundColor = '#95ac8c';
+                document.querySelector('#addtime').style.backgroundColor = '#bebcbc'; 
+            }
+
+            if(!feedEn){
+                document.querySelector('#addtime').style.backgroundColor = '#bebcbc'; 
+                document.getElementById('delete-t1').style.backgroundColor = '#bebcbc';
+                document.getElementById('delete-t2').style.backgroundColor = '#bebcbc';
+                document.getElementById('delete-t3').style.backgroundColor = '#bebcbc';   
+            }
+            else{
+                document.querySelector('#addtime').style.backgroundColor = '#95ac8c';
             }
     }
 
@@ -239,50 +313,49 @@ function Settings() {
             if (visibleWraps[0]==false){
                 setVisibleWraps([true, false, false]);
                 document.getElementById('wrap1').style.display = 'flex';
+                document.getElementById('delete-t1').style.backgroundColor = '#95ac8c';
 
             } else if (visibleWraps[1]==false) {
                 setVisibleWraps([true, true, false]);
                 document.getElementById('wrap2').style.display = 'flex';
                 document.getElementById('delete-t1').disabled = true;
-                document.getElementById('delete-t2').disabled = false;
+                document.getElementById('delete-t2').disabled = false;               
+                document.getElementById('delete-t1').style.backgroundColor = '#bebcbc';
+                document.getElementById('delete-t2').style.backgroundColor = '#95ac8c';
 
             } else if (visibleWraps[2]==false) {
                 setVisibleWraps([true, true, true]);
                 document.getElementById('wrap3').style.display = 'flex';
                 document.getElementById('delete-t2').disabled = true;
-                document.getElementById('delete-t3').disabled = false;
+                document.getElementById('delete-t3').disabled = false;         
+                document.getElementById('delete-t2').style.backgroundColor = '#bebcbc';
+                document.getElementById('delete-t3').style.backgroundColor = '#95ac8c';
                 document.getElementById('addtime').disabled = true;
-                document.getElementById('addtime').style.backgroundColor = '#8d8d8d';
-                document.getElementById('addtime').style.borderColor = '#8d8d8d';
             }    
     }
 
     function deleteTime() {
-            console.log('-d-',feedEn);
-            console.log('-d-',visibleWraps);
             
-
             if (visibleWraps[2]==true) {
-                console.log('here3');
                 setVisibleWraps([true, true, false]);
                 document.getElementById('delete-t2').disabled = false;
+                document.getElementById('delete-t2').style.backgroundColor = '#95ac8c';
                 document.getElementById('wrap3').style.display = 'none';
             } 
             else if (visibleWraps[1]==true) {
-                console.log('here2');
                 setVisibleWraps([true, false, false]);
                 document.getElementById('delete-t1').disabled = false;
+                document.getElementById('delete-t1').style.backgroundColor = '#95ac8c';
                 document.getElementById('wrap2').style.display = 'none';
             } 
             else if (visibleWraps[0]==true) {
-                console.log('here1');
                 setVisibleWraps([false, false, false]);
                 document.getElementById('wrap1').style.display = 'none';
             }  
 
             document.getElementById('addtime').disabled = false;
-            document.getElementById('addtime').style.backgroundColor = '#95ac8c';
-            document.getElementById('addtime').style.borderColor = '#687962';
+            document.querySelector('#addtime').style.backgroundColor = '#95ac8c';
+            
     }
 
     function toggleLEDDisable(){
@@ -298,9 +371,7 @@ function Settings() {
             document.getElementById('LEDoffMinute').disabled=false;
         }
     }
-
-
-    
+   
     function getTimezoneList(){
         var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/timezone-list';
         var headers = {
@@ -422,6 +493,9 @@ function Settings() {
             })
             .then(data => {
                 console.log(data);
+
+
+
                 //load range sliders
                 if((!(data.phRange[0]==null))){
                     setpHMin(data.phRange[0]);
@@ -451,6 +525,15 @@ function Settings() {
                 toggleRangeDisable(data.phEn, 'ph');
                 toggleRangeDisable(data.ecEn, 'ec');
                 toggleRangeDisable(data.tempEnEn, 'temp');
+
+                //Enable toggle buttons
+                if(data.phEnable===true){document.getElementById('cs1').click();}
+                if(data.ecEnable===true){document.getElementById('cs2').click();}
+                if(data.tempEnable===true){document.getElementById('cs3').click();}
+                if(data.feedEnable===true){document.getElementById('cs4').click();}
+                if(data.ledEnable===true){document.getElementById('cs5').click();}
+
+
                 //load LED times
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][0]==null))){setLEDoffHour(data.ledTimer[0][0]);}
                 if((!(data.ledTimer[0]==null) && !(data.ledTimer[0][1]==null))){setLEDoffMinute(data.ledTimer[0][1]);}
@@ -467,7 +550,6 @@ function Settings() {
                     if(data.feedTimer[1]==null){
                         setVisibleWraps([true, false, false]);
                     }
-                    console.log(!data.feedEnable)
                     document.getElementById('firsthour').disabled=!data.feedEnable;
                     document.getElementById('firstminute').disabled=!data.feedEnable;
                     document.getElementById('delete-t1').disabled =!data.feedEnable;
@@ -479,6 +561,7 @@ function Settings() {
                     
                     document.getElementById('wrap2').style.display = 'flex';
                     document.getElementById('delete-t1').disabled = true;
+                    document.getElementById('delete-t1').style.backgroundColor = '#bebcbc';
                     if(data.feedTimer[2]==null){
                         setVisibleWraps([true, true, false]);
                     }
@@ -492,9 +575,9 @@ function Settings() {
                     
                     document.getElementById('wrap3').style.display = 'flex';
                     document.getElementById('addtime').disabled = true;
-                    document.getElementById('addtime').style.backgroundColor = '#8d8d8d';
-                    document.getElementById('addtime').style.borderColor = '#8d8d8d';
+                    document.querySelector('#addtime').style.backgroundColor = '#bebcbc';
                     document.getElementById('delete-t2').disabled = true;
+                    document.getElementById('delete-t2').style.backgroundColor = '#bebcbc';
                     setVisibleWraps([true, true, true]);
                     document.getElementById('thirdhour').disabled=!data.feedEnable;
                     document.getElementById('thirdminute').disabled=!data.feedEnable;
@@ -503,17 +586,18 @@ function Settings() {
 
                 if(!data.feedEnable){
                     document.getElementById('addtime').disabled = true;
-                    document.getElementById('addtime').style.backgroundColor = '#8d8d8d';
-                    document.getElementById('addtime').style.borderColor = '#8d8d8d';
+                    document.querySelector('#addtime').style.backgroundColor = '#bebcbc';
+                    document.getElementById('delete-t1').style.backgroundColor = '#bebcbc';
+                    document.getElementById('delete-t2').style.backgroundColor = '#bebcbc';
+                    document.getElementById('delete-t3').style.backgroundColor = '#bebcbc';
                 }
 
-                if((!(data.timezone==null))){setTimezone(data.timezone);}
+                if((!(data.timezone==null))){
+                    setTimezone(data.timezone);
+                    document.querySelector('#timezone-list option').innerHTML = data.timezone;
+                }
                 
-                if(data.phEnable===true){document.getElementById('cs1').click();}
-                if(data.ecEnable===true){document.getElementById('cs2').click();}
-                if(data.tempEnable===true){document.getElementById('cs3').click();}
-                if(data.feedEnable===true){document.getElementById('cs4').click();}
-                if(data.ledEnable===true){document.getElementById('cs5').click();}
+
             })
             .catch((err) => {
                 setError(err);
@@ -665,7 +749,6 @@ function Settings() {
                                 <div className='wrap-sb1'>
                                     <button className='sbuttons' id='addtime' onClick={addTime}>Add Time</button>
                                     <button className='sbuttons' type='button' id='Save' onClick={updateFeed}>Save Changes</button>
-                                
                                 </div>
                             </div>
                         <div className="wrap-led">
