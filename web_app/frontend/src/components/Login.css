@@ -25,6 +25,14 @@
 }
 
 /*TITLE: AQUAPONICS*/
+#lh1 {
+    z-index: 9327499837025823049830248324920;
+    position: relative;
+    display: block;
+    font-size: large;
+    font-family: 'Armata';
+    color: #9db8cc;
+}
 
 /*class: title when the overlay is on the left*/
 .title-left {
@@ -40,7 +48,7 @@
 .title-right {
     font-family: 'Armata', serif;
     color: #9db8cc;
-    z-index: 5000;
+    z-index: 2192892000;
     font-size: 20px;
     font-weight: 900;
 }
@@ -64,13 +72,14 @@
 /*id: login title*/
 #lh2{
     font-family: 'Armata', serif;
-    font-size: 70px;
+    font-size: 5vw;
     color: #9db8cc;
     font-weight: bolder;
     text-align: left;
     margin-left: 50%x;
-    margin-bottom: 3vh;
-    margin-top: 15vh;
+    margin-bottom: 7vh;
+    margin-top: 10vh;
+
 }
 
 /*id: div holding login and create*/
@@ -124,6 +133,7 @@
 .log-in {
     background-color: transparent;
     display: flex;
+    flex: auto;
     align-items: center;
     flex-direction: column;
     padding: 0 2.6vw;
@@ -145,8 +155,8 @@
 #lt1{
     background-color: white;
     border-style: none none solid none;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
+    padding: 1vh 1vw 1vh 4vw;
+    width: 22vw;
     height: 25px;
     align-self: flex-start;
 }
@@ -159,7 +169,7 @@
     padding: 4px;
     position: relative;
     box-sizing: border-box;
-    left: 0.5vw;
+    left: 0.3vw;
     top: -4vh;
     display: flex;
 }
@@ -176,12 +186,11 @@
 #lt2{
     background-color: white;
     border-style: none none solid none;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
+    padding: 1vh 1vw 1vh 4.25vw;
+    width: 22vw;
     height: 25px;
     align-self: flex-start;
     position: relative;
-    border-style: none none solid none;
 }
 
 /*id: Password Icon*/
@@ -286,6 +295,8 @@
 .side-by-side {
     display: flex;
     flex-direction: column;
+    flex: auto;
+    /* justify-content: center; */
     margin: auto;
     background-color: transparent;
     z-index: 3;
@@ -304,11 +315,11 @@
 #ch1 {
     font-family: 'Armata', serif;
     color: #9db8cc;
-    font-size: 75px;
+    font-size: 5vw;
     font-weight: bold;
     text-align: center;
-    padding: 10px 10px 25px 10px;
-    margin-bottom: 0px;
+    padding: 7vh 1vh;
+    margin: 0;
 }
 
 /*-> NAME*/
@@ -321,15 +332,14 @@
     font-weight: lighter;
     text-align: left;
     display: block;
-    margin-bottom: -25px;
-    left: 0.5vw;
+    height:6vh
 }
 
 /*id: input box for name*/
 #cf1 {
     background-color: #ffffff;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
+    padding: 1vh 1vw 1vh 4.25vw;
+    width: 22vw;
     height: 25px;
     align-self: flex-start;
     position: relative;
@@ -344,8 +354,8 @@
 /* id: div that holds the name icon*/
 #name-icon {
     color: #868686;
-    height: 3px;
-    width: 3px;
+    height: auto;
+    width: 10vw;
     padding: 4px;
     position: relative;
     box-sizing: border-box;
@@ -371,8 +381,8 @@
 /*id: input box for email*/
 #cf2 {
     background-color: #ffffff;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
+    padding: 1vh 1vw 1vh 4.25vw;
+    width: 22vw;
     height: 25px;
     align-self: flex-start;
     position: relative;
@@ -407,8 +417,8 @@
     font-weight: lighter;
     text-align: left;
     display: block;
-    top: -2.90vh;
-    left: 0.2vw;
+    /* top: -3vh;
+    left: 0.2vw; */
     position: relative;
     display: flex;
 }
@@ -416,8 +426,8 @@
 /*id: input box for password*/
 #cf3 {
     background-color: #ffffff;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
+    padding: 1vh 1vw 1vh 4.25vw;
+    width: 22vw;
     height: 25px;
     align-self: flex-start;
     position: relative;
@@ -454,21 +464,20 @@
     text-align: left;
     display: block;
     /* margin-bottom: 0px; */
-    top: -5.5vh;
     position: relative;
 }
 
 /*id: input box for confirm password*/
 #cf4 {
     background-color: #ffffff;
-    padding: 10px 10px 10px 45px;
-    width: 250px;
+    padding: 1vh 1vw 1vh 4.25vw;
+    width: 22vw;
     height: 25px;
     align-self: flex-start;
     position: relative;
     border-style: none none solid none;
-    margin-top: auto;
-    margin-bottom: -10px;
+    /* margin-top: auto; */
+    top: 0vh;
 }
 
 #cf4::placeholder {
@@ -528,7 +537,7 @@
     align-items: center;
     justify-content: center;
     width: 50%;
-    z-index: 40;
+    z-index: 25;
     
     /*trying*/
     /* left: 100% */

@@ -15,6 +15,7 @@ function Login() {
     const[error, setError] = useState('');
     const[message, setMessage] = useState('');
     const[passwordVisible, setPasswordVisible] = useState(false);
+    const[title, setTitle] = useState(true);
 
     const [name, setName] = useState('');
     const [cpassword, setCPassword] = useState('');
@@ -62,6 +63,16 @@ function Login() {
 
     const oHandleButtonClick = () => {
         setSlideLeft(!(slideLeft))
+        setTitle(!(title))
+        changeColour();
+    }
+
+    const changeColour = () => {
+        if(!title){
+            document.getElementById('lh1').style.color = '#9db8cc';
+        } else {
+            document.getElementById('lh1').style.color = '#ffffff';
+        }
     }
 
     // (\(O.O)/)
@@ -69,20 +80,20 @@ function Login() {
         
     // }
 
-    const showResponseMessage = () => {
-        // setResponseMessage(!responseMessage);
-        setResponseMessage('Account created successful!');
-    }
+    // const showResponseMessage = () => {
+    //     // setResponseMessage(!responseMessage);
+    //     setResponseMessage('Account created successful!');
+    // }
 
-    const handleLeftButton = () => {
-        setLeftButton(true);
-        setRightButton(false);
-    }
+    // const handleLeftButton = () => {
+    //     setLeftButton(true);
+    //     setRightButton(false);
+    // }
 
-    const handleRightButton = () => {
-        setLeftButton(false);
-        setRightButton(true);
-    }
+    // const handleRightButton = () => {
+    //     setLeftButton(false);
+    //     setRightButton(true);
+    // }
 
     const handleInputChange = (e, type) => {
         switch(type){
@@ -323,7 +334,7 @@ function Login() {
         <div id='container'>
             <div id='login-create-overlay'>
                 <div className='form-container sign-in-container'>
-                    <h1 id='lh1' className={slideLeft ? 'title-right' : 'title-left'}>AUTOMATED AQUAPONICS</h1>
+                    <h1 id='lh1'>AUTOMATED AQUAPONICS</h1>
                     {/* <h2 id='lh2'>Login</h2> */}
                     <div className='Login'>
                         <form className='log-in' action='#'>
@@ -398,7 +409,7 @@ function Login() {
                                 <div id='name-icon'>
                                     <UserOutlined/>
                                 </div>
-                            </div><br/>
+                            </div>
                             <div id='email'>
                                 <input
                                     type="email" 
@@ -415,7 +426,7 @@ function Login() {
                                 <div id='email-icon'>
                                     <MailOutlined/>
                                 </div>
-                            </div><br/>
+                            </div>
                             <div id='password'>
                                 <br/>
                                 <input
@@ -431,7 +442,7 @@ function Login() {
                                 <div id='password-icon'>
                                     <LockOutlined/>
                                 </div>
-                            </div><br/>
+                            </div>
                             <div id='confirm-password'>
                                 <input
                                     type="password" 
@@ -462,7 +473,7 @@ function Login() {
                     </div>
                 </div>
                 <div className={`o-panel o-content ${slideLeft ? 'slide-right' : 'slide-left'}`}>
-                    <h1 className='aqua-title-overlay'>{slideLeft ? '' : 'AUTOMATED AQUAPONICS'}</h1>
+                    {/* <h1 className='aqua-title-overlay'>{slideLeft ? '' : 'AUTOMATED AQUAPONICS'}</h1> */}
                     <h2 id='overlay-title'>{slideLeft ? 'Hello Friend!' : 'Welcome Back!'}</h2>
                     <p id='overlay-left-p'>{slideLeft ? 'Enter your personal details and start a journey with us!' : 'Please login to get started!'}</p>
                     <button className='ghost' id='signIn' onClick={oHandleButtonClick}>{slideLeft ? 'SIGN UP' : 'SIGN IN'}</button>
