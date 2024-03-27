@@ -21,7 +21,7 @@ function Homepage() {
     var navDrop = false;
     
     useEffect(() => {
-        setWarningTest()
+        //setWarningTest()
         setValues(); 
     }, []);
 
@@ -350,7 +350,7 @@ function Homepage() {
             }
             
             //data.feedFlag==true show warning
-            if(true){
+            if(data.feedFlag){
                 document.querySelector('.warning-feed-h').style.display = 'flex';
             }
         })
@@ -359,38 +359,33 @@ function Homepage() {
             console.log(err);
         });
     }
-    function setWarningTest(){
-        var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/warning';
-        var data = {
-            feedFlag: true           
-        };
-        var header = {         
-            'Accept': 'application/json',
-            'Content-Type': 'application/json' 
-        };
-        const id = fetch(url, {
-            method: 'PUT',
-            headers: header,
-            body: JSON.stringify(data)  
-        })
-        .then((response) => {
-            if(response.error) {
-                setError(response.error);
-                console.log('Error: ', response.error)
-            } else {
-                return response.json()
-            }
-        })
-        .then(data => {
-            
- 
-            
-        })
-        .catch((err) => {
-            setError(err);
-            console.log(err);
-        });
-    }
+    // function setWarningTest(){
+    //     var url = 'https://ceg4913-server.duckdns.org/users/'+sessionId+'/warning';
+    //     var data = {
+    //         feedFlag: true           
+    //     };
+    //     var header = {         
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json' 
+    //     };
+    //     const id = fetch(url, {
+    //         method: 'PUT',
+    //         headers: header,
+    //         body: JSON.stringify(data)  
+    //     })
+    //     .then((response) => {
+    //         if(response.error) {
+    //             setError(response.error);
+    //             console.log('Error: ', response.error)
+    //         } else {
+    //             return response.json()
+    //         }
+    //     })
+    //     .catch((err) => {
+    //         setError(err);
+    //         console.log(err);
+    //     });
+    // }
     
     return(
 
