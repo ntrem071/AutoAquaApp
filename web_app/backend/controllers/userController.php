@@ -181,7 +181,10 @@ class UserController {
                     $this->users->refresh($this->sel1); 
                     $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
                 }
-
+                elseif($this->sel2=="warning"){
+                    if(isset($this->data->feedFlag)){$this->users->setFeedFlag($id,$this->data->feedFlag);}
+                    $this->response['status_code_header'] = 'HTTP/1.1 200 OK';
+                }
                 else{
                     $this->response['status_code_header'] = 'HTTP/1.1 502 Select Valid Setting Change Option';
                 }

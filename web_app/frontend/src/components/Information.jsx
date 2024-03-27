@@ -129,6 +129,7 @@ function Fish() {
                     str+=data.plants[i].plant+" ";
                     arr.push(data.plants[i].plant);
                 }
+                console.log('sV Plants array: ', arr)
                 arr= arr.sort();
                 setPlantsArr(arr);
                 setPlants(arr.join(', '));
@@ -296,7 +297,12 @@ function Fish() {
             if(response.error) {
                 setError(response.error);
                 console.log('Error: ', response.error)
-            } 
+            }
+            console.log('uUS() before set plantsArr: ', plantsArr);
+            setPlantsArr(arr);
+        })
+        .then(() => {
+            console.log('uUS() after set plantsArr: ', plantsArr);
         })
         .catch((err) => {
             setError(err);
@@ -306,7 +312,7 @@ function Fish() {
     }
 
     const modifySelectPF=(type, elem)=>{
-        console.log(!phCheck+" "+!ecCheck+" "+!hoursCheck);
+        console.log('modifySelectPF: ',!phCheck+" "+!ecCheck+" "+!hoursCheck);
         switch(type){
             case 'add-plant':
                 if(plantsArr.includes(elem)){

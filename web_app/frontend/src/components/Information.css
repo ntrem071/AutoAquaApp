@@ -123,7 +123,7 @@
 
 .wrap-display-pf{
     border-radius: 2px;
-    background: #c7c7c7;
+    background: #bcd3e5;
     height: 60vh;
     border-style: none;
     overflow-y: scroll;
@@ -197,6 +197,7 @@
     /* flex-direction: column; */
     position: relative;
     margin-top: 4.25vh;
+    margin-bottom: 5vh;
     background-color:  #9db8cc;
     /* background-color: #7c93a5; */
     /* width: 47.6vw; */
@@ -217,7 +218,7 @@
 
 .wrap-stats-pf{
 
-    height: 89vh;
+    height: 87.5vh;
     width: 42%;
     position: relative;
     /* margin-left: 1%; */
