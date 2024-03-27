@@ -85,7 +85,7 @@ def sendProbeData():
                 "waterPoint": struct.unpack('d', data[2])[0],
                 "ecPoint": struct.unpack('d', data[3])[0]
             })
-
+            print(probeData)
             #temporary data when arduino not accessible (only for testing the graph datapoints!!!)
             # probeData = json.dumps({
             #     "phPoint": 6.8,
@@ -202,6 +202,7 @@ while True:
     if(diffHour > 1):
         sendProbeData()
         camera
+        camera.postVideo(sessionId)
         hourTimer = datetime.datetime.now(timezone).strftime('%H:%M:%S')
         
 requests.post('https://ceg4913-server.duckdns.org/users/' + sessionId + '/logout/system', headers=serverHeader, timeout=5)

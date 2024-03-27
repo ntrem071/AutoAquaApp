@@ -1,5 +1,7 @@
 import cv2
 from roboflow import Roboflow
+import requests
+
 
 rf = Roboflow(api_key="qZ8fLZkBFuZllwmCf6w9")
 project = rf.workspace().project("fish-uyu9m")
@@ -38,6 +40,23 @@ def objectRecognitionModel():
 	results = model.poll_until_video_results(job_id)
 	print(results)
 	return results
+
+def postVideo(sessionId):
+
+	#Server headers
+	serverHeader = {
+		#'Authorization': 'Basic' + buf,
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	}
+
+	files = {'file': open('./output.avi', 'rb')}
+	response = requests.post('https://ceg4913-server.duckdns.org/users/'+ sessionId + '/video', files=files, headers=serverHeader, timeout=5)
+	if(response.status_code == 200):
+		print('Video sent successfully!')
+	else:
+		print('uh ohh')
+		print(response.status_code)
 
 
 def show_camera():
