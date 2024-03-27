@@ -19,8 +19,8 @@
     position: relative;
     display: flex;
     justify-content: center;
-    margin-top: 300px;
-    margin-bottom: -20px;
+    margin-top: 250px;
+    margin-bottom: -25px;
 }
 .graph-zoom{
     position: absolute;
@@ -59,13 +59,13 @@
 
 }
 .current-stats-h{
-    height: 800px;
+    height: 75vh;
     width: 20%;
     position: relative;
     margin-left: 1%;
 }
 .cur-h{
-    height: 20.45%;
+    height: 25%;
     margin-bottom: 5px;
     position: relative;
     border-radius: 5px;
@@ -90,6 +90,7 @@
 .p3-h{
     font-size: 35px;
     color: #fff;
+    margin-top: 5px;
 }
 
 .st{

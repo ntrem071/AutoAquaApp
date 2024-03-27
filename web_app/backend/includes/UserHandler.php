@@ -36,7 +36,7 @@
                     'ledTimer'=> DEFAULT_LED, 'feedTimer'=> DEFAULT_FEED, 'phRange'=> DEFAULT_PH, 'ecRange'=> DEFAULT_EC,'tempRange'=> DEFAULT_TEMP, 
                         'phEnable'=> false,  'ecEnable'=> false,  'tempEnable'=> false, 'feedEnable'=>false, 'ledEnable'=>false,
                             'phGraph'=> [], 'ecGraph'=> [],'tempGraph'=> [], 'waterGraph'=> [], 'timezone'=>'UTC', 'plants'=>[], 'fish'=> null, 
-                                'recomPH'=>null, 'recomEC'=>null, 'recomHours'=>null]);
+                                'recomPH'=>null, 'recomEC'=>null, 'recomHours'=>null, 'feedFlag'=> false]);
                 return true;
 
             }else{return false;}
@@ -91,7 +91,7 @@
                 date_default_timezone_set($this->getTimezone($id));
                 //$this->testGraphs($id); //REMOVE AFTER TESTING
                 if($sel=='home'){
-                    $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'phGraph'=>true,'ecGraph'=>true,'tempGraph'=>true,'waterGraph'=>true]]);
+                    $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'phGraph'=>true,'ecGraph'=>true,'tempGraph'=>true,'waterGraph'=>true, 'feedFlag'=>true]]);
                 }elseif($sel=='user'){
                     $user= $this->tbl->findOne(['email'=>$this->session->read($id)->data],['projection'=>['_id'=>false,'name'=>true,'email'=>true]]);
                 }elseif($sel=='behavior'){
@@ -238,6 +238,11 @@
                      
         }
 
+         //set feed warning to true if feed empty
+         public function setFeedWarning($id, $tf){ 
+            $this->tbl->updateOne(['email'=>$this->session->read($id)->data],['$set'=>['feedFlag'=>$tf]]);
+        }
+
         //GET() mongodb current document values 
         public function getName($id){return $this->getAccount($id)->name;} 
 
@@ -268,7 +273,8 @@
         public function getRecomEC($id){return $this->getAccount($id)->recomEC;}
         public function getRecomHours($id){return $this->getAccount($id)->recomHours;}
 
-        
+        public function getFeedWarning($id){return $this->getAccount($id)->feedFlag;}
+
         //Calculate compatibility ranges and hours from user saved plant/ fish species
         public function calculateIdealPH($id){
             $u1 = $this->getAccount($id);
