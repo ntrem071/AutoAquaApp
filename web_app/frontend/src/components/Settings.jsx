@@ -45,68 +45,77 @@ function Settings() {
         getTimezoneList();
         setValues(); //initialize values from user doc on page load     
 
-        //feed addtime hover colour
-        document.querySelector('#addtime').addEventListener('mouseenter', handleMouseEnterAdd);
-        document.querySelector('#addtime').addEventListener('mouseout', handleMouseOutAdd);
+        //feed button constants
+        const add = document.getElementById('addtime');
+        const d1 = document.getElementById('delete-t1');
+        const d2 = document.getElementById('delete-t2');
+        const d3 = document.getElementById('delete-t3');
 
-        document.getElementById('delete-t1').addEventListener('mouseenter', handleMouseEnterD1);
-        document.getElementById('delete-t1').addEventListener('mouseout', handleMouseOutD1);
-
-        document.getElementById('delete-t2').addEventListener('mouseenter', handleMouseEnterD2);
-        document.getElementById('delete-t2').addEventListener('mouseout', handleMouseOutD2);
-
-        document.getElementById('delete-t3').addEventListener('mouseenter', handleMouseEnterD3);
-        document.getElementById('delete-t3').addEventListener('mouseout', handleMouseOutD3);
-
-        // Clean up by removing event listeners when the component unmounts
-        return () => {
-            document.querySelector('#addtime').removeEventListener('mouseenter', handleMouseEnterAdd);
-            document.querySelector('#addtime').removeEventListener('mouseout', handleMouseOutAdd);
-
-            document.getElementById('delete-t1').removeEventListener('mouseenter', handleMouseEnterD1);
-            document.getElementById('delete-t1').removeEventListener('mouseout', handleMouseOutD1);
-
-            document.getElementById('delete-t2').removeEventListener('mouseenter', handleMouseEnterD2);
-            document.getElementById('delete-t2').removeEventListener('mouseout', handleMouseOutD2);
-
-            document.getElementById('delete-t3').removeEventListener('mouseenter', handleMouseEnterD3);
-            document.getElementById('delete-t3').removeEventListener('mouseout', handleMouseOutD3);
+        const handleMouseEnterAdd = () => {
+            if(!add.disabled){add.style.backgroundColor = '#709758';}
+            else{add.style.backgroundColor = '#bebcbc';}
         };
+        const handleMouseOutAdd = () => {
+            if(!add.disabled){add.style.backgroundColor = '#95ac8c';}
+            else{add.style.backgroundColor = '#bebcbc';}
+        };
+        const handleMouseEnterD1 = () => {
+            if(!d1.disabled){d1.style.backgroundColor = '#709758';}
+            else{d1.style.backgroundColor = '#bebcbc';}
+        };
+        const handleMouseOutD1 = () => {
+            if(!d1.disabled){d1.style.backgroundColor = '#95ac8c';}
+            else{d1.style.backgroundColor = '#bebcbc';}
+        };
+        const handleMouseEnterD2 = () => {
+            if(!d2.disabled){d2.style.backgroundColor = '#709758';}
+            else{d2.style.backgroundColor = '#bebcbc';}
+        };
+        const handleMouseOutD2 = () => {
+            if(!d2.disabled){d2.style.backgroundColor = '#95ac8c';}
+            else{d2.style.backgroundColor = '#bebcbc';}
+        };
+        const handleMouseEnterD3 = () => {
+            if(!d3.disabled){d3.style.backgroundColor = '#709758';}
+            else{d3.style.backgroundColor = '#bebcbc';}
+        };
+        const handleMouseOutD3 = () => {
+            if(!d3.disabled){d3.style.backgroundColor = '#95ac8c';}
+            else{d3.style.backgroundColor = '#bebcbc';}
+        };
+        //feed addtime hover colour
+        add.addEventListener('mouseenter', handleMouseEnterAdd);
+        add.addEventListener('mouseout', handleMouseOutAdd);
+
+        
+        d1.addEventListener('mouseenter', handleMouseEnterD1);
+        d1.addEventListener('mouseout', handleMouseOutD1);
+
+        d2.addEventListener('mouseenter', handleMouseEnterD2);
+        d2.addEventListener('mouseout', handleMouseOutD2);
+
+        d3.addEventListener('mouseenter', handleMouseEnterD3);
+        d3.addEventListener('mouseout', handleMouseOutD3);
+
+        return()=>{
+            add.removeEventListener('mouseenter', handleMouseEnterAdd);
+            add.removeEventListener('mouseout', handleMouseOutAdd);
+    
+            
+            d1.removeEventListener('mouseenter', handleMouseEnterD1);
+            d1.removeEventListener('mouseout', handleMouseOutD1);
+    
+            d2.removeEventListener('mouseenter', handleMouseEnterD2);
+            d2.removeEventListener('mouseout', handleMouseOutD2);
+    
+            d3.removeEventListener('mouseenter', handleMouseEnterD3);
+            d3.removeEventListener('mouseout', handleMouseOutD3);
+        };
+
+
     }, []);
     
 
-    const handleMouseEnterAdd = () => {
-        if(!document.getElementById('addtime').disabled){document.querySelector('#addtime').style.backgroundColor = '#709758';}
-        else{document.querySelector('#addtime').style.backgroundColor = '#bebcbc';}
-    };
-    const handleMouseOutAdd = () => {
-        if(!document.getElementById('addtime').disabled){document.querySelector('#addtime').style.backgroundColor = '#95ac8c';}
-        else{document.querySelector('#addtime').style.backgroundColor = '#bebcbc';}
-    };
-    const handleMouseEnterD1 = () => {
-        if(!document.getElementById('delete-t1').disabled){document.getElementById('delete-t1').style.backgroundColor = '#709758';}
-        else{document.getElementById('delete-t1').style.backgroundColor = '#bebcbc';}
-    };
-    const handleMouseOutD1 = () => {
-        if(!document.getElementById('delete-t1').disabled){document.getElementById('delete-t1').style.backgroundColor = '#95ac8c';}
-        else{document.getElementById('delete-t1').style.backgroundColor = '#bebcbc';}
-    };
-    const handleMouseEnterD2 = () => {
-        if(!document.getElementById('delete-t2').disabled){document.getElementById('delete-t2').style.backgroundColor = '#709758';}
-        else{document.getElementById('delete-t2').style.backgroundColor = '#bebcbc';}
-    };
-    const handleMouseOutD2 = () => {
-        if(!document.getElementById('delete-t2').disabled){document.getElementById('delete-t2').style.backgroundColor = '#95ac8c';}
-        else{document.getElementById('delete-t2').style.backgroundColor = '#bebcbc';}
-    };
-    const handleMouseEnterD3 = () => {
-        if(!document.getElementById('delete-t3').disabled){document.getElementById('delete-t3').style.backgroundColor = '#709758';}
-        else{document.getElementById('delete-t3').style.backgroundColor = '#bebcbc';}
-    };
-    const handleMouseOutD3 = () => {
-        if(!document.getElementById('delete-t3').disabled){document.getElementById('delete-t3').style.backgroundColor = '#95ac8c';}
-        else{document.getElementById('delete-t3').style.backgroundColor = '#bebcbc';}
-    };
 
     const handleInputChange = (e, type) => {
         setError('');
