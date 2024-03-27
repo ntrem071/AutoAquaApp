@@ -29,15 +29,15 @@ function Homepage() {
     const [tPH, setTPH] = useState('day');
     const [tTemp, setTTemp] = useState('day');
 
-    const [pHData, setpHData] = useState(graphData([0,0]));
-    const [waterLevlData, setwaterLevlData] = useState(graphData([0,0]));
-    const [ecData, setecData] = useState(graphData([0,0]));
-    const [tempData, settempData] = useState(graphData([0,0]));
+    const [pHData, setpHData] = useState(graphData("PH", [0,0]));
+    const [waterLevlData, setwaterLevlData] = useState(graphData("LEVEL", [0,0]));
+    const [ecData, setecData] = useState(graphData("EC", [0,0]));
+    const [tempData, settempData] = useState(graphData("TEMP", [0,0]));
 
-    const [inPH, setInPH] = useState(graphData([0,0]));
-    const [inWaterLevel, setInWaterLevel] = useState(graphData([0,0]));
-    const [inEC, setInEC] = useState(graphData([0,0]));
-    const [inTemp, setInTemp] = useState(graphData([0,0]));
+    const [inPH, setInPH] = useState(graphData("PH", [0,0]));
+    const [inWaterLevel, setInWaterLevel] = useState(graphData("LEVEL",[0,0]));
+    const [inEC, setInEC] = useState(graphData("EC", [0,0]));
+    const [inTemp, setInTemp] = useState(graphData("TEMP", [0,0]));
     const [percent, setPercent] = useState(30);
 
     const zoom_in = document.getElementById('zoom_in');
@@ -115,16 +115,16 @@ function Homepage() {
     function adjustGraph(p){
         var n = 76;
         n= parseInt((p/100) * inWaterLevel.length);
-        setwaterLevlData(graphData(inWaterLevel.slice(-n)));
+        setwaterLevlData(graphData("LEVEL", inWaterLevel.slice(-n)));
         
         n= parseInt((p/100) * inPH.length);
-        setpHData(graphData(inPH.slice(-n)));
+        setpHData(graphData("PH", inPH.slice(-n)));
 
         n= parseInt((p/100) * inEC.length);
-        setecData(graphData(inEC.slice(-n)));
+        setecData(graphData("EC", inEC.slice(-n)));
 
         n= parseInt((p/100) * inTemp.length);
-        settempData(graphData(inTemp.slice(-n)));
+        settempData(graphData("TEMP", inTemp.slice(-n)));
     }
 
     function updateTitle(sectionIndex){
@@ -159,12 +159,12 @@ function Homepage() {
         }
         return horizonLine;
     }
-    function graphData(points){
+    function graphData(label, points){
         var d = {
             labels: points.map((data) => data[0]),
             datasets: [
               {
-                label: "pH",
+                label: label,
                 data: points.map((data) => data[1]),
                 backgroundColor: "rgba(80, 148, 204, 0.6)",
                 borderColor: "rgba(80, 148, 204, 0.6)",
@@ -274,7 +274,7 @@ function Homepage() {
                 var curr=data.phGraph.slice(-1)[0];
 
                 setInPH(data.phGraph);
-                setpHData(graphData(data.phGraph.slice(-parseInt((percent/100)*data.phGraph.length))));
+                setpHData(graphData("PH", data.phGraph.slice(-parseInt((percent/100)*data.phGraph.length))));
                 document.getElementById('cur-ph-p2').innerText = 'timestamp: '+curr[0];
                 document.getElementById('cur-ph-p3').innerText = curr[1];
 
@@ -290,7 +290,7 @@ function Homepage() {
                 var curr=data.ecGraph.slice(-1)[0];
 
                 setInEC(data.ecGraph);
-                setecData(graphData(data.ecGraph.slice(-parseInt((percent/100)*data.ecGraph.length))));
+                setecData(graphData("EC", data.ecGraph.slice(-parseInt((percent/100)*data.ecGraph.length))));
                 document.getElementById('cur-ec-p2').innerText = 'timestamp: '+curr[0];
                 document.getElementById('cur-ec-p3').innerText = curr[1]+'mS/cm';
             
@@ -306,7 +306,7 @@ function Homepage() {
                 var curr=data.tempGraph.slice(-1)[0];
 
                 setInTemp(data.tempGraph);
-                settempData(graphData(data.tempGraph.slice(-parseInt((percent/100)*data.tempGraph.length))));
+                settempData(graphData("TEMP", data.tempGraph.slice(-parseInt((percent/100)*data.tempGraph.length))));
                 document.getElementById('cur-temp-p2').innerText = 'timestamp: '+curr[0];
                 document.getElementById('cur-temp-p3').innerText = curr[1]+'°C';
                 
@@ -322,7 +322,7 @@ function Homepage() {
                 var curr=data.waterGraph.slice(-1)[0];
 
                 setInWaterLevel(data.waterGraph);
-                setwaterLevlData(graphData(data.waterGraph.slice(-parseInt((percent/100)*data.waterGraph.length))));
+                setwaterLevlData(graphData("LEVEL", data.waterGraph.slice(-parseInt((percent/100)*data.waterGraph.length))));
                 document.getElementById('cur-water-p2').innerText = 'timestamp: '+curr[0];
                 document.getElementById('cur-water-p3').innerText = curr[1]+'mm';
                 
