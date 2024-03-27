@@ -340,12 +340,19 @@ function Homepage() {
                 document.querySelector('.warning-state-h').style.borderColor=dangerColor;
                 document.querySelector('.warning-state-h').style.backgroundColor='#fcd4d2';
                 document.getElementById('h0-h').innerText='DANGER: Your system has reached unsafe levels!';
+                document.querySelector('.warning-state-h').style.display = 'flex';
             }else if(c){
+              
                 document.querySelector('.warning-state-h').style.borderColor=warningColor;
                 document.querySelector('.warning-state-h').style.backgroundColor='#f7e0b5';
-                document.getElementById('h0-h').innerText='CAUTION: Hey! Keep an eye on your system buddy >:(';
+                document.getElementById('h0-h').innerText='CAUTION: Hey! Keep an eye on your system buddy >:(';  
+                document.querySelector('.warning-state-h').style.display = 'flex';
             }
             
+            //data.feedFlag==true show warning
+            if(true){
+                document.querySelector('.warning-feed-h').style.display = 'flex';
+            }
         })
         .catch((err) => {
             setError(err);
@@ -391,69 +398,77 @@ function Homepage() {
             <Navigation/> 
             <div className='outerbox-h'> 
                 <div className="containor-h">
-                    <div className= 'warning-state-h'>
-                        <span  className="info-warning">
-                            <i className='material-icons'>
-                                info
-                            </i>
-                        </span>
-                        <h1 id="h0-h">The ecosystem is doing <i>swimmingly</i> well~</h1>
-                    </div>
-                    <div className="carousel-h">
-                        <div className="slider-h">
-                        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-                            <section>
-                                <div className='wrap-graphs'>
-                                    <Line data={waterLevlData} options={graphOptions('Water Level (mm)', 0)} plugins={[graphDangerLine(downDWater, dangerColor), graphDangerLine(downCWater, warningColor  )]}/>
-                                </div>
-                            </section>
-                            <section>
-                                <div className='wrap-graphs'>
-                                    <Line data={pHData} options={graphOptions('pH', 5)} plugins={[graphDangerLine(downDPH, dangerColor), graphDangerLine(upDPH, dangerColor), graphDangerLine(downCPH, warningColor  ), graphDangerLine(upCPH, warningColor  )]}/>                    
-                                </div>
-                            </section>
-                            <section>
-                                <div className='wrap-graphs'>
-                                    <Line data={ecData} options={graphOptions('Conductivity (mS/cm)', 0)} plugins={[graphDangerLine(downDEC, dangerColor), graphDangerLine(upDEC, dangerColor), graphDangerLine(downCEC, warningColor  ), graphDangerLine(upCEC, warningColor  )]}/>                   
-                                </div>
-                            </section>
-                            <section>
-                                <div className='wrap-graphs'>
-                                    <Line data={tempData} options={graphOptions('Temperature (°C)', 20, 30)} plugins={[graphDangerLine(downDTemp, dangerColor), graphDangerLine(upDTemp, dangerColor), graphDangerLine(downCTemp, warningColor  ), graphDangerLine(upCTemp, warningColor  )]}/>
-                                </div>
-                            </section>
+                    <div className= 'warning-feed-h'>
+                            <span  className="info-warning">
+                                <i className='material-icons'>
+                                    info
+                                </i>
+                            </span>
+                            <h1 id="h0-hf">WARNING: Low feed, please refill the dispenser.</h1>
                         </div>
-                        <div  className="graph-zoom">
-                                <p className='h3-h' id='graph-title'>Water Level</p>
-                                <div className='inner-zoom'>
-                                    <i className='material-icons' id='zoom_out' onClick={handleZoomOut}>
-                                        zoom_out
-                                    </i>
-                                    <p id='zoom-percent'>{percent}%</p>
-                                     <i className='material-icons' id='zoom_in' onClick={handleZoomIn}>
-                                        zoom_in
-                                    </i>
-                                </div>
+                        <div className= 'warning-state-h'>
+                            <span  className="info-warning">
+                                <i className='material-icons'>
+                                    info
+                                </i>
+                            </span>
+                            <h1 id="h0-h">The ecosystem is doing <i>swimmingly</i> well~</h1>
+                        </div>
+                        <div className="carousel-h">
+                            <div className="slider-h">
+                            <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+                                <section>
+                                    <div className='wrap-graphs'>
+                                        <Line data={waterLevlData} options={graphOptions('Water Level (mm)', 0)} plugins={[graphDangerLine(downDWater, dangerColor), graphDangerLine(downCWater, warningColor  )]}/>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div className='wrap-graphs'>
+                                        <Line data={pHData} options={graphOptions('pH', 5)} plugins={[graphDangerLine(downDPH, dangerColor), graphDangerLine(upDPH, dangerColor), graphDangerLine(downCPH, warningColor  ), graphDangerLine(upCPH, warningColor  )]}/>                    
+                                    </div>
+                                </section>
+                                <section>
+                                    <div className='wrap-graphs'>
+                                        <Line data={ecData} options={graphOptions('Conductivity (mS/cm)', 0)} plugins={[graphDangerLine(downDEC, dangerColor), graphDangerLine(upDEC, dangerColor), graphDangerLine(downCEC, warningColor  ), graphDangerLine(upCEC, warningColor  )]}/>                   
+                                    </div>
+                                </section>
+                                <section>
+                                    <div className='wrap-graphs'>
+                                        <Line data={tempData} options={graphOptions('Temperature (°C)', 20, 30)} plugins={[graphDangerLine(downDTemp, dangerColor), graphDangerLine(upDTemp, dangerColor), graphDangerLine(downCTemp, warningColor  ), graphDangerLine(upCTemp, warningColor  )]}/>
+                                    </div>
+                                </section>
                             </div>
-                        <div className="controls-h">
-                            <span className="arrow left">
-                                <i className='material-icons'>
-                                    keyboard_arrow_left
-                                </i>
-                            </span>
-                            <span className="arrow right">
-                                <i className='material-icons'>
-                                    keyboard_arrow_right
-                                </i>
-                            </span>
-                            <ul>
-                                <li className='selected'></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
+                            <div  className="graph-zoom">
+                                    <p className='h3-h' id='graph-title'>Water Level</p>
+                                    <div className='inner-zoom'>
+                                        <i className='material-icons' id='zoom_out' onClick={handleZoomOut}>
+                                            zoom_out
+                                        </i>
+                                        <p id='zoom-percent'>{percent}%</p>
+                                        <i className='material-icons' id='zoom_in' onClick={handleZoomIn}>
+                                            zoom_in
+                                        </i>
+                                    </div>
+                                </div>
+                            <div className="controls-h">
+                                <span className="arrow left">
+                                    <i className='material-icons'>
+                                        keyboard_arrow_left
+                                    </i>
+                                </span>
+                                <span className="arrow right">
+                                    <i className='material-icons'>
+                                        keyboard_arrow_right
+                                    </i>
+                                </span>
+                                <ul>
+                                    <li className='selected'></li>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
                 </div> 
                 <div className='current-stats-h'>
                     <div className='cur-h' id='cur-water'>
@@ -477,7 +492,7 @@ function Homepage() {
                         <p className='p3-h' id='cur-temp-p3'>Value</p>
                     </div>
                 </div>
-            </div>
+            </div>   
         </div> 
     );
 }
