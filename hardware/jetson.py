@@ -74,16 +74,17 @@ print(hourTimer)
 #Function to get the probe data
 def sendProbeData():
     try:
-        data = arduinoMega.readline().rstrip().split(",")
+        data = arduinoMega.readline().decode('utf-8').rstrip().split(",")
         #[pH,temperature,water level,EC,feedACK,feedEmpty]
-        if True: #True when no arduino to test, otherwise -> data[0] && data[1] && data[2] && data[3]
+        if data: #True when no arduino to test, otherwise -> data[0] && data[1] && data[2] && data[3]
             print(datetime.datetime.now())
             print(data)
+            print(type(data))
             probeData = json.dumps({
-                "phPoint": struct.unpack('d', data[0])[0],
-                "tempPoint": struct.unpack('d', data[1])[0], 
-                "waterPoint": struct.unpack('d', data[2])[0],
-                "ecPoint": struct.unpack('d', data[3])[0]
+                "phPoint": float(data[0]),
+                "tempPoint": float(data[1]), 
+                "waterPoint": float(data[2]),
+                "ecPoint": float(data[3])
             })
             print(probeData)
             #temporary data when arduino not accessible (only for testing the graph datapoints!!!)
@@ -196,8 +197,9 @@ while True:
     diffHour = (datetime.datetime.strptime(nowSTRP, '%H:%M:%S') - datetime.datetime.strptime(hourTimer, '%H:%M:%S')).total_seconds()/1200
     diffMin = (datetime.datetime.strptime(nowSTRP, '%H:%M:%S') - datetime.datetime.strptime(updateUserValuesTimer, '%H:%M:%S')).total_seconds()/60
     print(diffMin)
-    if(diffMin > 5):
-        updateUserSettings()
+    if(diffMin > 2):
+        #updateUserSettings()
+        sendProbeData()
         updateUserValuesTimer = datetime.datetime.now(timezone).strftime('%H:%M:%S')
     if(diffHour > 1):
         sendProbeData()
